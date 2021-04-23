@@ -17,7 +17,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ekene.SweetRelief",
+      "config": {
+        "googleMapsApiKey": "AIzaSyBfK3qJ6VY40Foi2G8V_lGYrKMHVML3an8"
+      }
     },
     "android": {
       "adaptiveIcon": {
