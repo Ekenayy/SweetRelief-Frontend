@@ -4,6 +4,7 @@ import { Marker } from 'react-native-maps';
 import { BASE_URL } from '@env'
 import styled from 'styled-components'
 import MapView from "react-native-map-clustering";
+// import { PROVIDER_GOOGLE } from 'react-native-maps' 
 
 
 export default function MapContainer({locations}) {
@@ -14,7 +15,17 @@ export default function MapContainer({locations}) {
     latitudeDelta: 0.03,
     longitudeDelta: 0.03
   }
-  
+
+  const bigView = styled.View`
+    flex: 1,
+    background-color: '#fff',
+    align-items: center,
+    justify-content: center,
+  `
+
+
+  // console.log(locations.length, "mapcontainer")
+
   return (
       <View style={styles.container}>
         <MapView 

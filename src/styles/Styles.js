@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const StyledView = styled.View`
+const NavBarView = styled.View`
+
 `

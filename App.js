@@ -1,39 +1,45 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
 import { BASE_URL } from '@env'
-import MapContainer from './src/components/MapContainer'
+import Main from './src/pages/Main'
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 
 export default function App() {
 
+  const Stack = createStackNavigator();
+
   const [locations, setLocations] = useState([]);
+  const [selectedItem, setSelectedItem] = useState([]);
 
   useEffect(() => {
     fetch(BASE_URL)
       .then(res => res.json())
       .then(locations => setLocations(locations))
   },[])
-  
+
   return (
-      <>
-        <MapContainer locations={locations} />
-      </>
+    <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+          headerStyle: {
+            backgroundColor: '#FFEFD5',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: 'black',
+          },
+          }}
+        >
+          <Stack.Screen name='Main'>
+          {(props) => <Main {...props} locations={locations} />}
+          </Stack.Screen>
+        </Stack.Navigator>
+    </NavigationContainer>
+
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  map: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-});
