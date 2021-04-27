@@ -1,20 +1,24 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-
+import MapView, { Marker } from 'react-native-maps';
+import { BASE_URL } from '@env'
+import MapContainer from './src/components/MapContainer'
 
 export default function App() {
+
+  const [locations, setLocations] = useState([]);
+
+  useEffect(() => {
+    fetch(BASE_URL)
+      .then(res => res.json())
+      .then(locations => setLocations(locations))
+  },[])
+  
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <MapView 
-        style={styles.map}
-        showsUserLocation={true}
-        provider={PROVIDER_GOOGLE}
-      /> 
-      <StatusBar style="auto" />
-    </View>
+      <>
+        <MapContainer locations={locations} />
+      </>
   );
 }
 
