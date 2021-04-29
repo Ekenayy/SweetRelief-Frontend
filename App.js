@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { BASE_URL } from '@env'
 import Main from './src/pages/Main'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import LocationContext from './src/LocationContext'
+import LocationItem from './src/components/LocationItem';
 
 export default function App() {
 
@@ -20,12 +22,15 @@ export default function App() {
       .then(locations => setLocations(locations))
   },[])
 
+
   return (
+    <LocationContext.Provider value={locations}>
     <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
           headerStyle: {
             backgroundColor: '#FFEFD5',
+            height: '0%',
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
@@ -35,10 +40,13 @@ export default function App() {
           }}
         >
           <Stack.Screen name='Main'>
-          {(props) => <Main {...props} locations={locations} />}
-          </Stack.Screen>
+            {(props) => <Main {...props} />}
+          </Stack.Screen>         
         </Stack.Navigator>
     </NavigationContainer>
+    </LocationContext.Provider>
+
+
 
   );
 }

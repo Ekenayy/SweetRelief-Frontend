@@ -1,14 +1,18 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Marker } from 'react-native-maps';
 import { BASE_URL } from '@env'
 import styled from 'styled-components'
 import MapView from "react-native-map-clustering";
+import LocationContext from '../LocationContext'
+
 // import { PROVIDER_GOOGLE } from 'react-native-maps' 
 
 
-export default function MapContainer({locations}) {
+export default function MapContainer( ) {
   
+  const locations = React.useContext(LocationContext)
+
   const region = {
     latitude: 40.8798295,
     longitude: -73.8614968,

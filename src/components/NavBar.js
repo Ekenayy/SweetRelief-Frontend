@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import AllLocationsList from './LocationItem'
 
-function NavBar ({locations}) {
+function NavBar ( ) {
 
     const Wrapper = styled.View`
         display: flex;
@@ -13,7 +14,6 @@ function NavBar ({locations}) {
     `
 
     const Text = styled.Text`
-        
     `
 
     return (
@@ -22,6 +22,7 @@ function NavBar ({locations}) {
                 <Text>Filter</Text>
             </Container>
             <Container>
+                {/* <AllLocationsList/> */}
                 <Text>Closest Toilet</Text>
             </Container>
         </Wrapper>
