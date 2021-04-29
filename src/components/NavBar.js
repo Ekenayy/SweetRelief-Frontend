@@ -16,12 +16,19 @@ function NavBar ( ) {
 
     const [swipeUp, setSwipeUp] = useState(false)
 
+    const heightProperty = () => {
+        if (swipeUp) {
+            return 300
+        } else {
+            return 150
+        }
+    } 
 
     const Wrapper = styled.View`
         display: flex;
         position: absolute;
-        height: ${props => props.upSwipe ? '300px' : '150px'};
         width: 100%
+        height: ${heightProperty}px;
         bottom: 0;
         background-color: grey;
     `
@@ -51,7 +58,7 @@ function NavBar ( ) {
             onSwipeUp={() => setSwipeUp(true)}
             onSwipeDown={() => setSwipeUp(false)}
         >
-            <Wrapper upSwipe={swipeUp}>
+            <Wrapper>
                 <Scroll>
                     <Container>
                         <Text>Filter</Text>
