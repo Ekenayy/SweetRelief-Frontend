@@ -5,7 +5,7 @@ function NavBar ({locations}) {
 
     const Wrapper = styled.View`
         display: flex;
-        height: 15%;
+        height: 25%;
         
     `
 
