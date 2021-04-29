@@ -1,6 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect, useContext} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { BASE_URL } from '@env'
 import Main from './src/pages/Main'
 import { NavigationContainer } from '@react-navigation/native';
@@ -8,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import LocationContext from './src/LocationContext'
 import LocationItem from './src/components/LocationItem';
+import styled from 'styled-components'
 
 export default function App() {
 
@@ -15,6 +15,10 @@ export default function App() {
 
   const [locations, setLocations] = useState([]);
   const [selectedItem, setSelectedItem] = useState([]);
+
+  const Body = styled.View`
+    flex: 1;
+  `
 
   useEffect(() => {
     fetch(BASE_URL)
@@ -26,6 +30,7 @@ export default function App() {
   return (
     <LocationContext.Provider value={locations}>
     <NavigationContainer>
+      <Body>
         <Stack.Navigator
           screenOptions={{
           headerStyle: {
@@ -43,6 +48,7 @@ export default function App() {
             {(props) => <Main {...props} />}
           </Stack.Screen>         
         </Stack.Navigator>
+      </Body>
     </NavigationContainer>
     </LocationContext.Provider>
 
