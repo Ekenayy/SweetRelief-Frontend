@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import AllLocationsList from './LocationItem'
+import AllLocationsList from './AllLocationsList'
 import { Animated, View, StyleSheet} from "react-native";
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
@@ -52,8 +52,7 @@ function NavBar ( ) {
         background-color: grey;
     `
 
-    const Scroll = styled.ScrollView`
-        flex-direction: column;
+    const Scroll = styled.View`
     `
 
     const Container = styled.View`
@@ -92,10 +91,9 @@ function NavBar ( ) {
                     <Container>
                         <Text>Filter</Text>
                     </Container>
-                <Scroll>
-                        {/* <AllLocationsList/> */}
-                        <Text>Closest Toilet</Text>
-                </Scroll>
+                <Container>
+                    <AllLocationsList/>
+                </Container>
             </Animated.View>
         </GestureRecognizer>
 
