@@ -9,9 +9,9 @@ import LocationContext from '../LocationContext'
 // import { PROVIDER_GOOGLE } from 'react-native-maps' 
 
 
-export default function MapContainer( ) {
+export default function MapContainer( {selectedLocation, setSelectedLocation} ) {
   
-  const locations = React.useContext(LocationContext)
+  const {locations} = React.useContext(LocationContext)
 
   const region = {
     latitude: 40.8798295,

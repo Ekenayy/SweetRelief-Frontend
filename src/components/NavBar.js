@@ -5,18 +5,13 @@ import { Animated, View, StyleSheet} from "react-native";
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 import { Text, Wrapper } from '../styles/Styles'
-
+import LocationShow from './LocationShow'
 // import { Animated } from 'react-native'
 // import  { PanGestureHandler, FlingGestureHandler } from 'react-native-gesture-handler'
 
 
 
-function NavBar ( ) {
-
-    // Make the the nav respond to touch 
-    // Capture the users movement - Either up or down
-    // Make the height of the nav respond depending on gesture
-
+function NavBar ( {selectedLocation, setSelectedLocation} ) {
 
     // I want to set the height of the navbar equal to where the user is gesturing
     // If the user goes below 150, I dont the navbar to go any lower
@@ -75,7 +70,6 @@ function NavBar ( ) {
                 if (gestureState.dy !== 0 && gestureState.dy >= 150 )
                 setHeight(gestureState.dy)
         }
-        // console.log(gestureState, gestureName)
     }
 
     const config = {
@@ -84,23 +78,30 @@ function NavBar ( ) {
         gestureIsClickThreshold: 10
     }
 
-    return (
-        <GestureRecognizer 
-            onSwipe={(direction, state) => handleGesture(direction, state)}
-            // onSwipeUp={() => setSwipeUp(true)}
-            // onSwipeDown={() => setSwipeUp(false)}
-            config={config}
-        >
-            <Animated.View style={styles.animatedContainer}>
-                    <Container>
-                        <Text>Filter</Text>
-                    </Container>
+    // Create two component for the navbar dependent on if the user has clicked on a location
+
+    const NoPress = () => {
+        return (
+            <>
+                <Container>
+                    <Text>Filter</Text>
+                </Container>
                 <LocContainer>
                     <AllLocationsList/>
                 </LocContainer>
+            </>
+        )
+    }
+
+    return (
+        <GestureRecognizer 
+            onSwipe={(direction, state) => handleGesture(direction, state)}
+            config={config}
+        >
+            <Animated.View style={styles.animatedContainer}>
+                <NoPress/>
             </Animated.View>
         </GestureRecognizer>
-
     )
 
 }
