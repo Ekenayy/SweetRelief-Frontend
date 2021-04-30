@@ -1,17 +1,29 @@
 import React from 'react'
-import { Text, Wrapper } from '../styles/Styles'
+import { Text, Wrapper, TouchView } from '../styles/Styles'
+import styled from 'styled-components'
 
 function LocationItem ( {location}) {
 
     const {name, address, locType, free, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = location
 
+    const LocationView = styled(TouchView)`
+        margin-top: 10px;
+        borderBottomWidth: .5px;
+    `
+
+    const DetailsView = styled(Wrapper)`
+        flex-direction: row;
+        padding-bottom: 10px;
+    `
+
     return (
-    <Wrapper>
-        <Text>
-            {name}
-        </Text>
-    </Wrapper>
-        
+        <LocationView>
+            <DetailsView>
+                <Text>
+                    {address}
+                </Text>
+            </DetailsView>
+        </LocationView>
     )
 }
 

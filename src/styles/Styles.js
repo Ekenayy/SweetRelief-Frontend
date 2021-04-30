@@ -11,3 +11,7 @@ export const Scroll = styled.ScrollView`
 `
 export const Wrapper = styled.View`
 `
+
+export const TouchView = styled.TouchableOpacity`
+    padding-left: 15px;
+`

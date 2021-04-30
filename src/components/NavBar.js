@@ -4,7 +4,7 @@ import AllLocationsList from './AllLocationsList'
 import { Animated, View, StyleSheet} from "react-native";
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
-import { Text } from '../styles/Styles'
+import { Text, Wrapper } from '../styles/Styles'
 
 // import { Animated } from 'react-native'
 // import  { PanGestureHandler, FlingGestureHandler } from 'react-native-gesture-handler'
@@ -35,27 +35,31 @@ function NavBar ( ) {
         }
     })
 
-    const heightProperty = () => {
-        if (swipeUp) {
-            return 300
-        } else {
-            return 150
-        }
-    } 
+    // const heightProperty = () => {
+    //     if (swipeUp) {
+    //         return 300
+    //     } else {
+    //         return 150
+    //     }
+    // } 
 
-    const Wrapper = styled.View`
-        display: flex;
-        position: absolute;
-        width: 100%
-        height: ${heightProperty}px;
-        bottom: 0;
-        background-color: grey;
-    `
+    // const Wrapper = styled.View`
+    //     display: flex;
+    //     position: absolute;
+    //     width: 100%
+    //     height: ${heightProperty}px;
+    //     bottom: 0;
+    //     background-color: grey;
+    // `
 
     const Scroll = styled.View`
     `
 
     const Container = styled.View`
+    `
+
+    const LocContainer = styled(Wrapper)`
+        borderTopWidth: .5px;
     `
 
     const handleGesture = (gestureName, gestureState) => {
@@ -91,9 +95,9 @@ function NavBar ( ) {
                     <Container>
                         <Text>Filter</Text>
                     </Container>
-                <Container>
+                <LocContainer>
                     <AllLocationsList/>
-                </Container>
+                </LocContainer>
             </Animated.View>
         </GestureRecognizer>
 
