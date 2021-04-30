@@ -4,6 +4,7 @@ import AllLocationsList from './LocationItem'
 import { Animated, View, StyleSheet} from "react-native";
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
+import { Text } from '../styles/Styles'
 
 // import { Animated } from 'react-native'
 // import  { PanGestureHandler, FlingGestureHandler } from 'react-native-gesture-handler'
@@ -58,9 +59,6 @@ function NavBar ( ) {
     const Container = styled.View`
     `
 
-    const Text = styled.Text`
-    `
-
     const handleGesture = (gestureName, gestureState) => {
         const {SWIPE_UP, SWIPE_DOWN} = swipeDirections
 
@@ -71,10 +69,10 @@ function NavBar ( ) {
                 }
                 break;
             case SWIPE_DOWN:
-                if (gestureState.dy !== 0 && gestureState.dy > 150 )
+                if (gestureState.dy !== 0 && gestureState.dy >= 150 )
                 setHeight(gestureState.dy)
         }
-        console.log(gestureState, gestureName)
+        // console.log(gestureState, gestureName)
     }
 
     const config = {
@@ -91,14 +89,12 @@ function NavBar ( ) {
             config={config}
         >
             <Animated.View style={styles.animatedContainer}>
-                <Scroll>
                     <Container>
                         <Text>Filter</Text>
                     </Container>
-                    <Container>
+                <Scroll>
                         {/* <AllLocationsList/> */}
                         <Text>Closest Toilet</Text>
-                    </Container>
                 </Scroll>
             </Animated.View>
         </GestureRecognizer>
