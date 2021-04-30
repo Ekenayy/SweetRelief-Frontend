@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import AllLocationsList from './LocationItem'
-import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
+import { Animated, View, StyleSheet} from "react-native";
+import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
+import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 
 // import { Animated } from 'react-native'
 // import  { PanGestureHandler, FlingGestureHandler } from 'react-native-gesture-handler'
@@ -14,7 +16,23 @@ function NavBar ( ) {
     // Capture the users movement - Either up or down
     // Make the height of the nav respond depending on gesture
 
+
+    // I want to set the height of the navbar equal to where the user is gesturing
+    // If the user goes below 150, I dont the navbar to go any lower
+    // The swipe direction doesn't actually matter that much -- I just want where the users finger lands
     const [swipeUp, setSwipeUp] = useState(false)
+    const [height, setHeight] = useState(150)
+
+    const styles = StyleSheet.create({
+        animatedContainer: {
+            // display: flex,
+            position: 'absolute',
+            width: '100%',
+            height: height,
+            bottom: 0,
+            backgroundColor: 'grey'
+        }
+    })
 
     const heightProperty = () => {
         if (swipeUp) {
@@ -43,9 +61,21 @@ function NavBar ( ) {
     const Text = styled.Text`
     `
 
-    // const handleGesture = (evt) => {
-    //     console.log(evt)
-    // }
+    const handleGesture = (gestureName, gestureState) => {
+        const {SWIPE_UP, SWIPE_DOWN} = swipeDirections
+
+        switch(gestureName) {
+            case SWIPE_UP:
+                if (gestureState.dy !== 0 && -(gestureState.dy) > height) {
+                    setHeight(-(gestureState.dy))
+                }
+                break;
+            case SWIPE_DOWN:
+                if (gestureState.dy !== 0 && gestureState.dy > 150 )
+                setHeight(gestureState.dy)
+        }
+        console.log(gestureState, gestureName)
+    }
 
     const config = {
         velocityThreshold: .1,
@@ -55,10 +85,12 @@ function NavBar ( ) {
 
     return (
         <GestureRecognizer 
-            onSwipeUp={() => setSwipeUp(true)}
-            onSwipeDown={() => setSwipeUp(false)}
+            onSwipe={(direction, state) => handleGesture(direction, state)}
+            // onSwipeUp={() => setSwipeUp(true)}
+            // onSwipeDown={() => setSwipeUp(false)}
+            config={config}
         >
-            <Wrapper>
+            <Animated.View style={styles.animatedContainer}>
                 <Scroll>
                     <Container>
                         <Text>Filter</Text>
@@ -68,11 +100,12 @@ function NavBar ( ) {
                         <Text>Closest Toilet</Text>
                     </Container>
                 </Scroll>
-            </Wrapper>
+            </Animated.View>
         </GestureRecognizer>
 
     )
 
 }
+
 
 export default NavBar
