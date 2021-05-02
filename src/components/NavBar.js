@@ -99,13 +99,7 @@ function NavBar ( {selectedLocation, setSelectedLocation} ) {
             config={config}
         >
             <Animated.View style={styles.animatedContainer}>
-                <NoPress/>
-            {/* <Container>
-                    <Text>Filter</Text>
-                </Container>
-                <LocContainer>
-                    <AllLocationsList selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
-                </LocContainer>             */}
+                {selectedLocation ? <LocationShow setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
             </Animated.View>
         </GestureRecognizer>
     )

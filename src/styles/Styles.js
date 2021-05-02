@@ -15,3 +15,7 @@ export const Wrapper = styled.View`
 export const TouchView = styled.TouchableOpacity`
     padding-left: 15px;
 `
+
+export const Button = styled.TouchableOpacity`
+    
+`

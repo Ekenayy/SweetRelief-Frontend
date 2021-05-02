@@ -5,12 +5,8 @@ import NavBar from '../components/NavBar'
 
 function Main ( ) {
 
-
     const [selectedLocation, setSelectedLocation] = useState(null)
-    // The location item and the MapContainer need to know have this state
-    
-    console.log(selectedLocation)
-    
+    // The location item and the MapContainer need to know have this state    
     return (
         <>
             <MapContainer setSelectedLocation={setSelectedLocation}/>

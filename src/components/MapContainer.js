@@ -6,8 +6,6 @@ import styled from 'styled-components'
 import MapView from "react-native-map-clustering";
 import LocationContext from '../LocationContext'
 import { Wrapper, TouchView } from '../styles/Styles'
-
-
 // import { PROVIDER_GOOGLE } from 'react-native-maps' 
 
 
@@ -29,8 +27,6 @@ export default function MapContainer(  {setSelectedLocation} ) {
     justify-content: center,
   `
 
-
-  // console.log(locations.length, "mapcontainer")
 
   return (
       <View style={styles.container}>

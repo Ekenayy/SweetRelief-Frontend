@@ -17,7 +17,7 @@ function LocationItem ( {location, setSelectedLocation}) {
 
 
     return (
-        <LocationView onPress={() => setSelectedLocation(id)}>
+        <LocationView onPress={() => setSelectedLocation(location)}>
             <DetailsView>
                 <Text>
                     {address}
