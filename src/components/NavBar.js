@@ -62,13 +62,18 @@ function NavBar ( {selectedLocation, setSelectedLocation} ) {
 
         switch(gestureName) {
             case SWIPE_UP:
-                if (gestureState.dy !== 0 && -(gestureState.dy) > height) {
-                    setHeight(-(gestureState.dy))
+                // If the gesture is higher than a certain amount -- I want it to be half way, full, 25%
+                if (gestureState.dy !== 0 && -(gestureState.dy) > 150 && -(gestureState.dy) <= 300) {
+                    console.log(gestureState.dy)
+                    setHeight(400)
+                } else if (gestureState.dy !== 0 && -(gestureState.dy) > 300) {
+                    setHeight(800)
                 }
                 break;
             case SWIPE_DOWN:
-                if (gestureState.dy !== 0 && gestureState.dy >= 150 )
-                setHeight(gestureState.dy)
+                if (gestureState.dy !== 0 && gestureState.dy < 180 )
+                console.log(gestureState.dy)
+                setHeight(180)
         }
     }
 

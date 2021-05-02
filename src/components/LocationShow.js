@@ -61,6 +61,9 @@ function LocationShow ({setSelectedLocation, selectedLocation}) {
             <SectionWrapper>
                 <H2>Comments</H2>
             </SectionWrapper>
+            <SectionWrapper>
+                <H2>Votes</H2>
+            </SectionWrapper>
             <Button onPress={() => setSelectedLocation(null)}>
                 <Span>Clear Search</Span>
             </Button>
