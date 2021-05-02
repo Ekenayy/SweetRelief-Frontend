@@ -30,13 +30,6 @@ function NavBar ( {selectedLocation, setSelectedLocation} ) {
         }
     })
 
-    // const heightProperty = () => {
-    //     if (swipeUp) {
-    //         return 300
-    //     } else {
-    //         return 150
-    //     }
-    // } 
 
     // const Wrapper = styled.View`
     //     display: flex;
@@ -71,9 +64,16 @@ function NavBar ( {selectedLocation, setSelectedLocation} ) {
                 }
                 break;
             case SWIPE_DOWN:
-                if (gestureState.dy !== 0 && gestureState.dy < 180 )
+                // The bigger the pull down -- the lower the user is trying to go
                 console.log(gestureState.dy)
-                setHeight(180)
+                if (gestureState.dy !== 0 && gestureState.dy > 600 ) {
+                    console.log(gestureState.dy)
+                    setHeight(180)
+                } else if (gestureState.dy !== 0 && gestureState.dy < 600 && gestureState.dy > 280 ) {
+                    setHeight(400)
+                } else {
+                    setHeight(180)
+                }
         }
     }
 
