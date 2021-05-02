@@ -57,7 +57,6 @@ function NavBar ( {selectedLocation, setSelectedLocation} ) {
             case SWIPE_UP:
                 // If the gesture is higher than a certain amount -- I want it to be half way, full, 25%
                 if (gestureState.dy !== 0 && -(gestureState.dy) > 150 && -(gestureState.dy) <= 300) {
-                    console.log(gestureState.dy)
                     setHeight(400)
                 } else if (gestureState.dy !== 0 && -(gestureState.dy) > 300) {
                     setHeight(800)
@@ -65,9 +64,7 @@ function NavBar ( {selectedLocation, setSelectedLocation} ) {
                 break;
             case SWIPE_DOWN:
                 // The bigger the pull down -- the lower the user is trying to go
-                console.log(gestureState.dy)
                 if (gestureState.dy !== 0 && gestureState.dy > 600 ) {
-                    console.log(gestureState.dy)
                     setHeight(180)
                 } else if (gestureState.dy !== 0 && gestureState.dy < 600 && gestureState.dy > 280 ) {
                     setHeight(400)

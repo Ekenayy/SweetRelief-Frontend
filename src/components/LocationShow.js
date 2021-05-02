@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Text, H2, Wrapper, Button, Scroll } from '../styles/Styles'
 import styled from 'styled-components'
 
@@ -9,11 +9,13 @@ function LocationShow ({setSelectedLocation, selectedLocation}) {
     // The Name of the location
     // The address
 
-    // The details
+    const [stateUpVotes, setStateUpvotes] = useState(upvotes)
+    const [stateDownVotes, setStateDownvotes] = useState(downvotes)
 
     const Span = styled(Text)`
         align-self: center;
         padding-top 50px;
+        color: black;
     `
 
     const DetailsText = styled(Text)`
@@ -34,6 +36,15 @@ function LocationShow ({setSelectedLocation, selectedLocation}) {
         margin-top: 5px;
         borderTopWidth: .5px;
         padding-top: 10px;
+    `
+
+    const VoteButton = styled(Button)`
+        margin: 10px;
+    `
+
+    const ButtonView = styled(Wrapper)`
+        flex-direction: row;
+        align-self: center;
     `
 
 
@@ -63,6 +74,19 @@ function LocationShow ({setSelectedLocation, selectedLocation}) {
             </SectionWrapper>
             <SectionWrapper>
                 <H2>Votes</H2>
+                <ButtonView>
+                    <VoteButton>
+                        <Span onPress={() => setStateUpvotes(stateUpVotes + 1)}> 
+                            {stateUpVotes} 👍 
+                        </Span>
+                    </VoteButton>
+                    <VoteButton >
+                        <Span onPress={() => setStateDownvotes(stateDownVotes + 1)}>
+                            👎 {stateDownVotes}
+                        </Span>
+                    </VoteButton>
+                </ButtonView>
+                
             </SectionWrapper>
             <Button onPress={() => setSelectedLocation(null)}>
                 <Span>Clear Search</Span>
