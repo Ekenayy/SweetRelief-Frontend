@@ -5,11 +5,13 @@ import { BASE_URL } from '@env'
 import styled from 'styled-components'
 import MapView from "react-native-map-clustering";
 import LocationContext from '../LocationContext'
+import { Wrapper, TouchView } from '../styles/Styles'
+
 
 // import { PROVIDER_GOOGLE } from 'react-native-maps' 
 
 
-export default function MapContainer( {selectedLocation, setSelectedLocation} ) {
+export default function MapContainer(  {setSelectedLocation} ) {
   
   const {locations} = React.useContext(LocationContext)
 
@@ -47,9 +49,9 @@ export default function MapContainer( {selectedLocation, setSelectedLocation} ) 
                 key={index}
                 coordinate={{latitude: location.latitude, longitude: location.longitude}} 
               >
-                <View>
+                <TouchView onPress={() => setSelectedLocation(location.id)}>
                   <Text>{location.name}💩</Text>
-                </View>
+                </TouchView>
               </Marker>
             )
           }

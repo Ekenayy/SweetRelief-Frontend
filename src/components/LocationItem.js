@@ -15,12 +15,9 @@ function LocationItem ( {location, setSelectedLocation}) {
         padding: 10px;
     `
 
-    const handlePress = () => {
-        setSelectedLocation(location.id)
-    }
 
     return (
-        <LocationView onPress={handlePress}>
+        <LocationView onPress={() => setSelectedLocation(id)}>
             <DetailsView>
                 <Text>
                     {address}
