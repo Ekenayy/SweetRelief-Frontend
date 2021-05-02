@@ -13,6 +13,7 @@ export const H2 = styled.Text`
 `
 
 export const Scroll = styled.ScrollView`
+    margin-left: 15px;
 `
 export const Wrapper = styled.View`
     margin-left: 15px;
