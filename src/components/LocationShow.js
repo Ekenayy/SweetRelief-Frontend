@@ -11,8 +11,6 @@ function LocationShow ({setSelectedLocation, selectedLocation}) {
 
     const {locations} = React.useContext(LocationContext)
     const [contextLocations, setContextLocations] = locations
-
-    console.log(contextLocations.length)
     // Add a navigate feature that pulls up the coordinates on google maps 
 
     const [stateUpVotes, setStateUpvotes] = useState(upvotes)

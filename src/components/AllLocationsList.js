@@ -8,13 +8,13 @@ function AllLocationsList ({selectedLocation, setSelectedLocation}) {
     const {locations} = React.useContext(LocationContext)
     const [contextLocations, setContextLocations] = locations
 
-    const tenLocations = contextLocations.slice(0, 10).map((location) => {
+    const fifteenLocations = contextLocations.slice(0, 15).map((location) => {
         return <LocationItem key={location.id} setSelectedLocation={setSelectedLocation} location={location} />
     })
 
     return (
         <Scroll>
-            {tenLocations}
+            {fifteenLocations}
         </Scroll>
         
     )

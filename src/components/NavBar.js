@@ -6,6 +6,7 @@ import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures'
 import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 import { Text, Wrapper } from '../styles/Styles'
 import LocationShow from './LocationShow'
+import Filters from './Filters'
 // import { Animated } from 'react-native'
 // import  { PanGestureHandler, FlingGestureHandler } from 'react-native-gesture-handler'
 
@@ -43,7 +44,9 @@ function NavBar ( {selectedLocation, setSelectedLocation} ) {
     const Scroll = styled.View`
     `
 
-    const Container = styled.View`
+    const FilterContainer = styled(Wrapper)`
+        height: 50px;
+        margin-bottom: 10px;
     `
 
     const LocContainer = styled(Wrapper)`
@@ -85,9 +88,9 @@ function NavBar ( {selectedLocation, setSelectedLocation} ) {
     const NoPress = ( ) => {
         return (
             <>
-                <Container>
-                    <Text>Filter</Text>
-                </Container>
+                <FilterContainer>
+                    <Filters/>
+                </FilterContainer>
                 <LocContainer>
                     <AllLocationsList selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
                 </LocContainer>
