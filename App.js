@@ -14,7 +14,6 @@ export default function App() {
   const Stack = createStackNavigator();
 
   const [locations, setLocations] = useState([]);
-  const [selectedItem, setSelectedItem] = useState([]);
 
   const Body = styled.View`
     flex: 1;

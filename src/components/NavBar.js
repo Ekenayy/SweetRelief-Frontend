@@ -80,14 +80,14 @@ function NavBar ( {selectedLocation, setSelectedLocation} ) {
 
     // Create two component for the navbar dependent on if the user has clicked on a location
 
-    const NoPress = () => {
+    const NoPress = ( ) => {
         return (
             <>
                 <Container>
                     <Text>Filter</Text>
                 </Container>
                 <LocContainer>
-                    <AllLocationsList/>
+                    <AllLocationsList selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
                 </LocContainer>
             </>
         )
@@ -100,6 +100,12 @@ function NavBar ( {selectedLocation, setSelectedLocation} ) {
         >
             <Animated.View style={styles.animatedContainer}>
                 <NoPress/>
+            {/* <Container>
+                    <Text>Filter</Text>
+                </Container>
+                <LocContainer>
+                    <AllLocationsList selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
+                </LocContainer>             */}
             </Animated.View>
         </GestureRecognizer>
     )

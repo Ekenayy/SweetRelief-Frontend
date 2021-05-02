@@ -1,12 +1,10 @@
 import React from 'react'
 import { Text, Wrapper, TouchView } from '../styles/Styles'
 import styled from 'styled-components'
-import LocationContext from '../LocationContext'
 
-function LocationItem ( {location}) {
+function LocationItem ( {location, setSelectedLocation}) {
 
     const {name, address, locType, free, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = location
-
 
     const LocationView = styled(TouchView)`
         borderBottomWidth: .5px;
@@ -17,8 +15,12 @@ function LocationItem ( {location}) {
         padding: 10px;
     `
 
+    const handlePress = () => {
+        setSelectedLocation(location.id)
+    }
+
     return (
-        <LocationView onPress={() => console.log(location.id)}>
+        <LocationView onPress={handlePress}>
             <DetailsView>
                 <Text>
                     {address}
