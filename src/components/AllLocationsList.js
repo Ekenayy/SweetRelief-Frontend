@@ -6,8 +6,9 @@ import LocationContext from '../LocationContext'
 function AllLocationsList ({selectedLocation, setSelectedLocation}) {
 
     const {locations} = React.useContext(LocationContext)
+    const [contextLocations, setContextLocations] = locations
 
-    const tenLocations = locations.slice(0, 10).map((location) => {
+    const tenLocations = contextLocations.slice(0, 10).map((location) => {
         return <LocationItem key={location.id} setSelectedLocation={setSelectedLocation} location={location} />
     })
 

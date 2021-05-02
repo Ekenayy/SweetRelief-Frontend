@@ -12,6 +12,7 @@ import { Wrapper, TouchView } from '../styles/Styles'
 export default function MapContainer(  {setSelectedLocation} ) {
   
   const {locations} = React.useContext(LocationContext)
+  const [contextLocations, setContextLocations] = locations
 
   const region = {
     latitude: 40.8798295,
@@ -39,7 +40,7 @@ export default function MapContainer(  {setSelectedLocation} ) {
           showsUserLocation={true}
           // provider={PROVIDER_GOOGLE}
         >
-          {locations.map((location, index) => {
+          {contextLocations.map((location, index) => {
             return (
               <Marker 
                 key={index}

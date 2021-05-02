@@ -1,13 +1,19 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Text, H2, Wrapper, Button, Scroll } from '../styles/Styles'
 import styled from 'styled-components'
+import LocationContext from '../LocationContext'
 
 
 function LocationShow ({setSelectedLocation, selectedLocation}) {
 
     const {name, address, locType, free, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
-    // The Name of the location
-    // The address
+
+
+    const {locations} = React.useContext(LocationContext)
+    const [contextLocations, setContextLocations] = locations
+
+    console.log(contextLocations.length)
+    // Add a navigate feature that pulls up the coordinates on google maps 
 
     const [stateUpVotes, setStateUpvotes] = useState(upvotes)
     const [stateDownVotes, setStateDownvotes] = useState(downvotes)
@@ -47,10 +53,14 @@ function LocationShow ({setSelectedLocation, selectedLocation}) {
         align-self: center;
     `
 
-
+    useEffect(() => {
+        setStateUpvotes(upvotes)
+        setStateDownvotes(downvotes)
+    }, [selectedLocation])
     // Comments and Reviews Plus ability to vote up and down
     // Add icons for each detail 
     // Figure out how to provide an answer for null attributes (What if we don't know?)
+    // There's a qwerk where the number of votes doesn't reset when you click a new location 
     return (
         <Wrapper>
             <SectionWrapper>
@@ -86,7 +96,6 @@ function LocationShow ({setSelectedLocation, selectedLocation}) {
                         </Span>
                     </VoteButton>
                 </ButtonView>
-                
             </SectionWrapper>
             <Button onPress={() => setSelectedLocation(null)}>
                 <Span>Clear Search</Span>

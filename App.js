@@ -27,7 +27,7 @@ export default function App() {
 
 
   return (
-    <LocationContext.Provider value={{locations: locations}}>
+    <LocationContext.Provider value={{locations: [locations, setLocations]}}>
     <NavigationContainer>
       <Body>
         <Stack.Navigator
