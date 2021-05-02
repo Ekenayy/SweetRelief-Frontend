@@ -45,7 +45,7 @@ export default function MapContainer(  {setSelectedLocation} ) {
                 key={index}
                 coordinate={{latitude: location.latitude, longitude: location.longitude}} 
               >
-                <TouchView onPress={() => setSelectedLocation(location.id)}>
+                <TouchView onPress={() => setSelectedLocation(location)}>
                   <Text>{location.name}💩</Text>
                 </TouchView>
               </Marker>

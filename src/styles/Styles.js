@@ -3,13 +3,19 @@ import styled from 'styled-components'
 
 
 export const Text = styled.Text`
-    font-size: 12px;
+    font-size: 14px;
     color: white;
+`
+
+export const H2 = styled.Text`
+    font-size: 20px;
+    color: black;
 `
 
 export const Scroll = styled.ScrollView`
 `
 export const Wrapper = styled.View`
+    margin-left: 15px;
 `
 
 export const TouchView = styled.TouchableOpacity`
@@ -17,5 +23,5 @@ export const TouchView = styled.TouchableOpacity`
 `
 
 export const Button = styled.TouchableOpacity`
-    
+
 `
