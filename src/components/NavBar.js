@@ -7,6 +7,7 @@ import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 import { Text, Wrapper } from '../styles/Styles'
 import LocationShow from './LocationShow'
 import Filters from './Filters'
+import { FontAwesome5 } from '@expo/vector-icons';
 // import { Animated } from 'react-native'
 // import  { PanGestureHandler, FlingGestureHandler } from 'react-native-gesture-handler'
 
@@ -30,17 +31,7 @@ function NavBar ( {selectedLocation, setSelectedLocation} ) {
             backgroundColor: 'grey'
         }
     })
-
-
-    // const Wrapper = styled.View`
-    //     display: flex;
-    //     position: absolute;
-    //     width: 100%
-    //     height: ${heightProperty}px;
-    //     bottom: 0;
-    //     background-color: grey;
-    // `
-
+    
     const Scroll = styled.View`
     `
 
@@ -51,6 +42,10 @@ function NavBar ( {selectedLocation, setSelectedLocation} ) {
 
     const LocContainer = styled(Wrapper)`
         borderTopWidth: .5px;
+    `
+
+    const IconWrapper = styled(Wrapper)`
+        align-items: center;
     `
 
     const handleGesture = (gestureName, gestureState) => {
@@ -99,14 +94,17 @@ function NavBar ( {selectedLocation, setSelectedLocation} ) {
     }
 
     return (
-        <GestureRecognizer 
-            onSwipe={(direction, state) => handleGesture(direction, state)}
-            config={config}
-        >
+       
             <Animated.View style={styles.animatedContainer}>
+            <GestureRecognizer 
+                onSwipe={(direction, state) => handleGesture(direction, state)}
+                config={config}>
+                <IconWrapper>
+                    <FontAwesome5 name="grip-lines" size={24} color="black" />
+                </IconWrapper>
+            </GestureRecognizer>
                 {selectedLocation ? <LocationShow setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
             </Animated.View>
-        </GestureRecognizer>
     )
 
 }
