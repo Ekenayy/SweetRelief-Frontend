@@ -5,15 +5,16 @@ import LocationContext from '../LocationContext'
 import styled from 'styled-components'
 
 
-function Filters () {
+function Filters ( {filters, setFilters}) {
 
+    
     const FiltersScroll = styled(Scroll)`
         flex-direction: row;
         flex-wrap: wrap;
         padding-top: 15px;
         padding-right: 10px;
     `
-    const filters = [
+    const filterNames = [
         'Free',
         'Unisex',
         'No key required',
@@ -21,8 +22,8 @@ function Filters () {
     ]
 
 
-    const allFilters = filters.map(filter => {
-        return <FilterItem key={filter} filter={filter}/>
+    const allFilters = filterNames.map(filter => {
+        return <FilterItem key={filter} setFilters={setFilters} filter={filter}/>
     })
 
     // Create a horizontal scrollview with all of the different filterItems

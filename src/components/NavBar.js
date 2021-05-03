@@ -20,6 +20,7 @@ function NavBar ( {selectedLocation, setSelectedLocation} ) {
     // The swipe direction doesn't actually matter that much -- I just want where the users finger lands
     const [swipeUp, setSwipeUp] = useState(false)
     const [height, setHeight] = useState(150)
+    const [filters, setFilters] = useState(null)
 
     const styles = StyleSheet.create({
         animatedContainer: {
@@ -84,25 +85,24 @@ function NavBar ( {selectedLocation, setSelectedLocation} ) {
         return (
             <>
                 <FilterContainer>
-                    <Filters/>
+                    <Filters filters={filters} setFilters={setFilters}/>
                 </FilterContainer>
                 <LocContainer>
-                    <AllLocationsList selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
+                    <AllLocationsList filters={filters} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
                 </LocContainer>
             </>
         )
     }
 
     return (
-       
             <Animated.View style={styles.animatedContainer}>
-            <GestureRecognizer 
-                onSwipe={(direction, state) => handleGesture(direction, state)}
-                config={config}>
-                <IconWrapper>
-                    <FontAwesome5 name="grip-lines" size={24} color="black" />
-                </IconWrapper>
-            </GestureRecognizer>
+                <GestureRecognizer 
+                    onSwipe={(direction, state) => handleGesture(direction, state)}
+                    config={config}>
+                    <IconWrapper>
+                        <FontAwesome5 name="grip-lines" size={24} color="black" />
+                    </IconWrapper>
+                </GestureRecognizer>
                 {selectedLocation ? <LocationShow setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
             </Animated.View>
     )

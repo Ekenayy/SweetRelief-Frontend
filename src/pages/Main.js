@@ -9,7 +9,7 @@ function Main ( ) {
     // The location item and the MapContainer need to know have this state    
     return (
         <>
-            <MapContainer setSelectedLocation={setSelectedLocation}/>
+            <MapContainer selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
             <NavBar selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
         </>
     )

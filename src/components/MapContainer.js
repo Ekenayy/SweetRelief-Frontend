@@ -9,10 +9,12 @@ import { Wrapper, TouchView } from '../styles/Styles'
 // import { PROVIDER_GOOGLE } from 'react-native-maps' 
 
 
-export default function MapContainer(  {setSelectedLocation} ) {
+export default function MapContainer(  {setSelectedLocation, selectedLocation} ) {
   
   const {locations} = React.useContext(LocationContext)
   const [contextLocations, setContextLocations] = locations
+
+  console.log(selectedLocation)
 
   const region = {
     latitude: 40.8798295,
@@ -28,13 +30,13 @@ export default function MapContainer(  {setSelectedLocation} ) {
     justify-content: center,
   `
 
-
   return (
       <View style={styles.container}>
         <MapView 
         clusterColor={"orange"}
         extent={110}
         animationEnabled={false}
+        // fitToCoordinates={selectedLocation ? {coordinates: [selectedLocation.latitude, selectedLocation.longitude]} : null}
         initialRegion={region}
           style={styles.map}
           showsUserLocation={true}

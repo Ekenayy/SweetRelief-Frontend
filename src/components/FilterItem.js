@@ -3,7 +3,7 @@ import { Text, Scroll, TouchView } from '../styles/Styles'
 import styled from 'styled-components'
 
 
-function FilterItem ( {filter} ) {
+function FilterItem ( {filter, setFilters} ) {
     
     const ItemView = styled(TouchView)`
         background-color: white;
@@ -21,7 +21,7 @@ function FilterItem ( {filter} ) {
 
 
     return (
-        <ItemView>
+        <ItemView onPress={() => setFilters(filter)}>
             <FilterText>{filter}</FilterText>
         </ItemView>
     )
