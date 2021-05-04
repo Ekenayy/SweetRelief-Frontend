@@ -54,7 +54,6 @@ export default function MapContainer(  {setSelectedLocation, selectedLocation} )
         clusterColor={"orange"}
         extent={140}
         animationEnabled={false}
-        // fitToCoordinates={selectedLocation ? {coordinates: [selectedLocation.latitude, selectedLocation.longitude]} : null}
         initialRegion={region}
           style={styles.map}
           showsUserLocation={true}
@@ -65,7 +64,7 @@ export default function MapContainer(  {setSelectedLocation, selectedLocation} )
           {selectedLocation ? 
             <MapViewDirections
               strokeWidth={4}
-              strokeColor="#5a5ed1"
+              strokeColor="#49e36c"
               origin={customLocation}
               destination={{latitude: selectedLocation.latitude, longitude: selectedLocation.longitude}}
               apikey={GOOGLE_KEY}
@@ -75,12 +74,7 @@ export default function MapContainer(  {setSelectedLocation, selectedLocation} )
       </View>
   );
 }
-{/* <Polyline 
-strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
-strokeColors={['#7F0000']}
-strokeWidth={6}
-coordinates={[customLocation, {latitude: selectedLocation.latitude, longitude: selectedLocation.longitude}]}
-/>  */}
+
   const styles = StyleSheet.create({
     container: {
       flex: 1,
