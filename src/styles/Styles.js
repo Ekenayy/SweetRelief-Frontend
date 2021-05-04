@@ -24,5 +24,7 @@ export const TouchView = styled.TouchableOpacity`
 `
 
 export const Button = styled.TouchableOpacity`
-
+    align-items: center;
+    border-radius: 5px;
+    height: 30px;
 `

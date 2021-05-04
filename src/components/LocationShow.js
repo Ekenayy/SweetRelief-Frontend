@@ -18,8 +18,8 @@ function LocationShow ({setSelectedLocation, selectedLocation}) {
 
     const Span = styled(Text)`
         align-self: center;
-        padding-top 50px;
         color: black;
+        margin-top: 5px;
     `
 
     const DetailsText = styled(Text)`
@@ -44,6 +44,13 @@ function LocationShow ({setSelectedLocation, selectedLocation}) {
 
     const VoteButton = styled(Button)`
         margin: 10px;
+    `
+
+    const ClearButton = styled(Button)`
+        background-color: #f75348;
+        width: 100px;
+        margin-top: 10px;
+        height: 30px;
     `
 
     const ButtonView = styled(Wrapper)`
@@ -95,9 +102,12 @@ function LocationShow ({setSelectedLocation, selectedLocation}) {
                     </VoteButton>
                 </ButtonView>
             </SectionWrapper>
-            <Button onPress={() => setSelectedLocation(null)}>
-                <Span>Clear Search</Span>
-            </Button>
+            <ButtonView>
+                <ClearButton onPress={() => setSelectedLocation(null)}>
+                    <Span>Clear Search</Span>
+                </ClearButton>
+            </ButtonView>
+           
         </Wrapper>
     )
 

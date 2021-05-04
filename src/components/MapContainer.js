@@ -7,6 +7,7 @@ import MapView from "react-native-map-clustering";
 import LocationContext from '../LocationContext'
 import { Wrapper, TouchView } from '../styles/Styles'
 import MapViewDirections from 'react-native-maps-directions';
+import { MaterialIcons } from '@expo/vector-icons'; 
 
 // import { PROVIDER_GOOGLE } from 'react-native-maps' 
 
@@ -35,6 +36,18 @@ export default function MapContainer(  {setSelectedLocation, selectedLocation} )
   //   justify-content: center,
   // `
 
+  console.log(selectedLocation)
+
+  const createLogo = (locType) => {
+    
+    if (locType === 'Park') {
+      return <MaterialIcons name="park" size={30} color="black" />
+    } else if (locType === 'Restaurant/Bar') {
+      return <MaterialIcons name="restaurant" size={30} color="black" />
+    }
+
+  }
+
   const allLocations = contextLocations.map((location, index) => {
     return (
       <Marker 
@@ -42,7 +55,7 @@ export default function MapContainer(  {setSelectedLocation, selectedLocation} )
         coordinate={{latitude: location.latitude, longitude: location.longitude}} 
       >
         <TouchView onPress={() => setSelectedLocation(location)}>
-          <Text>💩</Text>
+          {createLogo(location.locType)}
         </TouchView>
       </Marker>
     )
@@ -52,7 +65,7 @@ export default function MapContainer(  {setSelectedLocation, selectedLocation} )
       <View style={styles.container}>
         <MapView 
         clusterColor={"orange"}
-        extent={140}
+        extent={190}
         animationEnabled={false}
         initialRegion={region}
           style={styles.map}
