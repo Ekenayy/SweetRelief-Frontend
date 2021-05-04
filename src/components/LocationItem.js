@@ -8,11 +8,14 @@ function LocationItem ( {location, setSelectedLocation}) {
 
     const LocationView = styled(TouchView)`
         borderBottomWidth: .5px;
+        padding-left: 0px;
     `
 
     const DetailsView = styled(Wrapper)`
         flex-direction: row;
         padding: 10px;
+        padding-left: 20px;
+        margin-left: 0px;
     `
 
 

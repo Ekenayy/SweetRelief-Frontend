@@ -8,7 +8,6 @@ import LocationContext from '../LocationContext'
 import { Wrapper, TouchView } from '../styles/Styles'
 import MapViewDirections from 'react-native-maps-directions';
 import { MaterialIcons } from '@expo/vector-icons'; 
-
 // import { PROVIDER_GOOGLE } from 'react-native-maps' 
 
 
@@ -28,15 +27,6 @@ export default function MapContainer(  {setSelectedLocation, selectedLocation} )
     latitude: 40.700415, 
     longitude: -73.90897
   }
-
-  // const bigView = styled.View`
-  //   flex: 1,
-  //   background-color: '#fff',
-  //   align-items: center,
-  //   justify-content: center,
-  // `
-
-  console.log(selectedLocation)
 
   const createLogo = (locType) => {
     
