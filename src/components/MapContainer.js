@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Marker } from 'react-native-maps';
+import { Marker, Polyline } from 'react-native-maps';
 import { BASE_URL } from '@env'
 import styled from 'styled-components'
 import MapView from "react-native-map-clustering";
@@ -14,13 +14,16 @@ export default function MapContainer(  {setSelectedLocation, selectedLocation} )
   const {locations} = React.useContext(LocationContext)
   const [contextLocations, setContextLocations] = locations
 
-  console.log(selectedLocation)
-
   const region = {
     latitude: 40.8798295,
     longitude: -73.8614968,
     latitudeDelta: 0.03,
     longitudeDelta: 0.03
+  }
+
+  const customLocation = {
+    latitude: 40.700415, 
+    longitude: -73.90897
   }
 
   const bigView = styled.View`
@@ -30,31 +33,40 @@ export default function MapContainer(  {setSelectedLocation, selectedLocation} )
     justify-content: center,
   `
 
+  const allLocations = contextLocations.map((location, index) => {
+    return (
+      <Marker 
+        key={index}
+        coordinate={{latitude: location.latitude, longitude: location.longitude}} 
+      >
+        <TouchView onPress={() => setSelectedLocation(location)}>
+          <Text>💩</Text>
+        </TouchView>
+      </Marker>
+    )
+  })
+
   return (
       <View style={styles.container}>
         <MapView 
         clusterColor={"orange"}
-        extent={110}
+        extent={140}
         animationEnabled={false}
         // fitToCoordinates={selectedLocation ? {coordinates: [selectedLocation.latitude, selectedLocation.longitude]} : null}
         initialRegion={region}
           style={styles.map}
           showsUserLocation={true}
+          followsUserLocation={true}
           // provider={PROVIDER_GOOGLE}
         >
-          {contextLocations.map((location, index) => {
-            return (
-              <Marker 
-                key={index}
-                coordinate={{latitude: location.latitude, longitude: location.longitude}} 
-              >
-                <TouchView onPress={() => setSelectedLocation(location)}>
-                  <Text>{location.name}💩</Text>
-                </TouchView>
-              </Marker>
-            )
-          }
-          )}
+          {allLocations}
+          {selectedLocation ? 
+          <Polyline 
+          strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
+          strokeColors={['#7F0000']}
+          strokeWidth={6}
+          /> 
+          : null}
         </MapView>
       </View>
   );
