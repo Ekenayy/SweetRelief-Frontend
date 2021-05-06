@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { Text, H2, Wrapper, Button, Scroll } from '../styles/Styles'
 import styled from 'styled-components'
 import LocationContext from '../LocationContext'
-
+import ShowBar from './ShowBar'
 
 function LocationShow ({setSelectedLocation, selectedLocation}) {
 
@@ -58,6 +58,10 @@ function LocationShow ({setSelectedLocation, selectedLocation}) {
         align-self: center;
     `
 
+    const BigWrapper = styled(Wrapper)`
+        margin-left: 0px;
+    `
+
     useEffect(() => {
         setStateUpvotes(upvotes)
         setStateDownvotes(downvotes)
@@ -67,47 +71,50 @@ function LocationShow ({setSelectedLocation, selectedLocation}) {
     // Figure out how to provide an answer for null attributes (What if we don't know?)
     // There's a qwerk where the number of votes doesn't reset when you click a new location 
     return (
-        <Scroll>
-            <SectionWrapper>
-                <H2>Location</H2>
-                <DetailsWrapper>
-                    <DetailsText>{name}</DetailsText>
-                    <DetailsText>{address}</DetailsText>
-                    <DetailsText>{locType}</DetailsText>
-                </DetailsWrapper>
-            </SectionWrapper>
-            <SectionWrapper>
-                <H2>Details</H2>
-                <DetailsWrapper>
-                    <DetailsText>{free ? 'This location is free' : 'This location is not free'}</DetailsText>
-                    <DetailsText>{key_required ? 'Requires a key' : 'No key needed'}</DetailsText>
-                    <DetailsText>{unisex ? 'Unisex' : 'Gender separated'}</DetailsText>
-                </DetailsWrapper>
-            </SectionWrapper>
-            <SectionWrapper>
-                <H2>Comments</H2>
-            </SectionWrapper>
-            <SectionWrapper>
-                <H2>Votes</H2>
+        <BigWrapper>
+            <ShowBar/>
+            <Scroll>
+                <SectionWrapper>
+                    <H2>Location</H2>
+                    <DetailsWrapper>
+                        <DetailsText>{name}</DetailsText>
+                        <DetailsText>{address}</DetailsText>
+                        <DetailsText>{locType}</DetailsText>
+                    </DetailsWrapper>
+                </SectionWrapper>
+                <SectionWrapper>
+                    <H2>Details</H2>
+                    <DetailsWrapper>
+                        <DetailsText>{free ? 'This location is free' : 'This location is not free'}</DetailsText>
+                        <DetailsText>{key_required ? 'Requires a key' : 'No key needed'}</DetailsText>
+                        <DetailsText>{unisex ? 'Unisex' : 'Gender separated'}</DetailsText>
+                    </DetailsWrapper>
+                </SectionWrapper>
+                <SectionWrapper>
+                    <H2>Comments</H2>
+                </SectionWrapper>
+                <SectionWrapper>
+                    <H2>Votes</H2>
+                    <ButtonView>
+                        <VoteButton>
+                            <Span onPress={() => setStateUpvotes(stateUpVotes + 1)}> 
+                                {stateUpVotes} 👍 
+                            </Span>
+                        </VoteButton>
+                        <VoteButton >
+                            <Span onPress={() => setStateDownvotes(stateDownVotes + 1)}>
+                                👎 {stateDownVotes}
+                            </Span>
+                        </VoteButton>
+                    </ButtonView>
+                </SectionWrapper>
                 <ButtonView>
-                    <VoteButton>
-                        <Span onPress={() => setStateUpvotes(stateUpVotes + 1)}> 
-                            {stateUpVotes} 👍 
-                        </Span>
-                    </VoteButton>
-                    <VoteButton >
-                        <Span onPress={() => setStateDownvotes(stateDownVotes + 1)}>
-                            👎 {stateDownVotes}
-                        </Span>
-                    </VoteButton>
+                    <ClearButton onPress={() => setSelectedLocation(null)}>
+                        <Span>Clear Search</Span>
+                    </ClearButton>
                 </ButtonView>
-            </SectionWrapper>
-            <ButtonView>
-                <ClearButton onPress={() => setSelectedLocation(null)}>
-                    <Span>Clear Search</Span>
-                </ClearButton>
-            </ButtonView>
-        </Scroll>
+            </Scroll>
+        </BigWrapper>
     )
 }
 
