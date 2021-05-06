@@ -67,7 +67,7 @@ function LocationShow ({setSelectedLocation, selectedLocation}) {
     // Figure out how to provide an answer for null attributes (What if we don't know?)
     // There's a qwerk where the number of votes doesn't reset when you click a new location 
     return (
-        <Wrapper>
+        <Scroll>
             <SectionWrapper>
                 <H2>Location</H2>
                 <DetailsWrapper>
@@ -107,10 +107,8 @@ function LocationShow ({setSelectedLocation, selectedLocation}) {
                     <Span>Clear Search</Span>
                 </ClearButton>
             </ButtonView>
-           
-        </Wrapper>
+        </Scroll>
     )
-
 }
 
 export default LocationShow 
