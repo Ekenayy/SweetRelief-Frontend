@@ -22,9 +22,18 @@ function ShowBar ( {selectedLocation} ) {
         padding-bottom: 2px;
     `
 
+    // const start = {
+    //     latitude: 40.700415, 
+    //     longitude: -73.90897
+    // }
+
+    // const end = {
+    //     latitude: selectedLocation.latitude,
+    //     longitude: selectedLocation.longitude
+    // }
+
     const openDirections = createOpenLink({
-        latitude: selectedLocation.latitude, 
-        longitude: selectedLocation.longitude,
+        end: selectedLocation.address,
         provider: 'google',
         zoom: 30
     })
