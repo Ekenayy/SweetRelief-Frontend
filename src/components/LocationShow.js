@@ -66,11 +66,6 @@ function LocationShow ({setSelectedLocation, selectedLocation}) {
         margin-bottom: 80px;
     `
 
-    // const openDirections = () => {
-    //     let location = {latitude: selectedLocation.latitude, longitude: selectedLocation.longitude}
-    //     createOpenLink({ latitude: 37.865101, longitude: -119.538330, provider: 'google', zoom: 10})
-    // }
-
     useEffect(() => {
         setStateUpvotes(upvotes)
         setStateDownvotes(downvotes)

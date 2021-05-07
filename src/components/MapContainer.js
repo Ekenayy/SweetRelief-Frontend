@@ -16,8 +16,6 @@ export default function MapContainer(  {setSelectedLocation, selectedLocation} )
   const {locations, userLocation} = React.useContext(LocationContext)
   const [contextLocations, setContextLocations] = locations
   const [contextUserLocation, setContextUserLocaction] = userLocation
-
-  // console.log(contextUserLocation)
   
   // latitude: 40.8798295,
   //   longitude: -73.8614968,
@@ -79,7 +77,7 @@ export default function MapContainer(  {setSelectedLocation, selectedLocation} )
             <MapViewDirections
               strokeWidth={4}
               strokeColor="#49e36c"
-              origin={customLocation}
+              origin={contextUserLocation ? contextUserLocation : customLocation}
               destination={{latitude: selectedLocation.latitude, longitude: selectedLocation.longitude}}
               apikey={GOOGLE_KEY}
             />

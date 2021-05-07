@@ -17,7 +17,9 @@ export default function App() {
 
   const [locations, setLocations] = useState([]);
   const [userLocation, setUserLocation] = useState(null)
+  const [distance, setDistance] = useState(null)
   const [errorMsg, setErrorMsg] = useState(null)
+
 
   const Body = styled.View`
     flex: 1;
@@ -45,7 +47,10 @@ export default function App() {
 
 
   return (
-    <LocationContext.Provider value={{locations: [locations, setLocations], userLocation: [userLocation, setUserLocation]}}>
+    <LocationContext.Provider 
+    value={{locations: [locations, setLocations], 
+    userLocation: [userLocation, setUserLocation],
+    distance: [distance, setDistance]}}>
     <NavigationContainer>
       <Body>
         <Stack.Navigator
