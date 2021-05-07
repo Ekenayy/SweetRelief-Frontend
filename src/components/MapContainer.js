@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Marker, Polyline } from 'react-native-maps';
 import { BASE_URL, GOOGLE_KEY } from '@env'
 import styled from 'styled-components'
-import MapView from "react-native-map-clustering";
+import MapView, {AnimatedRegion} from "react-native-map-clustering";
 import LocationContext from '../LocationContext'
 import { Wrapper, TouchView } from '../styles/Styles'
 import MapViewDirections from 'react-native-maps-directions';
@@ -13,19 +13,23 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 export default function MapContainer(  {setSelectedLocation, selectedLocation} ) {
   
-  const {locations} = React.useContext(LocationContext)
+  const {locations, userLocation} = React.useContext(LocationContext)
   const [contextLocations, setContextLocations] = locations
+  const [contextUserLocation, setContextUserLocaction] = userLocation
 
-  const region = {
-    latitude: 40.8798295,
-    longitude: -73.8614968,
-    latitudeDelta: 0.03,
-    longitudeDelta: 0.03
-  }
-
+  // console.log(contextUserLocation)
+  
+  // latitude: 40.8798295,
+  //   longitude: -73.8614968,
   const customLocation = {
     latitude: 40.700415, 
     longitude: -73.90897
+  }
+
+  const region = {
+    ...customLocation,
+    latitudeDelta: 0.03,
+    longitudeDelta: 0.03
   }
 
   const createLogo = (locType) => {
@@ -51,6 +55,12 @@ export default function MapContainer(  {setSelectedLocation, selectedLocation} )
     )
   })
 
+  const goToInitialLocation = () => {
+    let initialRegion = { ...contextUserLocation, latitudeDelta: .03, logitudeDelta: .03}
+    console.log(initialRegion)
+    // MapView.animateToRegion(initialRegion, 2000)
+  }
+
   return (
       <View style={styles.container}>
         <MapView 
@@ -61,6 +71,7 @@ export default function MapContainer(  {setSelectedLocation, selectedLocation} )
           style={styles.map}
           showsUserLocation={true}
           followsUserLocation={true}
+          // onMapReady={goToInitialLocation}
           // provider={PROVIDER_GOOGLE}
         >
           {allLocations}

@@ -8,12 +8,16 @@ import { useNavigation } from '@react-navigation/native';
 import LocationContext from './src/LocationContext'
 import LocationItem from './src/components/LocationItem';
 import styled from 'styled-components'
+import * as Location from 'expo-location';
+
 
 export default function App() {
 
   const Stack = createStackNavigator();
 
   const [locations, setLocations] = useState([]);
+  const [userLocation, setUserLocation] = useState(null)
+  const [errorMsg, setErrorMsg] = useState(null)
 
   const Body = styled.View`
     flex: 1;
@@ -25,9 +29,23 @@ export default function App() {
       .then(locations => setLocations(locations))
   },[])
 
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      let latlong = {latitude: location.coords.latitude, longitude: location.coords.longitude}
+      setUserLocation(latlong);
+    })();
+  }, []);
+
 
   return (
-    <LocationContext.Provider value={{locations: [locations, setLocations]}}>
+    <LocationContext.Provider value={{locations: [locations, setLocations], userLocation: [userLocation, setUserLocation]}}>
     <NavigationContainer>
       <Body>
         <Stack.Navigator
