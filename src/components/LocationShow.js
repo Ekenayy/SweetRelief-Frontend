@@ -3,12 +3,12 @@ import { Text, H2, Wrapper, Button, Scroll } from '../styles/Styles'
 import styled from 'styled-components'
 import LocationContext from '../LocationContext'
 import ShowBar from './ShowBar'
+import { createOpenLink } from 'react-native-open-maps';
+
 
 function LocationShow ({setSelectedLocation, selectedLocation}) {
 
     const {name, address, locType, free, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
-
-
     const {locations} = React.useContext(LocationContext)
     const [contextLocations, setContextLocations] = locations
     // Add a navigate feature that pulls up the coordinates on google maps 
@@ -62,6 +62,15 @@ function LocationShow ({setSelectedLocation, selectedLocation}) {
         margin-left: 0px;
     `
 
+    const ShowScroll = styled(Scroll)`
+        margin-bottom: 80px;
+    `
+
+    // const openDirections = () => {
+    //     let location = {latitude: selectedLocation.latitude, longitude: selectedLocation.longitude}
+    //     createOpenLink({ latitude: 37.865101, longitude: -119.538330, provider: 'google', zoom: 10})
+    // }
+
     useEffect(() => {
         setStateUpvotes(upvotes)
         setStateDownvotes(downvotes)
@@ -72,8 +81,8 @@ function LocationShow ({setSelectedLocation, selectedLocation}) {
     // There's a qwerk where the number of votes doesn't reset when you click a new location 
     return (
         <BigWrapper>
-            <ShowBar/>
-            <Scroll>
+            <ShowBar selectedLocation={selectedLocation}/>
+            <ShowScroll>
                 <SectionWrapper>
                     <H2>Location</H2>
                     <DetailsWrapper>
@@ -113,7 +122,7 @@ function LocationShow ({setSelectedLocation, selectedLocation}) {
                         <Span>Clear Search</Span>
                     </ClearButton>
                 </ButtonView>
-            </Scroll>
+            </ShowScroll>
         </BigWrapper>
     )
 }

@@ -3,8 +3,9 @@ import { Text, H2, Wrapper, Button, Scroll, TouchView } from '../styles/Styles'
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import styled from 'styled-components'
+import { createOpenLink } from 'react-native-open-maps';
 
-function ShowBar () {
+function ShowBar ( {selectedLocation} ) {
 
     const Options = styled(Button)`
         margin: 5px 20px;
@@ -12,6 +13,7 @@ function ShowBar () {
     `
 
     const ShowScroll = styled(Scroll)`
+        margin-top: 5px;
     `
 
     const OptionsText = styled(Text)`
@@ -20,13 +22,20 @@ function ShowBar () {
         padding-bottom: 2px;
     `
 
+    const openDirections = createOpenLink({
+        latitude: selectedLocation.latitude, 
+        longitude: selectedLocation.longitude,
+        provider: 'google',
+        zoom: 30
+    })
+
 
     return (
         <ShowScroll
             horizontal={true}
             showsHorizontalScrollIndicator={false}
         >
-            <Options>
+            <Options onPress={openDirections}>
                 <FontAwesome5 name="directions" size={24} color="black" />
                 <OptionsText>Directions</OptionsText>
             </Options>

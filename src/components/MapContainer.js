@@ -54,10 +54,10 @@ export default function MapContainer(  {setSelectedLocation, selectedLocation} )
   return (
       <View style={styles.container}>
         <MapView 
-        clusterColor={"orange"}
-        extent={190}
-        animationEnabled={false}
-        initialRegion={region}
+          clusterColor={"orange"}
+          extent={190}
+          animationEnabled={false}
+          initialRegion={region}
           style={styles.map}
           showsUserLocation={true}
           followsUserLocation={true}
