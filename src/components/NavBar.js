@@ -13,7 +13,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 
 
-function NavBar ( {selectedLocation, setSelectedLocation, distance, setDistance} ) {
+function NavBar ( {handlePress, selectedLocation, setSelectedLocation, distance} ) {
 
     // I want to set the height of the navbar equal to where the user is gesturing
     // If the user goes below 150, I dont the navbar to go any lower
@@ -88,7 +88,7 @@ function NavBar ( {selectedLocation, setSelectedLocation, distance, setDistance}
                     <Filters filters={filters} setFilters={setFilters}/>
                 </FilterContainer>
                 <LocContainer>
-                    <AllLocationsList distance={distance} setDistance={setDistance} filters={filters} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
+                    <AllLocationsList handlePress={handlePress} filters={filters} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
                 </LocContainer>
             </>
         )

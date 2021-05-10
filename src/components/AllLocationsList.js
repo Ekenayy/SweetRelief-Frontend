@@ -4,7 +4,7 @@ import { Text, Scroll } from '../styles/Styles'
 import LocationContext from '../LocationContext'
 import styled from 'styled-components'
 
-function AllLocationsList ({distance, setDistance, selectedLocation, setSelectedLocation, filters}) {
+function AllLocationsList ({handlePress, distance, setDistance, selectedLocation, setSelectedLocation, filters}) {
 
     const {locations} = React.useContext(LocationContext)
     const [contextLocations, setContextLocations] = locations
@@ -16,7 +16,7 @@ function AllLocationsList ({distance, setDistance, selectedLocation, setSelected
         margin-left: 0px;
     `
     const twentyFiveLocations = contextLocations.slice(0, 25).map((location) => {
-        return <LocationItem key={location.id} distance={distance} setDistance={setDistance} setSelectedLocation={setSelectedLocation} location={location} />
+        return <LocationItem key={location.id} handlePress={handlePress} distance={distance} setDistance={setDistance} setSelectedLocation={setSelectedLocation} location={location} />
     })
 
     return (

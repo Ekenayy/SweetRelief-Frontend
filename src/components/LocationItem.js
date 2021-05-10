@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import * as geolib from 'geolib'
 import LocationContext from '../LocationContext'
 
-function LocationItem ( {distance, setDistance, location, setSelectedLocation}) {
+function LocationItem ( { handlePress, location, setSelectedLocation}) {
 
     const {name, address, latitude, longitude, locType, free, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = location
 
@@ -23,24 +23,8 @@ function LocationItem ( {distance, setDistance, location, setSelectedLocation}) 
         margin-left: 0px;
     `
 
-    const handlePress = () => {
-        setSelectedLocation(location)
-        let thisDistance = geolib.getDistance(contextUserLocation, {
-            latitude,
-            longitude
-        })
-        let convertedDistance = geolib.convertDistance(thisDistance, 'mi')
-        // console.log(geolib.getDistance(contextUserLocation, {
-        //     latitude,
-        //     longitude
-        // }))
-        setDistance(convertedDistance.toFixed(2))
-    }
-
-
-
     return (
-        <LocationView onPress={handlePress}>
+        <LocationView onPress={() => handlePress(location)}>
             <DetailsView>
                 <Text>
                     {address}

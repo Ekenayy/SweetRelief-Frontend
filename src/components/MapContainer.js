@@ -11,7 +11,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 // import { PROVIDER_GOOGLE } from 'react-native-maps' 
 
 
-export default function MapContainer(  {setSelectedLocation, selectedLocation} ) {
+export default function MapContainer(  {setSelectedLocation, handlePress, selectedLocation} ) {
   
   const {locations, userLocation} = React.useContext(LocationContext)
   const [contextLocations, setContextLocations] = locations
@@ -43,10 +43,10 @@ export default function MapContainer(  {setSelectedLocation, selectedLocation} )
   const allLocations = contextLocations.map((location, index) => {
     return (
       <Marker 
-        key={index}
+        key={location.id}
         coordinate={{latitude: location.latitude, longitude: location.longitude}} 
       >
-        <TouchView onPress={() => setSelectedLocation(location)}>
+        <TouchView onPress={() => handlePress(location)}>
           {createLogo(location.locType)}
         </TouchView>
       </Marker>
