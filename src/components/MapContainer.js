@@ -1,6 +1,6 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext, useRef} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Marker, Polyline } from 'react-native-maps';
+import { Marker } from 'react-native-maps';
 import { BASE_URL, GOOGLE_KEY } from '@env'
 import styled from 'styled-components'
 import MapView, {AnimatedRegion} from "react-native-map-clustering";
@@ -11,14 +11,13 @@ import { MaterialIcons } from '@expo/vector-icons';
 // import { PROVIDER_GOOGLE } from 'react-native-maps' 
 
 
-export default function MapContainer(  {setSelectedLocation, handlePress, selectedLocation} ) {
+export default function MapContainer(  {setSelectedLocation, wholeMap, handlePress, selectedLocation} ) {
   
   const {locations, userLocation} = React.useContext(LocationContext)
   const [contextLocations, setContextLocations] = locations
   const [contextUserLocation, setContextUserLocaction] = userLocation
-  
-  // latitude: 40.8798295,
-  //   longitude: -73.8614968,
+
+
   const customLocation = {
     latitude: 40.700415, 
     longitude: -73.90897
@@ -39,6 +38,14 @@ export default function MapContainer(  {setSelectedLocation, handlePress, select
     }
 
   }
+
+  // const test = (location) => {
+  //   setSelectedLocation(location) 
+  //   let latLongs = [contextUserLocation, {latitude: location.latitude,
+  //     longitude: location.longitude}]
+
+  //   wholeMap.current.fitToCoordinates(latLongs)
+  // }
 
   const allLocations = contextLocations.map((location, index) => {
     return (
@@ -69,6 +76,7 @@ export default function MapContainer(  {setSelectedLocation, handlePress, select
           style={styles.map}
           showsUserLocation={true}
           followsUserLocation={true}
+          ref={wholeMap}
           // onMapReady={goToInitialLocation}
           // provider={PROVIDER_GOOGLE}
         >

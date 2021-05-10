@@ -82,8 +82,8 @@ function LocationShow ({setSelectedLocation, selectedLocation, distance}) {
                 <SectionWrapper>
                     <H2>Location</H2>
                     <DetailsWrapper>
-                        <DetailsText>{distance} miles</DetailsText>
-                        <DetailsText>{name}</DetailsText>
+                        {/* <DetailsText>{distance} miles away</DetailsText> */}
+                        <DetailsText>{`${name} is ${distance} miles away`}</DetailsText>
                         <DetailsText>{address}</DetailsText>
                         <DetailsText>{locType}</DetailsText>
                     </DetailsWrapper>
