@@ -18,16 +18,23 @@ export default function App() {
   const [locations, setLocations] = useState([]);
   const [userLocation, setUserLocation] = useState(null)
   const [errorMsg, setErrorMsg] = useState(null)
+  const [currentUser, setCurrentUser] = useState(null)
 
 
   const Body = styled.View`
     flex: 1;
   `
-
+  
   useEffect(() => {
-    fetch(BASE_URL)
+    fetch(`${BASE_URL}/locations`)
       .then(res => res.json())
       .then(locations => setLocations(locations))
+  },[])
+
+  useEffect(() => {
+    fetch(`${BASE_URL}/users/1`)
+      .then(res => res.json())
+      .then(user => setCurrentUser(user))
   },[])
 
   useEffect(() => {
