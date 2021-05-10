@@ -49,8 +49,7 @@ export default function App() {
   return (
     <LocationContext.Provider 
     value={{locations: [locations, setLocations], 
-    userLocation: [userLocation, setUserLocation],
-    distance: [distance, setDistance]}}>
+    userLocation: [userLocation, setUserLocation]}}>
     <NavigationContainer>
       <Body>
         <Stack.Navigator

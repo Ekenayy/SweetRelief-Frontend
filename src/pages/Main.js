@@ -6,11 +6,12 @@ import NavBar from '../components/NavBar'
 function Main ( ) {
 
     const [selectedLocation, setSelectedLocation] = useState(null)
+    const [distance, setDistance] = useState(null)
     
     return (
         <>
             <MapContainer selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
-            <NavBar selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
+            <NavBar distance={distance} setDistance={setDistance} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
         </>
     )
 }

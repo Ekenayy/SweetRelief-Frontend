@@ -4,12 +4,11 @@ import styled from 'styled-components'
 import * as geolib from 'geolib'
 import LocationContext from '../LocationContext'
 
-function LocationItem ( {location, setSelectedLocation}) {
+function LocationItem ( {distance, setDistance, location, setSelectedLocation}) {
 
     const {name, address, latitude, longitude, locType, free, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = location
 
-    const {distance, userLocation} = React.useContext(LocationContext)
-    const [contextDistance, setcontextDistance] = distance
+    const {userLocation} = React.useContext(LocationContext)
     const [contextUserLocation, setcontextUserLocation] = userLocation
 
     const LocationView = styled(TouchView)`
@@ -24,25 +23,24 @@ function LocationItem ( {location, setSelectedLocation}) {
         margin-left: 0px;
     `
 
-    // const handlePress = () => {
-    //     setSelectedLocation(location)
-    //     let thisDistance = geolib.getDistance(contextUserLocation, {
-    //         latitude,
-    //         longitude
-    //     })
-    //     let convertedDistance = geolib.convertDistance(thisDistance, 'mi')
-    //     // console.log(geolib.getDistance(contextUserLocation, {
-    //     //     latitude,
-    //     //     longitude
-    //     // }))
-    //     setcontextDistance(convertedDistance)
-    // }
+    const handlePress = () => {
+        setSelectedLocation(location)
+        let thisDistance = geolib.getDistance(contextUserLocation, {
+            latitude,
+            longitude
+        })
+        let convertedDistance = geolib.convertDistance(thisDistance, 'mi')
+        // console.log(geolib.getDistance(contextUserLocation, {
+        //     latitude,
+        //     longitude
+        // }))
+        setDistance(convertedDistance.toFixed(2))
+    }
 
-    console.log(contextDistance)
 
 
     return (
-        <LocationView onPress={() => setSelectedLocation(location)}>
+        <LocationView onPress={handlePress}>
             <DetailsView>
                 <Text>
                     {address}

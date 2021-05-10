@@ -6,7 +6,7 @@ import ShowBar from './ShowBar'
 import { createOpenLink } from 'react-native-open-maps';
 
 
-function LocationShow ({setSelectedLocation, selectedLocation}) {
+function LocationShow ({setSelectedLocation, selectedLocation, distance}) {
 
     const {name, address, locType, free, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
     const {locations} = React.useContext(LocationContext)
@@ -66,6 +66,7 @@ function LocationShow ({setSelectedLocation, selectedLocation}) {
         margin-bottom: 80px;
     `
 
+
     useEffect(() => {
         setStateUpvotes(upvotes)
         setStateDownvotes(downvotes)
@@ -81,6 +82,7 @@ function LocationShow ({setSelectedLocation, selectedLocation}) {
                 <SectionWrapper>
                     <H2>Location</H2>
                     <DetailsWrapper>
+                        <DetailsText>{distance} miles</DetailsText>
                         <DetailsText>{name}</DetailsText>
                         <DetailsText>{address}</DetailsText>
                         <DetailsText>{locType}</DetailsText>
