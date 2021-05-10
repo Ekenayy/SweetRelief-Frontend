@@ -1,6 +1,7 @@
 import React from 'react'
 import { Text, H2, Wrapper, Button, Scroll, TouchView } from '../styles/Styles'
 import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import styled from 'styled-components'
 import { createOpenLink } from 'react-native-open-maps';
@@ -40,6 +41,14 @@ function ShowBar ( {selectedLocation} ) {
                 <OptionsText>Directions</OptionsText>
             </Options>
             <Options>
+                <FontAwesome name="exchange" size={24} color="black" />
+                <OptionsText>Pay</OptionsText>
+            </Options>
+            <Options>
+                <MaterialIcons name="add-location-alt" size={24} color="black" />
+                <OptionsText>Add location</OptionsText>
+            </Options>
+            <Options>
                 <MaterialIcons name="add-comment" size={24} color="black" />
                 <OptionsText>Comment</OptionsText>
             </Options>
@@ -47,6 +56,8 @@ function ShowBar ( {selectedLocation} ) {
                 <MaterialIcons name="favorite" size={24} color="black" />
                 <OptionsText>Favorite</OptionsText>
             </Options>
+
+
         </ShowScroll>
     )
 }

@@ -16,22 +16,18 @@ function Main ( ) {
 
     const setAndGetDistance = (location) => {
         setSelectedLocation(location)
+
         let latLongs = [contextUserLocation, {latitude: location.latitude,
             longitude: location.longitude}]
-        let thisDistance = geolib.getDistance(contextUserLocation, {
-            latitude: location.latitude,
-            longitude: location.longitude
-        })
+        
+        // Gets the distance between the two coordinates via geolib API and sets in state
+        let thisDistance = geolib.getDistance(contextUserLocation, latLongs[1])
         let convertedDistance = geolib.convertDistance(thisDistance, 'mi')
-        // console.log(geolib.getDistance(contextUserLocation, {
-        //     latitude,
-        //     longitude
-        // }))
         setDistance(convertedDistance.toFixed(2))
+
+        // Focuses the map on the two locations using ref
         wholeMap.current.fitToCoordinates(latLongs, { edgePadding: { top: 10, right: 50, bottom: 100, left: 50 }, animated: true })
     }
-
-    // console.log(wholeMap.current)
 
     return (
         <>

@@ -17,7 +17,6 @@ export default function App() {
 
   const [locations, setLocations] = useState([]);
   const [userLocation, setUserLocation] = useState(null)
-  const [distance, setDistance] = useState(null)
   const [errorMsg, setErrorMsg] = useState(null)
 
 
