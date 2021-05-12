@@ -15,8 +15,7 @@ export default function MapContainer(  {setSelectedLocation, wholeMap, handlePre
   
   const {locations, userLocation} = React.useContext(LocationContext)
   const [contextLocations, setContextLocations] = locations
-  const [contextUserLocation, setContextUserLocaction] = userLocation
-
+  const [contextUserLocation, setContextUserLocation] = userLocation
 
   const customLocation = {
     latitude: 40.700415, 
@@ -61,7 +60,7 @@ export default function MapContainer(  {setSelectedLocation, wholeMap, handlePre
   })
 
   const goToInitialLocation = () => {
-    let initialRegion = { ...contextUserLocation, latitudeDelta: .03, logitudeDelta: .03}
+    let initialRegion = { ...contextUserLocation, latitudeDelta: .03, longitudeDelta: .03}
     console.log(initialRegion)
     // MapView.animateToRegion(initialRegion, 2000)
   }
@@ -84,6 +83,7 @@ export default function MapContainer(  {setSelectedLocation, wholeMap, handlePre
           {selectedLocation ? 
             <MapViewDirections
               strokeWidth={4}
+              mode="WALKING"
               strokeColor="#49e36c"
               origin={contextUserLocation ? contextUserLocation : customLocation}
               destination={{latitude: selectedLocation.latitude, longitude: selectedLocation.longitude}}

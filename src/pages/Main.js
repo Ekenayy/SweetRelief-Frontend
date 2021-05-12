@@ -10,10 +10,13 @@ function Main ( ) {
 
     const [selectedLocation, setSelectedLocation] = useState(null)
     const [distance, setDistance] = useState(null)
-    const {userLocation} = React.useContext(LocationContext)
+    const {userLocation, locations} = React.useContext(LocationContext)
     const [contextUserLocation, setContextUserLocation] = userLocation
+    const [contextLocations, setContextLocations ] = locations
     const wholeMap = useRef()
 
+    // const smallLocations = [contextLocations[0], contextLocations[5], contextLocations[1]];
+    // console.log(smallLocations)
     const setAndGetDistance = (location) => {
         setSelectedLocation(location)
 
