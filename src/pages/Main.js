@@ -15,8 +15,8 @@ function Main ( ) {
     const [contextLocations, setContextLocations ] = locations
     const wholeMap = useRef()
 
-    // const smallLocations = [contextLocations[0], contextLocations[5], contextLocations[1]];
-    // console.log(smallLocations)
+    // We don't really need this anymore because we're doing it immediately
+    // The NavBar and other components need access to these sorted locations because they have a distance property
     const setAndGetDistance = (location) => {
         setSelectedLocation(location)
 

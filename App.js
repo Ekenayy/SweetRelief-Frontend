@@ -9,6 +9,7 @@ import LocationContext from './src/LocationContext'
 import LocationItem from './src/components/LocationItem';
 import styled from 'styled-components'
 import * as Location from 'expo-location';
+import * as geolib from 'geolib'
 
 
 export default function App() {
@@ -19,24 +20,12 @@ export default function App() {
   const [userLocation, setUserLocation] = useState(null)
   const [errorMsg, setErrorMsg] = useState(null)
   const [currentUser, setCurrentUser] = useState(null)
+  const [sortedLocations, setSortedLocations] = useState([])
 
 
   const Body = styled.View`
     flex: 1;
   `
-  
-  useEffect(() => {
-    fetch(`${BASE_URL}/locations`)
-      .then(res => res.json())
-      .then(locations => setLocations(locations))
-  },[])
-
-  useEffect(() => {
-    fetch(`${BASE_URL}/users/1`)
-      .then(res => res.json())
-      .then(user => setCurrentUser(user))
-  },[])
-
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -51,10 +40,51 @@ export default function App() {
     })();
   }, []);
 
+  useEffect(() => {
+    fetch(`${BASE_URL}/locations`)
+      .then(res => res.json())
+      .then(locations => setLocations(locations))
+  },[])
+
+  useEffect(() => {
+    fetch(`${BASE_URL}/users/1`)
+      .then(res => res.json())
+      .then(user => setCurrentUser(user))
+  },[])
+
+  // console.log(sortedLocations[0])
+
+  useEffect(() => {
+        if (locations && userLocation) {
+            sortByDistance(locations)
+        }
+  }, [locations])
+
+  const sortByDistance = (locations) => {
+    let newLocations = [];
+
+    const numberCompare = (num1, num2) =>{
+        return num1.distance-num2.distance
+    };
+
+
+    locations.map((location) => {
+        const latLongs = [ userLocation, {latitude: location.latitude,
+            longitude: location.longitude}];
+        let thisDistance = geolib.getDistance(userLocation, latLongs[1]);
+        let convertedDistance = geolib.convertDistance(thisDistance, 'mi')
+        let roundedDistance = parseFloat(convertedDistance.toFixed(2))
+        const updatedLocation = {...location, distance: roundedDistance}
+        newLocations.push(updatedLocation)
+    });
+
+    let sortedByDistance = newLocations.sort(numberCompare);
+    setSortedLocations(sortedByDistance)
+};
 
   return (
     <LocationContext.Provider 
-    value={{locations: [locations, setLocations], 
+    value={{locations: [sortedLocations, setSortedLocations], 
     userLocation: [userLocation, setUserLocation]}}>
     <NavigationContainer>
       <Body>

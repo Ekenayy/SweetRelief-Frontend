@@ -17,6 +17,8 @@ export default function MapContainer(  {setSelectedLocation, wholeMap, handlePre
   const [contextLocations, setContextLocations] = locations
   const [contextUserLocation, setContextUserLocation] = userLocation
 
+  // console.log(contextLocations[0])
+
   const customLocation = {
     latitude: 40.700415, 
     longitude: -73.90897
@@ -88,6 +90,10 @@ export default function MapContainer(  {setSelectedLocation, wholeMap, handlePre
               origin={contextUserLocation ? contextUserLocation : customLocation}
               destination={{latitude: selectedLocation.latitude, longitude: selectedLocation.longitude}}
               apikey={GOOGLE_KEY}
+              onReady={result => {
+                console.log(`Duration: ${result.duration} min.`)
+                }
+              }
             />
             : null}
         </MapView>
