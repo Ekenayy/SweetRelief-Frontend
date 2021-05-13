@@ -9,33 +9,24 @@ import * as geolib from 'geolib'
 function Main ( ) {
 
     const [selectedLocation, setSelectedLocation] = useState(null)
-    const [distance, setDistance] = useState(null)
     const {userLocation, locations} = React.useContext(LocationContext)
     const [contextUserLocation, setContextUserLocation] = userLocation
     const [contextLocations, setContextLocations ] = locations
     const wholeMap = useRef()
 
-    // We don't really need this anymore because we're doing it immediately
-    // The NavBar and other components need access to these sorted locations because they have a distance property
-    const setAndGetDistance = (location) => {
+    const setAndFitToCoords = (location) => {
         setSelectedLocation(location)
 
         let latLongs = [contextUserLocation, {latitude: location.latitude,
             longitude: location.longitude}]
-        
-        // Gets the distance between the two coordinates via geolib API and sets in state
-        let thisDistance = geolib.getDistance(contextUserLocation, latLongs[1])
-        let convertedDistance = geolib.convertDistance(thisDistance, 'mi')
-        setDistance(convertedDistance.toFixed(2))
-
         // Focuses the map on the two locations using ref
         wholeMap.current.fitToCoordinates(latLongs, { edgePadding: { top: 10, right: 50, bottom: 100, left: 50 }, animated: true })
     }
 
     return (
         <>
-            <MapContainer wholeMap={wholeMap} handlePress={setAndGetDistance} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
-            <NavBar handlePress={setAndGetDistance} distance={distance} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
+            <MapContainer wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
+            <NavBar handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
         </>
     )
 }

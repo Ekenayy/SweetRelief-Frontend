@@ -21,6 +21,7 @@ export default function App() {
   const [errorMsg, setErrorMsg] = useState(null)
   const [currentUser, setCurrentUser] = useState(null)
   const [sortedLocations, setSortedLocations] = useState([])
+  // const [sorted, setSorted] = useState(false)
 
 
   const Body = styled.View`
@@ -54,11 +55,12 @@ export default function App() {
 
   // console.log(sortedLocations[0])
 
+  // Sorting the locations once we have locations and a userlocation
   useEffect(() => {
         if (locations && userLocation) {
             sortByDistance(locations)
         }
-  }, [locations])
+  }, [locations, userLocation])
 
   const sortByDistance = (locations) => {
     let newLocations = [];
@@ -80,11 +82,12 @@ export default function App() {
 
     let sortedByDistance = newLocations.sort(numberCompare);
     setSortedLocations(sortedByDistance)
+    // setSorted(true)
 };
 
   return (
     <LocationContext.Provider 
-    value={{locations: [sortedLocations, setSortedLocations], 
+    value={{locations: sortedLocations.length ? [sortedLocations, setSortedLocations] : [locations, setLocations], 
     userLocation: [userLocation, setUserLocation]}}>
     <NavigationContainer>
       <Body>

@@ -34,7 +34,7 @@ function ShowBar ( {selectedLocation} ) {
     return (
         <ShowScroll
             horizontal={true}
-            showsHorizontalScrollIndicator={false}
+            showsHorizontalScrollIndicator={true}
         >
             <Options onPress={openDirections}>
                 <FontAwesome5 name="directions" size={24} color="black" />
@@ -45,10 +45,6 @@ function ShowBar ( {selectedLocation} ) {
                 <OptionsText>Pay</OptionsText>
             </Options>
             <Options>
-                <MaterialIcons name="add-location-alt" size={24} color="black" />
-                <OptionsText>Add location</OptionsText>
-            </Options>
-            <Options>
                 <MaterialIcons name="add-comment" size={24} color="black" />
                 <OptionsText>Comment</OptionsText>
             </Options>
@@ -56,8 +52,10 @@ function ShowBar ( {selectedLocation} ) {
                 <MaterialIcons name="favorite" size={24} color="black" />
                 <OptionsText>Favorite</OptionsText>
             </Options>
-
-
+            <Options>
+                <MaterialIcons name="add-location-alt" size={24} color="black" />
+                <OptionsText>Add location</OptionsText>
+            </Options>
         </ShowScroll>
     )
 }

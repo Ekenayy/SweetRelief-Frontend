@@ -6,9 +6,9 @@ import ShowBar from './ShowBar'
 import { createOpenLink } from 'react-native-open-maps';
 
 
-function LocationShow ({setSelectedLocation, selectedLocation, distance}) {
+function LocationShow ({setSelectedLocation, selectedLocation}) {
 
-    const {name, address, locType, free, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
+    const {name, address, locType, free, distance, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
     const {locations} = React.useContext(LocationContext)
     const [contextLocations, setContextLocations] = locations
     // Add a navigate feature that pulls up the coordinates on google maps 
