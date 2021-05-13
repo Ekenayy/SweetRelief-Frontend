@@ -47,11 +47,11 @@ export default function App() {
       .then(locations => setLocations(locations))
   },[])
 
-  useEffect(() => {
-    fetch(`${BASE_URL}/users/1`)
-      .then(res => res.json())
-      .then(user => setCurrentUser(user))
-  },[])
+  // useEffect(() => {
+  //   fetch(`${BASE_URL}/users/1`)
+  //     .then(res => res.json())
+  //     .then(user => setCurrentUser(user))
+  // },[])
 
   // console.log(sortedLocations[0])
 
@@ -83,7 +83,7 @@ export default function App() {
     let sortedByDistance = newLocations.sort(numberCompare);
     setSortedLocations(sortedByDistance)
     // setSorted(true)
-};
+  };
 
   return (
     <LocationContext.Provider 

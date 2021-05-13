@@ -15,11 +15,9 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 function NavBar ( {handlePress, selectedLocation, setSelectedLocation, distance} ) {
 
-    // I want to set the height of the navbar equal to where the user is gesturing
-    // If the user goes below 150, I dont the navbar to go any lower
-    // The swipe direction doesn't actually matter that much -- I just want where the users finger lands
+    // The original starting height was set to 150
     const [swipeUp, setSwipeUp] = useState(false)
-    const [height, setHeight] = useState(150)
+    const [height, setHeight] = useState(300)
     const [filters, setFilters] = useState(null)
 
     const styles = StyleSheet.create({

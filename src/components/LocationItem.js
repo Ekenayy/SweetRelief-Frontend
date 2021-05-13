@@ -3,6 +3,8 @@ import { Text, Wrapper, TouchView } from '../styles/Styles'
 import styled from 'styled-components'
 import * as geolib from 'geolib'
 import LocationContext from '../LocationContext'
+import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 function LocationItem ( { handlePress, location, setSelectedLocation}) {
 
@@ -19,21 +21,40 @@ function LocationItem ( { handlePress, location, setSelectedLocation}) {
     `
 
     const DetailsView = styled(Wrapper)`
-        flex-direction: column;
+        flex-direction: row;
         padding: 10px;
         padding-left: 20px;
         margin-left: 0px;
     `
 
+    const InfoView = styled(DetailsView)`
+        flex-direction: column;
+        padding: 0px;
+    `
+
+    const AttributesView = styled(Wrapper)`
+        flex-direction: row;
+        margin-left: 0px;
+        padding-top: 2px;
+    `
+
+    const IconView = styled(AttributesView)`
+        padding-left: 10px;
+    `
+
     return (
         <LocationView onPress={() => handlePress(location)}>
             <DetailsView>
-                <Text>
-                    {address}
-                </Text>
-                <Text>
-                    {distance} miles
-                </Text>
+                <InfoView>
+                    <Text>{address}</Text>
+                    <AttributesView>
+                        <IconView>
+                            <MaterialCommunityIcons name="tape-measure" size={18} color="black" style={{marginRight: 5}} />                            
+                            {/* <MaterialIcons name="directions-walk" size={18} color="black" /> */}
+                            <Text>{distance} miles</Text>  
+                        </IconView>
+                    </AttributesView>
+                </InfoView>
             </DetailsView>
         </LocationView>
     )
