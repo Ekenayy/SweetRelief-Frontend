@@ -76,7 +76,9 @@ export default function App() {
         let thisDistance = geolib.getDistance(userLocation, latLongs[1]);
         let convertedDistance = geolib.convertDistance(thisDistance, 'mi')
         let roundedDistance = parseFloat(convertedDistance.toFixed(2))
-        const updatedLocation = {...location, distance: roundedDistance}
+        let walkingTime = (convertedDistance / 3.0) * 60
+        let roundedWalkTime = parseFloat(walkingTime.toFixed(0))
+        let updatedLocation = {...location, distance: roundedDistance, walkTime: roundedWalkTime}
         newLocations.push(updatedLocation)
     });
 

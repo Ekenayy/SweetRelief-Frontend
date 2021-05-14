@@ -17,8 +17,6 @@ export default function MapContainer(  {setSelectedLocation, wholeMap, handlePre
   const [contextLocations, setContextLocations] = locations
   const [contextUserLocation, setContextUserLocation] = userLocation
 
-  // console.log(contextLocations[0])
-
   const customLocation = {
     latitude: 40.700415, 
     longitude: -73.90897
@@ -40,14 +38,6 @@ export default function MapContainer(  {setSelectedLocation, wholeMap, handlePre
 
   }
 
-  // const test = (location) => {
-  //   setSelectedLocation(location) 
-  //   let latLongs = [contextUserLocation, {latitude: location.latitude,
-  //     longitude: location.longitude}]
-
-  //   wholeMap.current.fitToCoordinates(latLongs)
-  // }
-
   const allLocations = contextLocations.map((location, index) => {
     return (
       <Marker 
@@ -61,12 +51,6 @@ export default function MapContainer(  {setSelectedLocation, wholeMap, handlePre
     )
   })
 
-  const goToInitialLocation = () => {
-    let initialRegion = { ...contextUserLocation, latitudeDelta: .03, longitudeDelta: .03}
-    console.log(initialRegion)
-    // MapView.animateToRegion(initialRegion, 2000)
-  }
-
   return (
       <View style={styles.container}>
         <MapView 
@@ -78,7 +62,6 @@ export default function MapContainer(  {setSelectedLocation, wholeMap, handlePre
           showsUserLocation={true}
           followsUserLocation={true}
           ref={wholeMap}
-          // onMapReady={goToInitialLocation}
           // provider={PROVIDER_GOOGLE}
         >
           {allLocations}
@@ -90,10 +73,10 @@ export default function MapContainer(  {setSelectedLocation, wholeMap, handlePre
               origin={contextUserLocation ? contextUserLocation : customLocation}
               destination={{latitude: selectedLocation.latitude, longitude: selectedLocation.longitude}}
               apikey={GOOGLE_KEY}
-              onReady={result => {
-                console.log(`Duration: ${result.duration} min.`)
-                }
-              }
+              // onReady={result => {
+              //   console.log(`Duration: ${result.duration} min.`)
+              //   }
+              // }
             />
             : null}
         </MapView>

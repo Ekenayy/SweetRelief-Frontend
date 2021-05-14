@@ -8,7 +8,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 function LocationItem ( { handlePress, location, setSelectedLocation}) {
 
-    const {name, address, distance, latitude, longitude, locType, free, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = location
+    const {name, address, distance, latitude, walkTime, longitude, locType, free, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = location
 
     const {userLocation} = React.useContext(LocationContext)
     const [contextUserLocation, setcontextUserLocation] = userLocation
@@ -16,7 +16,7 @@ function LocationItem ( { handlePress, location, setSelectedLocation}) {
     // console.log(location.distance)
 
     const LocationView = styled(TouchView)`
-        borderBottomWidth: .5px;
+        borderBottomWidth: .3px;
         padding-left: 0px;
     `
 
@@ -51,7 +51,12 @@ function LocationItem ( { handlePress, location, setSelectedLocation}) {
                         <IconView>
                             <MaterialCommunityIcons name="tape-measure" size={18} color="black" style={{marginRight: 5}} />                            
                             {/* <MaterialIcons name="directions-walk" size={18} color="black" /> */}
-                            <Text>{distance} miles</Text>  
+                            <Text>{distance} mi</Text>  
+                        </IconView>
+                        <IconView>
+                            <MaterialIcons name="directions-walk" size={18} color="black" />                           
+                            {/* <MaterialIcons name="directions-walk" size={18} color="black" /> */}
+                            <Text>{walkTime} minutes</Text>  
                         </IconView>
                     </AttributesView>
                 </InfoView>

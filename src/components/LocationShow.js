@@ -8,11 +8,12 @@ import { createOpenLink } from 'react-native-open-maps';
 
 function LocationShow ({setSelectedLocation, selectedLocation}) {
 
-    const {name, address, locType, free, distance, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
+    const {name, address, locType, free, walkTime, distance, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
     const {locations} = React.useContext(LocationContext)
     const [contextLocations, setContextLocations] = locations
     // Add a navigate feature that pulls up the coordinates on google maps 
 
+    console.log(walkTime)
     const [stateUpVotes, setStateUpvotes] = useState(upvotes)
     const [stateDownVotes, setStateDownvotes] = useState(downvotes)
 
