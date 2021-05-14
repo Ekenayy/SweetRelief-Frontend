@@ -5,6 +5,7 @@ import * as geolib from 'geolib'
 import LocationContext from '../LocationContext'
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Fontisto } from '@expo/vector-icons';
 
 function LocationItem ( { handlePress, location, setSelectedLocation}) {
 
@@ -18,6 +19,7 @@ function LocationItem ( { handlePress, location, setSelectedLocation}) {
     const LocationView = styled(TouchView)`
         borderBottomWidth: .3px;
         padding-left: 0px;
+        flex-direction: row;
     `
 
     const DetailsView = styled(Wrapper)`
@@ -25,11 +27,14 @@ function LocationItem ( { handlePress, location, setSelectedLocation}) {
         padding: 10px;
         padding-left: 20px;
         margin-left: 0px;
+        margin-right: 0px;
+        width: 93%;
     `
 
     const InfoView = styled(DetailsView)`
         flex-direction: column;
         padding: 0px;
+        overflow: hidden;
     `
 
     const AttributesView = styled(Wrapper)`
@@ -38,15 +43,26 @@ function LocationItem ( { handlePress, location, setSelectedLocation}) {
         padding-top: 2px;
     `
 
-    const IconView = styled(AttributesView)`
+    const IconView = styled(Wrapper)`
         padding-left: 10px;
+        flex-direction: row;
+        margin-left: 0px;
+        padding-top: 2px;
+        justifyContent: space-around;
+    `
+
+    const ArrowView = styled(Wrapper)`
+        align-self: center;
+        margin-left: 0px;
+        padding-left: 0px;
+        justify-content: flex-end;
     `
 
     return (
         <LocationView onPress={() => handlePress(location)}>
             <DetailsView>
                 <InfoView>
-                    <Text>{address}</Text>
+                    <Text numberOfLines={1}>{address}</Text>
                     <AttributesView>
                         <IconView>
                             <MaterialCommunityIcons name="tape-measure" size={18} color="black" style={{marginRight: 5}} />                            
@@ -61,6 +77,9 @@ function LocationItem ( { handlePress, location, setSelectedLocation}) {
                     </AttributesView>
                 </InfoView>
             </DetailsView>
+            <ArrowView>
+                <Fontisto name="angle-right" size={24} color="black" />
+            </ArrowView>
         </LocationView>
     )
 }

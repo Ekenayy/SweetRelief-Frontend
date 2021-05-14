@@ -13,7 +13,6 @@ function LocationShow ({setSelectedLocation, selectedLocation}) {
     const [contextLocations, setContextLocations] = locations
     // Add a navigate feature that pulls up the coordinates on google maps 
 
-    console.log(walkTime)
     const [stateUpVotes, setStateUpvotes] = useState(upvotes)
     const [stateDownVotes, setStateDownvotes] = useState(downvotes)
 
