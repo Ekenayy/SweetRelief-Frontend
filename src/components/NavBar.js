@@ -27,7 +27,7 @@ function NavBar ( {handlePress, selectedLocation, setSelectedLocation, distance}
             width: '100%',
             height: height,
             bottom: 0,
-            backgroundColor: 'grey'
+            backgroundColor: 'rgba(52, 52, 52, 0.85)'
         }
     })
     
