@@ -25,7 +25,7 @@ function AllLocationsList ({filterBy, setFilterBy, handlePress, distance, setDis
     console.log(filterName, "filter name")
 
     const filteredLocations = twentyFiveLocations.filter((location) => 
-        location.filterName === false
+        location.filterName !== false
         // console.log( "line 28 all")
         )
 
@@ -34,7 +34,7 @@ function AllLocationsList ({filterBy, setFilterBy, handlePress, distance, setDis
 
     return (
         <LocationsScroll>
-            {filteredLocations.length > 0 ? filteredLocations : twentyFiveLocations}
+            {filteredLocations}
         </LocationsScroll>
         
     )
