@@ -6,7 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import styled from 'styled-components'
 import { createOpenLink } from 'react-native-open-maps';
 
-function ShowBar ( {selectedLocation} ) {
+function ShowBar ( {selectedLocation, setModalVisible, modalVisible} ) {
 
     const Options = styled(Button)`
         margin: 5px 20px;
@@ -44,7 +44,7 @@ function ShowBar ( {selectedLocation} ) {
                 <FontAwesome name="exchange" size={24} color="black" />
                 <OptionsText>Pay</OptionsText>
             </Options>
-            <Options>
+            <Options onPress={() => setModalVisible(!modalVisible)}>
                 <MaterialIcons name="add-comment" size={24} color="black" />
                 <OptionsText>Comment</OptionsText>
             </Options>

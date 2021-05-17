@@ -6,7 +6,7 @@ import ShowBar from './ShowBar'
 import { createOpenLink } from 'react-native-open-maps';
 
 
-function LocationShow ({setSelectedLocation, selectedLocation}) {
+function LocationShow ({modalVisible, setModalVisible, setSelectedLocation, selectedLocation}) {
 
     const {name, address, locType, free, walkTime, distance, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
     const {locations} = React.useContext(LocationContext)
@@ -77,7 +77,7 @@ function LocationShow ({setSelectedLocation, selectedLocation}) {
     // There's a qwerk where the number of votes doesn't reset when you click a new location 
     return (
         <BigWrapper>
-            <ShowBar selectedLocation={selectedLocation}/>
+            <ShowBar setModalVisible={setModalVisible} modalVisible={modalVisible} selectedLocation={selectedLocation}/>
             <ShowScroll>
                 <SectionWrapper>
                     <H2>Location</H2>

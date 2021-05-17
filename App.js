@@ -107,7 +107,7 @@ export default function App() {
           }}
         >
           <Stack.Screen name='Main'>
-            {(props) => <Main {...props} />}
+            {(props) => <Main {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
           </Stack.Screen>         
         </Stack.Navigator>
       </Body>

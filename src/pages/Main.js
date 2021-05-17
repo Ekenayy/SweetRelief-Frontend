@@ -4,14 +4,21 @@ import MapContainer from '../components/MapContainer'
 import NavBar from '../components/NavBar'
 import LocationContext from '../LocationContext'
 import MapView, {AnimatedRegion} from "react-native-map-clustering";
+import CommentForm from '../components/CommentForm'
 import * as geolib from 'geolib'
 
-function Main ( ) {
+function Main ( {currentUser, setCurrentUser} ) {
 
+    // State
     const [selectedLocation, setSelectedLocation] = useState(null)
+    const [modalVisible, setModalVisible] = useState(false)
+
+    // Context
     const {userLocation, locations} = React.useContext(LocationContext)
     const [contextUserLocation, setContextUserLocation] = userLocation
     const [contextLocations, setContextLocations ] = locations
+
+    // Refs
     const wholeMap = useRef()
 
     const setAndFitToCoords = (location) => {
@@ -26,7 +33,8 @@ function Main ( ) {
     return (
         <>
             <MapContainer wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
-            <NavBar handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
+            <NavBar modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
+            {modalVisible ? <CommentForm currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible} /> : null}
         </>
     )
 }

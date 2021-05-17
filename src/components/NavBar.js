@@ -13,7 +13,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 
 
-function NavBar ( {handlePress, selectedLocation, setSelectedLocation, distance} ) {
+function NavBar ( {handlePress, modalVisible, setModalVisible, selectedLocation, setSelectedLocation, distance} ) {
 
     // The original starting height was set to 150
     const [swipeUp, setSwipeUp] = useState(false)
@@ -101,7 +101,7 @@ function NavBar ( {handlePress, selectedLocation, setSelectedLocation, distance}
                         <FontAwesome5 name="grip-lines" size={24} color="black" />
                     </IconWrapper>
                 </GestureRecognizer>
-                {selectedLocation ? <LocationShow distance={distance} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
+                {selectedLocation ? <LocationShow setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
             </Animated.View>
     )
 
