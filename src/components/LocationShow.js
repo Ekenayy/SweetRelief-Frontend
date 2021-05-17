@@ -3,15 +3,15 @@ import { Text, H2, Wrapper, Button, Scroll } from '../styles/Styles'
 import styled from 'styled-components'
 import LocationContext from '../LocationContext'
 import ShowBar from './ShowBar'
+import CommentItem from './CommentItem'
 import { createOpenLink } from 'react-native-open-maps';
 
 
-function LocationShow ({modalVisible, setModalVisible, setSelectedLocation, selectedLocation}) {
+function LocationShow ({modalVisible, comments, setComments, setModalVisible, setSelectedLocation, selectedLocation}) {
 
     const {name, address, locType, free, walkTime, distance, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
     const {locations} = React.useContext(LocationContext)
     const [contextLocations, setContextLocations] = locations
-    const [comments, setComments] = useState(selectedLocation.comments)
 
     // Add a navigate feature that pulls up the coordinates on google maps 
 
@@ -68,11 +68,14 @@ function LocationShow ({modalVisible, setModalVisible, setSelectedLocation, sele
         margin-bottom: 80px;
     `
 
-
     useEffect(() => {
         setStateUpvotes(upvotes)
         setStateDownvotes(downvotes)
     }, [selectedLocation])
+
+    const allComments = comments.map((comment) => {
+        return <CommentItem key={comment.id} comment={comment}/>
+    })
     // Comments and Reviews Plus ability to vote up and down
     // Add icons for each detail 
     // Figure out how to provide an answer for null attributes (What if we don't know?)
@@ -100,6 +103,9 @@ function LocationShow ({modalVisible, setModalVisible, setSelectedLocation, sele
                 </SectionWrapper>
                 <SectionWrapper>
                     <H2>Comments</H2>
+                    <DetailsWrapper>
+                        {allComments}
+                    </DetailsWrapper>
                 </SectionWrapper>
                 <SectionWrapper>
                     <H2>Votes</H2>

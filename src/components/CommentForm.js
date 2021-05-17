@@ -9,7 +9,7 @@ import { createNativeWrapper } from 'react-native-gesture-handler';
 
 
 
-function CommentForm ( {currentUser, selectedLocation, setModalVisible, modalVisible}) {
+function CommentForm ( {currentUser, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
 
     const [ios, setIos] = useState(Platform.OS === 'ios')
     const [errors, setErrors] = useState("")
@@ -118,7 +118,7 @@ function CommentForm ( {currentUser, selectedLocation, setModalVisible, modalVis
             body: JSON.stringify(formBody)
         })
             .then(res => res.json())
-            .then(data => console.log(data))
+            .then(newComment => setComments([...comments, newComment]))
 
         setModalVisible(!modalVisible)
 

@@ -13,7 +13,7 @@ function Main ( {currentUser, setCurrentUser} ) {
     // State
     const [selectedLocation, setSelectedLocation] = useState(null)
     const [modalVisible, setModalVisible] = useState(false)
-    const [reviews, setReviews] = useState([])
+    const [comments, setComments] = useState([])
     // Context
     const {userLocation, locations} = React.useContext(LocationContext)
     const [contextUserLocation, setContextUserLocation] = userLocation
@@ -23,7 +23,7 @@ function Main ( {currentUser, setCurrentUser} ) {
 
     useEffect(() => {
         if (selectedLocation) {
-            setReviews(selectedLocation.comments)
+            setComments(selectedLocation.comments)
         }
     }, [selectedLocation])
 
@@ -45,8 +45,8 @@ function Main ( {currentUser, setCurrentUser} ) {
     return (
         <>
             <MapContainer wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
-            <NavBar  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
-            {modalVisible ? <CommentForm currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible} /> : null}
+            <NavBar setComments={setComments} comments={comments}  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
+            {modalVisible ? <CommentForm setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible} /> : null}
         </>
     )
 }
