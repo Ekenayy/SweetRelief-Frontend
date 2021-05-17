@@ -13,7 +13,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 
 
-function NavBar ( {handlePress, modalVisible, setModalVisible, selectedLocation, setSelectedLocation, distance} ) {
+function NavBar ( {handlePress, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
 
     // The original starting height was set to 150
     const [swipeUp, setSwipeUp] = useState(false)

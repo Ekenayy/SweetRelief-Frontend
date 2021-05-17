@@ -11,6 +11,8 @@ function LocationShow ({modalVisible, setModalVisible, setSelectedLocation, sele
     const {name, address, locType, free, walkTime, distance, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
     const {locations} = React.useContext(LocationContext)
     const [contextLocations, setContextLocations] = locations
+    const [comments, setComments] = useState(selectedLocation.comments)
+
     // Add a navigate feature that pulls up the coordinates on google maps 
 
     const [stateUpVotes, setStateUpvotes] = useState(upvotes)
