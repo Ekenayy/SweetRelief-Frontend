@@ -3,11 +3,11 @@ import { Text, Scroll, TouchView } from '../styles/Styles'
 import styled from 'styled-components'
 
 
-function FilterItem ( {filter, setFilters} ) {
+function FilterItem ( {filter, setFilters, filterBy, setFilterBy} ) {
     
     const ItemView = styled(TouchView)`
-        background-color: white;
-        margin: 5px;
+        ${'' /* background-color: white; */}
+        ${'' /* margin: 4px; */}
         border-radius: 5px;
     `
 
@@ -15,14 +15,29 @@ function FilterItem ( {filter, setFilters} ) {
         color: #5bd96c;
         align-self: center;
         font-weight: bold;
-        padding: 5px;
-        padding-right: 15px;
+        padding: 2px;
+        padding-right: 5px;
+        font-size: 30px;
     `
 
+    const filterImage = (name) => {
+        if (name === "key_required") {
+          return "🔐"
+        }
+        if (name === "free") {
+          return "🆓";
+        }
+        if (name === "wheelchair_accessible") {
+          return "♿";
+        }
+        if (name === "unisex") {
+          return "🚻";
+        }
+      };
 
     return (
-        <ItemView onPress={() => setFilters(filter)}>
-            <FilterText>{filter}</FilterText>
+        <ItemView onPress={() => setFilterBy(filter)}>
+            <FilterText>{filterImage(filter)}</FilterText>
         </ItemView>
     )
 

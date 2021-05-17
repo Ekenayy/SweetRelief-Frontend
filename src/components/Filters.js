@@ -5,25 +5,25 @@ import LocationContext from '../LocationContext'
 import styled from 'styled-components'
 
 
-function Filters ( {filters, setFilters}) {
+function Filters ( {filters, setFilters, filterBy, setFilterBy}) {
 
     
     const FiltersScroll = styled(Scroll)`
         flex-direction: row;
         flex-wrap: wrap;
-        padding-top: 15px;
+        padding-top: 5px;
         padding-right: 10px;
     `
     const filterNames = [
-        'Free',
-        'Unisex',
-        'No key required',
-        'Wheelchair accessible'
+        'free',
+        'unisex',
+        'key_required',
+        'wheelchair_accessible'
     ]
 
 
     const allFilters = filterNames.map(filter => {
-        return <FilterItem key={filter} setFilters={setFilters} filter={filter}/>
+        return <FilterItem key={filter} setFilterBy={setFilterBy} filterBy={filterBy} setFilters={setFilters} filter={filter}/>
     })
 
     // Create a horizontal scrollview with all of the different filterItems

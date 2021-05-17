@@ -19,6 +19,7 @@ function NavBar ( {handlePress, comments, setComments, modalVisible, setModalVis
     const [swipeUp, setSwipeUp] = useState(false)
     const [height, setHeight] = useState(300)
     const [filters, setFilters] = useState(null)
+    const [filterBy, setFilterBy] = useState(null)
 
     const styles = StyleSheet.create({
         animatedContainer: {
@@ -83,10 +84,10 @@ function NavBar ( {handlePress, comments, setComments, modalVisible, setModalVis
         return (
             <>
                 <FilterContainer>
-                    <Filters filters={filters} setFilters={setFilters}/>
+                    <Filters filterBy={filterBy} setFilterBy={setFilterBy} filters={filters} setFilters={setFilters}/>
                 </FilterContainer>
                 <LocContainer>
-                    <AllLocationsList handlePress={handlePress} filters={filters} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
+                    <AllLocationsList filterBy={filterBy} setFilterBy={setFilterBy} handlePress={handlePress} filters={filters} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
                 </LocContainer>
             </>
         )

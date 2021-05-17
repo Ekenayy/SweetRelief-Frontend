@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import * as geolib from 'geolib'
 
 
-function AllLocationsList ({handlePress, distance, setDistance, selectedLocation, setSelectedLocation, filters}) {
+function AllLocationsList ({filterBy, setFilterBy, handlePress, distance, setDistance, selectedLocation, setSelectedLocation, filters}) {
 
     const {locations, userLocation} = React.useContext(LocationContext)
     const [contextLocations, setContextLocations] = locations
@@ -21,9 +21,20 @@ function AllLocationsList ({handlePress, distance, setDistance, selectedLocation
         return <LocationItem key={location.id} handlePress={handlePress} distance={distance} setDistance={setDistance} setSelectedLocation={setSelectedLocation} location={location} />
     })
 
+    let filterName = filterBy 
+    console.log(filterName, "filter name")
+
+    const filteredLocations = twentyFiveLocations.filter((location) => 
+        location.filterName !== false
+        // console.log( "line 28 all")
+        )
+
+        console.log(filteredLocations.length, "filtered ")
+        console.log(twentyFiveLocations.length, "25")
+
     return (
         <LocationsScroll>
-            {twentyFiveLocations}
+            {filteredLocations}
         </LocationsScroll>
         
     )
