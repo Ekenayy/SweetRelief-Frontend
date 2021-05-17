@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { StyleSheet, Text, View } from 'react-native';
 import MapContainer from '../components/MapContainer'
 import NavBar from '../components/NavBar'
@@ -13,13 +13,19 @@ function Main ( {currentUser, setCurrentUser} ) {
     // State
     const [selectedLocation, setSelectedLocation] = useState(null)
     const [modalVisible, setModalVisible] = useState(false)
+    const [reviews, setReviews] = useState([])
     // Context
     const {userLocation, locations} = React.useContext(LocationContext)
     const [contextUserLocation, setContextUserLocation] = userLocation
     const [contextLocations, setContextLocations ] = locations
-
     // Refs
     const wholeMap = useRef()
+
+    useEffect(() => {
+        if (selectedLocation) {
+            setReviews(selectedLocation.comments)
+        }
+    }, [selectedLocation])
 
     const setAndFitToCoords = (location) => {
         fetchLocation(location)
@@ -33,7 +39,7 @@ function Main ( {currentUser, setCurrentUser} ) {
     const fetchLocation = (location) => {
         fetch(`${BASE_URL}/locations/${location.id}`)
             .then(r => r.json())
-            .then(locFromDb => setSelectedLocation(locFromDb))
+            .then(locFromDb => setSelectedLocation({...location, comments: locFromDb.comments}))
     }
 
     return (
