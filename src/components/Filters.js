@@ -11,7 +11,7 @@ function Filters ( {filters, setFilters, filterBy, setFilterBy}) {
     const FiltersScroll = styled(Scroll)`
         flex-direction: row;
         flex-wrap: wrap;
-        padding-top: 15px;
+        padding-top: 5px;
         padding-right: 10px;
     `
     const filterNames = [
