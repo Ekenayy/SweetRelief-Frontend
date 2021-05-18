@@ -5,7 +5,7 @@ import LocationContext from '../LocationContext'
 import styled from 'styled-components'
 
 
-function Filters ( {filters, setFilters, filterBy, setFilterBy}) {
+function Filters ( {filterBy, setFilterBy}) {
 
     
     const FiltersScroll = styled(Scroll)`
@@ -23,7 +23,7 @@ function Filters ( {filters, setFilters, filterBy, setFilterBy}) {
 
 
     const allFilters = filterNames.map(filter => {
-        return <FilterItem key={filter} setFilterBy={setFilterBy} filterBy={filterBy} setFilters={setFilters} filter={filter}/>
+        return <FilterItem key={filter} setFilterBy={setFilterBy} filter={filter} filterBy={filterBy}/>
     })
 
     // Create a horizontal scrollview with all of the different filterItems

@@ -18,7 +18,6 @@ function NavBar ( {handlePress, comments, setComments, modalVisible, setModalVis
     // The original starting height was set to 150
     const [swipeUp, setSwipeUp] = useState(false)
     const [height, setHeight] = useState(300)
-    const [filters, setFilters] = useState(null)
     const [filterBy, setFilterBy] = useState(null)
 
     const styles = StyleSheet.create({
@@ -84,10 +83,10 @@ function NavBar ( {handlePress, comments, setComments, modalVisible, setModalVis
         return (
             <>
                 <FilterContainer>
-                    <Filters filterBy={filterBy} setFilterBy={setFilterBy} filters={filters} setFilters={setFilters}/>
+                    <Filters filterBy={filterBy} setFilterBy={setFilterBy} />
                 </FilterContainer>
                 <LocContainer>
-                    <AllLocationsList filterBy={filterBy} setFilterBy={setFilterBy} handlePress={handlePress} filters={filters} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
+                    <AllLocationsList filterBy={filterBy} setFilterBy={setFilterBy} handlePress={handlePress} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
                 </LocContainer>
             </>
         )

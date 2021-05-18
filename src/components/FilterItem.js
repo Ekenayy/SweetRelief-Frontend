@@ -3,7 +3,7 @@ import { Text, Scroll, TouchView } from '../styles/Styles'
 import styled from 'styled-components'
 
 
-function FilterItem ( {filter, setFilters, filterBy, setFilterBy} ) {
+function FilterItem ( {filter, filterBy, setFilterBy} ) {
     
     const ItemView = styled(TouchView)`
         ${'' /* background-color: white; */}
