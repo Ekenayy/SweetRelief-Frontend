@@ -8,8 +8,6 @@ import { createOpenLink } from 'react-native-open-maps';
 
 function ShowBar ( {selectedLocation, currentUser, comments, setModalVisible, modalVisible} ) {
 
-
-
     const Options = styled(Button)`
         margin: 5px 20px;
         flex-direction: row;
@@ -35,7 +33,7 @@ function ShowBar ( {selectedLocation, currentUser, comments, setModalVisible, mo
     const myComments = comments.map(comment => {
         return comment.user.id === currentUser.id
     })
-    
+
     return (
         <ShowScroll
             horizontal={true}
