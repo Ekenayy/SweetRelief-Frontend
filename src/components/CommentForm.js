@@ -30,7 +30,7 @@ function CommentForm ( {currentUser, comments, setComments, selectedLocation, se
     
     const ButtonView = styled.View`
         flex-direction: row;
-        margin-top: 20px;
+        margin-top: 10px;
     `
 
     const Button = styled.TouchableOpacity`
@@ -93,6 +93,7 @@ function CommentForm ( {currentUser, comments, setComments, selectedLocation, se
     `
 
     const QuestionView = styled.View`
+        margin-bottom: 20px;
     `
 
 
@@ -104,8 +105,17 @@ function CommentForm ( {currentUser, comments, setComments, selectedLocation, se
 
     function onSubmit(data) {
 
+        let safeDescription
+
+        if (data.description == undefined) {
+            safeDescription = ""
+        } else {
+            safeDescription = data.description
+        }
+
+
         let formBody = {
-            description: data.description,
+            description: safeDescription,
             still_open: stillOpen,
             rating: locationRating,
             location_id: selectedLocation.id,
@@ -166,11 +176,6 @@ function CommentForm ( {currentUser, comments, setComments, selectedLocation, se
                             onFinishRating={rating => locationRating = rating}
                             style={{ paddingVertical: 5, marginBottom: 50, paddingLeft: 0, borderRadius: 20, height: 30 }}
                         />
-                        <Input
-                            placeholder="Comment..." 
-                            multline={true}
-                            onChangeText={text => setValue('description', text)}
-                        />
                         <QuestionView>
                             <H2>Still Open?</H2>
                             <YesButton ref={yesButton} onPress={() => changeColors('yes')}>
@@ -180,7 +185,12 @@ function CommentForm ( {currentUser, comments, setComments, selectedLocation, se
                                 <OptionText>No</OptionText> 
                             </NoButton> 
                         </QuestionView>
-
+                        <Input
+                            placeholder="Comment..." 
+                            multline={true}
+                            onChangeText={text => setValue('description', text)}
+                        />
+                        
                         {/* <Input
                             placeholder="Still Open? Yes or No?" 
                             multline={true}
