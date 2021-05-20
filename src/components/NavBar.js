@@ -1,15 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 import AllLocationsList from './AllLocationsList'
-import { Animated, View, StyleSheet} from "react-native";
+import { View, StyleSheet} from "react-native";
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 import { Text, Wrapper } from '../styles/Styles'
 import LocationShow from './LocationShow'
 import Filters from './Filters'
 import { FontAwesome5 } from '@expo/vector-icons';
-// import { Animated } from 'react-native'
-// import  { PanGestureHandler, FlingGestureHandler } from 'react-native-gesture-handler'
+import  { PanGestureHandler, FlingGestureHandler } from 'react-native-gesture-handler'
+// import { createAnimatedPropAdapter } from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, withSpring} from 'react-native-reanimated';
 
 
 
@@ -17,7 +18,7 @@ function NavBar ( {handlePress, currentUser, comments, setComments, modalVisible
 
     // The original starting height was set to 150
     const [swipeUp, setSwipeUp] = useState(false)
-    const [height, setHeight] = useState(300)
+    const [height, setHeight] = useState(500)
     const [filterBy, setFilterBy] = useState(null)
 
     const styles = StyleSheet.create({
@@ -92,17 +93,54 @@ function NavBar ( {handlePress, currentUser, comments, setComments, modalVisible
         )
     }
 
+    const pressed = useSharedValue(false)
+
+    const startingPosition = 300;
+    // const x = useSharedValue(startingPosition);
+    const y = useSharedValue(startingPosition);
+
+
+
+    const handleBiz = useAnimatedGestureHandler({
+        onStart: (event, ctx) => {
+            pressed.value = true;
+            // ctx.startX = x.value;
+            ctx.startY = y.value;
+        },
+        onActive: (event, ctx) => {
+            // x.value = ctx.startX + event.translationX;
+            y.value = ctx.startY + event.translationY;
+        },
+        onEnd: (event, ctx) => {
+            pressed.value = false;
+            // x.value = withSpring(startingPosition);
+            console.log(y.value)
+            y.value = withSpring(startingPosition);
+        },
+    })
+
+    const uas = useAnimatedStyle(() => {
+        return {
+            // backgroundColor: pressed.value ? '#FEEF86' : '#001972',
+            transform: [{ translateY: y.value }],
+        }
+    })
+
+
     return (
-            <Animated.View style={styles.animatedContainer}>
-                <GestureRecognizer 
+        <PanGestureHandler onGestureEvent={handleBiz}>
+            <Animated.View style={[styles.animatedContainer, uas]}>
+                {/* <GestureRecognizer 
                     onSwipe={(direction, state) => handleGesture(direction, state)}
-                    config={config}>
-                    <IconWrapper>
-                        <FontAwesome5 name="grip-lines" size={24} color="black" />
-                    </IconWrapper>
-                </GestureRecognizer>
+                    config={config}> */}
+                <IconWrapper>
+                    <FontAwesome5 name="grip-lines" size={24} color="black" />
+                </IconWrapper>
+                {/* </GestureRecognizer> */}
                 {selectedLocation ? <LocationShow currentUser={currentUser} setComments={setComments} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
             </Animated.View>
+        </PanGestureHandler>
+
     )
 
 }
