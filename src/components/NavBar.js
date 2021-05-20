@@ -93,13 +93,17 @@ function NavBar ( {handlePress, currentUser, comments, setComments, modalVisible
         )
     }
 
+    const translateGesture = (absoluteY) => {
+
+    }
+
     const pressed = useSharedValue(false)
 
     const startingPosition = 300;
     // const x = useSharedValue(startingPosition);
     const y = useSharedValue(startingPosition);
 
-
+// The lower the value of absoluteY is, the higher it is on the page
 
     const handleBiz = useAnimatedGestureHandler({
         onStart: (event, ctx) => {
@@ -114,8 +118,8 @@ function NavBar ( {handlePress, currentUser, comments, setComments, modalVisible
         onEnd: (event, ctx) => {
             pressed.value = false;
             // x.value = withSpring(startingPosition);
-            console.log(y.value)
-            y.value = withSpring(startingPosition);
+            // y.value = withSpring(startingPosition);
+            y.value = ctx.startY + event.translationY;
         },
     })
 
