@@ -16,7 +16,7 @@ function NavBar ( {filterBy, setFilterBy, handlePress, currentUser, comments, se
 
     // The original starting height was set to 150
     const [swipeUp, setSwipeUp] = useState(false)
-    const [height, setHeight] = useState(300)
+    const [height, setHeight] = useState('95%')
 
     const styles = StyleSheet.create({
         animatedContainer: {
