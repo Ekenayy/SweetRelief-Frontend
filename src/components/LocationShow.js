@@ -21,12 +21,12 @@ function LocationShow ({modalVisible, currentUser, comments, setComments, setMod
 
     const Span = styled(Text)`
         align-self: center;
-        color: white;
+        color: black;
         margin-top: 5px;
     `
 
     const DetailsText = styled(Text)`
-        color: white;
+        color: black;
         margin-bottom: 5px;
     `
 
