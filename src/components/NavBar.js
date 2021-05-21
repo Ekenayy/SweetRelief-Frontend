@@ -16,7 +16,7 @@ function NavBar ( {handlePress, currentUser, comments, setComments, modalVisible
 
     // The original starting height was set to 150
     const [swipeUp, setSwipeUp] = useState(false)
-    const [height, setHeight] = useState('100%')
+    const [height, setHeight] = useState('95%')
     const [filterBy, setFilterBy] = useState(null)
 
     const styles = StyleSheet.create({
