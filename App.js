@@ -87,8 +87,8 @@ export default function App() {
 
   return (
     <LocationContext.Provider 
-    value={{locations: sortedLocations.length ? [sortedLocations, setSortedLocations] : [locations, setLocations], 
-    userLocation: [userLocation, setUserLocation]}}>
+      value={{locations: sortedLocations.length ? [sortedLocations, setSortedLocations] : [locations, setLocations], 
+      userLocation: [userLocation, setUserLocation]}}>
     <NavigationContainer>
       <Body>
         <Stack.Navigator
