@@ -11,7 +11,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 // import { PROVIDER_GOOGLE } from 'react-native-maps' 
 
 
-export default function MapContainer(  {setSelectedLocation, wholeMap, handlePress, selectedLocation} ) {
+export default function MapContainer(  {filterBy, setFilterBy, setSelectedLocation, wholeMap, handlePress, selectedLocation} ) {
   
   const {locations, userLocation} = React.useContext(LocationContext)
   const [contextLocations, setContextLocations] = locations
@@ -31,14 +31,42 @@ export default function MapContainer(  {setSelectedLocation, wholeMap, handlePre
   const createLogo = (locType) => {
     
     if (locType === 'Park') {
-      return <MaterialIcons name="park" size={30} color="black" />
+      return <MaterialIcons name="park" size={30} color="#00A36C" />
     } else if (locType === 'Restaurant/Bar') {
       return <MaterialIcons name="restaurant" size={30} color="black" />
-    }
+    } else if (locType === 'Bar') {
+    return <MaterialIcons name="restaurant" size={30} color="black" />
+  }
 
   }
 
-  const allLocations = contextLocations.map((location, index) => {
+  const reduceFilterList = (locations) => {
+    if (filterBy === null) return locations;
+    if (filterBy === "free") {
+    return locations.filter((location) => 
+    location.free === true
+    )
+}  if (
+    filterBy === "key_required") {
+    return locations.filter((location) => 
+    location.key_required === false
+    )
+}  if (
+    filterBy === "unisex") {
+    return locations.filter((location) => 
+    location.unisex !== false
+    )
+}   if (
+    filterBy === "wheelchair_accessible") {
+    return locations.filter((location) => 
+    location.wheelchair_accessible !== false
+    )
+    }
+};
+
+const filteredLocations = reduceFilterList(contextLocations);
+
+  const allLocations = filteredLocations.map((location, index) => {
     return (
       <Marker 
         key={location.id}
@@ -54,7 +82,7 @@ export default function MapContainer(  {setSelectedLocation, wholeMap, handlePre
   return (
       <View style={styles.container}>
         <MapView 
-          clusterColor={"orange"}
+          clusterColor={"#00A36C"}
           extent={190}
           animationEnabled={false}
           initialRegion={region}

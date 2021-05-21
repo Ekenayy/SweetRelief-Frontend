@@ -36,7 +36,7 @@ function LocationShow ({modalVisible, currentUser, comments, setComments, setMod
         margin-right: 15px;        
         padding: 15px;
         background-color: #fcfafa;
-        border-radius: 5px;
+        border-radius: 15px;
     `
 
     const DetailsWrapper = styled(Wrapper)`
@@ -50,10 +50,11 @@ function LocationShow ({modalVisible, currentUser, comments, setComments, setMod
     `
 
     const ClearButton = styled(Button)`
-        background-color: #f75348;
+        background-color: #f9ccca;
         width: 100px;
         margin-top: 10px;
         height: 30px;
+        margin-left: 170px;
     `
 
     const ButtonView = styled(Wrapper)`
@@ -87,7 +88,14 @@ function LocationShow ({modalVisible, currentUser, comments, setComments, setMod
             <ShowBar currentUser={currentUser} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} selectedLocation={selectedLocation}/>
             <ShowScroll>
                 <SectionWrapper>
-                    <H2>Location</H2>
+                    <H2>
+                    Location
+                        <ButtonView>
+                            <ClearButton onPress={() => setSelectedLocation(null)}>
+                                <Span>Clear Search</Span>
+                            </ClearButton>
+                        </ButtonView>
+                    </H2>
                     <DetailsWrapper>
                         {/* <DetailsText>{distance} miles away</DetailsText> */}
                         <DetailsText>{`${name} is ${distance} miles away`}</DetailsText>
@@ -124,11 +132,6 @@ function LocationShow ({modalVisible, currentUser, comments, setComments, setMod
                         </VoteButton>
                     </ButtonView>
                 </SectionWrapper>
-                <ButtonView>
-                    <ClearButton onPress={() => setSelectedLocation(null)}>
-                        <Span>Clear Search</Span>
-                    </ClearButton>
-                </ButtonView>
             </ShowScroll>
         </BigWrapper>
     )

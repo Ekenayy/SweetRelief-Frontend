@@ -14,6 +14,8 @@ function Main ( {currentUser, setCurrentUser} ) {
     const [selectedLocation, setSelectedLocation] = useState(null)
     const [modalVisible, setModalVisible] = useState(false)
     const [comments, setComments] = useState([])
+    const [filterBy, setFilterBy] = useState(null);
+
     // Context
     const {userLocation, locations} = React.useContext(LocationContext)
     const [contextUserLocation, setContextUserLocation] = userLocation
@@ -54,8 +56,8 @@ function Main ( {currentUser, setCurrentUser} ) {
     // comments.length? 
     return (
         <>
-            <MapContainer wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
-            <NavBar currentUser={currentUser} setComments={setComments} comments={comments}  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
+            <MapContainer filterBy={filterBy} setFilterBy={setFilterBy} wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
+            <NavBar filterBy={filterBy} setFilterBy={setFilterBy} currentUser={currentUser} setComments={setComments} comments={comments}  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
             {modalVisible ? <CommentForm setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible} /> : null}
         </>
     )

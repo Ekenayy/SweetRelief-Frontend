@@ -13,12 +13,12 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 
 
-function NavBar ( {handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
+function NavBar ( {filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
 
     // The original starting height was set to 150
     const [swipeUp, setSwipeUp] = useState(false)
     const [height, setHeight] = useState(300)
-    const [filterBy, setFilterBy] = useState(null)
+    // const [filterBy, setFilterBy] = useState(null)
 
     const styles = StyleSheet.create({
         animatedContainer: {
@@ -27,7 +27,7 @@ function NavBar ( {handlePress, currentUser, comments, setComments, modalVisible
             width: '100%',
             height: height,
             bottom: 0,
-            backgroundColor: 'rgba(52, 52, 52, 0.85)'
+            backgroundColor: 'rgba(46, 49, 49, 0.8)'
         }
     })
     
@@ -98,7 +98,7 @@ function NavBar ( {handlePress, currentUser, comments, setComments, modalVisible
                     onSwipe={(direction, state) => handleGesture(direction, state)}
                     config={config}>
                     <IconWrapper>
-                        <FontAwesome5 name="grip-lines" size={24} color="black" />
+                        <FontAwesome5 name="grip-lines" size={24} color="white" />
                     </IconWrapper>
                 </GestureRecognizer>
                 {selectedLocation ? <LocationShow currentUser={currentUser} setComments={setComments} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
