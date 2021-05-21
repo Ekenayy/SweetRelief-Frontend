@@ -12,13 +12,11 @@ import  { PanGestureHandler, FlingGestureHandler } from 'react-native-gesture-ha
 // import { createAnimatedPropAdapter } from 'react-native-reanimated';
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, withSpring} from 'react-native-reanimated';
 
-
-
 function NavBar ( {handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
 
     // The original starting height was set to 150
     const [swipeUp, setSwipeUp] = useState(false)
-    const [height, setHeight] = useState(500)
+    const [height, setHeight] = useState('70%')
     const [filterBy, setFilterBy] = useState(null)
 
     const styles = StyleSheet.create({
@@ -28,12 +26,11 @@ function NavBar ( {handlePress, currentUser, comments, setComments, modalVisible
             width: '100%',
             height: height,
             bottom: 0,
-            backgroundColor: 'rgba(52, 52, 52, 0.85)'
+            backgroundColor: 'rgba(52, 52, 52, 0.85)',
+            paddingBottom: 200,
         }
     })
     
-    const Scroll = styled.View`
-    `
 
     const FilterContainer = styled(Wrapper)`
         height: 50px;
@@ -91,10 +88,6 @@ function NavBar ( {handlePress, currentUser, comments, setComments, modalVisible
                 </LocContainer>
             </>
         )
-    }
-
-    const translateGesture = (absoluteY) => {
-
     }
 
     const pressed = useSharedValue(false)
