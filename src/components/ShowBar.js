@@ -47,7 +47,7 @@ function ShowBar ( {selectedLocation, currentUser, comments, setModalVisible, mo
                 <FontAwesome name="exchange" size={24} color="black" />
                 <OptionsText>Pay</OptionsText>
             </Options>
-            {myComments.length ? null : <Options onPress={() => setModalVisible(!modalVisible)}>
+            {comments && myComments.length ? null : <Options onPress={() => setModalVisible(!modalVisible)}>
                 <MaterialIcons name="add-comment" size={24} color="black" />
                 <OptionsText>Comment</OptionsText>
             </Options>}

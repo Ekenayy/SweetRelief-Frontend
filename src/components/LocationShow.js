@@ -69,13 +69,14 @@ function LocationShow ({modalVisible, currentUser, comments, setComments, setMod
         margin-bottom: 80px;
     `
 
-    useEffect(() => {
-        setStateUpvotes(upvotes)
-        setStateDownvotes(downvotes)
-    }, [selectedLocation])
+    // useEffect(() => {
+    //     setStateUpvotes(upvotes)
+    //     setStateDownvotes(downvotes)
+    // }, [selectedLocation])
 
-    const allComments = comments.map((comment) => {
-        return <CommentItem key={comment.id} comment={comment}/>
+    const AllComments = () => 
+        comments.map((comment) => {
+            return <CommentItem key={comment.id} comment={comment}/>
     })
     // Comments and Reviews Plus ability to vote up and down
     // Add icons for each detail 
@@ -105,7 +106,7 @@ function LocationShow ({modalVisible, currentUser, comments, setComments, setMod
                 <SectionWrapper>
                     <H2>Comments</H2>
                     <DetailsWrapper>
-                        {allComments}
+                        {comments.length ? <AllComments/> : null}
                     </DetailsWrapper>
                 </SectionWrapper>
                 <SectionWrapper>

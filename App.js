@@ -53,8 +53,6 @@ export default function App() {
       .then(user => setCurrentUser(user))
   },[])
 
-  // console.log(sortedLocations[0])
-
   // Sorting the locations once we have locations and a userlocation
   useEffect(() => {
         if (locations && userLocation) {
@@ -78,7 +76,7 @@ export default function App() {
         let roundedDistance = parseFloat(convertedDistance.toFixed(2))
         let walkingTime = (convertedDistance / 3.0) * 60
         let roundedWalkTime = parseFloat(walkingTime.toFixed(0))
-        let updatedLocation = {...location, distance: roundedDistance, walkTime: roundedWalkTime}
+        let updatedLocation = {...location, distance: roundedDistance, walkTime: roundedWalkTime, comments: []}
         newLocations.push(updatedLocation)
     });
 

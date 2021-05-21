@@ -14,7 +14,6 @@ function LocationItem ( { handlePress, location, setSelectedLocation}) {
     const {userLocation} = React.useContext(LocationContext)
     const [contextUserLocation, setcontextUserLocation] = userLocation
 
-    // console.log(location.distance)
 
     const LocationView = styled(TouchView)`
         borderBottomWidth: .3px;

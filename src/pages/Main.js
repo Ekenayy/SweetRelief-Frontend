@@ -23,7 +23,6 @@ function Main ( {currentUser, setCurrentUser} ) {
 
     useEffect(() => {
         if (selectedLocation) {
-            setComments(selectedLocation.comments)
         }
     }, [selectedLocation])
 
@@ -39,9 +38,20 @@ function Main ( {currentUser, setCurrentUser} ) {
     const fetchLocation = (location) => {
         fetch(`${BASE_URL}/locations/${location.id}`)
             .then(r => r.json())
-            .then(locFromDb => setSelectedLocation({...location, comments: locFromDb.comments}))
+            .then(locFromDb => setSelectedLocation({...location, locFromDb}))
+
+        fetchComments(location.id)
     }
 
+    const fetchComments = (id) => {
+        fetch(`${BASE_URL}/comments/${id}`, {method: 'POST'})
+                .then(r => r.json())
+                .then(commentsFromDb => setComments(commentsFromDb))
+    }
+
+    // Currently everything is waiting for selectedLocation which doesn't have comments
+    // We want everything that deals with comments to wait to see if comments event exist 
+    // comments.length? 
     return (
         <>
             <MapContainer wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
