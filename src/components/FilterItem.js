@@ -35,9 +35,19 @@ function FilterItem ( {filter, filterBy, setFilterBy} ) {
         }
       };
 
+      const handleFilterPress = (e) => {
+        filterBy === filter ? setFilterBy(null) : setFilterBy(filter)
+      }
+
     return (
-        <ItemView onPress={() => setFilterBy(filter)}>
-            <FilterText>{filterImage(filter)}</FilterText>
+        // <ItemView onPress={() => setFilterBy(filter)}>
+        <ItemView onPress={handleFilterPress}>
+
+            <FilterText 
+              style={filterBy == filter ? {opacity: 0.5} : {opacity: 1}}
+            >
+              {filterImage(filter)}
+            </FilterText>
         </ItemView>
     )
 
