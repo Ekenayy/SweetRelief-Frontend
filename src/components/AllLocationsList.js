@@ -21,21 +21,39 @@ function AllLocationsList ({filterBy, setFilterBy, handlePress, distance, setDis
         return <LocationItem key={location.id} handlePress={handlePress} distance={distance} setDistance={setDistance} setSelectedLocation={setSelectedLocation} location={location} />
     })
 
-    let filterName = filterBy 
 
-    const filteredLocations = twentyFiveLocations.filter((location) => 
-        location.filterName !== false
-        // console.log( "line 28 all")
+    const reduceFilterList = (locations) => {
+        
+        if (filterBy === null) {return locations}
+
+        if (filterBy === "free") {
+        return locations.filter((location) => 
+        location.props.location.free === true
         )
-
+    }  if (
+        filterBy === "key_required") {
+        return locations.filter((location) => 
+        location.props.location.key_required === false
+        )
+    }  if (
+        filterBy === "unisex") {
+        return locations.filter((location) => 
+        location.props.location.unisex !== false
+        )
+    }   if (
+        filterBy === "wheelchair_accessible") {
+        return locations.filter((location) => 
+        location.props.location.wheelchair_accessible !== false
+        )
+        }
+    };
 
     return (
         <LocationsScroll>
-            {filteredLocations}
+            {reduceFilterList(twentyFiveLocations)}
         </LocationsScroll>
         
     )
-
-}
+};
 
 export default AllLocationsList

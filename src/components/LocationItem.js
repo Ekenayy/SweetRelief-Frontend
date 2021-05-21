@@ -58,21 +58,25 @@ function LocationItem ( { handlePress, location, setSelectedLocation}) {
         justify-content: flex-end;
     `
 
+    const LocationText = styled(Text)`
+        color: white;
+    `
+
     return (
         <LocationView onPress={() => handlePress(location)}>
             <DetailsView>
                 <InfoView>
-                    <Text numberOfLines={1}>{address}</Text>
+                    <LocationText numberOfLines={1}>{address}</LocationText>
                     <AttributesView>
                         <IconView>
                             <MaterialCommunityIcons name="tape-measure" size={18} color="black" style={{marginRight: 5}} />                            
                             {/* <MaterialIcons name="directions-walk" size={18} color="black" /> */}
-                            <Text>{distance} mi</Text>  
+                            <LocationText>{distance} mi</LocationText>  
                         </IconView>
                         <IconView>
                             <MaterialIcons name="directions-walk" size={18} color="black" />                           
                             {/* <MaterialIcons name="directions-walk" size={18} color="black" /> */}
-                            <Text>{walkTime} minutes</Text>  
+                            <LocationText>{walkTime} minutes</LocationText>  
                         </IconView>
                     </AttributesView>
                 </InfoView>
