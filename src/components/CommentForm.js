@@ -122,8 +122,6 @@ function CommentForm ( {currentUser, comments, setComments, selectedLocation, se
             user_id: currentUser.id
         }
 
-        console.log(formBody)
-
         fetch(`${BASE_URL}/comments`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -137,9 +135,7 @@ function CommentForm ( {currentUser, comments, setComments, selectedLocation, se
                     setComments([...comments, newComment])}
                 }
             )
-
-            console.log(errors)
-        // setModalVisible(!modalVisible)
+        setModalVisible(!modalVisible)
 
     }
 
