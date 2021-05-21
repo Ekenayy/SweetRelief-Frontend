@@ -22,8 +22,8 @@ function AllLocationsList ({filterBy, setFilterBy, handlePress, distance, setDis
     })
 
 
-    const reduceFilterList = (locations) => {
-        
+    const filterLocations = (locations) => {
+
         if (filterBy === null) {return locations}
 
         if (filterBy === "free") {
@@ -50,7 +50,7 @@ function AllLocationsList ({filterBy, setFilterBy, handlePress, distance, setDis
 
     return (
         <LocationsScroll>
-            {reduceFilterList(twentyFiveLocations)}
+            {filterLocations(twentyFiveLocations)}
         </LocationsScroll>
         
     )
