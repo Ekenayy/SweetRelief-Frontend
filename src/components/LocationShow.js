@@ -67,7 +67,7 @@ function LocationShow ({modalVisible, currentUser, comments, setComments, setMod
     `
 
     const ShowScroll = styled(Scroll)`
-        margin-bottom: 50px;
+        padding-bottom: 100px;
     `
 
     // useEffect(() => {

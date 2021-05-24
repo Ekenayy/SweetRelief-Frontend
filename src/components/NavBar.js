@@ -45,36 +45,6 @@ function NavBar ( {filterBy, setFilterBy, handlePress, currentUser, comments, se
         align-items: center;
     `
 
-    const handleGesture = (gestureName, gestureState) => {
-        const {SWIPE_UP, SWIPE_DOWN} = swipeDirections
-
-        switch(gestureName) {
-            case SWIPE_UP:
-                // If the gesture is higher than a certain amount -- I want it to be half way, full, 25%
-                if (gestureState.dy !== 0 && -(gestureState.dy) > 150 && -(gestureState.dy) <= 300) {
-                    setHeight(400)
-                } else if (gestureState.dy !== 0 && -(gestureState.dy) > 300) {
-                    setHeight(800)
-                }
-                break;
-            case SWIPE_DOWN:
-                // The bigger the pull down -- the lower the user is trying to go
-                if (gestureState.dy !== 0 && gestureState.dy > 600 ) {
-                    setHeight(180)
-                } else if (gestureState.dy !== 0 && gestureState.dy < 600 && gestureState.dy > 280 ) {
-                    setHeight(400)
-                } else {
-                    setHeight(180)
-                }
-        }
-    }
-
-    const config = {
-        velocityThreshold: .1,
-        directionalOffsetThreshold: 80,
-        gestureIsClickThreshold: 10
-    }
-
     // Create two component for the navbar dependent on if the user has clicked on a location
 
     const NoPress = ( ) => {
@@ -98,7 +68,7 @@ function NavBar ( {filterBy, setFilterBy, handlePress, currentUser, comments, se
 
 // The lower the value of absoluteY is, the higher it is on the page
 
-    const handleBiz = useAnimatedGestureHandler({
+    const handleGesture = useAnimatedGestureHandler({
         onStart: (event, ctx) => {
             pressed.value = true;
             // ctx.startX = x.value;
@@ -125,15 +95,11 @@ function NavBar ( {filterBy, setFilterBy, handlePress, currentUser, comments, se
 
 
     return (
-        <PanGestureHandler onGestureEvent={handleBiz}>
+        <PanGestureHandler onGestureEvent={handleGesture}>
             <Animated.View style={[styles.animatedContainer, uas]}>
-                {/* <GestureRecognizer 
-                    onSwipe={(direction, state) => handleGesture(direction, state)}
-                    config={config}> */}
                 <IconWrapper>
                     <FontAwesome5 name="grip-lines" size={24} color="black" />
                 </IconWrapper>
-                {/* </GestureRecognizer> */}
                 {selectedLocation ? <LocationShow currentUser={currentUser} setComments={setComments} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
             </Animated.View>
         </PanGestureHandler>

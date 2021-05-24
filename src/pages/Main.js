@@ -34,7 +34,7 @@ function Main ( {currentUser, setCurrentUser} ) {
         let latLongs = [contextUserLocation, {latitude: location.latitude,
             longitude: location.longitude}]
         // Focuses the map on the two locations using ref
-        wholeMap.current.fitToCoordinates(latLongs, { edgePadding: { top: 10, right: 50, bottom: 100, left: 50 }, animated: true })
+        wholeMap.current.fitToCoordinates(latLongs, { edgePadding: { top: 10, right: 100, bottom: 150, left: 100 }, animated: true })
     }
 
     const fetchLocation = (location) => {
