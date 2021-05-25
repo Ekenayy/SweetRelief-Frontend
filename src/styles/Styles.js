@@ -7,6 +7,11 @@ export const Text = styled.Text`
     color: white;
 `
 
+export const DarkText = styled.Text`
+    font-size: 14px;
+    color: black;
+`
+
 export const H2 = styled.Text`
     font-size: 20px;
     color: black;

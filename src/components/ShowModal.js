@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Alert } from 'react-native'
 import CommentForm from '../components/CommentForm'
-
+import PayOptions from '../components/PayOptions'
 
 function ShowModal ({modalContent, setModalContent, currentUser, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
 
@@ -26,6 +26,8 @@ function ShowModal ({modalContent, setModalContent, currentUser, comments, setCo
     const ConditionalComponent = () => {
         if (modalContent === 'comment') {
             return <CommentForm setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible}/>
+        } else if (modalContent === 'pay') {
+            return <PayOptions modalVisible={modalVisible} setModalVisible={setModalVisible}/>
         }
     }
 

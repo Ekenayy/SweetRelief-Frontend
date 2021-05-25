@@ -48,7 +48,7 @@ function ShowBar ( {modalContent, setModalContent, selectedLocation, currentUser
                 <FontAwesome5 name="directions" size={24} color="black" />
                 <OptionsText>Directions</OptionsText>
             </Options>
-            <Options>
+            <Options onPress={() => handleIconPress('pay')}>
                 <FontAwesome name="exchange" size={24} color="black" />
                 <OptionsText>Pay</OptionsText>
             </Options>
