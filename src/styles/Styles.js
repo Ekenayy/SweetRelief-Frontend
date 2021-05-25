@@ -4,14 +4,19 @@ import styled from 'styled-components'
 
 export const Text = styled.Text`
     font-size: 14px;
-    color: white;
+    color: #F7F8F3;
 `
 
 export const DarkText = styled.Text`
     font-size: 14px;
     color: black;
 `
-
+export const Span = styled.Text`
+    color: #F7F8F3
+    padding: 12px;
+    align-self: center
+    font-weight: bold;
+`
 export const H2 = styled.Text`
     font-size: 20px;
     color: black;
