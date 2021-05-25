@@ -5,7 +5,6 @@ import { Rating } from 'react-native-ratings';
 import {useForm} from 'react-hook-form';
 import { Text, Scroll, H2, Wrapper } from '../styles/Styles'
 import { BASE_URL } from '@env'
-import { createNativeWrapper } from 'react-native-gesture-handler';
 
 
 
@@ -162,17 +161,7 @@ function CommentForm ( {currentUser, comments, setComments, selectedLocation, se
     }
 
     return (
-        <Modal1
-                    animationType="slide"
-                    transparent={true}
-                    visible={modalVisible}
-                    onRequestClose={() => {
-                        Alert.alert("Modal has been closed.");
-                        setModalVisible(!modalVisible);
-                    }}
-            >
-                <ModalHolder>
-                    <ModalForm>
+                <>
                         <Rating
                             showRating={ios ? false : true}
                             // ratingBackgroundColor="#03DAC5"
@@ -195,12 +184,6 @@ function CommentForm ( {currentUser, comments, setComments, selectedLocation, se
                             multline={true}
                             onChangeText={text => setValue('description', text)}
                         />
-                        
-                        {/* <Input
-                            placeholder="Still Open? Yes or No?" 
-                            multline={true}
-                            onChangeText={text => setValue('still_open', text)}
-                        />                   */}
                         {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
                         <ButtonView>
                             <Button onPress={handleSubmit(onSubmit)}>
@@ -210,9 +193,7 @@ function CommentForm ( {currentUser, comments, setComments, selectedLocation, se
                                 <Span>Cancel</Span>
                             </CancelButton>
                         </ButtonView>
-                    </ModalForm>
-                </ModalHolder> 
-            </Modal1>
+                </>
     )
 
 }

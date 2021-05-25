@@ -6,7 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import styled from 'styled-components'
 import { createOpenLink } from 'react-native-open-maps';
 
-function ShowBar ( {selectedLocation, currentUser, comments, setModalVisible, modalVisible} ) {
+function ShowBar ( {modalContent, setModalContent, selectedLocation, currentUser, comments, setModalVisible, modalVisible} ) {
 
     const Options = styled(Button)`
         margin: 5px 20px;
@@ -34,6 +34,11 @@ function ShowBar ( {selectedLocation, currentUser, comments, setModalVisible, mo
         return comment.user.id === currentUser.id
     })
 
+    const handleIconPress = (keyword) => {
+        setModalContent(keyword)
+        setModalVisible(!modalVisible)
+    }
+
     return (
         <ShowScroll
             horizontal={true}
@@ -47,7 +52,7 @@ function ShowBar ( {selectedLocation, currentUser, comments, setModalVisible, mo
                 <FontAwesome name="exchange" size={24} color="black" />
                 <OptionsText>Pay</OptionsText>
             </Options>
-            {comments && myComments.length ? null : <Options onPress={() => setModalVisible(!modalVisible)}>
+            {comments && myComments.length ? null : <Options onPress={() => handleIconPress('comment')}>
                 <MaterialIcons name="add-comment" size={24} color="black" />
                 <OptionsText>Comment</OptionsText>
             </Options>}

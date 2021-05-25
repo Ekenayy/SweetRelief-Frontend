@@ -3,7 +3,6 @@ import LocationItem from './LocationItem'
 import { Text, Scroll } from '../styles/Styles'
 import LocationContext from '../LocationContext'
 import styled from 'styled-components'
-import * as geolib from 'geolib'
 
 
 function AllLocationsList ({filterBy, setFilterBy, handlePress, distance, setDistance, selectedLocation, setSelectedLocation, filters}) {

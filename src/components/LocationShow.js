@@ -7,7 +7,7 @@ import CommentItem from './CommentItem'
 import { createOpenLink } from 'react-native-open-maps';
 
 
-function LocationShow ({modalVisible, currentUser, comments, setComments, setModalVisible, setSelectedLocation, selectedLocation}) {
+function LocationShow ({modalContent, setModalContent, modalVisible, currentUser, comments, setComments, setModalVisible, setSelectedLocation, selectedLocation}) {
 
     const {name, address, locType, free, walkTime, distance, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
     const {locations} = React.useContext(LocationContext)
@@ -85,7 +85,7 @@ function LocationShow ({modalVisible, currentUser, comments, setComments, setMod
     // There's a qwerk where the number of votes doesn't reset when you click a new location 
     return (
         <BigWrapper>
-            <ShowBar currentUser={currentUser} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} selectedLocation={selectedLocation}/>
+            <ShowBar modalContent={modalContent} setModalContent={setModalContent} currentUser={currentUser} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} selectedLocation={selectedLocation}/>
             <ShowScroll>
                 <SectionWrapper>
                     <H2>

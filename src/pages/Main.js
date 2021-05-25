@@ -5,6 +5,7 @@ import NavBar from '../components/NavBar'
 import LocationContext from '../LocationContext'
 import MapView, {AnimatedRegion} from "react-native-map-clustering";
 import CommentForm from '../components/CommentForm'
+import ShowModal from '../components/ShowModal'
 import { BASE_URL } from '@env'
 import * as geolib from 'geolib'
 
@@ -15,6 +16,7 @@ function Main ( {currentUser, setCurrentUser} ) {
     const [modalVisible, setModalVisible] = useState(false)
     const [comments, setComments] = useState([])
     const [filterBy, setFilterBy] = useState(null);
+    const [modalContent, setModalContent] = useState('')
 
     // Context
     const {userLocation, locations} = React.useContext(LocationContext)
@@ -51,14 +53,19 @@ function Main ( {currentUser, setCurrentUser} ) {
                 .then(commentsFromDb => setComments(commentsFromDb))
     }
 
-    // Currently everything is waiting for selectedLocation which doesn't have comments
-    // We want everything that deals with comments to wait to see if comments event exist 
-    // comments.length? 
+    // if modal visible, then the modal component is visible
+    // when you click one of the buttons, a piece of state should be passed down from the showBar
+    // this piece of state determines which options come up in the modal component
+    // The modal component is a parent to comment form and payments form
+
+    // Create a new component called modal that just holds the commment form and payment form
+    // 
+
     return (
         <>
             <MapContainer filterBy={filterBy} setFilterBy={setFilterBy} wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
-            <NavBar filterBy={filterBy} setFilterBy={setFilterBy} currentUser={currentUser} setComments={setComments} comments={comments}  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
-            {modalVisible ? <CommentForm setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible} /> : null}
+            <NavBar setModalContent={setModalContent} modalContent={modalContent} filterBy={filterBy} setFilterBy={setFilterBy} currentUser={currentUser} setComments={setComments} comments={comments}  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
+            {modalVisible ? <ShowModal modalContent={modalContent} setModalConent={setModalContent} setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible} /> : null}
         </>
     )
 }

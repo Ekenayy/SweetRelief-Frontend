@@ -12,7 +12,7 @@ import  { PanGestureHandler, FlingGestureHandler } from 'react-native-gesture-ha
 // import { createAnimatedPropAdapter } from 'react-native-reanimated';
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, withSpring} from 'react-native-reanimated';
 
-function NavBar ( {filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
+function NavBar ( {modalContent, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
 
     // The original starting height was set to 150
     const [swipeUp, setSwipeUp] = useState(false)
@@ -66,8 +66,6 @@ function NavBar ( {filterBy, setFilterBy, handlePress, currentUser, comments, se
     // const x = useSharedValue(startingPosition);
     const y = useSharedValue(startingPosition);
 
-// The lower the value of absoluteY is, the higher it is on the page
-
     const handleGesture = useAnimatedGestureHandler({
         onStart: (event, ctx) => {
             pressed.value = true;
@@ -100,7 +98,7 @@ function NavBar ( {filterBy, setFilterBy, handlePress, currentUser, comments, se
                 <IconWrapper>
                     <FontAwesome5 name="grip-lines" size={24} color="black" />
                 </IconWrapper>
-                {selectedLocation ? <LocationShow currentUser={currentUser} setComments={setComments} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
+                {selectedLocation ? <LocationShow modalConent={modalContent} setModalContent={setModalContent} currentUser={currentUser} setComments={setComments} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
             </Animated.View>
         </PanGestureHandler>
 
