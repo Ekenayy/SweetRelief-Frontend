@@ -6,8 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 function PayOptions( {modalVisible, setModalVisible}) {
 
     const [selected, setSelected] = useState("")
-
-    const moneyButton = useRef()
+    const [id, setId] = useState("")
 
     const Button = styled.TouchableOpacity`
         background: #E379DF;
@@ -45,14 +44,91 @@ function PayOptions( {modalVisible, setModalVisible}) {
         align-self: flex-start;
     `
 
-    const changeColors = (word) => {
-        let startingColor = '#F3F5F6'
-
-        if (word == 'money') {
-            moneyButton.current.setNativeProps({
-                backgroundColor: '#aab3af'
-            })
+    const handleClick = () => {
+        if (selected == 'money') {
+            makePayment()
         }
+    }
+
+    const makePayment = () => {
+
+        // I need to collect this information and send it over as params to the backend
+        let formBody = {
+            "intent": "CAPTURE",
+                "purchase_units": [{
+                    "amount": {
+                        "currency_code": "USD",
+                        "value": "100.00"
+                    },
+                    "payer": {
+                        "email_address": "sb-4bgqp6345050@personal.example.com"
+                    },
+                    "payee": {
+                        "email_address": "sb-yqqld6344344@business.example.com"
+                    },
+                    "payment_instruction": {
+                        "disbursement_mode": "INSTANT",
+                    }
+                }],
+        }
+
+        fetch(`https://api-m.sandbox.paypal.com/v2/checkout/orders`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': "application/json",
+                'Authorization': "Bearer A21AAKP5HJPkiw6gihmakQDotbgv2-eYCu-dVvas-IGVsWkvkicg8rr2tRzkxda46rTmizc_JYz16ilnzYOfEqOkZN9PrKrwQ",
+                'PayPal-Partner-Attribution-Id': 'FLAVORsb-yqqld6344344_MP'
+            },
+            body: JSON.stringify(formBody)
+        })
+            .then(r => r.json())
+            .then(data => {
+                setId(data.id)
+                let url = data.links[1].href
+                // console.log(data.links[1].href)
+                approvePayment(data.id, url)
+            })
+        
+        // if (response) {
+        //     setModalVisible(!modalVisible)
+        // }
+    }
+
+    const approvePayment = (fetchId, url) => {
+
+        fetch(`${url}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': "application/json",
+                'Authorization': "Bearer A21AAKP5HJPkiw6gihmakQDotbgv2-eYCu-dVvas-IGVsWkvkicg8rr2tRzkxda46rTmizc_JYz16ilnzYOfEqOkZN9PrKrwQ",
+                'PayPal-Partner-Attribution-Id': 'FLAVORsb-yqqld6344344_MP'
+            },
+        })
+            .then(r => r.json())
+            .then(data => {
+                console.log('in authorize...')
+                console.log(data)
+                // capturePayment()
+            })
+    }
+
+    // Once I receive a response back from the DB I use the id to capture payment OR redirect in backend
+    const capturePayment = () => {
+
+        fetch(`https://api.sandbox.paypal.com/v2/checkout/orders/${id}/capture`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': "application/json",
+                'Authorization': "Bearer A21AAKP5HJPkiw6gihmakQDotbgv2-eYCu-dVvas-IGVsWkvkicg8rr2tRzkxda46rTmizc_JYz16ilnzYOfEqOkZN9PrKrwQ",
+                'PayPal-Partner-Attribution-Id': 'FLAVORsb-yqqld6344344_MP'
+            },
+            body: JSON.stringify({})
+        })
+            .then(r => r.json())
+            .then(data => {
+                console.log('in capture payments')
+                console.log(data)
+            })
     }
 
     return (
@@ -66,9 +142,11 @@ function PayOptions( {modalVisible, setModalVisible}) {
                             <OptionsText>Money</OptionsText>
                     </MoneyButton>                
             </AllOptionsView>
-            {selected ? <Button onPress={() => setModalVisible(!modalVisible)}>
+            {selected ? 
+            <Button onPress={handleClick}>
                 <Span>Confirm</Span>
-            </Button> : null}
+            </Button> : 
+            null}
         </>
     )
 }
