@@ -16,7 +16,7 @@ function NavBar ( {modalContent, setModalContent, filterBy, setFilterBy, handleP
 
     // The original starting height was set to 150
     const [swipeUp, setSwipeUp] = useState(false)
-    const [height, setHeight] = useState('95%')
+    const [height, setHeight] = useState('100%')
 
     const styles = StyleSheet.create({
         animatedContainer: {
@@ -25,7 +25,7 @@ function NavBar ( {modalContent, setModalContent, filterBy, setFilterBy, handleP
             width: '100%',
             height: height,
             bottom: 0,
-            top: '30%',
+            top: 300,
             backgroundColor: 'rgba(52, 52, 52, 0.85)',
             paddingBottom: 200,
         }
