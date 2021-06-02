@@ -72,23 +72,8 @@ function PayOptions( {modalVisible, setModalVisible}) {
                 }],
         }
 
-        fetch(`https://api-m.sandbox.paypal.com/v2/checkout/orders`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': "application/json",
-                'Authorization': "Bearer A21AAIdpwt2vMALsWKQ9ICQOMZbFdNeA6fXa7LBFLmd-i6mqXSzvSLoLMsbotczh502Tkw0ViOT_g3PaRWKjcSpI8XG8BEtrQ",
-                'PayPal-Partner-Attribution-Id': 'FLAVORsb-yqqld6344344_MP'
-            },
-            body: JSON.stringify(formBody)
-        })
-            .then(r => r.json())
-            .then(data => {
-                setId(data.id)
-                let url = data.links[1].href
-                console.log(data)
-                // approvePayment(data.id, url)
-            })
-        
+        console.log(formBody)
+
         // if (response) {
         //     setModalVisible(!modalVisible)
         // }
@@ -100,7 +85,7 @@ function PayOptions( {modalVisible, setModalVisible}) {
     //         method: 'GET',
     //         headers: {
     //             'Content-Type': "application/json",
-    //             'Authorization': "Bearer A21AAIdpwt2vMALsWKQ9ICQOMZbFdNeA6fXa7LBFLmd-i6mqXSzvSLoLMsbotczh502Tkw0ViOT_g3PaRWKjcSpI8XG8BEtrQ",
+    //             'Authorization': "",
     //             'PayPal-Partner-Attribution-Id': 'FLAVORsb-yqqld6344344_MP'
     //         },
     //     })
