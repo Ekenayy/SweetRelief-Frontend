@@ -46,11 +46,11 @@ function PayOptions( {modalVisible, setModalVisible}) {
 
     const handleClick = () => {
         if (selected == 'money') {
-            makePayment()
+            createPayment()
         }
     }
 
-    const makePayment = () => {
+    const createPayment = () => {
 
         // I need to collect this information and send it over as params to the backend
         let formBody = {
@@ -76,7 +76,7 @@ function PayOptions( {modalVisible, setModalVisible}) {
             method: 'POST',
             headers: {
                 'Content-Type': "application/json",
-                'Authorization': "Bearer A21AAKP5HJPkiw6gihmakQDotbgv2-eYCu-dVvas-IGVsWkvkicg8rr2tRzkxda46rTmizc_JYz16ilnzYOfEqOkZN9PrKrwQ",
+                'Authorization': "Bearer A21AAIdpwt2vMALsWKQ9ICQOMZbFdNeA6fXa7LBFLmd-i6mqXSzvSLoLMsbotczh502Tkw0ViOT_g3PaRWKjcSpI8XG8BEtrQ",
                 'PayPal-Partner-Attribution-Id': 'FLAVORsb-yqqld6344344_MP'
             },
             body: JSON.stringify(formBody)
@@ -85,8 +85,8 @@ function PayOptions( {modalVisible, setModalVisible}) {
             .then(data => {
                 setId(data.id)
                 let url = data.links[1].href
-                // console.log(data.links[1].href)
-                approvePayment(data.id, url)
+                console.log(data)
+                // approvePayment(data.id, url)
             })
         
         // if (response) {
@@ -94,35 +94,42 @@ function PayOptions( {modalVisible, setModalVisible}) {
         // }
     }
 
-    const approvePayment = (fetchId, url) => {
+    // const approvePayment = (fetchId, url) => {
 
-        fetch(`${url}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': "application/json",
-                'Authorization': "Bearer A21AAKP5HJPkiw6gihmakQDotbgv2-eYCu-dVvas-IGVsWkvkicg8rr2tRzkxda46rTmizc_JYz16ilnzYOfEqOkZN9PrKrwQ",
-                'PayPal-Partner-Attribution-Id': 'FLAVORsb-yqqld6344344_MP'
-            },
-        })
-            .then(r => r.json())
-            .then(data => {
-                console.log('in authorize...')
-                console.log(data)
-                // capturePayment()
-            })
-    }
+    //     fetch(`${url}`, {
+    //         method: 'GET',
+    //         headers: {
+    //             'Content-Type': "application/json",
+    //             'Authorization': "Bearer A21AAIdpwt2vMALsWKQ9ICQOMZbFdNeA6fXa7LBFLmd-i6mqXSzvSLoLMsbotczh502Tkw0ViOT_g3PaRWKjcSpI8XG8BEtrQ",
+    //             'PayPal-Partner-Attribution-Id': 'FLAVORsb-yqqld6344344_MP'
+    //         },
+    //     })
+    //         .then(r => r.json())
+    //         .then(data => {
+    //             console.log('in authorize...')
+    //             console.log(data)
+    //             // capturePayment()
+    //         })
+    // }
 
     // Once I receive a response back from the DB I use the id to capture payment OR redirect in backend
     const capturePayment = () => {
+
+        let formBody = {
+            // 'payment_source_response': 'paypal'
+            'payment_source': {
+                'credit_card': '4032038652782412'
+            }
+        }
 
         fetch(`https://api.sandbox.paypal.com/v2/checkout/orders/${id}/capture`, {
             method: 'POST',
             headers: {
                 'Content-Type': "application/json",
-                'Authorization': "Bearer A21AAKP5HJPkiw6gihmakQDotbgv2-eYCu-dVvas-IGVsWkvkicg8rr2tRzkxda46rTmizc_JYz16ilnzYOfEqOkZN9PrKrwQ",
+                'Authorization': "Bearer A21AAIdpwt2vMALsWKQ9ICQOMZbFdNeA6fXa7LBFLmd-i6mqXSzvSLoLMsbotczh502Tkw0ViOT_g3PaRWKjcSpI8XG8BEtrQ",
                 'PayPal-Partner-Attribution-Id': 'FLAVORsb-yqqld6344344_MP'
             },
-            body: JSON.stringify({})
+            body: JSON.stringify(formBody)
         })
             .then(r => r.json())
             .then(data => {
@@ -147,6 +154,9 @@ function PayOptions( {modalVisible, setModalVisible}) {
                 <Span>Confirm</Span>
             </Button> : 
             null}
+            <Button onPress={capturePayment}>
+                <Span>Capture Payment</Span>
+            </Button>
         </>
     )
 }
