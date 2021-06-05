@@ -2,6 +2,9 @@ import React, {useRef, useState} from 'react'
 import styled from 'styled-components'
 import { Text, DarkText, Wrapper, Span, H2 } from '../styles/Styles'
 import { MaterialIcons } from '@expo/vector-icons';
+import * as Linking from 'expo-linking';
+import { BASE_URL } from '@env'
+
 
 function PayOptions( {modalVisible, setModalVisible}) {
 
@@ -52,27 +55,42 @@ function PayOptions( {modalVisible, setModalVisible}) {
 
     const createPayment = () => {
 
-        // I need to collect this information and send it over as params to the backend
+        // Linking.openURL('https://sweet-relief-web.web.app/')
+
         let formBody = {
-            "intent": "CAPTURE",
-                "purchase_units": [{
-                    "amount": {
-                        "currency_code": "USD",
-                        "value": "100.00"
-                    },
-                    "payer": {
-                        "email_address": "sb-4bgqp6345050@personal.example.com"
-                    },
-                    "payee": {
-                        "email_address": "sb-yqqld6344344@business.example.com"
-                    },
-                    "payment_instruction": {
-                        "disbursement_mode": "INSTANT",
-                    }
-                }],
+            payee_email: {email_address: 'sb-yqqld6344344@business.example.com'}
         }
 
-        console.log(formBody)
+        fetch(`${BASE_URL}/create_order`, {
+            method: 'POST',
+            body: JSON.stringify(formBody)
+        })
+            .then(r => r.json())
+            .then(data => setId(data.id))
+
+        // I need to send over a payee based on the location
+
+        // I need to collect this information and send it over as params to the backend
+        // let formBody = {
+        //     "intent": "CAPTURE",
+        //         "purchase_units": [{
+        //             "amount": {
+        //                 "currency_code": "USD",
+        //                 "value": "100.00"
+        //             },
+        //             "payer": {
+        //                 "email_address": "sb-4bgqp6345050@personal.example.com"
+        //             },
+        //             "payee": {
+        //                 "email_address": "sb-yqqld6344344@business.example.com"
+        //             },
+        //             "payment_instruction": {
+        //                 "disbursement_mode": "INSTANT",
+        //             }
+        //         }],
+        // }
+
+        // console.log(formBody)
 
         // if (response) {
         //     setModalVisible(!modalVisible)
