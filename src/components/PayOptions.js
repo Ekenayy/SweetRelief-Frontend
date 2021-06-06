@@ -58,11 +58,12 @@ function PayOptions( {modalVisible, setModalVisible}) {
         // Linking.openURL('https://sweet-relief-web.web.app/')
 
         let formBody = {
-            payee_email: {email_address: 'sb-yqqld6344344@business.example.com'}
+            email_address: 'sb-yqqld6344344@business.example.com'
         }
 
         fetch(`${BASE_URL}/create_order`, {
             method: 'POST',
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(formBody)
         })
             .then(r => r.json())
