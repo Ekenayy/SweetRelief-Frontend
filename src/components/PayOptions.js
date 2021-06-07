@@ -16,6 +16,7 @@ function PayOptions( {modalVisible, setModalVisible}) {
     const [id, setId] = useState("")
     const [showGateway, setShowGateway] = useState(false)
     const [progClr, setProgClr] = useState("#000")
+    const [prog, setProg] = useState(false)
 
     const Button = styled.TouchableOpacity`
         background: #E379DF;
@@ -76,6 +77,7 @@ function PayOptions( {modalVisible, setModalVisible}) {
     `
     const IndicatorView = styled.View`
         padding: 13px;
+        opacity: ${props => props.progress ? 1 : 0}
     `
 
     const handleClick = () => {
@@ -134,7 +136,17 @@ function PayOptions( {modalVisible, setModalVisible}) {
         // }
     }
 
-
+    function onMessage(e) {
+        let data = e.nativeEvent.data;
+        setShowGateway(false);
+        console.log(data);
+        let payment = JSON.parse(data);
+        if (payment.status === 'COMPLETED') {
+            alert('PAYMENT MADE SUCCESSFULLY!');
+            } else {
+            alert('PAYMENT FAILED. PLEASE TRY AGAIN.');
+            }
+        }
 
     return (
         <>
@@ -166,13 +178,29 @@ function PayOptions( {modalVisible, setModalVisible}) {
                             <Foundation name="x" size={24} color="black" />
                         </CloseView>
                         <HeaderText>PayPal Gateway</HeaderText>
-                        <IndicatorView>
+                        <IndicatorView progress={prog}>
                             <ActivityIndicator size={24} color={progClr} />
                         </IndicatorView>
                     </WebHead>
                     <WebView
-                        source={{uri: 'https://www.google.com'}}
+                        source={{uri: 'https://sweet-relief-web.web.app/'}}
                         style={{flex: 1}}
+                        onLoadStart={() => {
+                            setProg(true);
+                            setProgClr('#00457C');
+                        }}
+                        // onLoadProgress={() => {
+                        //     setProg(true);
+                        //     setProgClr('#00457C');
+                        // }}
+                        onLoadEnd={() => {
+                            console.log('done loading')
+                            // setProg(false);
+                        }}
+                        // onLoad={() => {
+                        //     setProg(false);
+                        // }}
+                        onMessage={onMessage}
                     />
                 </WebViewCon>
             </Modal>
