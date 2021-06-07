@@ -33,6 +33,7 @@
     "react-native-screens": "~3.0.0",
     "react-native-swipe-gestures": "^1.0.5",
     "react-native-web": "~0.13.12",
+    "react-native-webview": "11.2.3",
     "styled-components": "^5.2.3"
   },
   "devDependencies": {

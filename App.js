@@ -10,6 +10,7 @@ import LocationItem from './src/components/LocationItem';
 import styled from 'styled-components'
 import * as Location from 'expo-location';
 import * as geolib from 'geolib'
+import {SafeAreaView} from 'react-native'
 
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
   const [errorMsg, setErrorMsg] = useState(null)
   const [currentUser, setCurrentUser] = useState(null)
   const [sortedLocations, setSortedLocations] = useState([])
+  const [ios, setIos] = useState(Platform.OS === 'ios')
   // const [sorted, setSorted] = useState(false)
 
 
@@ -90,25 +92,25 @@ export default function App() {
       value={{locations: sortedLocations.length ? [sortedLocations, setSortedLocations] : [locations, setLocations], 
       userLocation: [userLocation, setUserLocation]}}>
     <NavigationContainer>
-      <Body>
-        <Stack.Navigator
-          screenOptions={{
-          headerStyle: {
-            backgroundColor: '#FFEFD5',
-            height: '0%',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-            color: 'black',
-          },
-          }}
-        >
-          <Stack.Screen name='Main'>
-            {(props) => <Main {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
-          </Stack.Screen>         
-        </Stack.Navigator>
-      </Body>
+        <Body>
+          <Stack.Navigator
+            screenOptions={{
+            headerStyle: {
+              backgroundColor: '#FFEFD5',
+              height: '0%',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: 'black',
+            },
+            }}
+          >
+            <Stack.Screen name='Main'>
+              {(props) => <Main {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+            </Stack.Screen>         
+          </Stack.Navigator>
+        </Body>
     </NavigationContainer>
     </LocationContext.Provider>
 

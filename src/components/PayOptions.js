@@ -4,12 +4,18 @@ import { Text, DarkText, Wrapper, Span, H2 } from '../styles/Styles'
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Linking from 'expo-linking';
 import { BASE_URL } from '@env'
+import { Modal, ActivityIndicator } from 'react-native'
+import { Foundation } from '@expo/vector-icons';
+import {WebView} from 'react-native-webview';
+
 
 
 function PayOptions( {modalVisible, setModalVisible}) {
 
     const [selected, setSelected] = useState("")
     const [id, setId] = useState("")
+    const [showGateway, setShowGateway] = useState(false)
+    const [progClr, setProgClr] = useState("#000")
 
     const Button = styled.TouchableOpacity`
         background: #E379DF;
@@ -40,11 +46,36 @@ function PayOptions( {modalVisible, setModalVisible}) {
 
     const CloseView = styled.TouchableOpacity`
         align-self: flex-start;
-        padding: 0;
+        padding: 13px;
     `
 
     const CloseText = styled.Text`
         align-self: flex-start;
+    `
+    const WebViewCon = styled.View`
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    `
+    const WebHead = styled.View`
+        flex-direction: row;
+        alignItems: center;
+        background-color: #f9f9f9
+        zIndex: 25;
+        elevation: 2;
+        padding-top: 30px;
+    `
+
+    const HeaderText = styled(DarkText)`
+        font-weight: bold;
+        flex: 1;
+        text-align: center;
+        font-size: 16;
+    `
+    const IndicatorView = styled.View`
+        padding: 13px;
     `
 
     const handleClick = () => {
@@ -54,8 +85,6 @@ function PayOptions( {modalVisible, setModalVisible}) {
     }
 
     const createPayment = () => {
-
-        // Linking.openURL('https://sweet-relief-web.web.app/')
 
         let formBody = {
             email_address: 'sb-yqqld6344344@business.example.com'
@@ -67,7 +96,14 @@ function PayOptions( {modalVisible, setModalVisible}) {
             body: JSON.stringify(formBody)
         })
             .then(r => r.json())
-            .then(data => setId(data.id))
+            .then(data => {
+                setId(data.id)
+                let webUrl = Linking.createURL('https://sweet-relief-web.web.app/', {
+                    queryParams: {id: data.id}
+                })
+                console.log(Linking.canOpenURL(webUrl))
+            })
+        // Linking.openURL('https://sweet-relief-web.web.app/')
 
         // I need to send over a payee based on the location
 
@@ -98,49 +134,7 @@ function PayOptions( {modalVisible, setModalVisible}) {
         // }
     }
 
-    // const approvePayment = (fetchId, url) => {
 
-    //     fetch(`${url}`, {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-Type': "application/json",
-    //             'Authorization': "",
-    //             'PayPal-Partner-Attribution-Id': 'FLAVORsb-yqqld6344344_MP'
-    //         },
-    //     })
-    //         .then(r => r.json())
-    //         .then(data => {
-    //             console.log('in authorize...')
-    //             console.log(data)
-    //             // capturePayment()
-    //         })
-    // }
-
-    // Once I receive a response back from the DB I use the id to capture payment OR redirect in backend
-    const capturePayment = () => {
-
-        let formBody = {
-            // 'payment_source_response': 'paypal'
-            'payment_source': {
-                'credit_card': '4032038652782412'
-            }
-        }
-
-        fetch(`https://api.sandbox.paypal.com/v2/checkout/orders/${id}/capture`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': "application/json",
-                'Authorization': "Bearer A21AAIdpwt2vMALsWKQ9ICQOMZbFdNeA6fXa7LBFLmd-i6mqXSzvSLoLMsbotczh502Tkw0ViOT_g3PaRWKjcSpI8XG8BEtrQ",
-                'PayPal-Partner-Attribution-Id': 'FLAVORsb-yqqld6344344_MP'
-            },
-            body: JSON.stringify(formBody)
-        })
-            .then(r => r.json())
-            .then(data => {
-                console.log('in capture payments')
-                console.log(data)
-            })
-    }
 
     return (
         <>
@@ -154,13 +148,35 @@ function PayOptions( {modalVisible, setModalVisible}) {
                     </MoneyButton>                
             </AllOptionsView>
             {selected ? 
-            <Button onPress={handleClick}>
+            <Button onPress={() => setShowGateway(!showGateway)}>
                 <Span>Confirm</Span>
             </Button> : 
             null}
-            <Button onPress={capturePayment}>
-                <Span>Capture Payment</Span>
-            </Button>
+            {showGateway ? (
+            <Modal
+                visible={showGateway}
+                onDismiss={() => setShowGateway(false)}
+                onRequestClose={() => setShowGateway(false)}
+                animationType={'fade'}
+                transparent={true}
+            >
+                <WebViewCon>
+                    <WebHead>
+                        <CloseView onPress={() => setShowGateway(false)}> 
+                            <Foundation name="x" size={24} color="black" />
+                        </CloseView>
+                        <HeaderText>PayPal Gateway</HeaderText>
+                        <IndicatorView>
+                            <ActivityIndicator size={24} color={progClr} />
+                        </IndicatorView>
+                    </WebHead>
+                    <WebView
+                        source={{uri: 'https://www.google.com'}}
+                        style={{flex: 1}}
+                    />
+                </WebViewCon>
+            </Modal>
+                ) : null}
         </>
     )
 }
