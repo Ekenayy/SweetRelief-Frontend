@@ -13,10 +13,11 @@ import {WebView} from 'react-native-webview';
 function PayOptions( {modalVisible, setModalVisible}) {
 
     const [selected, setSelected] = useState("")
-    const [id, setId] = useState("")
+    const [orderId, setOrderId] = useState("")
     const [showGateway, setShowGateway] = useState(false)
     const [progClr, setProgClr] = useState("#000")
     const [prog, setProg] = useState(false)
+    const webRef = useRef()
 
     const Button = styled.TouchableOpacity`
         background: #E379DF;
@@ -73,7 +74,7 @@ function PayOptions( {modalVisible, setModalVisible}) {
         font-weight: bold;
         flex: 1;
         text-align: center;
-        font-size: 16;
+        font-size: 16px;
     `
     const IndicatorView = styled.View`
         padding: 13px;
@@ -99,16 +100,10 @@ function PayOptions( {modalVisible, setModalVisible}) {
         })
             .then(r => r.json())
             .then(data => {
-                setId(data.id)
-                let webUrl = Linking.createURL('https://sweet-relief-web.web.app/', {
-                    queryParams: {id: data.id}
-                })
-                console.log(Linking.canOpenURL(webUrl))
+                setOrderId(data.id)
+                setShowGateway(!showGateway)
             })
-        // Linking.openURL('https://sweet-relief-web.web.app/')
-
-        // I need to send over a payee based on the location
-
+            
         // I need to collect this information and send it over as params to the backend
         // let formBody = {
         //     "intent": "CAPTURE",
@@ -146,7 +141,15 @@ function PayOptions( {modalVisible, setModalVisible}) {
             } else {
             alert('PAYMENT FAILED. PLEASE TRY AGAIN.');
             }
+    }
+
+    function passValue() {
+        let data = {
+            id: orderId
         }
+
+        webRef.current.injectJavaScript(`orderId = ${JSON.stringify(orderId)}; true;`)
+    }
 
     return (
         <>
@@ -160,7 +163,7 @@ function PayOptions( {modalVisible, setModalVisible}) {
                     </MoneyButton>                
             </AllOptionsView>
             {selected ? 
-            <Button onPress={() => setShowGateway(!showGateway)}>
+            <Button onPress={handleClick}>
                 <Span>Confirm</Span>
             </Button> : 
             null}
@@ -183,20 +186,21 @@ function PayOptions( {modalVisible, setModalVisible}) {
                         </IndicatorView>
                     </WebHead>
                     <WebView
+                        // source={{uri: 'http://localhost:3001'}}
                         source={{uri: 'https://sweet-relief-web.web.app/'}}
                         style={{flex: 1}}
+                        ref={webRef}
                         onLoadStart={() => {
                             setProg(true);
                             setProgClr('#00457C');
+                            passValue()
                         }}
+                        // injectedJavaScriptBeforeContentLoaded={runFirst}
                         // onLoadProgress={() => {
                         //     setProg(true);
                         //     setProgClr('#00457C');
                         // }}
-                        onLoadEnd={() => {
-                            console.log('done loading')
-                            // setProg(false);
-                        }}
+                        // onLoadEnd={passValue}
                         // onLoad={() => {
                         //     setProg(false);
                         // }}
