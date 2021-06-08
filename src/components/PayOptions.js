@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react' 
+import React, {useRef, useState, useEffect} from 'react' 
 import styled from 'styled-components'
 import { Text, DarkText, Wrapper, Span, H2 } from '../styles/Styles'
 import { MaterialIcons } from '@expo/vector-icons';
@@ -17,6 +17,7 @@ function PayOptions( {modalVisible, setModalVisible}) {
     const [showGateway, setShowGateway] = useState(false)
     const [progClr, setProgClr] = useState("#000")
     const [prog, setProg] = useState(false)
+    const [payment, setPayment] = useState(null)
     const webRef = useRef()
 
     const Button = styled.TouchableOpacity`
@@ -81,6 +82,15 @@ function PayOptions( {modalVisible, setModalVisible}) {
         opacity: ${props => props.progress ? 1 : 0}
     `
 
+    useEffect(() => {
+        if (payment && payment.status === 'COMPLETED') {
+            alert('PAYMENT MADE SUCCESSFULLY!');
+            setModalVisible(false)
+        } else if (payment && payment.status !== 'COMPLETED') {
+            alert('PAYMENT FAILED. PLEASE TRY AGAIN.');
+        }
+    }, [payment])
+
     const handleClick = () => {
         if (selected == 'money') {
             createPayment()
@@ -103,44 +113,16 @@ function PayOptions( {modalVisible, setModalVisible}) {
                 setOrderId(data.id)
                 setShowGateway(!showGateway)
             })
-            
-        // I need to collect this information and send it over as params to the backend
-        // let formBody = {
-        //     "intent": "CAPTURE",
-        //         "purchase_units": [{
-        //             "amount": {
-        //                 "currency_code": "USD",
-        //                 "value": "100.00"
-        //             },
-        //             "payer": {
-        //                 "email_address": "sb-4bgqp6345050@personal.example.com"
-        //             },
-        //             "payee": {
-        //                 "email_address": "sb-yqqld6344344@business.example.com"
-        //             },
-        //             "payment_instruction": {
-        //                 "disbursement_mode": "INSTANT",
-        //             }
-        //         }],
-        // }
-
-        // console.log(formBody)
-
-        // if (response) {
-        //     setModalVisible(!modalVisible)
-        // }
+        
     }
 
     function onMessage(e) {
         let data = e.nativeEvent.data;
         setShowGateway(false);
         console.log(data);
-        let payment = JSON.parse(data);
-        if (payment.status === 'COMPLETED') {
-            alert('PAYMENT MADE SUCCESSFULLY!');
-            } else {
-            alert('PAYMENT FAILED. PLEASE TRY AGAIN.');
-            }
+        let paymentFromWeb = JSON.parse(data);
+        setPayment(paymentFromWeb)
+
     }
 
     function passValue() {
@@ -186,8 +168,8 @@ function PayOptions( {modalVisible, setModalVisible}) {
                         </IndicatorView>
                     </WebHead>
                     <WebView
-                        // source={{uri: 'http://localhost:3001'}}
-                        source={{uri: 'https://sweet-relief-web.web.app/'}}
+                        source={{uri: 'http://localhost:3001'}}
+                        // source={{uri: 'https://sweet-relief-web.web.app/'}}
                         style={{flex: 1}}
                         ref={webRef}
                         onLoadStart={() => {
