@@ -9,8 +9,8 @@ import { Foundation } from '@expo/vector-icons';
 import {WebView} from 'react-native-webview';
 
 
-
-function PayOptions( {modalVisible, setModalVisible}) {
+// Send over the current user and the location 
+function PayOptions( {modalVisible, setModalVisible, currentUser, selectedLocation}) {
 
     const [selected, setSelected] = useState("")
     const [orderId, setOrderId] = useState("")
@@ -84,10 +84,13 @@ function PayOptions( {modalVisible, setModalVisible}) {
 
     useEffect(() => {
         if (payment && payment.status === 'COMPLETED') {
-            alert('PAYMENT MADE SUCCESSFULLY!');
+            setPayment(null)
+            alert('PAYMENT MADE SUCCESSFULLY!')
             setModalVisible(false)
         } else if (payment && payment.status !== 'COMPLETED') {
-            alert('PAYMENT FAILED. PLEASE TRY AGAIN.');
+            setPayment(null)
+            alert('PAYMENT FAILED. PLEASE TRY AGAIN.')
+            setModalVisible(false)
         }
     }, [payment])
 
@@ -100,7 +103,9 @@ function PayOptions( {modalVisible, setModalVisible}) {
     const createPayment = () => {
 
         let formBody = {
-            email_address: 'sb-yqqld6344344@business.example.com'
+            email_address: 'sb-yqqld6344344@business.example.com',
+            user_id: currentUser.id,
+            location_id: selectedLocation.id
         }
 
         fetch(`${BASE_URL}/create_order`, {
@@ -118,10 +123,10 @@ function PayOptions( {modalVisible, setModalVisible}) {
 
     function onMessage(e) {
         let data = e.nativeEvent.data;
-        setShowGateway(false);
         console.log(data);
         let paymentFromWeb = JSON.parse(data);
         setPayment(paymentFromWeb)
+        setShowGateway(false)
 
     }
 
@@ -177,7 +182,6 @@ function PayOptions( {modalVisible, setModalVisible}) {
                             setProgClr('#00457C');
                             passValue()
                         }}
-                        // injectedJavaScriptBeforeContentLoaded={runFirst}
                         // onLoadProgress={() => {
                         //     setProg(true);
                         //     setProgClr('#00457C');

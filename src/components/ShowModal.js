@@ -27,7 +27,7 @@ function ShowModal ({modalContent, setModalContent, currentUser, comments, setCo
         if (modalContent === 'comment') {
             return <CommentForm setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible}/>
         } else if (modalContent === 'pay') {
-            return <PayOptions modalVisible={modalVisible} setModalVisible={setModalVisible}/>
+            return <PayOptions currentUser={currentUser} selectedLocation={selectedLocation} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
         }
     }
 

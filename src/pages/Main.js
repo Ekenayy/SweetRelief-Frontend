@@ -53,14 +53,6 @@ function Main ( {currentUser, setCurrentUser} ) {
                 .then(commentsFromDb => setComments(commentsFromDb))
     }
 
-    // if modal visible, then the modal component is visible
-    // when you click one of the buttons, a piece of state should be passed down from the showBar
-    // this piece of state determines which options come up in the modal component
-    // The modal component is a parent to comment form and payments form
-
-    // Create a new component called modal that just holds the commment form and payment form
-    // 
-
     return (
         <>
             <MapContainer filterBy={filterBy} setFilterBy={setFilterBy} wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
