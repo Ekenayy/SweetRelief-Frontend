@@ -23,7 +23,6 @@ function FilterItem ( {filter, filterBy, setFilterBy} ) {
         padding-right: 12px;
         padding-top: 5px;
         font-size: 15px;
-        color: ${props => props.selected ? '#f7f7f7' : 'black'}
     `
 
 
@@ -50,7 +49,6 @@ function FilterItem ( {filter, filterBy, setFilterBy} ) {
         // <ItemView onPress={() => setFilterBy(filter)}>
         <ItemView selected={filterBy === filter} onPress={handleFilterPress}>
             <FilterText 
-              selected={filterBy === filter}
               style={filterBy == filter ? {opacity: 0.5} : {opacity: 1}}
             >
               {filterImage(filter)}
