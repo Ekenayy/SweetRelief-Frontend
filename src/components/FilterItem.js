@@ -9,7 +9,7 @@ function FilterItem ( {filter, filterBy, setFilterBy} ) {
         ${'' /* background-color: white; */}
         ${'' /* margin: 4px; */}
         border-radius: 5px;
-        background-color: #F7F8F3;
+        background-color: ${props => props.selected ? '#bea7e5' : '#F7F8F3'};
         justify-content: space-around;
         margin: 5px;
         padding-bottom: 5px;
@@ -23,7 +23,9 @@ function FilterItem ( {filter, filterBy, setFilterBy} ) {
         padding-right: 12px;
         padding-top: 5px;
         font-size: 15px;
+        color: ${props => props.selected ? '#f7f7f7' : 'black'}
     `
+
 
     const filterImage = (name) => {
         if (name === "key_required") {
@@ -46,8 +48,9 @@ function FilterItem ( {filter, filterBy, setFilterBy} ) {
 
     return (
         // <ItemView onPress={() => setFilterBy(filter)}>
-        <ItemView onPress={handleFilterPress}>
+        <ItemView selected={filterBy === filter} onPress={handleFilterPress}>
             <FilterText 
+              selected={filterBy === filter}
               style={filterBy == filter ? {opacity: 0.5} : {opacity: 1}}
             >
               {filterImage(filter)}

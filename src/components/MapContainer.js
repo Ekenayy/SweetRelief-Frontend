@@ -31,7 +31,7 @@ export default function MapContainer(  {filterBy, setFilterBy, setSelectedLocati
   const createLogo = (locType) => {
     
     if (locType === 'Park') {
-      return <MaterialIcons name="park" size={30} color="#00A36C" />
+      return <MaterialIcons name="park" size={30} color="#BEA7E5" />
     } else if (locType === 'Restaurant/Bar') {
       return <MaterialIcons name="restaurant" size={30} color="black" />
     } else if (locType === 'Bar') {
@@ -82,7 +82,7 @@ const filteredLocations = reduceFilterList(contextLocations);
   return (
       <View style={styles.container}>
         <MapView 
-          clusterColor={"#00A36C"}
+          clusterColor={"#BEA7E5"}
           extent={190}
           animationEnabled={false}
           initialRegion={region}
@@ -97,7 +97,7 @@ const filteredLocations = reduceFilterList(contextLocations);
             <MapViewDirections
               strokeWidth={4}
               mode="WALKING"
-              strokeColor="#49e36c"
+              strokeColor="#BEA7E5"
               origin={contextUserLocation ? contextUserLocation : customLocation}
               destination={{latitude: selectedLocation.latitude, longitude: selectedLocation.longitude}}
               apikey={GOOGLE_KEY}

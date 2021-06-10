@@ -45,23 +45,23 @@ function ShowBar ( {modalContent, setModalContent, selectedLocation, currentUser
             showsHorizontalScrollIndicator={true}
         >
             <Options onPress={openDirections}>
-                <FontAwesome5 name="directions" size={24} color="black" />
+                <FontAwesome5 name="directions" size={24} color="#DDF8E8" />
                 <OptionsText>Directions</OptionsText>
             </Options>
             <Options onPress={() => handleIconPress('pay')}>
-                <FontAwesome name="exchange" size={24} color="black" />
+                <FontAwesome name="exchange" size={24} color="#DDF8E8" />
                 <OptionsText>Pay</OptionsText>
             </Options>
             {comments && myComments.length ? null : <Options onPress={() => handleIconPress('comment')}>
-                <MaterialIcons name="add-comment" size={24} color="black" />
+                <MaterialIcons name="add-comment" size={24} color="#DDF8E8" />
                 <OptionsText>Comment</OptionsText>
             </Options>}
             <Options>
-                <MaterialIcons name="favorite" size={24} color="black" />
+                <MaterialIcons name="favorite" size={24} color="#DDF8E8" />
                 <OptionsText>Favorite</OptionsText>
             </Options>
             <Options>
-                <MaterialIcons name="add-location-alt" size={24} color="black" />
+                <MaterialIcons name="add-location-alt" size={24} color="#DDF8E8" />
                 <OptionsText>Add location</OptionsText>
             </Options>
         </ShowScroll>

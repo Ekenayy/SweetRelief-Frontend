@@ -21,7 +21,7 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
     const webRef = useRef()
 
     const Button = styled.TouchableOpacity`
-        background: #E379DF;
+        background: #BEA7E5;
         width: 150px;
         border-radius:20px;
         align_self: center;

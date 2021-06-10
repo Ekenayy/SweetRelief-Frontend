@@ -23,6 +23,7 @@ function LocationShow ({modalContent, setModalContent, modalVisible, currentUser
         align-self: center;
         color: black;
         margin-top: 5px;
+        font-weight: bold;
     `
 
     const DetailsText = styled(Text)`
@@ -50,7 +51,7 @@ function LocationShow ({modalContent, setModalContent, modalVisible, currentUser
     `
 
     const ClearButton = styled(Button)`
-        background-color: #f9ccca;
+        background-color: #bea7e5;
         width: 100px;
         margin-top: 10px;
         height: 30px;

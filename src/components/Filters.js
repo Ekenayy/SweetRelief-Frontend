@@ -8,7 +8,6 @@ import { Ionicons } from '@expo/vector-icons';
 
 function Filters ( {filterBy, setFilterBy}) {
 
-    const [selected, setSelected] = useState(false)
 
     const FiltersScroll = styled(Scroll)`
         flex-direction: row;
