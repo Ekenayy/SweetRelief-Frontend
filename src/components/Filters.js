@@ -1,18 +1,21 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Text, Scroll, TouchView } from '../styles/Styles'
 import FilterItem from './FilterItem'
 import LocationContext from '../LocationContext'
 import styled from 'styled-components'
+import { Ionicons } from '@expo/vector-icons';
 
 
 function Filters ( {filterBy, setFilterBy}) {
 
-    
+    const [selected, setSelected] = useState(false)
+
     const FiltersScroll = styled(Scroll)`
         flex-direction: row;
         flex-wrap: wrap;
         padding-top: 5px;
         padding-right: 10px;
+        border-radius: 5px;
     `
     const filterNames = [
         'free',
@@ -36,6 +39,7 @@ function Filters ( {filterBy, setFilterBy}) {
             horizontal={true}
             showsHorizontalScrollIndicator={false}
         >
+            <Ionicons name="filter" size={24} style={{paddingTop: 5}} color="black" />            
             {allFilters}
         </FiltersScroll>
     )

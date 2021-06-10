@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Scroll, TouchView } from '../styles/Styles'
+import { Text, DarkText, Scroll, TouchView } from '../styles/Styles'
 import styled from 'styled-components'
 
 
@@ -9,29 +9,34 @@ function FilterItem ( {filter, filterBy, setFilterBy} ) {
         ${'' /* background-color: white; */}
         ${'' /* margin: 4px; */}
         border-radius: 5px;
+        background-color: #F7F8F3;
+        justify-content: space-around;
+        margin: 5px;
+        padding-bottom: 5px;
+        height: 35px;
     `
 
-    const FilterText = styled(Text)`
-        color: #5bd96c;
+    const FilterText = styled(DarkText)`
         align-self: center;
         font-weight: bold;
         padding: 2px;
-        padding-right: 5px;
-        font-size: 30px;
+        padding-right: 12px;
+        padding-top: 5px;
+        font-size: 15px;
     `
 
     const filterImage = (name) => {
         if (name === "key_required") {
-          return "🔐"
+          return "Key required"
         }
         if (name === "free") {
-          return "🆓";
+          return "Free";
         }
         if (name === "wheelchair_accessible") {
-          return "♿";
+          return "Wheelchair accessible";
         }
         if (name === "unisex") {
-          return "🚻";
+          return "Unisex";
         }
       };
 
@@ -42,7 +47,6 @@ function FilterItem ( {filter, filterBy, setFilterBy} ) {
     return (
         // <ItemView onPress={() => setFilterBy(filter)}>
         <ItemView onPress={handleFilterPress}>
-
             <FilterText 
               style={filterBy == filter ? {opacity: 0.5} : {opacity: 1}}
             >
