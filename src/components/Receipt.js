@@ -14,15 +14,29 @@ function Receipt( {currentUser, selectedLocation, modalVisible, setModalVisible}
             .then(data => setPaymentOrder(data))
     }, [])
 
+    const Title = styled(H2)`
+        margin-bottom: 10px;
+    `
+
+    const View = styled(Wrapper)`
+        margin: 15px;
+    `
+
     return (
         <>
             <CloseView onPress={() => setModalVisible(!modalVisible)}>
                 <CloseText>❌</CloseText>
             </CloseView>
-            <H2>Thank you for your order {currentUser.name}!</H2>
-            <Wrapper>
-                {paymentOrder ? <DarkText>$1 paid to {selectedLocation.name} at {paymentOrder.time} on {paymentOrder.date}</DarkText> : null}
-            </Wrapper>
+            <Title>Thank you for your order {currentUser.name}!</Title>
+            <View>
+                {paymentOrder ? 
+                    <DarkText> ${String(paymentOrder.payment_order.price_cents)} paid to {selectedLocation.name} at {paymentOrder.time} on {paymentOrder.date}</DarkText>
+                    : null
+                }
+            </View>
+            <View>
+                <DarkText>Show this confirmation to an employee at this location to use the bathroom. This receipt will also be availabe on your profile page.</DarkText>
+            </View>
         </>
     )
 }

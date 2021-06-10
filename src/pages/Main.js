@@ -30,10 +30,6 @@ function Main ( {currentUser, setCurrentUser} ) {
         }
     }, [selectedLocation])
 
-console.log(modalVisible)
-console.log(modalContent)
-    // If there is modalContent and the modal is not visible, make the modal visible
-
     const setAndFitToCoords = (location) => {
         fetchLocation(location)
 

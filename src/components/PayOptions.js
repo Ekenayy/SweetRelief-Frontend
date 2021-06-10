@@ -82,17 +82,17 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
         opacity: ${props => props.progress ? 1 : 0}
     `
 
-    useEffect(() => {
-        if (payment && payment.status === 'COMPLETED') {
-            setPayment(null)
-            alert('PAYMENT MADE SUCCESSFULLY!')
-            setModalContent('receipt')
-        } else if (payment && payment.status !== 'COMPLETED') {
-            setPayment(null)
-            alert('PAYMENT FAILED. PLEASE TRY AGAIN.')
-            // setModalVisible(false)
-        }
-    }, [payment])
+    // useEffect(() => {
+    //     if (payment && payment.status === 'COMPLETED') {
+    //         setPayment(null)
+    //         alert('PAYMENT MADE SUCCESSFULLY!')
+    //         setModalContent('receipt')
+    //     } else if (payment && payment.status !== 'COMPLETED') {
+    //         setPayment(null)
+    //         alert('PAYMENT FAILED. PLEASE TRY AGAIN.')
+    //         // setModalVisible(false)
+    //     }
+    // }, [payment])
 
     const handleClick = () => {
         if (selected == 'money') {
@@ -125,9 +125,16 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
         let data = e.nativeEvent.data;
         console.log(data);
         let paymentFromWeb = JSON.parse(data);
-        setPayment(paymentFromWeb)
+        // setPayment(paymentFromWeb)
         setShowGateway(false)
 
+        if (paymentFromWeb.status === 'COMPLETED') {
+            // alert('PAYMENT MADE SUCCESSFULLY!')
+            setModalContent('receipt')
+        } else if (payment && payment.status !== 'COMPLETED') {
+            alert('PAYMENT FAILED. PLEASE TRY AGAIN.')
+            // setModalVisible(false)
+        }
     }
 
     function passValue() {
