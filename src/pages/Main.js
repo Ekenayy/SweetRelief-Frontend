@@ -30,6 +30,10 @@ function Main ( {currentUser, setCurrentUser} ) {
         }
     }, [selectedLocation])
 
+console.log(modalVisible)
+console.log(modalContent)
+    // If there is modalContent and the modal is not visible, make the modal visible
+
     const setAndFitToCoords = (location) => {
         fetchLocation(location)
 
@@ -57,7 +61,7 @@ function Main ( {currentUser, setCurrentUser} ) {
         <>
             <MapContainer filterBy={filterBy} setFilterBy={setFilterBy} wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
             <NavBar setModalContent={setModalContent} modalContent={modalContent} filterBy={filterBy} setFilterBy={setFilterBy} currentUser={currentUser} setComments={setComments} comments={comments}  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
-            {modalVisible ? <ShowModal modalContent={modalContent} setModalConent={setModalContent} setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible} /> : null}
+            {modalVisible ? <ShowModal modalContent={modalContent} setModalContent={setModalContent} setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible} /> : null}
         </>
     )
 }

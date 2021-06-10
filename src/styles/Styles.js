@@ -38,3 +38,10 @@ export const Button = styled.TouchableOpacity`
     border-radius: 5px;
     height: 30px;
 `
+export const CloseView = styled.TouchableOpacity`
+        align-self: flex-start;
+        padding: 13px;
+`
+
+export const CloseText = styled.Text`
+`

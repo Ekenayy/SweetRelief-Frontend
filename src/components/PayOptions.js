@@ -10,7 +10,7 @@ import {WebView} from 'react-native-webview';
 
 
 // Send over the current user and the location 
-function PayOptions( {modalVisible, setModalVisible, currentUser, selectedLocation}) {
+function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, setModalVisible, currentUser, selectedLocation}) {
 
     const [selected, setSelected] = useState("")
     const [orderId, setOrderId] = useState("")
@@ -86,11 +86,11 @@ function PayOptions( {modalVisible, setModalVisible, currentUser, selectedLocati
         if (payment && payment.status === 'COMPLETED') {
             setPayment(null)
             alert('PAYMENT MADE SUCCESSFULLY!')
-            setModalVisible(false)
+            setModalContent('receipt')
         } else if (payment && payment.status !== 'COMPLETED') {
             setPayment(null)
             alert('PAYMENT FAILED. PLEASE TRY AGAIN.')
-            setModalVisible(false)
+            // setModalVisible(false)
         }
     }, [payment])
 

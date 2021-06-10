@@ -45,8 +45,6 @@ function NavBar ( {modalContent, setModalContent, filterBy, setFilterBy, handleP
         align-items: center;
     `
 
-    // Create two component for the navbar dependent on if the user has clicked on a location
-
     const NoPress = ( ) => {
         return (
             <>
@@ -86,7 +84,6 @@ function NavBar ( {modalContent, setModalContent, filterBy, setFilterBy, handleP
 
     const uas = useAnimatedStyle(() => {
         return {
-            // backgroundColor: pressed.value ? '#FEEF86' : '#001972',
             transform: [{ translateY: y.value }],
         }
     })
@@ -101,7 +98,6 @@ function NavBar ( {modalContent, setModalContent, filterBy, setFilterBy, handleP
                 {selectedLocation ? <LocationShow modalConent={modalContent} setModalContent={setModalContent} currentUser={currentUser} setComments={setComments} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
             </Animated.View>
         </PanGestureHandler>
-
     )
 
 }
