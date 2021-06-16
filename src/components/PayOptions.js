@@ -180,8 +180,8 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
                         </IndicatorView>
                     </WebHead>
                     <WebView
-                        source={{uri: 'http://localhost:3001'}}
-                        // source={{uri: 'https://sweet-relief-web.web.app/'}}
+                        // source={{uri: 'http://localhost:3001'}}
+                        source={{uri: 'https://sweet-relief-web.web.app/'}}
                         style={{flex: 1}}
                         ref={webRef}
                         onLoadStart={() => {

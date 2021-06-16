@@ -65,6 +65,7 @@ function LocationShow ({modalContent, setModalContent, modalVisible, currentUser
 
     const BigWrapper = styled(Wrapper)`
         margin-left: 0px;
+        flex: 1;
     `
 
     const ShowScroll = styled(Scroll)`
@@ -87,7 +88,11 @@ function LocationShow ({modalContent, setModalContent, modalVisible, currentUser
     return (
         <BigWrapper>
             <ShowBar modalContent={modalContent} setModalContent={setModalContent} currentUser={currentUser} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} selectedLocation={selectedLocation}/>
-            <ShowScroll>
+            <ShowScroll
+            contentContainerStyle={{
+                flexGrow: 1,
+            }}
+            >
                 <SectionWrapper>
                     <H2>
                     Location

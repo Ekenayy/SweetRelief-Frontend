@@ -11,7 +11,8 @@ import styled from 'styled-components'
 import * as Location from 'expo-location';
 import * as geolib from 'geolib'
 import {SafeAreaView} from 'react-native'
-
+import {LogBox } from 'react-native';
+LogBox.ignoreLogs(['Reanimated 2']);
 
 export default function App() {
 
@@ -34,6 +35,11 @@ export default function App() {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
+        // For testing purposes only on Android
+        setUserLocation({
+          latitude: 40.700415, 
+          longitude: -73.90897
+        })
         return;
       }
 

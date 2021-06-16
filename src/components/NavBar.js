@@ -9,21 +9,17 @@ import LocationShow from './LocationShow'
 import Filters from './Filters'
 import { FontAwesome5 } from '@expo/vector-icons';
 import  { PanGestureHandler, FlingGestureHandler } from 'react-native-gesture-handler'
-// import { createAnimatedPropAdapter } from 'react-native-reanimated';
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, withSpring} from 'react-native-reanimated';
 
 function NavBar ( {modalContent, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
 
-    // The original starting height was set to 150
-    const [swipeUp, setSwipeUp] = useState(false)
-    const [height, setHeight] = useState('100%')
-
     const styles = StyleSheet.create({
         animatedContainer: {
-            // display: flex,
+            display: 'flex',
+            flex: 1,
             position: 'absolute',
             width: '100%',
-            height: height,
+            height: '100%',
             bottom: 0,
             top: 300,
             backgroundColor: 'rgba(52, 52, 52, 0.85)',
@@ -84,7 +80,7 @@ function NavBar ( {modalContent, setModalContent, filterBy, setFilterBy, handleP
 
     const uas = useAnimatedStyle(() => {
         return {
-            transform: [{ translateY: y.value }],
+            transform: [{ translateY: y.value < -258 ? -258 : y.value }],
         }
     })
 

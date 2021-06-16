@@ -8,6 +8,7 @@ import CommentForm from '../components/CommentForm'
 import ShowModal from '../components/ShowModal'
 import { BASE_URL } from '@env'
 import * as geolib from 'geolib'
+import styled from 'styled-components'
 
 function Main ( {currentUser, setCurrentUser} ) {
 
@@ -24,6 +25,10 @@ function Main ( {currentUser, setCurrentUser} ) {
     const [contextLocations, setContextLocations ] = locations
     // Refs
     const wholeMap = useRef()
+    
+    const BigWrapper = styled.View`
+        flex: 1;
+    `
 
     useEffect(() => {
         if (selectedLocation) {
@@ -53,12 +58,13 @@ function Main ( {currentUser, setCurrentUser} ) {
                 .then(commentsFromDb => setComments(commentsFromDb))
     }
 
+
     return (
-        <>
+        <BigWrapper>
             <MapContainer filterBy={filterBy} setFilterBy={setFilterBy} wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
             <NavBar setModalContent={setModalContent} modalContent={modalContent} filterBy={filterBy} setFilterBy={setFilterBy} currentUser={currentUser} setComments={setComments} comments={comments}  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
             {modalVisible ? <ShowModal modalContent={modalContent} setModalContent={setModalContent} setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible} /> : null}
-        </>
+        </BigWrapper>
     )
 }
 
