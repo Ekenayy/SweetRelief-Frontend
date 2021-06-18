@@ -11,6 +11,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import  { PanGestureHandler, FlingGestureHandler } from 'react-native-gesture-handler'
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, withSpring} from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Ionicons } from '@expo/vector-icons';
 
 function NavBar ( {modalContent, setLoggedIn, setCurrentUser, navigation, setToken, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
 
@@ -33,6 +34,7 @@ function NavBar ( {modalContent, setLoggedIn, setCurrentUser, navigation, setTok
         background-color: 'rgba(52, 52, 52, 0.85)';
         height: 100%;
         paddingBottom: 200px;
+        flex: 1;
     `
 
     const FilterContainer = styled(Wrapper)`
@@ -46,6 +48,10 @@ function NavBar ( {modalContent, setLoggedIn, setCurrentUser, navigation, setTok
 
     const IconWrapper = styled(Wrapper)`
         align-items: center;
+    `
+    const ProfileView = styled.View`
+        align-items: flex-end
+        margin-bottom: 2px;
     `
 
     const NoPress = ( ) => {
@@ -111,6 +117,9 @@ function NavBar ( {modalContent, setLoggedIn, setCurrentUser, navigation, setTok
     return (
         <PanGestureHandler onGestureEvent={handleGesture}>
             <Animated.View style={[styles.animatedContainer, uas]}>
+                <ProfileView>
+                    <Ionicons name="person" size={24} color="black" />
+                </ProfileView>
                 <NavContainer>
                     <IconWrapper>
                         <FontAwesome5 name="grip-lines" size={24} color="black" />
