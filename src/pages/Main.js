@@ -30,10 +30,10 @@ function Main ( {currentUser, setCurrentUser} ) {
         flex: 1;
     `
 
-    useEffect(() => {
-        if (selectedLocation) {
-        }
-    }, [selectedLocation])
+    // useEffect(() => {
+    //     if (selectedLocation) {
+    //     }
+    // }, [selectedLocation])
 
     const setAndFitToCoords = (location) => {
         fetchLocation(location)

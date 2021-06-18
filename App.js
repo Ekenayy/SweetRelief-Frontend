@@ -13,6 +13,7 @@ import * as Location from 'expo-location';
 import * as geolib from 'geolib'
 import {SafeAreaView} from 'react-native'
 import {LogBox } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 LogBox.ignoreLogs(['Reanimated 2']);
 
 export default function App() {
@@ -24,6 +25,8 @@ export default function App() {
   const [errorMsg, setErrorMsg] = useState(null)
   const [currentUser, setCurrentUser] = useState(null)
   const [sortedLocations, setSortedLocations] = useState([])
+  const [token, setToken] = useState(null)
+  const [loggedIn, setLoggedIn] = useState(false)
   const [ios, setIos] = useState(Platform.OS === 'ios')
   // const [sorted, setSorted] = useState(false)
 
@@ -31,6 +34,45 @@ export default function App() {
   const Body = styled.View`
     flex: 1;
   `
+
+  const load = async () => {
+    let thisToken = ''
+      try {
+          thisToken = await AsyncStorage.getItem('token') || 'none'  
+          
+          if (thisToken !== 'none') {
+            setToken(thisToken)
+          }
+          // setToken(thisToken) 
+      } catch(e) {
+        // read error
+        console.log(e.message)
+      }
+      return thisToken
+  }
+
+  useEffect(() => {
+    load()
+  }, [])
+
+  useEffect( () => {
+    if (token && !currentUser) {
+      fetch(`${BASE_URL}/token_show`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }, 
+      })
+        .then(r => r.json())
+        .then(user =>{
+          setCurrentUser(user)
+          setLoggedIn(true)
+          // <Redirect to="/challenges" />
+          // history.push('/challenges')
+        })
+    }
+  }, [token])
+
 
   useEffect(() => {
     (async () => {
@@ -56,12 +98,6 @@ export default function App() {
       .then(res => res.json())
       .then(locations => setLocations(locations))
   },[])
-
-  // useEffect(() => {
-  //   fetch(`${BASE_URL}/users/1`)
-  //     .then(res => res.json())
-  //     .then(user => setCurrentUser(user))
-  // },[])
 
   // Sorting the locations once we have locations and a userlocation
   useEffect(() => {
@@ -95,6 +131,7 @@ export default function App() {
     // setSorted(true)
   };
 
+
   return (
     <LocationContext.Provider 
       value={{locations: sortedLocations.length ? [sortedLocations, setSortedLocations] : [locations, setLocations], 
@@ -102,7 +139,6 @@ export default function App() {
     <NavigationContainer>
         <Body>
           <Stack.Navigator
-            initialRouteName='Login'
             screenOptions={{
             headerStyle: {
               backgroundColor: '#FFEFD5',
@@ -115,12 +151,21 @@ export default function App() {
             },
             }}
           >
-            <Stack.Screen name='Main'>
+            {loggedIn ? 
+              <Stack.Screen name='Main'>
+                {(props) => <Main {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+              </Stack.Screen>
+            :
+              <Stack.Screen name='Login'>
+                {(props) => <Login {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+              </Stack.Screen>              
+            }
+            {/* <Stack.Screen name='Main'>
               {(props) => <Main {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
             </Stack.Screen>
             <Stack.Screen name='Login'>
               {(props) => <Login {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
-            </Stack.Screen>          
+            </Stack.Screen>           */}
           </Stack.Navigator>
         </Body>
     </NavigationContainer>

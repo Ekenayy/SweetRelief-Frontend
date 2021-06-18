@@ -36,7 +36,7 @@ export default function MapContainer(  {filterBy, setFilterBy, setSelectedLocati
       return <MaterialIcons name="restaurant" size={30} color="black" />
     } else if (locType === 'Bar') {
     return <MaterialIcons name="restaurant" size={30} color="black" />
-  }
+    }
 
   }
 
