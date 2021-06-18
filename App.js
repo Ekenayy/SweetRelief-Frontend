@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect, useContext} from 'react';
 import { BASE_URL } from '@env'
 import Main from './src/pages/Main'
+import Login from './src/pages/Login'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
@@ -30,6 +31,7 @@ export default function App() {
   const Body = styled.View`
     flex: 1;
   `
+
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -55,11 +57,11 @@ export default function App() {
       .then(locations => setLocations(locations))
   },[])
 
-  useEffect(() => {
-    fetch(`${BASE_URL}/users/1`)
-      .then(res => res.json())
-      .then(user => setCurrentUser(user))
-  },[])
+  // useEffect(() => {
+  //   fetch(`${BASE_URL}/users/1`)
+  //     .then(res => res.json())
+  //     .then(user => setCurrentUser(user))
+  // },[])
 
   // Sorting the locations once we have locations and a userlocation
   useEffect(() => {
@@ -100,6 +102,7 @@ export default function App() {
     <NavigationContainer>
         <Body>
           <Stack.Navigator
+            initialRouteName='Login'
             screenOptions={{
             headerStyle: {
               backgroundColor: '#FFEFD5',
@@ -114,7 +117,10 @@ export default function App() {
           >
             <Stack.Screen name='Main'>
               {(props) => <Main {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
-            </Stack.Screen>         
+            </Stack.Screen>
+            <Stack.Screen name='Login'>
+              {(props) => <Login {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+            </Stack.Screen>          
           </Stack.Navigator>
         </Body>
     </NavigationContainer>
