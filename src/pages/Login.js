@@ -3,6 +3,7 @@ import {useForm} from 'react-hook-form';
 import { BASE_URL } from '@env'
 import styled from 'styled-components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Alert} from 'react-native'
 // import { NavigationContainer } from '@react-navigation/native';
 // import { createStackNavigator } from '@react-navigation/stack';
 
@@ -80,8 +81,8 @@ function Login ( {navigation, currentUser, setCurrentUser}) {
         })
             .then(r => r.json())
             .then(newUser => {
-                if (newUser.errors) {
-                    setErrors(newUser.errors)
+                if (newUser.error) {
+                    setErrors(newUser.error)
                 } else {
                     // console.log(newUser.user)
                     setCurrentUser(newUser.user)
@@ -94,7 +95,7 @@ function Login ( {navigation, currentUser, setCurrentUser}) {
         try {
             await AsyncStorage.setItem('token', thisToken)
         } catch (e) {
-            Alert.alert('Failed to save the data to the storage')
+            Alert.alert('Failed to save the token to storage')
         }
     }
 

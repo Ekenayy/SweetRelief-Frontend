@@ -4,14 +4,15 @@ import AllLocationsList from './AllLocationsList'
 import { View, StyleSheet} from "react-native";
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
-import { Text, Wrapper } from '../styles/Styles'
+import { Text, Wrapper, Button } from '../styles/Styles'
 import LocationShow from './LocationShow'
 import Filters from './Filters'
 import { FontAwesome5 } from '@expo/vector-icons';
 import  { PanGestureHandler, FlingGestureHandler } from 'react-native-gesture-handler'
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, withSpring} from 'react-native-reanimated';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function NavBar ( {modalContent, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
+function NavBar ( {modalContent, setLoggedIn, setCurrentUser, navigation, setToken, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
 
     const styles = StyleSheet.create({
         animatedContainer: {
@@ -22,11 +23,17 @@ function NavBar ( {modalContent, setModalContent, filterBy, setFilterBy, handleP
             height: '100%',
             bottom: 0,
             top: 300,
+        },
+        navContainer: {
             backgroundColor: 'rgba(52, 52, 52, 0.85)',
-            paddingBottom: 200,
         }
     })
     
+    const NavContainer = styled.View`
+        background-color: 'rgba(52, 52, 52, 0.85)';
+        height: 100%;
+        paddingBottom: 200px;
+    `
 
     const FilterContainer = styled(Wrapper)`
         height: 50px;
@@ -84,14 +91,35 @@ function NavBar ( {modalContent, setModalContent, filterBy, setFilterBy, handleP
         }
     })
 
+    const removeToken = async () => {
+        try {
+            await AsyncStorage.removeItem('token')
+        } catch(e) {
+        }
+    
+        console.log('Done.')
+    }
+
+    const handleLogOut = () => {
+        setToken(null)
+        removeToken()
+        setCurrentUser(null)
+        setLoggedIn(false)
+    }
+
 
     return (
         <PanGestureHandler onGestureEvent={handleGesture}>
             <Animated.View style={[styles.animatedContainer, uas]}>
-                <IconWrapper>
-                    <FontAwesome5 name="grip-lines" size={24} color="black" />
-                </IconWrapper>
-                {selectedLocation ? <LocationShow modalConent={modalContent} setModalContent={setModalContent} currentUser={currentUser} setComments={setComments} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
+                <NavContainer>
+                    <IconWrapper>
+                        <FontAwesome5 name="grip-lines" size={24} color="black" />
+                        <Button onPress={handleLogOut}>
+                            <Text>Log Out</Text>
+                        </Button>
+                    </IconWrapper>
+                    {selectedLocation ? <LocationShow modalConent={modalContent} setModalContent={setModalContent} currentUser={currentUser} setComments={setComments} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
+                </NavContainer>
             </Animated.View>
         </PanGestureHandler>
     )

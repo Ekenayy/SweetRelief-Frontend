@@ -11,7 +11,7 @@ import LocationItem from './src/components/LocationItem';
 import styled from 'styled-components'
 import * as Location from 'expo-location';
 import * as geolib from 'geolib'
-import {SafeAreaView} from 'react-native'
+import {SafeAreaView, Alert} from 'react-native'
 import {LogBox } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 LogBox.ignoreLogs(['Reanimated 2']);
@@ -73,13 +73,12 @@ export default function App() {
     }
   }, [token])
 
-
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
-        // For testing purposes only on Android
+        Alert.alert('Location is required to provide best service')
         setUserLocation({
           latitude: 40.700415, 
           longitude: -73.90897
@@ -151,21 +150,15 @@ export default function App() {
             },
             }}
           >
-            {loggedIn ? 
+            {currentUser ? 
               <Stack.Screen name='Main'>
-                {(props) => <Main {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+                {(props) => <Main {...props} setLoggedIn={setLoggedIn} setToken={setToken} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
               </Stack.Screen>
             :
               <Stack.Screen name='Login'>
                 {(props) => <Login {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
               </Stack.Screen>              
             }
-            {/* <Stack.Screen name='Main'>
-              {(props) => <Main {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
-            </Stack.Screen>
-            <Stack.Screen name='Login'>
-              {(props) => <Login {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
-            </Stack.Screen>           */}
           </Stack.Navigator>
         </Body>
     </NavigationContainer>
