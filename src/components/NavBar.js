@@ -12,6 +12,7 @@ import  { PanGestureHandler, FlingGestureHandler } from 'react-native-gesture-ha
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, withSpring} from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 function NavBar ( {modalContent, setLoggedIn, setCurrentUser, navigation, setToken, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
 
@@ -52,6 +53,16 @@ function NavBar ( {modalContent, setLoggedIn, setCurrentUser, navigation, setTok
     const ProfileView = styled.View`
         align-items: flex-end
         margin-bottom: 2px;
+    `
+
+    const IconView = styled.View`
+        flex-direction: row;
+        justify-content: space-around;
+        padding-right: 5px;
+    `
+
+    const TouchView = styled.TouchableOpacity`
+
     `
 
     const NoPress = ( ) => {
@@ -118,14 +129,18 @@ function NavBar ( {modalContent, setLoggedIn, setCurrentUser, navigation, setTok
         <PanGestureHandler onGestureEvent={handleGesture}>
             <Animated.View style={[styles.animatedContainer, uas]}>
                 <ProfileView>
-                    <Ionicons name="person" size={24} color="black" />
+                    <IconView>
+                        <TouchView>
+                            <Ionicons name="person" size={24} color="#1C1C1C" style={{paddingRight: 5}} />
+                        </TouchView>
+                        <TouchView onPress={handleLogOut}>
+                            <MaterialCommunityIcons name="logout" size={24} color="#1C1C1C" style={{paddingLeft: 5}}/>
+                        </TouchView>
+                    </IconView>
                 </ProfileView>
                 <NavContainer>
                     <IconWrapper>
-                        <FontAwesome5 name="grip-lines" size={24} color="black" />
-                        <Button onPress={handleLogOut}>
-                            <Text>Log Out</Text>
-                        </Button>
+                        <FontAwesome5 name="grip-lines" size={24} color="#DDF8E8"/>
                     </IconWrapper>
                     {selectedLocation ? <LocationShow modalConent={modalContent} setModalContent={setModalContent} currentUser={currentUser} setComments={setComments} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
                 </NavContainer>
