@@ -29,7 +29,6 @@ function Main ( {currentUser, setLoggedIn, setCurrentUser, setToken} ) {
     const BigWrapper = styled.View`
         flex: 1;
     `
-
     // useEffect(() => {
     //     if (selectedLocation) {
     //     }

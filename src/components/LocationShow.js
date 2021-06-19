@@ -21,13 +21,13 @@ function LocationShow ({modalContent, setModalContent, modalVisible, currentUser
 
     const Span = styled(Text)`
         align-self: center;
-        color: black;
+        color: #1C1C1C;
         margin-top: 5px;
         font-weight: bold;
     `
 
     const DetailsText = styled(Text)`
-        color: black;
+        color: #1C1C1C;
         margin-bottom: 5px;
     `
 

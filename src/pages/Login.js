@@ -4,6 +4,8 @@ import { BASE_URL } from '@env'
 import styled from 'styled-components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Alert} from 'react-native'
+import { Input, Span, BrownButton} from '../styles/Styles'
+
 // import { NavigationContainer } from '@react-navigation/native';
 // import { createStackNavigator } from '@react-navigation/stack';
 
@@ -30,34 +32,38 @@ function Login ( {navigation, currentUser, setCurrentUser}) {
         padding:12px;
         margin-bottom:0px;
     `
-    const Input = styled.TextInput`
-        background: #F3F5F6;
-        width: 100%;
-        border-radius:20px;
-        padding-left: 12px;
-        height: 50px;
-        margin-top: 20px;
-        border-radius: 20px;
-    `
+    // const Input = styled.TextInput`
+    //     background: #F3F5F6;
+    //     width: 100%;
+    //     border-radius:20px;
+    //     padding-left: 12px;
+    //     height: 50px;
+    //     margin-top: 20px;
+    //     border-radius: 20px;
+    // `
 
     const FormTitle = styled.Text`
-    font-size: 24px;
-    color: #F7F8F3;
+        font-size: 24px;
+        color: #F7F8F3;
     `
 
-    const Button = styled.TouchableOpacity`
-        background: #03DAC5;
-        width: 140px;
-        margin: 12px;
-        border-radius:20px;
-        align-self: center
+    const LoginButton = styled(BrownButton)`
+        margin-top: 10px;
     `
 
-    const Span = styled.Text`
-        color: #F7F8F3
-        padding: 12px;
-        align-self: center
-    `
+    // const Button = styled.TouchableOpacity`
+    //     background: #03DAC5;
+    //     width: 140px;
+    //     margin: 12px;
+    //     border-radius:20px;
+    //     align-self: center
+    // `
+
+    // const Span = styled.Text`
+    //     color: #F7F8F3
+    //     padding: 12px;
+    //     align-self: center
+    // `
 
     const ErrorSpan = styled(Span)`
         color: white
@@ -84,7 +90,6 @@ function Login ( {navigation, currentUser, setCurrentUser}) {
                 if (newUser.error) {
                     setErrors(newUser.error)
                 } else {
-                    // console.log(newUser.user)
                     setCurrentUser(newUser.user)
                     saveData(newUser.token)
                 }
@@ -99,11 +104,11 @@ function Login ( {navigation, currentUser, setCurrentUser}) {
         }
     }
 
-    useEffect(() => {
-        if (currentUser) {
-            navigation.navigate('Main')
-        }
-    }, [currentUser])
+    // useEffect(() => {
+    //     if (currentUser) {
+    //         navigation.navigate('Main')
+    //     }
+    // }, [currentUser])
 
     return (
         <Body>
@@ -121,12 +126,12 @@ function Login ( {navigation, currentUser, setCurrentUser}) {
                 onChangeText={text => setValue('password', text)}
             />
             {errors ? <ErrorSpan>{errors}</ErrorSpan> : null}
-            <Button onPress={handleSubmit(onSubmit)}>
+            <LoginButton onPress={handleSubmit(onSubmit)}>
                 <Span>Log in</Span>
-            </Button>
-            <Button onPress={() => navigation.navigate('Main')}>
-                <Span>Main</Span>
-            </Button>
+            </LoginButton>
+            <LoginButton onPress={() => navigation.navigate('SignUp')}>
+                <Span>Sign Up</Span>
+            </LoginButton>
             </Form>  
         </Body>   
     )

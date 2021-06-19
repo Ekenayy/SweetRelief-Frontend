@@ -3,11 +3,12 @@ import React, {useState, useEffect, useContext} from 'react';
 import { BASE_URL } from '@env'
 import Main from './src/pages/Main'
 import Login from './src/pages/Login'
+import SignUp from './src/pages/SignUp'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import LocationContext from './src/LocationContext'
-import LocationItem from './src/components/LocationItem';
+import SplashScreen from './src/components/SplashScreen';
 import styled from 'styled-components'
 import * as Location from 'expo-location';
 import * as geolib from 'geolib'
@@ -27,6 +28,7 @@ export default function App() {
   const [sortedLocations, setSortedLocations] = useState([])
   const [token, setToken] = useState(null)
   const [loggedIn, setLoggedIn] = useState(false)
+  const [isLoading, setisLoading] = useState(true)
   const [ios, setIos] = useState(Platform.OS === 'ios')
   // const [sorted, setSorted] = useState(false)
 
@@ -42,6 +44,9 @@ export default function App() {
           
           if (thisToken !== 'none') {
             setToken(thisToken)
+            setisLoading(false)
+          } else {
+            setisLoading(false)
           }
           // setToken(thisToken) 
       } catch(e) {
@@ -130,7 +135,9 @@ export default function App() {
     // setSorted(true)
   };
 
-
+if (isLoading) {
+  return <SplashScreen />
+} 
   return (
     <LocationContext.Provider 
       value={{locations: sortedLocations.length ? [sortedLocations, setSortedLocations] : [locations, setLocations], 
@@ -155,17 +162,19 @@ export default function App() {
                 {(props) => <Main {...props} setLoggedIn={setLoggedIn} setToken={setToken} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
               </Stack.Screen>
             :
+            <>
               <Stack.Screen name='Login'>
                 {(props) => <Login {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
-              </Stack.Screen>              
+              </Stack.Screen>
+              <Stack.Screen name='SignUp'>
+                {(props) => <SignUp {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+              </Stack.Screen>  
+            </>            
             }
           </Stack.Navigator>
         </Body>
     </NavigationContainer>
     </LocationContext.Provider>
-
-
-
   );
 }
 

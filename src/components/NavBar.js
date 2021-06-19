@@ -103,7 +103,7 @@ function NavBar ( {modalContent, setLoggedIn, setCurrentUser, navigation, setTok
         } catch(e) {
         }
     
-        console.log('Done.')
+        console.log('Token Removed.')
     }
 
     const handleLogOut = () => {
