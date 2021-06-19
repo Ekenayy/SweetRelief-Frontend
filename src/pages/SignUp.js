@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Alert } from 'react-native'
 import {useForm} from 'react-hook-form'
 import { BASE_URL } from '@env'
-import { Input, Span, Button } from '../styles/Styles'
+import { Input, Span, Button, BrownButton} from '../styles/Styles'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function SignUp ( {currentUser, setCurrentUser} ) {
@@ -38,6 +38,9 @@ function SignUp ( {currentUser, setCurrentUser} ) {
     const Body = styled.View`
         background: #BEA7E5;
         flex: 1;
+    `
+    const SignUpButton = styled(BrownButton)`
+        margin-top: 10px;
     `
     const onSubmit = data => {
         
@@ -102,9 +105,9 @@ function SignUp ( {currentUser, setCurrentUser} ) {
                 />
                 {/* {errors ? <ErrorSpan>{errors}</ErrorSpan> : null} */}
                 {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
-                <Button onPress={handleSubmit(onSubmit)}>
+                <SignUpButton onPress={handleSubmit(onSubmit)}>
                     <Span>Create account</Span>
-                </Button>
+                </SignUpButton>
             </Form>   
         </Body> 
     )

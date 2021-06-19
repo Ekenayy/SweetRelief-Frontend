@@ -70,6 +70,7 @@ export default function App() {
       })
         .then(r => r.json())
         .then(user =>{
+          console.log('triggered')
           setCurrentUser(user)
           setLoggedIn(true)
           // <Redirect to="/challenges" />

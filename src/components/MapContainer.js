@@ -101,10 +101,6 @@ const filteredLocations = reduceFilterList(contextLocations);
               origin={contextUserLocation ? contextUserLocation : customLocation}
               destination={{latitude: selectedLocation.latitude, longitude: selectedLocation.longitude}}
               apikey={GOOGLE_KEY}
-              // onReady={result => {
-              //   console.log(`Duration: ${result.duration} min.`)
-              //   }
-              // }
             />
             : null}
         </MapView>
