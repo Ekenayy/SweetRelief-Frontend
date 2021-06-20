@@ -75,13 +75,6 @@ function SignUp ( {currentUser, setCurrentUser} ) {
         }
     }
 
-    // useEffect(() => {
-    //     if (currentUser) {
-    //         navigation.navigate('Main')
-    //     }
-    // }, [currentUser])
-
-
     return (
         <Body>
             <Form>

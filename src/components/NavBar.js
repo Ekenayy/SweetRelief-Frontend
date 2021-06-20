@@ -50,7 +50,7 @@ function NavBar ( {modalContent, setLoggedIn, setCurrentUser, navigation, setTok
     const IconWrapper = styled(Wrapper)`
         align-items: center;
     `
-    const ProfileView = styled.View`
+    const BigIconView = styled.View`
         align-items: flex-end
         margin-bottom: 2px;
     `
@@ -128,16 +128,16 @@ function NavBar ( {modalContent, setLoggedIn, setCurrentUser, navigation, setTok
     return (
         <PanGestureHandler onGestureEvent={handleGesture}>
             <Animated.View style={[styles.animatedContainer, uas]}>
-                <ProfileView>
+                <BigIconView>
                     <IconView>
-                        <TouchView>
+                        <TouchView onPress={() => navigation.navigate('Profile')}>
                             <Ionicons name="person" size={24} color="#1C1C1C" style={{paddingRight: 5}} />
                         </TouchView>
                         <TouchView onPress={handleLogOut}>
                             <MaterialCommunityIcons name="logout" size={24} color="#1C1C1C" style={{paddingLeft: 5}}/>
                         </TouchView>
                     </IconView>
-                </ProfileView>
+                </BigIconView>
                 <NavContainer>
                     <IconWrapper>
                         <FontAwesome5 name="grip-lines" size={24} color="#DDF8E8"/>
