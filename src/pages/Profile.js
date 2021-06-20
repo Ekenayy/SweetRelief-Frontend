@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { DarkText, H2, Wrapper, PurpButton, Scroll, Span, } from '../styles/Styles'
+import { Ionicons } from '@expo/vector-icons';
+import { Fontisto } from '@expo/vector-icons';
+
 
 
 function Profile ( {navigation, currentUser, setCurrentUser}) {
@@ -10,7 +13,7 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
     // Settings?
     // Help and Support 
 
-    const [selected, setSelected] = useState(null)
+    const [selected, setSelected] = useState('view')
 
     const Body = styled.View`
         flex: 1;
@@ -35,7 +38,73 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
 
     const TouchView = styled.TouchableOpacity`
     `
+    const MainInfoView = styled.View`
+        margin-top: 10px;
+    `
 
+    const AllInfoView = styled.View`
+    `
+    const Title = styled(H2)`
+        align-self: center;
+    `
+    const OneInfoView = styled.View`
+        flex-direction: row;
+        padding-left: 20px;
+        margin-bottom: 5px;
+        border-bottom-width: .5px;
+        border-color: #a6a3a8;
+    `
+
+    // Name with an optional input component based on selected 
+    // Email
+    // Password 
+
+    const ViewInfo = () => {
+        return (
+            <>
+                <Title>View Info</Title>
+                <AllInfoView>
+                    <OneInfoView>
+                        <Ionicons name="person-outline" size={24} color="#1C1C1C" style={{marginRight: 20}} />
+                        <DarkText>{currentUser.name}</DarkText>
+                    </OneInfoView>
+                    <OneInfoView>
+                        <Fontisto name="email" size={24} color="black" style={{marginRight: 20}} />
+                        <DarkText>{currentUser.email}</DarkText>
+                    </OneInfoView>
+                    <OneInfoView>
+                        <Ionicons name="eye-outline" size={24} color="black" style={{marginRight: 20}} />
+                        <DarkText>******</DarkText>
+                    </OneInfoView>
+                </AllInfoView>
+                {/* <PastOrders/> */}
+            </>
+        )
+    }
+    
+    // 5 last orders read from currentUser.last_5_payment_orders
+    const PastOrders = () => {
+
+    }
+
+    const EditInfo = () => {
+        return (
+            <>
+                <DarkText>Hello from edit Info</DarkText>
+            </>
+        )
+    }
+
+    const MainInfo = () => {
+        switch (selected) {
+            case 'view': 
+                return <ViewInfo/>
+            case 'edit':
+                return <EditInfo/>
+            default: 
+                return <ViewInfo/>
+        }
+    }
 
     return (
         <Body>
@@ -44,17 +113,20 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
                     <H2>{currentUser.name}</H2>
                 </TextView>
                 <OptionsView>
-                    <TouchView>
-                        <DarkText>Account info</DarkText>
+                    <TouchView onPress={() => setSelected('view')}>
+                        <DarkText>View</DarkText>
                     </TouchView>
-                    <TouchView>
-                        <DarkText>Past Orders</DarkText>
+                    <TouchView onPress={() => setSelected('edit')}>
+                        <DarkText>Edit</DarkText>
                     </TouchView>
-                    <TouchView>
+                    {/* <TouchView onPress={() => setSelected('support')}>
                         <DarkText>Support</DarkText>
-                    </TouchView>
+                    </TouchView> */}
                 </OptionsView>
             </Header>
+            <MainInfoView>
+                <MainInfo/>
+            </MainInfoView>
             <PurpButton onPress={() => navigation.navigate('Main')}>
                     <Span>To Main</Span>
             </PurpButton>
