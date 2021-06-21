@@ -100,6 +100,19 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
         padding-bottom: 10px;
         padding-top: 10px;
     `
+    const DateTimeView = styled.View`
+        flex-direction: row;
+        margin-bottom: 5px;
+    `
+    const DateView = styled.View`
+        flex-direction: row;
+        align-items: center;
+    `
+    const TimeView = styled.View`
+        flex-direction: row;
+        margin-left: 15px;
+        align-items: center;
+    `
 
     // Name with an optional input component based on selected 
     // Email
@@ -112,15 +125,15 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
                 <Title>View Info</Title>
                 <AllInfoView>
                     <OneInfoView>
-                        <Ionicons name="person-outline" size={26} color="#1C1C1C" style={{marginRight: 20}} />
+                        <Ionicons name="person-outline" size={26} color="#F4A261" style={{marginRight: 20}} />
                         <InfoText>{currentUser.name}</InfoText>
                     </OneInfoView>
                     <OneInfoView>
-                        <Fontisto name="email" size={26} color="black" style={{marginRight: 20}} />
+                        <Fontisto name="email" size={26} color="#F4A261" style={{marginRight: 20}} />
                         <InfoText>{currentUser.email}</InfoText>
                     </OneInfoView>
                     <OneInfoView>
-                        <Ionicons name="eye-outline" size={26} color="black" style={{marginRight: 20}} />
+                        <Ionicons name="eye-outline" size={26} color="#F4A261" style={{marginRight: 20}} />
                         <InfoText>******</InfoText>
                     </OneInfoView>
                 </AllInfoView>
@@ -139,10 +152,20 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
     const last5Orders = orders.map((order) => {
         return (
             <OneOrderTouch>
+                <DateTimeView>
+                    <DateView>
+                        <Fontisto name="date" size={20} color="#F4A261" style={{marginRight: 7}} />
+                        <DarkText>{order.formatted_date}</DarkText>
+                    </DateView>
+                    <TimeView>
+                        <MaterialCommunityIcons name="clock-outline" size={24} color="#F4A261" style={{marginRight: 7}} />
+                        <DarkText>{order.formatted_time}</DarkText>
+                    </TimeView>
+                </DateTimeView>
                 <H2>{order.location.name}</H2>
                 <DarkText>{order.location.address}</DarkText>
                 <DarkText>${order.price_cents}</DarkText>
-                <DarkText>{order.token}</DarkText>
+                <DarkText>#{order.token}</DarkText>
             </OneOrderTouch>
         )
     })
