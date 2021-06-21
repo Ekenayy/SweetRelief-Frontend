@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { DarkText, H2, Wrapper, PurpButton, Scroll, Span, } from '../styles/Styles'
+import { DarkText, H2, Wrapper, PurpButton, Scroll, Span, Form } from '../styles/Styles'
 import { Ionicons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { BASE_URL } from '@env'
-
-
+import PaymentOrder from '../components/PaymentOrder'
+import EditUser from '../components/EditUser'
 
 function Profile ( {navigation, currentUser, setCurrentUser}) {
 
@@ -93,30 +93,6 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
         margin-left: 40px;
         font-size: 18px;
     `
-    const OneOrderTouch = styled.TouchableOpacity`
-        padding-left: 30px;
-        border-bottom-width: .5px;
-        border-color: #a6a3a8;
-        padding-bottom: 10px;
-        padding-top: 10px;
-    `
-    const DateTimeView = styled.View`
-        flex-direction: row;
-        margin-bottom: 5px;
-    `
-    const DateView = styled.View`
-        flex-direction: row;
-        align-items: center;
-    `
-    const TimeView = styled.View`
-        flex-direction: row;
-        margin-left: 15px;
-        align-items: center;
-    `
-
-    // Name with an optional input component based on selected 
-    // Email
-    // Password 
 
 
     const ViewInfo = () => {
@@ -138,37 +114,16 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
                     </OneInfoView>
                 </AllInfoView>
                 {orders ? <PastOrders/> : null}
-                {/* <PastOrders/> */}
             </>
         )
     }
-    // Date next to calendar icon
-    // Name of the location
-    // Amount 
-    // 5 last orders read from currentUser.last_5_payment_orders
 
     // Should be able to enlarge the order onPress in a modal
 
     const last5Orders = orders.map((order) => {
-        return (
-            <OneOrderTouch>
-                <DateTimeView>
-                    <DateView>
-                        <Fontisto name="date" size={20} color="#F4A261" style={{marginRight: 7}} />
-                        <DarkText>{order.formatted_date}</DarkText>
-                    </DateView>
-                    <TimeView>
-                        <MaterialCommunityIcons name="clock-outline" size={24} color="#F4A261" style={{marginRight: 7}} />
-                        <DarkText>{order.formatted_time}</DarkText>
-                    </TimeView>
-                </DateTimeView>
-                <H2>{order.location.name}</H2>
-                <DarkText>{order.location.address}</DarkText>
-                <DarkText>${order.price_cents}</DarkText>
-                <DarkText>#{order.token}</DarkText>
-            </OneOrderTouch>
-        )
+        return <PaymentOrder key={order.id} chosenOrder={chosenOrder} order={order}/>
     })
+
     const PastOrders = () => {
         return (
             <>
@@ -183,7 +138,8 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
     const EditInfo = () => {
         return (
             <>
-                <DarkText>Hello from edit Info</DarkText>
+                <Title>Edit Info</Title>
+                <EditUser currentUser={currentUser}/>
             </>
         )
     }
@@ -224,7 +180,6 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
             </MainInfoView>
         </Body>
     )
-
 }
 
 export default Profile

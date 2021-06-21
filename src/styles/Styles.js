@@ -63,3 +63,7 @@ export const Input = styled.TextInput`
     margin-top: 20px;
     border-radius: 20px;
 `
+export const Form = styled.View`
+    padding-left:12px;
+    padding-top: 30px;
+`
