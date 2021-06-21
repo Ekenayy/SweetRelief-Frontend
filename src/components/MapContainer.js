@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext, useRef} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Marker } from 'react-native-maps';
-import { BASE_URL, GOOGLE_KEY } from '@env'
+import { GOOGLE_KEY } from '@env'
 import styled from 'styled-components'
 import MapView, {AnimatedRegion} from "react-native-map-clustering";
 import LocationContext from '../LocationContext'
