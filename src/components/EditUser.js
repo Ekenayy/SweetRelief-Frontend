@@ -12,6 +12,8 @@ import {useForm} from 'react-hook-form'
 function EditUser ( {currentUser, setCurrentUser}) {
 
     const {register, handleSubmit, setValue} = useForm()
+    
+    const [errors, setErrors] = useState("")
 
     useEffect(() => {
         register('name')
@@ -32,6 +34,10 @@ function EditUser ( {currentUser, setCurrentUser}) {
     const ButtonView = styled.View`
         margin-top: 10px;
     `
+    const ErrorSpan = styled(Span)`
+        color: red;
+    `
+
     const handleEdit = data => {
         
         let formBody = {}
@@ -49,8 +55,11 @@ function EditUser ( {currentUser, setCurrentUser}) {
         })
             .then(r=> r.json())
             .then(updatedUser => {
-                console.log(updatedUser)
-                setCurrentUser(updatedUser)
+                if (updatedUser.errors) {
+                    setErrors(updatedUser.errors)
+                } else {
+                    setCurrentUser(updatedUser)
+                }
             })
     }
 
@@ -72,6 +81,8 @@ function EditUser ( {currentUser, setCurrentUser}) {
                 defaultValue='*******'
                 onChangeText={text => setValue('password', text)}
             />
+            {/* {errors ? <ErrorSpan>{errors}</ErrorSpan> : null} */}
+            {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
             <ButtonView>
                 <PurpButton onPress={handleSubmit(handleEdit)}>
                     <Span>Submit</Span>
