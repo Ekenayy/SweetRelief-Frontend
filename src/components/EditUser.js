@@ -79,6 +79,7 @@ function EditUser ( {currentUser, setCurrentUser}) {
             <EditInput
                 placeholder="Password.."
                 defaultValue='*******'
+                secureTextEntry={true}
                 onChangeText={text => setValue('password', text)}
             />
             {/* {errors ? <ErrorSpan>{errors}</ErrorSpan> : null} */}
