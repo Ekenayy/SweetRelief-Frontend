@@ -9,7 +9,7 @@ import { BASE_URL } from '@env'
 import {useForm} from 'react-hook-form'
 
 
-function EditUser ( {currentUser}) {
+function EditUser ( {currentUser, setCurrentUser}) {
 
     const {register, handleSubmit, setValue} = useForm()
 
@@ -42,15 +42,16 @@ function EditUser ( {currentUser}) {
             }
         }
 
-        // fetch(`${BASE_URL}/users/${thisUser.id}`, {
-        //     method: 'PATCH', 
-        //     headers: {'Content-Type': 'application/json'},
-        //     body: JSON.stringify(formBody)
-        // })
-        //     .then(r=> r.json())
-        //     .then(updatedUser => {
-        //         setThisUser(updatedUser)
-        //     })
+        fetch(`${BASE_URL}/users/${currentUser.id}`, {
+            method: 'PATCH', 
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(formBody)
+        })
+            .then(r=> r.json())
+            .then(updatedUser => {
+                console.log(updatedUser)
+                setCurrentUser(updatedUser)
+            })
     }
 
     return (

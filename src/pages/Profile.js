@@ -139,7 +139,7 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
         return (
             <>
                 <Title>Edit Info</Title>
-                <EditUser currentUser={currentUser}/>
+                <EditUser currentUser={currentUser} setCurrentUser={setCurrentUser}/>
             </>
         )
     }
