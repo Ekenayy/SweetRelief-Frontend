@@ -57,12 +57,17 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
     const OptionsView = styled.View`
         flex-direction: row;
         justify-content: space-around;
-        margin-top: 40px;
+        margin-top: 30px;
     `
 
     const TouchView = styled.TouchableOpacity`
         flex-direction: row;
         align-items: center;
+        border-bottom-width: ${props => props.selected ? '2px': '0px'}
+        border-color: #F7F8F3
+        padding-bottom: 3px;
+    `
+    const EditView = styled(TouchView)`
     `
     const MainInfoView = styled.ScrollView`
         margin-top: 10px;
@@ -186,14 +191,14 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
                     <HeaderName>{currentUser.name}</HeaderName>
                 </TextView>
                 <OptionsView>
-                    <TouchView onPress={() => setSelected('view')}>
+                    <TouchView selected={selected == 'view'} onPress={() => setSelected('view')}>
                         <MaterialCommunityIcons name="magnify" size={24} color="black" style={{marginRight: 5}}/>
                         <DarkText>View</DarkText>
                     </TouchView>
-                    <TouchView onPress={() => setSelected('edit')}>
+                    <EditView selected={selected == 'edit'} onPress={() => setSelected('edit')}>
                         <SimpleLineIcons name="pencil" size={22} color="black" style={{marginRight: 5}}/>
                         <DarkText>Edit</DarkText>
-                    </TouchView>
+                    </EditView>
                 </OptionsView>
             </Header>
             <MainInfoView showsVerticalScrollIndicator={false}>
