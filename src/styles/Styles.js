@@ -67,3 +67,19 @@ export const Form = styled.View`
     padding-left:12px;
     padding-top: 30px;
 `
+export const Modal1 = styled.Modal`
+`
+
+export const ModalHolder = styled.View`
+        flex: 1;
+        margin-top: 200px;
+        width: 90%;
+        align-self: center;
+    `
+
+export const ModalForm = styled.View`
+        padding:10px;
+        background-color: white;
+        border-radius: 20px;
+        align-items: center;
+    `

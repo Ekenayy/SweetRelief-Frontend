@@ -7,7 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { BASE_URL } from '@env'
 
-function PaymentOrder ( { order, chosenOrder } ) {
+function PaymentOrder ( { order, chosenOrder, setChosenOrder, modalVisible, setModalVisible } ) {
     
     const {formatted_time, formatted_date, location, price_cents, token} = order
 
@@ -31,9 +31,14 @@ function PaymentOrder ( { order, chosenOrder } ) {
         margin-left: 15px;
         align-items: center;
     `
+    
+    const handlePress = () => {
+        setChosenOrder(order)
+        setModalVisible(true)
+    }
 
     return (
-        <OneOrderTouch>
+        <OneOrderTouch onPress={handlePress}>
                 <DateTimeView>
                     <DateView>
                         <Fontisto name="date" size={20} color="#F4A261" style={{marginRight: 7}} />

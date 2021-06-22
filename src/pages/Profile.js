@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { DarkText, H2, Wrapper, PurpButton, Scroll, Span, Form } from '../styles/Styles'
+import { DarkText, H2, PurpButton, Span, Modal1, ModalHolder, CloseView, ModalForm, CloseText} from '../styles/Styles'
 import { Ionicons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -21,6 +21,7 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
     const [chosenOrder, setChosenOrder] = useState(null)
     const [limit, setLimit] = useState(5)
     const [offset, setOffset] = useState(0)
+    const [modalVisible, setModalVisible] = useState(false)
 
     useEffect(() => {
         let formBody = {
@@ -121,13 +122,13 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
     // Should be able to enlarge the order onPress in a modal
 
     const last5Orders = orders.map((order) => {
-        return <PaymentOrder key={order.id} chosenOrder={chosenOrder} order={order}/>
+        return <PaymentOrder key={order.id} modalVisible={modalVisible} setModalVisible={setModalVisible} setChosenOrder={setChosenOrder} chosenOrder={chosenOrder} order={order}/>
     })
 
     const PastOrders = () => {
         return (
             <>
-                <Title>Order History</Title>
+                <Title>Recent Orders</Title>
                 <AllInfoView>
                     {last5Orders}
                 </AllInfoView>
@@ -155,6 +156,29 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
         }
     }
 
+    const OrderModal = () => {
+        return (
+            <Modal1
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                        Alert.alert("Modal has been closed.");
+                        setModalVisible(!modalVisible);
+                    }}
+            >
+            <ModalHolder>
+                <ModalForm>
+                    <CloseView onPress={() => setModalVisible(!modalVisible)}>
+                        <CloseText>❌</CloseText>
+                    </CloseView>
+                    <PaymentOrder order={chosenOrder} setModalVisible={setModalVisible} modalVisible={modalVisible} setChosenOrder={setChosenOrder} chosenOrder={chosenOrder}/>
+                </ModalForm>
+            </ModalHolder>
+            </Modal1>
+        )
+    }
+
     return (
         <Body>
             <Header>
@@ -172,12 +196,13 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
                     </TouchView>
                 </OptionsView>
             </Header>
-            <MainInfoView>
+            <MainInfoView showsVerticalScrollIndicator={false}>
                 <MainInfo/>
                 <PurpButton onPress={() => navigation.navigate('Main')}>
                     <Span>To Map</Span>
                 </PurpButton>
             </MainInfoView>
+            {modalVisible ? <OrderModal/> : null}
         </Body>
     )
 }
