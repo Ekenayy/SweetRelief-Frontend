@@ -5,6 +5,7 @@ import LocationContext from '../LocationContext'
 import ShowBar from './ShowBar'
 import CommentItem from './CommentItem'
 import { createOpenLink } from 'react-native-open-maps';
+import { AntDesign } from '@expo/vector-icons';
 
 
 function LocationShow ({modalContent, setModalContent, modalVisible, currentUser, comments, setComments, setModalVisible, setSelectedLocation, selectedLocation}) {
@@ -72,6 +73,16 @@ function LocationShow ({modalContent, setModalContent, modalVisible, currentUser
         padding-bottom: 100px;
     `
 
+    const HeaderWrapper = styled.View`
+        flex-direction: row;
+        justify-content: space-between;
+    `
+
+    const RatingView = styled.View`
+        flex-direction: row;
+    `
+
+
     // useEffect(() => {
     //     setStateUpvotes(upvotes)
     //     setStateDownvotes(downvotes)
@@ -81,6 +92,19 @@ function LocationShow ({modalContent, setModalContent, modalVisible, currentUser
         comments.map((comment) => {
             return <CommentItem key={comment.id} comment={comment}/>
     })
+
+    const averageRating = () => {
+
+        if (comments.length > 1) {
+            let totalNumber = comments.reduce( (a, b) => a.rating + b.rating)
+            let averageNumber = (totalNumber / comments.length)
+            return averageNumber
+        } else if (comments.length == 1) {
+            return comments[0].rating
+        } else {
+            return 'No ratings yet'
+        }
+    }
     // Comments and Reviews Plus ability to vote up and down
     // Add icons for each detail 
     // Figure out how to provide an answer for null attributes (What if we don't know?)
@@ -118,7 +142,17 @@ function LocationShow ({modalContent, setModalContent, modalVisible, currentUser
                     </DetailsWrapper>
                 </SectionWrapper>
                 <SectionWrapper>
-                    <H2>Comments</H2>
+                    <HeaderWrapper>
+                        <H2>Comments</H2>
+                        <RatingView>
+                            {comments.length ? 
+                            <> 
+                                <H2>{`${averageRating()} / 5`}</H2>
+                                <AntDesign name="heart" size={18} color="#FF7070" style={{marginLeft: 5}} />  
+                            </> : 
+                            <H2>No Reviews yet</H2>}
+                        </RatingView>
+                    </HeaderWrapper>
                     <DetailsWrapper>
                         {comments.length ? <AllComments/> : null}
                     </DetailsWrapper>

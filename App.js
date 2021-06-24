@@ -29,7 +29,7 @@ export default function App() {
   const [sortedLocations, setSortedLocations] = useState([])
   const [token, setToken] = useState(null)
   const [loggedIn, setLoggedIn] = useState(false)
-  const [isLoading, setisLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
   const [ios, setIos] = useState(Platform.OS === 'ios')
   // const [sorted, setSorted] = useState(false)
 
@@ -45,9 +45,9 @@ export default function App() {
           
           if (thisToken !== 'none') {
             setToken(thisToken)
-            setisLoading(false)
+            // setisLoading(false)
           } else {
-            setisLoading(false)
+            // setisLoading(false)
           }
           // setToken(thisToken) 
       } catch(e) {
@@ -74,6 +74,7 @@ export default function App() {
           console.log('triggered')
           setCurrentUser(user)
           setLoggedIn(true)
+          setIsLoading(false)
           // <Redirect to="/challenges" />
           // history.push('/challenges')
         })

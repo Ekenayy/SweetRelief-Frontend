@@ -39,7 +39,6 @@ export default function MapContainer(  {filterBy, setFilterBy, setSelectedLocati
       case 'Subway Station':
         return <MaterialIcons name="subway" size={24} color="#BEA7E5" />
     }
-
   }
 
   const reduceFilterList = (locations) => {
