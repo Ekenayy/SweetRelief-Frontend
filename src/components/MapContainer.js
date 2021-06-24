@@ -29,13 +29,15 @@ export default function MapContainer(  {filterBy, setFilterBy, setSelectedLocati
   }
 
   const createLogo = (locType) => {
-    
-    if (locType === 'Park') {
-      return <MaterialIcons name="park" size={30} color="#BEA7E5" />
-    } else if (locType === 'Restaurant/Bar') {
-      return <MaterialIcons name="restaurant" size={30} color="black" />
-    } else if (locType === 'Bar') {
-    return <MaterialIcons name="restaurant" size={30} color="black" />
+    switch (locType) {
+      case 'Park':
+        return <MaterialIcons name="park" size={30} color="#BEA7E5" />
+      case 'Restaurant/Bar':
+        return <MaterialIcons name="restaurant" size={30} color="black" />
+      case 'Bar':
+        return <MaterialIcons name="restaurant" size={30} color="black" />
+      case 'Subway Station':
+        return <MaterialIcons name="subway" size={24} color="#BEA7E5" />
     }
 
   }
