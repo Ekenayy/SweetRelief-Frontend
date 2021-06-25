@@ -48,6 +48,7 @@ function CommentItem ( {comment}) {
                 </Avatar>
                 <InfoView>
                     <Name>{comment.user.name}</Name>
+                    <Text>Says the bathroom is {comment.still_open ? 'open' : 'closed'}</Text>
                 </InfoView>
             </AuthorDetails>
             <TextView>

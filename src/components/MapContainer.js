@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext, useRef} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Marker } from 'react-native-maps';
-import { BASE_URL, GOOGLE_KEY } from '@env'
+import { GOOGLE_KEY } from '@env'
 import styled from 'styled-components'
 import MapView, {AnimatedRegion} from "react-native-map-clustering";
 import LocationContext from '../LocationContext'
@@ -29,15 +29,16 @@ export default function MapContainer(  {filterBy, setFilterBy, setSelectedLocati
   }
 
   const createLogo = (locType) => {
-    
-    if (locType === 'Park') {
-      return <MaterialIcons name="park" size={30} color="#BEA7E5" />
-    } else if (locType === 'Restaurant/Bar') {
-      return <MaterialIcons name="restaurant" size={30} color="black" />
-    } else if (locType === 'Bar') {
-    return <MaterialIcons name="restaurant" size={30} color="black" />
-  }
-
+    switch (locType) {
+      case 'Park':
+        return <MaterialIcons name="park" size={30} color="#BEA7E5" />
+      case 'Restaurant/Bar':
+        return <MaterialIcons name="restaurant" size={30} color="black" />
+      case 'Bar':
+        return <MaterialIcons name="restaurant" size={30} color="black" />
+      case 'Subway Station':
+        return <MaterialIcons name="subway" size={24} color="#BEA7E5" />
+    }
   }
 
   const reduceFilterList = (locations) => {
@@ -101,10 +102,6 @@ const filteredLocations = reduceFilterList(contextLocations);
               origin={contextUserLocation ? contextUserLocation : customLocation}
               destination={{latitude: selectedLocation.latitude, longitude: selectedLocation.longitude}}
               apikey={GOOGLE_KEY}
-              // onReady={result => {
-              //   console.log(`Duration: ${result.duration} min.`)
-              //   }
-              // }
             />
             : null}
         </MapView>

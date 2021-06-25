@@ -2,16 +2,20 @@ import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect, useContext} from 'react';
 import { BASE_URL } from '@env'
 import Main from './src/pages/Main'
+import Login from './src/pages/Login'
+import SignUp from './src/pages/SignUp'
+import Profile from './src/pages/Profile'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import LocationContext from './src/LocationContext'
-import LocationItem from './src/components/LocationItem';
+import SplashScreen from './src/components/SplashScreen';
 import styled from 'styled-components'
 import * as Location from 'expo-location';
 import * as geolib from 'geolib'
-import {SafeAreaView} from 'react-native'
+import {SafeAreaView, Alert} from 'react-native'
 import {LogBox } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 LogBox.ignoreLogs(['Reanimated 2']);
 
 export default function App() {
@@ -23,6 +27,9 @@ export default function App() {
   const [errorMsg, setErrorMsg] = useState(null)
   const [currentUser, setCurrentUser] = useState(null)
   const [sortedLocations, setSortedLocations] = useState([])
+  const [token, setToken] = useState(null)
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [ios, setIos] = useState(Platform.OS === 'ios')
   // const [sorted, setSorted] = useState(false)
 
@@ -30,12 +37,56 @@ export default function App() {
   const Body = styled.View`
     flex: 1;
   `
+
+  const load = async () => {
+    let thisToken = ''
+      try {
+          thisToken = await AsyncStorage.getItem('token') || 'none'  
+          
+          if (thisToken !== 'none') {
+            setToken(thisToken)
+            // setisLoading(false)
+          } else {
+            // setisLoading(false)
+          }
+          // setToken(thisToken) 
+      } catch(e) {
+        // read error
+        console.log(e.message)
+      }
+      return thisToken
+  }
+
+  useEffect(() => {
+    load()
+  }, [])
+
+  useEffect( () => {
+    if (token && !currentUser) {
+      fetch(`${BASE_URL}/token_show`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }, 
+      })
+        .then(r => r.json())
+        .then(user =>{
+          console.log('triggered')
+          setCurrentUser(user)
+          setLoggedIn(true)
+          setIsLoading(false)
+          // <Redirect to="/challenges" />
+          // history.push('/challenges')
+        })
+    }
+  }, [token])
+
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
-        // For testing purposes only on Android
+        Alert.alert('Location is required to provide best service')
         setUserLocation({
           latitude: 40.700415, 
           longitude: -73.90897
@@ -53,12 +104,6 @@ export default function App() {
     fetch(`${BASE_URL}/locations`)
       .then(res => res.json())
       .then(locations => setLocations(locations))
-  },[])
-
-  useEffect(() => {
-    fetch(`${BASE_URL}/users/1`)
-      .then(res => res.json())
-      .then(user => setCurrentUser(user))
   },[])
 
   // Sorting the locations once we have locations and a userlocation
@@ -93,6 +138,9 @@ export default function App() {
     // setSorted(true)
   };
 
+if (isLoading) {
+  return <SplashScreen />
+} 
   return (
     <LocationContext.Provider 
       value={{locations: sortedLocations.length ? [sortedLocations, setSortedLocations] : [locations, setLocations], 
@@ -112,16 +160,29 @@ export default function App() {
             },
             }}
           >
-            <Stack.Screen name='Main'>
-              {(props) => <Main {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
-            </Stack.Screen>         
+            {currentUser ? 
+            <>
+              <Stack.Screen name='Main'>
+                {(props) => <Main {...props} setLoggedIn={setLoggedIn} setToken={setToken} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+              </Stack.Screen>
+              <Stack.Screen name='Profile'>
+                {(props) => <Profile {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+              </Stack.Screen>
+            </>
+            :
+            <>
+              <Stack.Screen name='Login'>
+                {(props) => <Login {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+              </Stack.Screen>
+              <Stack.Screen name='SignUp'>
+                {(props) => <SignUp {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+              </Stack.Screen>  
+            </>            
+            }
           </Stack.Navigator>
         </Body>
     </NavigationContainer>
     </LocationContext.Provider>
-
-
-
   );
 }
 

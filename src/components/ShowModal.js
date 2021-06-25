@@ -21,7 +21,7 @@ function ShowModal ({modalContent, setModalContent, currentUser, comments, setCo
     `
 
     const ModalForm = styled.View`
-        padding:10px;
+        padding: 10px;
         background-color: white;
         border-radius: 20px;
         align-items: center;

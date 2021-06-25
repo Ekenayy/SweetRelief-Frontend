@@ -4,14 +4,17 @@ import AllLocationsList from './AllLocationsList'
 import { View, StyleSheet} from "react-native";
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
-import { Text, Wrapper } from '../styles/Styles'
+import { Text, Wrapper, Button } from '../styles/Styles'
 import LocationShow from './LocationShow'
 import Filters from './Filters'
 import { FontAwesome5 } from '@expo/vector-icons';
 import  { PanGestureHandler, FlingGestureHandler } from 'react-native-gesture-handler'
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, withSpring} from 'react-native-reanimated';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-function NavBar ( {modalContent, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
+function NavBar ( {modalContent, setLoggedIn, setCurrentUser, navigation, setToken, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
 
     const [height, setHeight] = useState('100%')
 
@@ -24,11 +27,18 @@ function NavBar ( {modalContent, setModalContent, filterBy, setFilterBy, handleP
             height: '100%',
             bottom: 0,
             top: 300,
+        },
+        navContainer: {
             backgroundColor: 'rgba(52, 52, 52, 0.85)',
-            paddingBottom: 200,
         }
     })
     
+    const NavContainer = styled.View`
+        background-color: 'rgba(52, 52, 52, 0.85)';
+        height: 100%;
+        paddingBottom: 200px;
+        flex: 1;
+    `
 
     const FilterContainer = styled(Wrapper)`
         height: 50px;
@@ -41,6 +51,20 @@ function NavBar ( {modalContent, setModalContent, filterBy, setFilterBy, handleP
 
     const IconWrapper = styled(Wrapper)`
         align-items: center;
+    `
+    const BigIconView = styled.View`
+        align-items: flex-end
+        margin-bottom: 2px;
+    `
+
+    const IconView = styled.View`
+        flex-direction: row;
+        justify-content: space-around;
+        padding-right: 5px;
+    `
+
+    const TouchView = styled.TouchableOpacity`
+
     `
 
     const NoPress = ( ) => {
@@ -87,14 +111,42 @@ function NavBar ( {modalContent, setModalContent, filterBy, setFilterBy, handleP
         }
     })
 
+    const removeToken = async () => {
+        try {
+            await AsyncStorage.removeItem('token')
+        } catch(e) {
+        }
+    
+        console.log('Token Removed.')
+    }
+
+    const handleLogOut = () => {
+        setToken(null)
+        removeToken()
+        setCurrentUser(null)
+        setLoggedIn(false)
+    }
+
 
     return (
         <PanGestureHandler onGestureEvent={handleGesture}>
             <Animated.View style={[styles.animatedContainer, uas]}>
-                <IconWrapper>
-                    <FontAwesome5 name="grip-lines" size={24} color="black" />
-                </IconWrapper>
-                {selectedLocation ? <LocationShow modalConent={modalContent} setModalContent={setModalContent} currentUser={currentUser} setComments={setComments} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
+                <BigIconView>
+                    <IconView>
+                        <TouchView onPress={() => navigation.navigate('Profile')}>
+                            <Ionicons name="person" size={24} color="#1C1C1C" style={{paddingRight: 5}} />
+                        </TouchView>
+                        <TouchView onPress={handleLogOut}>
+                            <MaterialCommunityIcons name="logout" size={24} color="#1C1C1C" style={{paddingLeft: 5}}/>
+                        </TouchView>
+                    </IconView>
+                </BigIconView>
+                <NavContainer>
+                    <IconWrapper>
+                        <FontAwesome5 name="grip-lines" size={24} color="#DDF8E8"/>
+                    </IconWrapper>
+                    {selectedLocation ? <LocationShow modalConent={modalContent} setModalContent={setModalContent} currentUser={currentUser} setComments={setComments} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
+                </NavContainer>
             </Animated.View>
         </PanGestureHandler>
     )

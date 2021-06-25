@@ -168,7 +168,7 @@ function CommentForm ( {currentUser, comments, setComments, selectedLocation, se
                             type="heart"
                             imageSize={ ios ? 50 : 20}
                             onFinishRating={rating => locationRating = rating}
-                            style={{ paddingVertical: 5, marginBottom: 50, paddingLeft: 0, borderRadius: 20, height: 30 }}
+                            style={{ paddingVertical: 0, marginBottom: 50, paddingLeft: 0, borderRadius: 20, height: 30 }}
                         />
                         <QuestionView>
                             <H2>Still Open?</H2>

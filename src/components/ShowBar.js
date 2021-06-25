@@ -30,9 +30,7 @@ function ShowBar ( {modalContent, setModalContent, selectedLocation, currentUser
         travelType: 'walk'
     })
 
-    const myComments = comments.map(comment => {
-        return comment.user.id === currentUser.id
-    })
+    const myComments = comments.find(comment => comment.user.id === currentUser.id)
 
     const handleIconPress = (keyword) => {
         setModalContent(keyword)
@@ -52,7 +50,7 @@ function ShowBar ( {modalContent, setModalContent, selectedLocation, currentUser
                 <FontAwesome name="exchange" size={24} color="#DDF8E8" />
                 <OptionsText>Pay</OptionsText>
             </Options>
-            {comments && myComments.length ? null : <Options onPress={() => handleIconPress('comment')}>
+            {myComments ? null : <Options onPress={() => handleIconPress('comment')}>
                 <MaterialIcons name="add-comment" size={24} color="#DDF8E8" />
                 <OptionsText>Comment</OptionsText>
             </Options>}
