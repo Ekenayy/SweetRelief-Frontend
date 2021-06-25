@@ -157,7 +157,7 @@ function LocationShow ({modalContent, setModalContent, modalVisible, currentUser
                         {comments.length ? <AllComments/> : null}
                     </DetailsWrapper>
                 </SectionWrapper>
-                <SectionWrapper>
+                {/* <SectionWrapper>
                     <H2>Votes</H2>
                     <ButtonView>
                         <VoteButton>
@@ -171,7 +171,7 @@ function LocationShow ({modalContent, setModalContent, modalVisible, currentUser
                             </Span>
                         </VoteButton>
                     </ButtonView>
-                </SectionWrapper>
+                </SectionWrapper> */}
             </ShowScroll>
         </BigWrapper>
     )
