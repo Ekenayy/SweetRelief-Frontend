@@ -59,11 +59,13 @@ function Main ( {currentUser, navigation, setLoggedIn, setCurrentUser, setToken}
 
 
     return (
-        <BigWrapper>
+        // <BigWrapper>
+        <>
             <MapContainer filterBy={filterBy} setFilterBy={setFilterBy} wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
             <NavBar navigation={navigation} setToken={setToken} setLoggedIn={setLoggedIn} setCurrentUser={setCurrentUser} setModalContent={setModalContent} modalContent={modalContent} filterBy={filterBy} setFilterBy={setFilterBy} currentUser={currentUser} setComments={setComments} comments={comments}  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
             {modalVisible ? <ShowModal modalContent={modalContent} setModalContent={setModalContent} setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible} /> : null}
-        </BigWrapper>
+        </>
+        // </BigWrapper>
     )
 }
 
