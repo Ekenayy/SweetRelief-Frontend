@@ -13,6 +13,8 @@ import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, 
 
 function NavBar ( {modalContent, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
 
+    const [height, setHeight] = useState('100%')
+
     const styles = StyleSheet.create({
         animatedContainer: {
             display: 'flex',
@@ -81,6 +83,7 @@ function NavBar ( {modalContent, setModalContent, filterBy, setFilterBy, handleP
     const uas = useAnimatedStyle(() => {
         return {
             transform: [{ translateY: y.value < -258 ? -258 : y.value }],
+            // transform: [{ translateY: y.value }]
         }
     })
 

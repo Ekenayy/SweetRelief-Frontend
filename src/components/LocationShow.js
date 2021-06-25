@@ -67,7 +67,7 @@ function LocationShow ({modalContent, setModalContent, modalVisible, currentUser
         margin-left: 0px;
         flex: 1;
     `
-
+    
     const ShowScroll = styled(Scroll)`
         padding-bottom: 100px;
     `
