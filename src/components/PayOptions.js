@@ -100,12 +100,15 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
         }
     }
 
+    
     const createPayment = () => {
 
         let formBody = {
+            // Read email_address from location.email_address
             email_address: 'sb-yqqld6344344@business.example.com',
             user_id: currentUser.id,
             location_id: selectedLocation.id
+            // Read price from selectedLocation.payment_price
         }
 
         fetch(`${BASE_URL}/create_order`, {
@@ -180,8 +183,8 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
                         </IndicatorView>
                     </WebHead>
                     <WebView
-                        // source={{uri: 'http://localhost:3001'}}
-                        source={{uri: 'https://sweet-relief-web.web.app/'}}
+                        source={{uri: 'http://localhost:3001'}}
+                        // source={{uri: 'https://sweet-relief-web.web.app/'}}
                         style={{flex: 1}}
                         ref={webRef}
                         onLoadStart={() => {
