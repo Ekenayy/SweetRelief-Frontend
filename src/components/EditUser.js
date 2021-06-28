@@ -14,6 +14,7 @@ function EditUser ( {currentUser, setCurrentUser}) {
     const {register, handleSubmit, setValue} = useForm()
     
     const [errors, setErrors] = useState("")
+    const [passwordClicked, setPasswordClicked] = useState(false)
 
     useEffect(() => {
         register('name')
@@ -33,9 +34,17 @@ function EditUser ( {currentUser, setCurrentUser}) {
     `
     const ButtonView = styled.View`
         margin-top: 10px;
+        flex-direction: row;
+        align-self: center;
     `
     const ErrorSpan = styled(Span)`
         color: red;
+    `
+
+    const ChangePassView = styled.TouchableOpacity`
+        align-self: center;
+        flex-direction: row;
+        align-items: center;
     `
 
     const handleEdit = data => {
@@ -76,14 +85,18 @@ function EditUser ( {currentUser, setCurrentUser}) {
                 defaultValue={currentUser.email}
                 onChangeText={text => setValue('email', text)}
             />
-            <EditInput
+            {/* <EditInput
                 placeholder="Password.."
                 defaultValue='*******'
                 secureTextEntry={true}
                 onChangeText={text => setValue('password', text)}
-            />
+            /> */}
             {/* {errors ? <ErrorSpan>{errors}</ErrorSpan> : null} */}
             {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
+            <ChangePassView>
+                <Ionicons name="eye-outline" size={26} color="#F4A261" style={{marginRight: 10}} />
+                <DarkText>Change Password</DarkText>
+            </ChangePassView>
             <ButtonView>
                 <PurpButton onPress={handleSubmit(handleEdit)}>
                     <Span>Submit</Span>

@@ -45,9 +45,8 @@ export default function App() {
           
           if (thisToken !== 'none') {
             setToken(thisToken)
-            // setisLoading(false)
           } else {
-            // setisLoading(false)
+            setIsLoading(false)
           }
           // setToken(thisToken) 
       } catch(e) {
@@ -80,6 +79,8 @@ export default function App() {
         })
     }
   }, [token])
+
+  console.log(token)
 
   useEffect(() => {
     (async () => {
