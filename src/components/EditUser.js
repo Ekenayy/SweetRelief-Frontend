@@ -7,6 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { BASE_URL } from '@env'
 import {useForm} from 'react-hook-form'
+import {Alert} from 'react-native'
 
 
 function EditUser ( {currentUser, setCurrentUser}) {
@@ -16,11 +17,13 @@ function EditUser ( {currentUser, setCurrentUser}) {
     const [errors, setErrors] = useState("")
     const [passwordClicked, setPasswordClicked] = useState(false)
     const [success, setSuccess] = useState(false)
+    // const [newPassword, setNewPassword] = useState("")
 
     useEffect(() => {
         register('name')
         register('password')
         register('email')
+        register('newPassword')
     }, [register])
 
     const Form = styled.View`
@@ -67,13 +70,16 @@ function EditUser ( {currentUser, setCurrentUser}) {
             .then(updatedUser => {
                 if (updatedUser.errors) {
                     setErrors(updatedUser.errors)
+                } else if (formBody.password) {
+                    setCurrentUser(updatedUser)
+                    Alert.alert('Password sucessfully changed!')
                 } else {
                     setCurrentUser(updatedUser)
                 }
             })
     }
 
-    const handlePasswordEdit = data => {
+    const handleCheckPassword = data => {
 
         let formBody = {
             password: data.password,
@@ -95,7 +101,17 @@ function EditUser ( {currentUser, setCurrentUser}) {
                     setErrors(result.error)
                 }
             })
+    }
 
+    const handleChangePassowrd = data => {
+
+        if (data.password === data.newPassword) {
+            handleInfoEdit({password: data.password})
+            // console.log(data)
+        } else {
+            setErrors("Passwords do not match")
+        }
+        
     }
 
     const EditInfo = () => {
@@ -140,7 +156,7 @@ function EditUser ( {currentUser, setCurrentUser}) {
                 />
                 {errors ? <ErrorSpan>{errors}</ErrorSpan> : null}
                 <ButtonView>
-                    <PurpButton onPress={handleSubmit(handlePasswordEdit)}>
+                    <PurpButton onPress={handleSubmit(handleCheckPassword)}>
                         <Span>Submit</Span>
                     </PurpButton>
                 </ButtonView>
@@ -154,7 +170,8 @@ function EditUser ( {currentUser, setCurrentUser}) {
                         placeholder="Type new password here.."
                         placeholderTextColor="black"
                         secureTextEntry={true}
-                        onChangeText={text => setValue('password', text)}
+                        onChangeText={text => setValue('newPassword', text)}
+                        // onChangeText={text => setValue('password', text)}
                     />
                     <EditInput
                         placeholder="Re-type pasword.."
@@ -163,6 +180,11 @@ function EditUser ( {currentUser, setCurrentUser}) {
                         onChangeText={text => setValue('password', text)}
                     /> 
                     {errors ? <ErrorSpan>{errors}</ErrorSpan> : null}
+                    <ButtonView>
+                        <PurpButton onPress={handleSubmit(handleChangePassowrd)}>
+                            <Span>Change Password</Span>
+                        </PurpButton>
+                    </ButtonView>
                 </>
             )
         }

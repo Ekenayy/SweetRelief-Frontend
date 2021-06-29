@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import { Alert } from 'react-native'
 import {useForm} from 'react-hook-form'
 import { BASE_URL } from '@env'
-import { Input, Span, Button, BrownButton} from '../styles/Styles'
+import { Input, Span, DarkText, Button, BrownButton} from '../styles/Styles'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function SignUp ( {currentUser, setCurrentUser} ) {
+function SignUp ( {navigation, currentUser, setCurrentUser} ) {
 
     const [loaded, setLoaded] = useState(false)
     const [errors, setErrors] = useState("")
@@ -41,6 +41,10 @@ function SignUp ( {currentUser, setCurrentUser} ) {
     `
     const SignUpButton = styled(BrownButton)`
         margin-top: 10px;
+    `
+    const LoginView = styled.TouchableOpacity`
+        align-self: center;
+        margin-top: 15px;
     `
     const onSubmit = data => {
         
@@ -101,6 +105,9 @@ function SignUp ( {currentUser, setCurrentUser} ) {
                 <SignUpButton onPress={handleSubmit(onSubmit)}>
                     <Span>Create account</Span>
                 </SignUpButton>
+                <LoginView onPress={() => navigation.navigate('Login')}>
+                    <DarkText>Already have an account? Tap here to log in</DarkText>
+                </LoginView>
             </Form>   
         </Body> 
     )
