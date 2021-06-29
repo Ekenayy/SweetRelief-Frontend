@@ -8,6 +8,7 @@ import LocationContext from '../LocationContext'
 import { Wrapper, TouchView } from '../styles/Styles'
 import MapViewDirections from 'react-native-maps-directions';
 import { MaterialIcons } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons';
 // import { PROVIDER_GOOGLE } from 'react-native-maps' 
 
 
@@ -32,12 +33,12 @@ export default function MapContainer(  {filterBy, setFilterBy, setSelectedLocati
     switch (locType) {
       case 'Park':
         return <MaterialIcons name="park" size={30} color="#BEA7E5" />
-      case 'Restaurant/Bar':
-        return <MaterialIcons name="restaurant" size={30} color="black" />
+      case 'Restaurant':
+        return <Ionicons name="restaurant-sharp" size={30} color="#BEA7E5" />
       case 'Bar':
-        return <MaterialIcons name="restaurant" size={30} color="black" />
+        return <MaterialIcons name="local-bar" size={30} color="#BEA7E5" />
       case 'Subway Station':
-        return <MaterialIcons name="subway" size={24} color="#BEA7E5" />
+        return <MaterialIcons name="subway" size={30} color="#BEA7E5" />
     }
   }
 
