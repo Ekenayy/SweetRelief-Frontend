@@ -140,7 +140,7 @@ function NavBar ( {modalContent, setLoggedIn, setCurrentUser, navigation, setTok
                 </BigIconView>
                 <NavContainer>
                     <IconWrapper>
-                        <FontAwesome5 name="grip-lines" size={24} color="#DDF8E8"/>
+                        <FontAwesome5 name="grip-lines" size={24} color="#1C1C1C"/>
                     </IconWrapper>
                     {selectedLocation ? <LocationShow modalConent={modalContent} setModalContent={setModalContent} currentUser={currentUser} setComments={setComments} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
                 </NavContainer>

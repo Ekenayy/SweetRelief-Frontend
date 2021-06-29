@@ -9,7 +9,7 @@ import { createOpenLink } from 'react-native-open-maps';
 function ShowBar ( {modalContent, setModalContent, selectedLocation, currentUser, comments, setModalVisible, modalVisible} ) {
 
     const Options = styled(Button)`
-        margin: 5px 20px;
+        margin: 5px 10px;
         flex-direction: row;
     `
 
@@ -44,21 +44,21 @@ function ShowBar ( {modalContent, setModalContent, selectedLocation, currentUser
             // contentContainerStyle={{justifyContent: 'space-around'}}
         >
             <Options onPress={openDirections}>
-                <FontAwesome5 name="directions" size={24} color="#DDF8E8" />
+                <FontAwesome5 name="directions" size={24} color="#F4A261" />
                 <OptionsText>Directions</OptionsText>
             </Options>
             { selectedLocation.free ? null : 
             <Options onPress={() => handleIconPress('pay')}>
-                    <FontAwesome name="exchange" size={24} color="#DDF8E8" />
+                    <FontAwesome name="exchange" size={24} color="#F4A261" />
                     <OptionsText>Pay</OptionsText>
             </Options>}
             {myComments ? null : 
                 <Options onPress={() => handleIconPress('comment')}>
-                    <MaterialIcons name="add-comment" size={24} color="#DDF8E8" />
+                    <MaterialIcons name="add-comment" size={24} color="#F4A261" />
                     <OptionsText>Comment</OptionsText>
                 </Options>}
             <Options>
-                <MaterialIcons name="favorite" size={24} color="#DDF8E8" />
+                <MaterialIcons name="favorite" size={24} color="#F4A261" />
                 <OptionsText>Favorite</OptionsText>
             </Options>
             {/* <Options>

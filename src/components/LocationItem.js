@@ -68,11 +68,11 @@ function LocationItem ( { handlePress, location, setSelectedLocation}) {
                     <LocationText numberOfLines={1}>{address}</LocationText>
                     <AttributesView>
                         <IconView>
-                            <MaterialCommunityIcons name="tape-measure" size={18} color="#1C1C1C" style={{marginRight: 5}} />                            
+                            <MaterialCommunityIcons name="tape-measure" size={18} color="#F4A261" style={{marginRight: 5}} />                            
                             <LocationText>{distance} mi</LocationText>  
                         </IconView>
                         <IconView>
-                            <MaterialIcons name="directions-walk" size={18} color="#1C1C1C" />                           
+                            <MaterialIcons name="directions-walk" size={18} color="#F4A261" />                           
                             <LocationText>{walkTime} minutes</LocationText>  
                         </IconView>
                     </AttributesView>
