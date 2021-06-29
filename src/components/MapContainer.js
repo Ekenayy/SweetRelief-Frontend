@@ -39,6 +39,8 @@ export default function MapContainer(  {filterBy, setFilterBy, setSelectedLocati
         return <MaterialIcons name="local-bar" size={30} color="#BEA7E5" />
       case 'Subway Station':
         return <MaterialIcons name="subway" size={30} color="#BEA7E5" />
+      default: 
+        return <Ionicons name="ios-pin-outline" size={30} color="#BEA7E5" />
     }
   }
 

@@ -41,27 +41,30 @@ function ShowBar ( {modalContent, setModalContent, selectedLocation, currentUser
         <ShowScroll
             horizontal={true}
             showsHorizontalScrollIndicator={true}
+            // contentContainerStyle={{justifyContent: 'space-around'}}
         >
             <Options onPress={openDirections}>
                 <FontAwesome5 name="directions" size={24} color="#DDF8E8" />
                 <OptionsText>Directions</OptionsText>
             </Options>
+            { selectedLocation.free ? null : 
             <Options onPress={() => handleIconPress('pay')}>
-                <FontAwesome name="exchange" size={24} color="#DDF8E8" />
-                <OptionsText>Pay</OptionsText>
-            </Options>
-            {myComments ? null : <Options onPress={() => handleIconPress('comment')}>
-                <MaterialIcons name="add-comment" size={24} color="#DDF8E8" />
-                <OptionsText>Comment</OptionsText>
+                    <FontAwesome name="exchange" size={24} color="#DDF8E8" />
+                    <OptionsText>Pay</OptionsText>
             </Options>}
+            {myComments ? null : 
+                <Options onPress={() => handleIconPress('comment')}>
+                    <MaterialIcons name="add-comment" size={24} color="#DDF8E8" />
+                    <OptionsText>Comment</OptionsText>
+                </Options>}
             <Options>
                 <MaterialIcons name="favorite" size={24} color="#DDF8E8" />
                 <OptionsText>Favorite</OptionsText>
             </Options>
-            <Options>
+            {/* <Options>
                 <MaterialIcons name="add-location-alt" size={24} color="#DDF8E8" />
                 <OptionsText>Add location</OptionsText>
-            </Options>
+            </Options> */}
         </ShowScroll>
     )
 }
