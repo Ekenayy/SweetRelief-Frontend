@@ -15,6 +15,7 @@ function EditUser ( {currentUser, setCurrentUser}) {
     
     const [errors, setErrors] = useState("")
     const [passwordClicked, setPasswordClicked] = useState(false)
+    const [success, setSuccess] = useState(false)
 
     useEffect(() => {
         register('name')
@@ -47,7 +48,7 @@ function EditUser ( {currentUser, setCurrentUser}) {
         align-items: center;
     `
 
-    const handleEdit = data => {
+    const handleInfoEdit = data => {
         
         let formBody = {}
 
@@ -72,37 +73,107 @@ function EditUser ( {currentUser, setCurrentUser}) {
             })
     }
 
+    const handlePasswordEdit = data => {
+
+        let formBody = {
+            password: data.password,
+            email: currentUser.email
+        }
+
+        fetch(`${BASE_URL}/change_password`, {
+            method: 'POST', 
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(formBody)
+        })
+            .then(r=> r.json())
+            .then(result => {
+                if (result.success) {
+                    console.log(result)
+                    setSuccess(true)
+                    setErrors(null)
+                } else if (result.error) {
+                    setErrors(result.error)
+                }
+            })
+
+    }
+
+    const EditInfo = () => {
+        return (
+            <>
+                <EditInput
+                    placeholder="Name..."
+                    defaultValue={currentUser.name}
+                    multline={true}
+                    onChangeText={text => setValue('name', text)}
+                />
+                <EditInput
+                    placeholder="Email.."
+                    defaultValue={currentUser.email}
+                    onChangeText={text => setValue('email', text)}
+                />
+                {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
+                <ChangePassView onPress={() => setPasswordClicked(true)}>
+                    <Ionicons name="eye-outline" size={26} color="#F4A261" style={{marginRight: 10}} />
+                    <DarkText>Change Password</DarkText>
+                </ChangePassView>
+                <ButtonView>
+                    <PurpButton onPress={handleSubmit(handleInfoEdit)}>
+                        <Span>Submit</Span>
+                    </PurpButton>
+                </ButtonView>
+            </>
+        )
+    }
+
+    const EditPassword = () => {
+
+        // If sucess return something
+        if (!success) {
+            return (
+                <>
+                <EditInput
+                    placeholder="Type your last password here.."
+                    placeholderTextColor="black"
+                    secureTextEntry={true}
+                    onChangeText={text => setValue('password', text)}
+                />
+                {errors ? <ErrorSpan>{errors}</ErrorSpan> : null}
+                <ButtonView>
+                    <PurpButton onPress={handleSubmit(handlePasswordEdit)}>
+                        <Span>Submit</Span>
+                    </PurpButton>
+                </ButtonView>
+                </>
+            )
+        } 
+        else {
+            return (
+                <> 
+                    <EditInput
+                        placeholder="Type new password here.."
+                        placeholderTextColor="black"
+                        secureTextEntry={true}
+                        onChangeText={text => setValue('password', text)}
+                    />
+                    <EditInput
+                        placeholder="Re-type pasword.."
+                        placeholderTextColor="black"
+                        secureTextEntry={true}
+                        onChangeText={text => setValue('password', text)}
+                    /> 
+                    {errors ? <ErrorSpan>{errors}</ErrorSpan> : null}
+                </>
+            )
+        }
+    }
+
     return (
+        // <Form>
         <Form>
-            <EditInput
-                placeholder="Name..."
-                defaultValue={currentUser.name}
-                multline={true}
-                onChangeText={text => setValue('name', text)}
-            />
-            <EditInput
-                placeholder="Email.."
-                defaultValue={currentUser.email}
-                onChangeText={text => setValue('email', text)}
-            />
-            {/* <EditInput
-                placeholder="Password.."
-                defaultValue='*******'
-                secureTextEntry={true}
-                onChangeText={text => setValue('password', text)}
-            /> */}
-            {/* {errors ? <ErrorSpan>{errors}</ErrorSpan> : null} */}
-            {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
-            <ChangePassView>
-                <Ionicons name="eye-outline" size={26} color="#F4A261" style={{marginRight: 10}} />
-                <DarkText>Change Password</DarkText>
-            </ChangePassView>
-            <ButtonView>
-                <PurpButton onPress={handleSubmit(handleEdit)}>
-                    <Span>Submit</Span>
-                </PurpButton>
-            </ButtonView>
+            {passwordClicked ? <EditPassword/> : <EditInfo/> }
         </Form>
+        // </Form>
     )
 
 }

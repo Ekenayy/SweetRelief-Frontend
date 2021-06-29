@@ -80,7 +80,6 @@ export default function App() {
     }
   }, [token])
 
-  console.log(token)
 
   useEffect(() => {
     (async () => {
