@@ -32,10 +32,8 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
     })
 
     const myComments = comments.find(comment => comment.user.id === currentUser.id)
-    // const favorited = favoriteLocIds.find(faveId => faveId === selectedLocation.id)
-    const favorited = favoriteLocIds.includes(selectedLocation.id)
+    const favorited = favoriteLocIds.includes(selectedLocation.id);
 
-    // console.log(favoriteLocIds.includes(selectedLocation.id))
     const handleIconPress = (keyword) => {
         setModalContent(keyword)
         setModalVisible(!modalVisible)
@@ -53,7 +51,7 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
             body: JSON.stringify(formBody)
         })
             .then(r => r.json())
-            .then(data => setFavoriteLocIds(...favoriteLocIds, data.location.id))
+            .then(data => setFavoriteLocIds([...favoriteLocIds, data.location.id]))
     }
 
     const handleUnFavorite = () => {
@@ -74,6 +72,24 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
                 setFavoriteLocIds(newList)
             })
     }
+
+    // const FavoritedButton = () => {
+    //     if (favoriteLocIds.includes(selectedLocation.id)) {
+    //         return (
+    //             <Options onPress={handleUnFavorite}>
+    //                 <FontAwesome5 name="heart-broken" size={24} color="#F4A261" />
+    //                 <OptionsText>Unfavorite</OptionsText> 
+    //             </Options>
+    //         )
+    //     } else {
+    //         return (
+    //             <Options onPress={handleFavorite}>
+    //                 <MaterialIcons name="favorite" size={24} color="#F4A261" />
+    //                 <OptionsText>Favorite</OptionsText> 
+    //             </Options>
+    //         )
+    //     }
+    // }
 
     return (
         <ShowScroll
@@ -99,7 +115,8 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
                 <Options onPress={handleUnFavorite}>
                     <FontAwesome5 name="heart-broken" size={24} color="#F4A261" />
                     <OptionsText>Unfavorite</OptionsText> 
-                </Options> : 
+                </Options>
+                : 
                 <Options onPress={handleFavorite}>
                     <MaterialIcons name="favorite" size={24} color="#F4A261" />
                     <OptionsText>Favorite</OptionsText> 

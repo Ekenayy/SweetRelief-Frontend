@@ -31,6 +31,7 @@ function Main ( {currentUser, navigation, setLoggedIn, setCurrentUser, setToken}
         flex: 1;
     `
 
+
     const setAndFitToCoords = (location) => {
         fetchLocation(location)
 
