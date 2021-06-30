@@ -110,10 +110,10 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
 
         let formBody = {
             // Read email_address from location.email_address
-            email_address: selectedLocation.email,
+            email: selectedLocation.email,
             user_id: currentUser.id,
             location_id: selectedLocation.id,
-            price_cents: selectedLocation.price_cents
+            location_price: selectedLocation.price_cents
         }
 
         fetch(`${BASE_URL}/create_order`, {
@@ -131,15 +131,16 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
 
     function onMessage(e) {
         let data = e.nativeEvent.data;
-        console.log(data);
+        // console.log(data);
         let paymentFromWeb = JSON.parse(data);
         // setPayment(paymentFromWeb)
         setShowGateway(false)
 
         if (paymentFromWeb.status === 'COMPLETED') {
             // alert('PAYMENT MADE SUCCESSFULLY!')
+            console.log('payment successful')
             setModalContent('receipt')
-        } else if (payment && payment.status !== 'COMPLETED') {
+        } else if (paymentFromWeb && paymentFromWeb.status !== 'COMPLETED') {
             alert('PAYMENT FAILED. PLEASE TRY AGAIN.')
             // setModalVisible(false)
         }

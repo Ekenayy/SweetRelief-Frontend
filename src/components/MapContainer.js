@@ -44,29 +44,41 @@ export default function MapContainer(  {filterBy, setFilterBy, setSelectedLocati
     }
   }
 
+//   const reduceFilterList = (locations) => {
+//     if (filterBy === null) return locations;
+//     if (filterBy === "free") {
+//     return locations.filter((location) => location.free === true)
+// }  if (
+//     filterBy === "key_required") {
+//     return locations.filter((location) => location.key_required === false)
+// }  if (
+//     filterBy === "unisex") {
+//     return locations.filter((location) => location.unisex !== false)
+// }   if (ilterBy === "wheelchair_accessible") {
+//       return locations.filter((location) => location.wheelchair_accessible !== false)
+//     }
+// };
+
+// some array.includes(location)
+// Send back a list of favorite location ids and see if they match that location id 
+// To unfavorite you send a delete request to the favorites controller delete action with location_id whatever
+// To favorite you send a post request to the favorites controller with loc id and user_id
+// To know if you've already favorited you send 
+
   const reduceFilterList = (locations) => {
-    if (filterBy === null) return locations;
-    if (filterBy === "free") {
-    return locations.filter((location) => 
-    location.free === true
-    )
-}  if (
-    filterBy === "key_required") {
-    return locations.filter((location) => 
-    location.key_required === false
-    )
-}  if (
-    filterBy === "unisex") {
-    return locations.filter((location) => 
-    location.unisex !== false
-    )
-}   if (
-    filterBy === "wheelchair_accessible") {
-    return locations.filter((location) => 
-    location.wheelchair_accessible !== false
-    )
+    switch (filterBy){
+      case 'free': 
+        return locations.filter((location) => location.free === true)
+      case 'key_required':
+        return locations.filter((location) => location.key_required === false)
+      case 'unisex':
+        return locations.filter((location) => location.unisex !== false)
+      case 'wheelchair_accessible':
+        return locations.filter((location) => location.wheelchair_accessible !== false)
+      default: 
+        return locations
     }
-};
+  }
 
 const filteredLocations = reduceFilterList(contextLocations);
 

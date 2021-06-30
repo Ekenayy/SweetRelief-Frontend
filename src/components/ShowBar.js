@@ -5,6 +5,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import styled from 'styled-components'
 import { createOpenLink } from 'react-native-open-maps';
+import { BASE_URL } from '@env'
 
 function ShowBar ( {modalContent, setModalContent, selectedLocation, currentUser, comments, setModalVisible, modalVisible} ) {
 
@@ -35,6 +36,21 @@ function ShowBar ( {modalContent, setModalContent, selectedLocation, currentUser
     const handleIconPress = (keyword) => {
         setModalContent(keyword)
         setModalVisible(!modalVisible)
+    }
+
+    const handleFavorite = () => {
+        let formBody = {
+            user_id: currentUser.id,
+            location_id: selected_location.id
+        }
+
+        fetch(`${BASE_URL}/favorites`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(formBody)
+        })
+            .then(r => r.json())
+            .then(data => console.log(data))
     }
 
     return (

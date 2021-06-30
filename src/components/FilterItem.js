@@ -28,7 +28,7 @@ function FilterItem ( {filter, filterBy, setFilterBy} ) {
 
     const filterImage = (name) => {
         if (name === "key_required") {
-          return "Key required"
+          return "No key needed"
         }
         if (name === "free") {
           return "Free";
