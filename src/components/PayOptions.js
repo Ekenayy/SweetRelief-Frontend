@@ -40,7 +40,7 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
     `
 
     const OptionsText = styled(Span)`
-        color: black;
+        color: #1C1C1C;
     `
 
     const OneOptionView = styled.View`
@@ -82,6 +82,11 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
         opacity: ${props => props.progress ? 1 : 0}
     `
 
+    const ConfirmationView = styled.View`
+        align-items: center;
+        margin-bottom: 5px;
+    `
+
     // useEffect(() => {
     //     if (payment && payment.status === 'COMPLETED') {
     //         setPayment(null)
@@ -105,10 +110,10 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
 
         let formBody = {
             // Read email_address from location.email_address
-            email_address: 'sb-yqqld6344344@business.example.com',
+            email_address: selectedLocation.email,
             user_id: currentUser.id,
-            location_id: selectedLocation.id
-            // Read price from selectedLocation.payment_price
+            location_id: selectedLocation.id,
+            price_cents: selectedLocation.price_cents
         }
 
         fetch(`${BASE_URL}/create_order`, {
@@ -159,6 +164,11 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
                             <OptionsText>Money</OptionsText>
                     </MoneyButton>                
             </AllOptionsView>
+            {selected == 'money' ? 
+            <ConfirmationView>
+                <DarkText>{selectedLocation.name} charges ${selectedLocation.price_cents} for its restroom</DarkText>
+            </ConfirmationView> : 
+            null}
             {selected ? 
             <Button onPress={handleClick}>
                 <Span>Confirm</Span>
