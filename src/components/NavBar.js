@@ -14,7 +14,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-function NavBar ( {modalContent, setLoggedIn, setCurrentUser, navigation, setToken, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
+function NavBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setLoggedIn, setCurrentUser, navigation, setToken, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
 
     const styles = StyleSheet.create({
         animatedContainer: {
@@ -142,7 +142,7 @@ function NavBar ( {modalContent, setLoggedIn, setCurrentUser, navigation, setTok
                     <IconWrapper>
                         <FontAwesome5 name="grip-lines" size={24} color="#1C1C1C"/>
                     </IconWrapper>
-                    {selectedLocation ? <LocationShow modalConent={modalContent} setModalContent={setModalContent} currentUser={currentUser} setComments={setComments} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
+                    {selectedLocation ? <LocationShow setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} modalConent={modalContent} setModalContent={setModalContent} currentUser={currentUser} setComments={setComments} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
                 </NavContainer>
             </Animated.View>
         </PanGestureHandler>

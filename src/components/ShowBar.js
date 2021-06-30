@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import { createOpenLink } from 'react-native-open-maps';
 import { BASE_URL } from '@env'
 
-function ShowBar ( {modalContent, setModalContent, selectedLocation, currentUser, comments, setModalVisible, modalVisible} ) {
+function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalContent, selectedLocation, currentUser, comments, setModalVisible, modalVisible} ) {
 
     const Options = styled(Button)`
         margin: 5px 10px;
@@ -32,7 +32,10 @@ function ShowBar ( {modalContent, setModalContent, selectedLocation, currentUser
     })
 
     const myComments = comments.find(comment => comment.user.id === currentUser.id)
+    // const favorited = favoriteLocIds.find(faveId => faveId === selectedLocation.id)
+    const favorited = favoriteLocIds.includes(selectedLocation.id)
 
+    // console.log(favoriteLocIds.includes(selectedLocation.id))
     const handleIconPress = (keyword) => {
         setModalContent(keyword)
         setModalVisible(!modalVisible)
@@ -41,7 +44,7 @@ function ShowBar ( {modalContent, setModalContent, selectedLocation, currentUser
     const handleFavorite = () => {
         let formBody = {
             user_id: currentUser.id,
-            location_id: selected_location.id
+            location_id: selectedLocation.id
         }
 
         fetch(`${BASE_URL}/favorites`, {
@@ -50,7 +53,26 @@ function ShowBar ( {modalContent, setModalContent, selectedLocation, currentUser
             body: JSON.stringify(formBody)
         })
             .then(r => r.json())
-            .then(data => console.log(data))
+            .then(data => setFavoriteLocIds(...favoriteLocIds, data.location.id))
+    }
+
+    const handleUnFavorite = () => {
+        let formBody = {
+            user_id: currentUser.id,
+            location_id: selectedLocation.id
+        }
+
+        fetch(`${BASE_URL}/custom_delete`, {
+            method: 'DELETE', 
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(formBody)
+        })
+            .then(r => r.json())
+            .then(data => {
+                console.log(data)
+                let newList = favoriteLocIds.filter((locId) => locId !== data.location_id)
+                setFavoriteLocIds(newList)
+            })
     }
 
     return (
@@ -73,10 +95,17 @@ function ShowBar ( {modalContent, setModalContent, selectedLocation, currentUser
                     <MaterialIcons name="add-comment" size={24} color="#F4A261" />
                     <OptionsText>Comment</OptionsText>
                 </Options>}
-            <Options>
-                <MaterialIcons name="favorite" size={24} color="#F4A261" />
-                <OptionsText>Favorite</OptionsText>
-            </Options>
+            {favorited ? 
+                <Options onPress={handleUnFavorite}>
+                    <FontAwesome5 name="heart-broken" size={24} color="#F4A261" />
+                    <OptionsText>Unfavorite</OptionsText> 
+                </Options> : 
+                <Options onPress={handleFavorite}>
+                    <MaterialIcons name="favorite" size={24} color="#F4A261" />
+                    <OptionsText>Favorite</OptionsText> 
+                </Options>
+            }
+            
             {/* <Options>
                 <MaterialIcons name="add-location-alt" size={24} color="#DDF8E8" />
                 <OptionsText>Add location</OptionsText>

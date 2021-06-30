@@ -8,7 +8,7 @@ import { createOpenLink } from 'react-native-open-maps';
 import { AntDesign } from '@expo/vector-icons';
 
 
-function LocationShow ({modalContent, setModalContent, modalVisible, currentUser, comments, setComments, setModalVisible, setSelectedLocation, selectedLocation}) {
+function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModalContent, modalVisible, currentUser, comments, setComments, setModalVisible, setSelectedLocation, selectedLocation}) {
 
     const {name, address, locType, free, walkTime, distance, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
     const {locations} = React.useContext(LocationContext)
@@ -111,7 +111,7 @@ function LocationShow ({modalContent, setModalContent, modalVisible, currentUser
     // There's a qwerk where the number of votes doesn't reset when you click a new location 
     return (
         <BigWrapper>
-            <ShowBar modalContent={modalContent} setModalContent={setModalContent} currentUser={currentUser} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} selectedLocation={selectedLocation}/>
+            <ShowBar setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} modalContent={modalContent} setModalContent={setModalContent} currentUser={currentUser} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} selectedLocation={selectedLocation}/>
             <ShowScroll
             contentContainerStyle={{
                 flexGrow: 1,
