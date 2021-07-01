@@ -25,21 +25,20 @@ function FilterItem ( {filter, filterBy, setFilterBy} ) {
         font-size: 15px;
     `
 
-
-    const filterImage = (name) => {
-        if (name === "key_required") {
+    const filterName = (name) => {
+      switch (name) {
+        case 'key_required':
           return "No key needed"
-        }
-        if (name === "free") {
-          return "Free";
-        }
-        if (name === "wheelchair_accessible") {
-          return "Wheelchair accessible";
-        }
-        if (name === "unisex") {
-          return "Unisex";
-        }
-      };
+        case 'free':
+          return "Free"
+        case 'wheelchair_accessible':
+          return "Wheelchair accessible"
+        case 'unisex':
+          return 'Unisex'
+        case 'favorites':
+          return 'Favorites'
+      }
+    }
 
       const handleFilterPress = (e) => {
         filterBy === filter ? setFilterBy(null) : setFilterBy(filter)
@@ -51,7 +50,7 @@ function FilterItem ( {filter, filterBy, setFilterBy} ) {
             <FilterText 
               style={filterBy == filter ? {opacity: 0.5} : {opacity: 1}}
             >
-              {filterImage(filter)}
+              {filterName(filter)}
             </FilterText>
         </ItemView>
     )

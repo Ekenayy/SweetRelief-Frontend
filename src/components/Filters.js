@@ -8,7 +8,6 @@ import { Ionicons } from '@expo/vector-icons';
 
 function Filters ( {filterBy, setFilterBy}) {
 
-
     const FiltersScroll = styled(Scroll)`
         flex-direction: row;
         flex-wrap: wrap;
@@ -17,12 +16,12 @@ function Filters ( {filterBy, setFilterBy}) {
         border-radius: 5px;
     `
     const filterNames = [
+        'favorites',
         'free',
         'unisex',
         'key_required',
         'wheelchair_accessible'
     ]
-
 
     const allFilters = filterNames.map(filter => {
         return <FilterItem key={filter} setFilterBy={setFilterBy} filter={filter} filterBy={filterBy}/>

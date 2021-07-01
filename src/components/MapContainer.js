@@ -12,7 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 // import { PROVIDER_GOOGLE } from 'react-native-maps' 
 
 
-export default function MapContainer(  {filterBy, setFilterBy, setSelectedLocation, wholeMap, handlePress, selectedLocation} ) {
+export default function MapContainer(  {filterBy, favoriteLocIds, setFilterBy, setSelectedLocation, wholeMap, handlePress, selectedLocation} ) {
   
   const {locations, userLocation} = React.useContext(LocationContext)
   const [contextLocations, setContextLocations] = locations
@@ -75,6 +75,8 @@ export default function MapContainer(  {filterBy, setFilterBy, setSelectedLocati
         return locations.filter((location) => location.unisex !== false)
       case 'wheelchair_accessible':
         return locations.filter((location) => location.wheelchair_accessible !== false)
+      case 'favorites':
+        return locations.filter((location) => favoriteLocIds.includes(location.id) )
       default: 
         return locations
     }

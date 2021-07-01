@@ -5,7 +5,7 @@ import LocationContext from '../LocationContext'
 import styled from 'styled-components'
 
 
-function AllLocationsList ({filterBy, setFilterBy, handlePress, distance, setDistance, selectedLocation, setSelectedLocation, filters}) {
+function AllLocationsList ({filterBy, favoriteLocIds, setFilterBy, handlePress, distance, setDistance, selectedLocation, setSelectedLocation, filters}) {
 
     const {locations, userLocation} = React.useContext(LocationContext)
     const [contextLocations, setContextLocations] = locations
@@ -17,6 +17,12 @@ function AllLocationsList ({filterBy, setFilterBy, handlePress, distance, setDis
     `;
 
     const twentyFiveLocations = contextLocations.slice(0, 25).map((location) => {
+        return <LocationItem key={location.id} handlePress={handlePress} distance={distance} setDistance={setDistance} setSelectedLocation={setSelectedLocation} location={location} />
+    })
+
+    const favoriteLocations = contextLocations.filter(location => {
+        return favoriteLocIds.includes(location.id)
+    }).map(location => {
         return <LocationItem key={location.id} handlePress={handlePress} distance={distance} setDistance={setDistance} setSelectedLocation={setSelectedLocation} location={location} />
     })
 
@@ -47,9 +53,10 @@ function AllLocationsList ({filterBy, setFilterBy, handlePress, distance, setDis
         }
     };
 
+    // use filterBy = favorites
     return (
         <LocationsScroll>
-            {filterLocations(twentyFiveLocations)}
+            {filterBy === 'favorites' ? favoriteLocations : filterLocations(twentyFiveLocations)}
         </LocationsScroll>
         
     )

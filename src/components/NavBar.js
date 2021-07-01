@@ -72,7 +72,7 @@ function NavBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setLoggedIn,
                     <Filters filterBy={filterBy} setFilterBy={setFilterBy} />
                 </FilterContainer>
                 <LocContainer>
-                    <AllLocationsList filterBy={filterBy} setFilterBy={setFilterBy} handlePress={handlePress} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
+                    <AllLocationsList favoriteLocIds={favoriteLocIds} filterBy={filterBy} setFilterBy={setFilterBy} handlePress={handlePress} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
                 </LocContainer>
             </>
         )

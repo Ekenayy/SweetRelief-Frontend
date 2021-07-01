@@ -95,7 +95,6 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
         <ShowScroll
             horizontal={true}
             showsHorizontalScrollIndicator={true}
-            // contentContainerStyle={{justifyContent: 'space-around'}}
         >
             <Options onPress={openDirections}>
                 <FontAwesome5 name="directions" size={24} color="#F4A261" />
