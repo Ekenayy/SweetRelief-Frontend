@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState}  from 'react'
 import { Text, H2, Wrapper, Button, Scroll, TouchView } from '../styles/Styles'
 import { FontAwesome5 } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
@@ -7,10 +7,13 @@ import styled from 'styled-components'
 import { createOpenLink } from 'react-native-open-maps';
 import { BASE_URL } from '@env'
 
-function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalContent, selectedLocation, currentUser, comments, setModalVisible, modalVisible} ) {
+function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalContent, selectedLocation, setSelectedLocation, currentUser, comments, setModalVisible, modalVisible} ) {
 
+    const [localLocIds, setLocalLocIds] = useState(favoriteLocIds)
+
+    console.log(localLocIds)
     const Options = styled(Button)`
-        margin: 5px 10px;
+        margin: 5px 15px;
         flex-direction: row;
     `
 
@@ -32,7 +35,7 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
     })
 
     const myComments = comments.find(comment => comment.user.id === currentUser.id)
-    const favorited = favoriteLocIds.includes(selectedLocation.id);
+    const favorited = localLocIds.includes(selectedLocation.id);
 
     const handleIconPress = (keyword) => {
         setModalContent(keyword)
@@ -51,7 +54,7 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
             body: JSON.stringify(formBody)
         })
             .then(r => r.json())
-            .then(data => setFavoriteLocIds([...favoriteLocIds, data.location.id]))
+            .then(data => setLocalLocIds([...localLocIds, data.location.id]))
     }
 
     const handleUnFavorite = () => {
@@ -67,11 +70,17 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
         })
             .then(r => r.json())
             .then(data => {
-                console.log(data)
-                let newList = favoriteLocIds.filter((locId) => locId !== data.location_id)
-                setFavoriteLocIds(newList)
+                let newList = localLocIds.filter((locId) => locId !== data.location_id)
+                setLocalLocIds(newList)
             })
     }
+
+    const handleClear = () => {
+        setFavoriteLocIds(localLocIds)
+        setSelectedLocation(null)
+    }
+
+
 
     // const FavoritedButton = () => {
     //     if (favoriteLocIds.includes(selectedLocation.id)) {
@@ -96,6 +105,10 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
             horizontal={true}
             showsHorizontalScrollIndicator={true}
         >
+            <Options onPress={handleClear}>
+                <MaterialIcons name="cancel" size={24} color="#F4A261" />
+                <OptionsText>Clear Search</OptionsText>
+            </Options>
             <Options onPress={openDirections}>
                 <FontAwesome5 name="directions" size={24} color="#F4A261" />
                 <OptionsText>Directions</OptionsText>

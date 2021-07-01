@@ -55,7 +55,7 @@ function Main ( {currentUser, navigation, setLoggedIn, setCurrentUser, setToken}
                 .then(commentsFromDb => setComments(commentsFromDb))
     }
 
-
+    console.log(favoriteLocIds)
     return (
         // <BigWrapper>
         <>

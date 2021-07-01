@@ -111,7 +111,7 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
     // There's a qwerk where the number of votes doesn't reset when you click a new location 
     return (
         <BigWrapper>
-            <ShowBar setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} modalContent={modalContent} setModalContent={setModalContent} currentUser={currentUser} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} selectedLocation={selectedLocation}/>
+            <ShowBar setSelectedLocation={setSelectedLocation} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} modalContent={modalContent} setModalContent={setModalContent} currentUser={currentUser} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} selectedLocation={selectedLocation}/>
             <ShowScroll
             contentContainerStyle={{
                 flexGrow: 1,
@@ -120,11 +120,11 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
                 <SectionWrapper>
                     <H2>
                     Location
-                        <ButtonView>
+                        {/* <ButtonView>
                             <ClearButton onPress={() => setSelectedLocation(null)}>
                                 <Span>Clear Search</Span>
                             </ClearButton>
-                        </ButtonView>
+                        </ButtonView> */}
                     </H2>
                     <DetailsWrapper>
                         {/* <DetailsText>{distance} miles away</DetailsText> */}
