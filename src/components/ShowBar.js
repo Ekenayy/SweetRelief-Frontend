@@ -11,7 +11,6 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
 
     const [localLocIds, setLocalLocIds] = useState(favoriteLocIds)
 
-    console.log(localLocIds)
     const Options = styled(Button)`
         margin: 5px 15px;
         flex-direction: row;
@@ -81,32 +80,13 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
     }
 
 
-
-    // const FavoritedButton = () => {
-    //     if (favoriteLocIds.includes(selectedLocation.id)) {
-    //         return (
-    //             <Options onPress={handleUnFavorite}>
-    //                 <FontAwesome5 name="heart-broken" size={24} color="#F4A261" />
-    //                 <OptionsText>Unfavorite</OptionsText> 
-    //             </Options>
-    //         )
-    //     } else {
-    //         return (
-    //             <Options onPress={handleFavorite}>
-    //                 <MaterialIcons name="favorite" size={24} color="#F4A261" />
-    //                 <OptionsText>Favorite</OptionsText> 
-    //             </Options>
-    //         )
-    //     }
-    // }
-
     return (
         <ShowScroll
             horizontal={true}
             showsHorizontalScrollIndicator={true}
         >
             <Options onPress={handleClear}>
-                <MaterialIcons name="cancel" size={24} color="#F4A261" />
+                <MaterialIcons name="cancel" size={24} color="#bea7e5" />
                 <OptionsText>Clear Search</OptionsText>
             </Options>
             <Options onPress={openDirections}>
