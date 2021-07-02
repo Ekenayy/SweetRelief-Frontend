@@ -14,9 +14,6 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
     const {locations} = React.useContext(LocationContext)
     const [contextLocations, setContextLocations] = locations
 
-
-    // Add a navigate feature that pulls up the coordinates on google maps 
-
     const [stateUpVotes, setStateUpvotes] = useState(upvotes)
     const [stateDownVotes, setStateDownvotes] = useState(downvotes)
 
@@ -82,12 +79,6 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
         flex-direction: row;
     `
 
-
-    // useEffect(() => {
-    //     setStateUpvotes(upvotes)
-    //     setStateDownvotes(downvotes)
-    // }, [selectedLocation])
-
     const AllComments = () => 
         comments.map((comment) => {
             return <CommentItem key={comment.id} comment={comment}/>
@@ -105,10 +96,7 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
             return 'No ratings yet'
         }
     }
-    // Comments and Reviews Plus ability to vote up and down
-    // Add icons for each detail 
     // Figure out how to provide an answer for null attributes (What if we don't know?)
-    // There's a qwerk where the number of votes doesn't reset when you click a new location 
     return (
         <BigWrapper>
             <ShowBar setSelectedLocation={setSelectedLocation} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} modalContent={modalContent} setModalContent={setModalContent} currentUser={currentUser} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} selectedLocation={selectedLocation}/>
