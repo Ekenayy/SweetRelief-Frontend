@@ -79,7 +79,6 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
         setSelectedLocation(null)
     }
 
-
     return (
         <ShowScroll
             horizontal={true}
@@ -114,7 +113,6 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
                     <OptionsText>Favorite</OptionsText> 
                 </Options>
             }
-            
             {/* <Options>
                 <MaterialIcons name="add-location-alt" size={24} color="#DDF8E8" />
                 <OptionsText>Add location</OptionsText>

@@ -70,7 +70,7 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
     `
 
     const ShowScroll = styled(Scroll)`
-        padding-bottom: 100px;
+        padding-bottom: ${props => props.comments ? '100px' : '220px'}
     `
 
     const HeaderWrapper = styled.View`
@@ -116,6 +116,7 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
             contentContainerStyle={{
                 flexGrow: 1,
             }}
+            comments={comments.length > 0}
             >
                 <SectionWrapper>
                     <H2>
