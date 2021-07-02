@@ -40,7 +40,7 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
     `
 
     const OptionsText = styled(Span)`
-        color: black;
+        color: #1C1C1C;
     `
 
     const OneOptionView = styled.View`
@@ -82,6 +82,11 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
         opacity: ${props => props.progress ? 1 : 0}
     `
 
+    const ConfirmationView = styled.View`
+        align-items: center;
+        margin-bottom: 5px;
+    `
+
     // useEffect(() => {
     //     if (payment && payment.status === 'COMPLETED') {
     //         setPayment(null)
@@ -100,12 +105,15 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
         }
     }
 
+    
     const createPayment = () => {
 
         let formBody = {
-            email_address: 'sb-yqqld6344344@business.example.com',
+            // Read email_address from location.email_address
+            email: selectedLocation.email,
             user_id: currentUser.id,
-            location_id: selectedLocation.id
+            location_id: selectedLocation.id,
+            location_price: selectedLocation.price_cents
         }
 
         fetch(`${BASE_URL}/create_order`, {
@@ -123,15 +131,16 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
 
     function onMessage(e) {
         let data = e.nativeEvent.data;
-        console.log(data);
+        // console.log(data);
         let paymentFromWeb = JSON.parse(data);
         // setPayment(paymentFromWeb)
         setShowGateway(false)
 
         if (paymentFromWeb.status === 'COMPLETED') {
             // alert('PAYMENT MADE SUCCESSFULLY!')
+            console.log('payment successful')
             setModalContent('receipt')
-        } else if (payment && payment.status !== 'COMPLETED') {
+        } else if (paymentFromWeb && paymentFromWeb.status !== 'COMPLETED') {
             alert('PAYMENT FAILED. PLEASE TRY AGAIN.')
             // setModalVisible(false)
         }
@@ -156,6 +165,11 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
                             <OptionsText>Money</OptionsText>
                     </MoneyButton>                
             </AllOptionsView>
+            {selected == 'money' ? 
+            <ConfirmationView>
+                <DarkText>{selectedLocation.name} charges ${selectedLocation.price_cents} for its restroom</DarkText>
+            </ConfirmationView> : 
+            null}
             {selected ? 
             <Button onPress={handleClick}>
                 <Span>Confirm</Span>
@@ -180,8 +194,8 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
                         </IndicatorView>
                     </WebHead>
                     <WebView
-                        // source={{uri: 'http://localhost:3001'}}
-                        source={{uri: 'https://sweet-relief-web.web.app/'}}
+                        source={{uri: 'http://localhost:3001'}}
+                        // source={{uri: 'https://sweet-relief-web.web.app/'}}
                         style={{flex: 1}}
                         ref={webRef}
                         onLoadStart={() => {

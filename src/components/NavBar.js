@@ -14,7 +14,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-function NavBar ( {modalContent, setLoggedIn, setCurrentUser, navigation, setToken, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
+function NavBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setLoggedIn, setCurrentUser, navigation, setToken, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
 
     const [height, setHeight] = useState('100%')
 
@@ -74,7 +74,7 @@ function NavBar ( {modalContent, setLoggedIn, setCurrentUser, navigation, setTok
                     <Filters filterBy={filterBy} setFilterBy={setFilterBy} />
                 </FilterContainer>
                 <LocContainer>
-                    <AllLocationsList filterBy={filterBy} setFilterBy={setFilterBy} handlePress={handlePress} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
+                    <AllLocationsList favoriteLocIds={favoriteLocIds} filterBy={filterBy} setFilterBy={setFilterBy} handlePress={handlePress} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
                 </LocContainer>
             </>
         )
@@ -143,9 +143,9 @@ function NavBar ( {modalContent, setLoggedIn, setCurrentUser, navigation, setTok
                 </BigIconView>
                 <NavContainer>
                     <IconWrapper>
-                        <FontAwesome5 name="grip-lines" size={24} color="#DDF8E8"/>
+                        <FontAwesome5 name="grip-lines" size={24} color="#1C1C1C"/>
                     </IconWrapper>
-                    {selectedLocation ? <LocationShow modalConent={modalContent} setModalContent={setModalContent} currentUser={currentUser} setComments={setComments} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
+                    {selectedLocation ? <LocationShow setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} modalConent={modalContent} setModalContent={setModalContent} currentUser={currentUser} setComments={setComments} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
                 </NavContainer>
             </Animated.View>
         </PanGestureHandler>

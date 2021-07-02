@@ -8,10 +8,11 @@ import LocationContext from '../LocationContext'
 import { Wrapper, TouchView } from '../styles/Styles'
 import MapViewDirections from 'react-native-maps-directions';
 import { MaterialIcons } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons';
 // import { PROVIDER_GOOGLE } from 'react-native-maps' 
 
 
-export default function MapContainer(  {filterBy, setFilterBy, setSelectedLocation, wholeMap, handlePress, selectedLocation} ) {
+export default function MapContainer(  {filterBy, favoriteLocIds, setFilterBy, setSelectedLocation, wholeMap, handlePress, selectedLocation} ) {
   
   const {locations, userLocation} = React.useContext(LocationContext)
   const [contextLocations, setContextLocations] = locations
@@ -32,38 +33,54 @@ export default function MapContainer(  {filterBy, setFilterBy, setSelectedLocati
     switch (locType) {
       case 'Park':
         return <MaterialIcons name="park" size={30} color="#BEA7E5" />
-      case 'Restaurant/Bar':
-        return <MaterialIcons name="restaurant" size={30} color="black" />
+      case 'Restaurant':
+        return <Ionicons name="restaurant-sharp" size={30} color="#BEA7E5" />
       case 'Bar':
-        return <MaterialIcons name="restaurant" size={30} color="black" />
+        return <MaterialIcons name="local-bar" size={30} color="#BEA7E5" />
       case 'Subway Station':
-        return <MaterialIcons name="subway" size={24} color="#BEA7E5" />
+        return <MaterialIcons name="subway" size={30} color="#BEA7E5" />
+      default: 
+        return <Ionicons name="ios-pin-outline" size={30} color="#BEA7E5" />
     }
   }
 
+//   const reduceFilterList = (locations) => {
+//     if (filterBy === null) return locations;
+//     if (filterBy === "free") {
+//     return locations.filter((location) => location.free === true)
+// }  if (
+//     filterBy === "key_required") {
+//     return locations.filter((location) => location.key_required === false)
+// }  if (
+//     filterBy === "unisex") {
+//     return locations.filter((location) => location.unisex !== false)
+// }   if (ilterBy === "wheelchair_accessible") {
+//       return locations.filter((location) => location.wheelchair_accessible !== false)
+//     }
+// };
+
+// some array.includes(location)
+// Send back a list of favorite location ids and see if they match that location id 
+// To unfavorite you send a delete request to the favorites controller delete action with location_id whatever
+// To favorite you send a post request to the favorites controller with loc id and user_id
+// To know if you've already favorited you send 
+
   const reduceFilterList = (locations) => {
-    if (filterBy === null) return locations;
-    if (filterBy === "free") {
-    return locations.filter((location) => 
-    location.free === true
-    )
-}  if (
-    filterBy === "key_required") {
-    return locations.filter((location) => 
-    location.key_required === false
-    )
-}  if (
-    filterBy === "unisex") {
-    return locations.filter((location) => 
-    location.unisex !== false
-    )
-}   if (
-    filterBy === "wheelchair_accessible") {
-    return locations.filter((location) => 
-    location.wheelchair_accessible !== false
-    )
+    switch (filterBy){
+      case 'free': 
+        return locations.filter((location) => location.free === true)
+      case 'key_required':
+        return locations.filter((location) => location.key_required === false)
+      case 'unisex':
+        return locations.filter((location) => location.unisex !== false)
+      case 'wheelchair_accessible':
+        return locations.filter((location) => location.wheelchair_accessible !== false)
+      case 'favorites':
+        return locations.filter((location) => favoriteLocIds.includes(location.id) )
+      default: 
+        return locations
     }
-};
+  }
 
 const filteredLocations = reduceFilterList(contextLocations);
 

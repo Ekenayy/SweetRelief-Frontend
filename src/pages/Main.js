@@ -18,6 +18,7 @@ function Main ( {currentUser, navigation, setLoggedIn, setCurrentUser, setToken}
     const [comments, setComments] = useState([])
     const [filterBy, setFilterBy] = useState(null);
     const [modalContent, setModalContent] = useState('')
+    const [favoriteLocIds, setFavoriteLocIds] = useState(currentUser.favorite_location_ids)
 
     // Context
     const {userLocation, locations} = React.useContext(LocationContext)
@@ -29,10 +30,7 @@ function Main ( {currentUser, navigation, setLoggedIn, setCurrentUser, setToken}
     const BigWrapper = styled.View`
         flex: 1;
     `
-    // useEffect(() => {
-    //     if (selectedLocation) {
-    //     }
-    // }, [selectedLocation])
+
 
     const setAndFitToCoords = (location) => {
         fetchLocation(location)
@@ -57,13 +55,12 @@ function Main ( {currentUser, navigation, setLoggedIn, setCurrentUser, setToken}
                 .then(commentsFromDb => setComments(commentsFromDb))
     }
 
-
     return (
         // <BigWrapper>
         <>
-            <MapContainer filterBy={filterBy} setFilterBy={setFilterBy} wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
-            <NavBar navigation={navigation} setToken={setToken} setLoggedIn={setLoggedIn} setCurrentUser={setCurrentUser} setModalContent={setModalContent} modalContent={modalContent} filterBy={filterBy} setFilterBy={setFilterBy} currentUser={currentUser} setComments={setComments} comments={comments}  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
-            {modalVisible ? <ShowModal modalContent={modalContent} setModalContent={setModalContent} setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible} /> : null}
+            <MapContainer favoriteLocIds={favoriteLocIds} filterBy={filterBy} setFilterBy={setFilterBy} wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
+            <NavBar navigation={navigation} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} setToken={setToken} setLoggedIn={setLoggedIn} setCurrentUser={setCurrentUser} setModalContent={setModalContent} modalContent={modalContent} filterBy={filterBy} setFilterBy={setFilterBy} currentUser={currentUser} setComments={setComments} comments={comments}  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
+            {modalVisible ? <ShowModal  modalContent={modalContent} setModalContent={setModalContent} setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible} /> : null}
         </>
         // </BigWrapper>
     )

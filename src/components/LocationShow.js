@@ -8,14 +8,11 @@ import { createOpenLink } from 'react-native-open-maps';
 import { AntDesign } from '@expo/vector-icons';
 
 
-function LocationShow ({modalContent, setModalContent, modalVisible, currentUser, comments, setComments, setModalVisible, setSelectedLocation, selectedLocation}) {
+function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModalContent, modalVisible, currentUser, comments, setComments, setModalVisible, setSelectedLocation, selectedLocation}) {
 
     const {name, address, locType, free, walkTime, distance, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
     const {locations} = React.useContext(LocationContext)
     const [contextLocations, setContextLocations] = locations
-
-
-    // Add a navigate feature that pulls up the coordinates on google maps 
 
     const [stateUpVotes, setStateUpvotes] = useState(upvotes)
     const [stateDownVotes, setStateDownvotes] = useState(downvotes)
@@ -70,7 +67,7 @@ function LocationShow ({modalContent, setModalContent, modalVisible, currentUser
     `
     
     const ShowScroll = styled(Scroll)`
-        padding-bottom: 100px;
+        padding-bottom: ${props => props.comments ? '100px' : '220px'}
     `
 
     const HeaderWrapper = styled.View`
@@ -81,12 +78,6 @@ function LocationShow ({modalContent, setModalContent, modalVisible, currentUser
     const RatingView = styled.View`
         flex-direction: row;
     `
-
-
-    // useEffect(() => {
-    //     setStateUpvotes(upvotes)
-    //     setStateDownvotes(downvotes)
-    // }, [selectedLocation])
 
     const AllComments = () => 
         comments.map((comment) => {
@@ -105,26 +96,24 @@ function LocationShow ({modalContent, setModalContent, modalVisible, currentUser
             return 'No ratings yet'
         }
     }
-    // Comments and Reviews Plus ability to vote up and down
-    // Add icons for each detail 
     // Figure out how to provide an answer for null attributes (What if we don't know?)
-    // There's a qwerk where the number of votes doesn't reset when you click a new location 
     return (
         <BigWrapper>
-            <ShowBar modalContent={modalContent} setModalContent={setModalContent} currentUser={currentUser} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} selectedLocation={selectedLocation}/>
+            <ShowBar setSelectedLocation={setSelectedLocation} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} modalContent={modalContent} setModalContent={setModalContent} currentUser={currentUser} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} selectedLocation={selectedLocation}/>
             <ShowScroll
             contentContainerStyle={{
                 flexGrow: 1,
             }}
+            comments={comments.length > 0}
             >
                 <SectionWrapper>
                     <H2>
                     Location
-                        <ButtonView>
+                        {/* <ButtonView>
                             <ClearButton onPress={() => setSelectedLocation(null)}>
                                 <Span>Clear Search</Span>
                             </ClearButton>
-                        </ButtonView>
+                        </ButtonView> */}
                     </H2>
                     <DetailsWrapper>
                         {/* <DetailsText>{distance} miles away</DetailsText> */}
@@ -136,7 +125,7 @@ function LocationShow ({modalContent, setModalContent, modalVisible, currentUser
                 <SectionWrapper>
                     <H2>Details</H2>
                     <DetailsWrapper>
-                        <DetailsText>{free ? 'This location is free' : 'This location is not free'}</DetailsText>
+                        <DetailsText>{free ? 'This location is free' : `This location charges $${price_cents}`}</DetailsText>
                         <DetailsText>{key_required ? 'Requires a key' : 'No key needed'}</DetailsText>
                         <DetailsText>{unisex ? 'Unisex' : 'Gender separated'}</DetailsText>
                     </DetailsWrapper>

@@ -9,7 +9,7 @@ import { BASE_URL } from '@env'
 
 function PaymentOrder ( { order, chosenOrder, setChosenOrder, modalVisible, setModalVisible } ) {
     
-    const {formatted_time, formatted_date, location, price_cents, token} = order
+    const {formatted_time, status, formatted_date, location, price_cents, token} = order
 
     const OneOrderTouch = styled.TouchableOpacity`
         padding-left: 30px;
@@ -18,7 +18,7 @@ function PaymentOrder ( { order, chosenOrder, setChosenOrder, modalVisible, setM
         padding-bottom: 10px;
         padding-top: 10px;
     `
-    const DateTimeView = styled.View`
+    const TopView = styled.View`
         flex-direction: row;
         margin-bottom: 5px;
     `
@@ -31,6 +31,16 @@ function PaymentOrder ( { order, chosenOrder, setChosenOrder, modalVisible, setM
         margin-left: 15px;
         align-items: center;
     `
+
+    const StatusView = styled.View`
+        margin-left: 40px;
+        align-self: center;
+        flex-direction: row;
+    `
+
+    const StatusText = styled(DarkText)`
+        color: ${props => props.status == 'paid' ? 'green' : 'red'}
+    `
     
     const handlePress = () => {
         setChosenOrder(order)
@@ -39,7 +49,7 @@ function PaymentOrder ( { order, chosenOrder, setChosenOrder, modalVisible, setM
 
     return (
         <OneOrderTouch onPress={handlePress}>
-                <DateTimeView>
+                <TopView>
                     <DateView>
                         <Fontisto name="date" size={20} color="#F4A261" style={{marginRight: 7}} />
                         <DarkText>{formatted_date}</DarkText>
@@ -48,7 +58,11 @@ function PaymentOrder ( { order, chosenOrder, setChosenOrder, modalVisible, setM
                         <MaterialCommunityIcons name="clock-outline" size={24} color="#F4A261" style={{marginRight: 7}} />
                         <DarkText>{formatted_time}</DarkText>
                     </TimeView>
-                </DateTimeView>
+                    <StatusView>
+                        <DarkText>Status: </DarkText>
+                        <StatusText status={status} >{status}</StatusText>
+                    </StatusView>
+                </TopView>
                 <H2>{location.name}</H2>
                 <DarkText>{location.address}</DarkText>
                 <DarkText>${price_cents}</DarkText>

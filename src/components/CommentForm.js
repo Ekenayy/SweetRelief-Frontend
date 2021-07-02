@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Alert } from 'react-native'
 import { Rating } from 'react-native-ratings';
 import {useForm} from 'react-hook-form';
-import { Text, Scroll, H2, Wrapper } from '../styles/Styles'
+import { Text, Scroll, CloseView, CloseText, H2, Wrapper } from '../styles/Styles'
 import { BASE_URL } from '@env'
 
 
@@ -33,7 +33,7 @@ function CommentForm ( {currentUser, comments, setComments, selectedLocation, se
     `
 
     const Button = styled.TouchableOpacity`
-        background: #03DAC5;
+        background: #bea7e5;
         width: 150px;
         border-radius:20px;
         align_self: center;
@@ -42,7 +42,7 @@ function CommentForm ( {currentUser, comments, setComments, selectedLocation, se
     `
 
     const CancelButton = styled(Button)`
-        background: #E379DF;
+        background: #F4A261;
         margin-left: 5px;
     `
 
@@ -162,6 +162,9 @@ function CommentForm ( {currentUser, comments, setComments, selectedLocation, se
 
     return (
                 <>
+                        <CloseView onPress={() => setModalVisible(!modalVisible)}>
+                            <CloseText>❌</CloseText>
+                        </CloseView>
                         <Rating
                             showRating={ios ? false : true}
                             // ratingBackgroundColor="#03DAC5"
@@ -189,9 +192,6 @@ function CommentForm ( {currentUser, comments, setComments, selectedLocation, se
                             <Button onPress={handleSubmit(onSubmit)}>
                                 <Span>Submit rating</Span>
                             </Button>
-                            <CancelButton onPress={() => setModalVisible(!modalVisible)}>
-                                <Span>Cancel</Span>
-                            </CancelButton>
                         </ButtonView>
                 </>
     )
