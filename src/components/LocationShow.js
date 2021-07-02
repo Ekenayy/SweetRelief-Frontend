@@ -136,7 +136,7 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
                 <SectionWrapper>
                     <H2>Details</H2>
                     <DetailsWrapper>
-                        <DetailsText>{free ? 'This location is free' : 'This location is not free'}</DetailsText>
+                        <DetailsText>{free ? 'This location is free' : `This location charges $${price_cents}`}</DetailsText>
                         <DetailsText>{key_required ? 'Requires a key' : 'No key needed'}</DetailsText>
                         <DetailsText>{unisex ? 'Unisex' : 'Gender separated'}</DetailsText>
                     </DetailsWrapper>

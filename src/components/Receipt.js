@@ -22,6 +22,8 @@ function Receipt( {currentUser, selectedLocation, modalVisible, setModalVisible}
         margin: 15px;
     `
 
+    // Encourage people to comment by prompting them to rate the bathroom on the receipt 
+
     return (
         <>
             <CloseView onPress={() => setModalVisible(!modalVisible)}>
