@@ -5,10 +5,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
-import { BlurView } from 'expo-blur';
 import { BASE_URL } from '@env'
 import PaymentOrder from '../components/PaymentOrder'
 import EditUser from '../components/EditUser'
+import { BlurView } from 'expo-blur';
+
+// import { BlurView, VibrancyView } from "@react-native-community/blur";
+import {StyleSheet} from 'react-native'
+
 
 function Profile ( {navigation, currentUser, setCurrentUser}) {
 
@@ -39,6 +43,12 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
             .then(r => r.json())
             .then(data => setOrders(data))
     }, [offset])
+
+    const styles = StyleSheet.create({
+        absolute: {
+            zIndex: -1
+        }
+    });
 
     const Body = styled.View`
         flex: 1;
@@ -72,7 +82,6 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
     `
     const MainInfoView = styled.ScrollView`
         margin-top: 10px;
-        opacity: ${props => props.modalVisible ? '.20' : '1'}
     `
 
     const AllInfoView = styled.View`
@@ -192,7 +201,6 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
 
     return (
         <Body>
-            {/* <BlurView intensity={100} blurTint='dark'> */}
                 <Header>
                     <TextView>
                         <HeaderName>{currentUser.name}</HeaderName>
@@ -214,8 +222,10 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
                         <Span>To Map</Span>
                     </PurpButton>
                 </MainInfoView>
-            {/* </BlurView> */}
+                {modalVisible ? <BlurView intensity={60} blurTint='light' style={[StyleSheet.absoluteFill]}> 
+                </BlurView> : null}
                 {modalVisible ? <OrderModal/> : null}
+                
         </Body>
     )
 }
