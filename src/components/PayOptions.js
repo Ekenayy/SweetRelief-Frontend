@@ -7,6 +7,8 @@ import { BASE_URL } from '@env'
 import { Modal, ActivityIndicator } from 'react-native'
 import { Foundation } from '@expo/vector-icons';
 import {WebView} from 'react-native-webview';
+import { BlurView } from 'expo-blur';
+
 
 
 // Send over the current user and the location 
@@ -61,14 +63,22 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
         left: 0;
         right: 0;
         bottom: 0;
+        height: 80%;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 150px;
+        border-radius: 20px;
+        padding: 30px;
+        background-color: #ffffff;
     `
     const WebHead = styled.View`
         flex-direction: row;
         alignItems: center;
-        background-color: #f9f9f9
+        background-color: #ffffff;
         zIndex: 25;
         elevation: 2;
         padding-top: 30px;
+        width: 100%
     `
 
     const HeaderText = styled(DarkText)`
@@ -194,7 +204,7 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
                         </IndicatorView>
                     </WebHead>
                     <WebView
-                        source={{uri: 'http://localhost:3001'}}
+                        source={{uri: 'http://localhost:3001/pay'}}
                         // source={{uri: 'https://sweet-relief-web.web.app/'}}
                         style={{flex: 1}}
                         ref={webRef}
