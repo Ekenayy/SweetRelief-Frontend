@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
+import { BlurView } from 'expo-blur';
 import { BASE_URL } from '@env'
 import PaymentOrder from '../components/PaymentOrder'
 import EditUser from '../components/EditUser'
@@ -71,6 +72,7 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
     `
     const MainInfoView = styled.ScrollView`
         margin-top: 10px;
+        opacity: ${props => props.modalVisible ? '.20' : '1'}
     `
 
     const AllInfoView = styled.View`
@@ -98,6 +100,10 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
         align-self: center;
         margin-left: 40px;
         font-size: 18px;
+    `
+
+    const CustomForm = styled(ModalForm)`
+        margin-top: 100px;
     `
 
 
@@ -173,12 +179,12 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
                     }}
             >
             <ModalHolder>
-                <ModalForm>
+                <CustomForm>
                     <CloseView onPress={() => setModalVisible(!modalVisible)}>
                         <CloseText>❌</CloseText>
                     </CloseView>
                     <PaymentOrder order={chosenOrder} setModalVisible={setModalVisible} modalVisible={modalVisible} setChosenOrder={setChosenOrder} chosenOrder={chosenOrder}/>
-                </ModalForm>
+                </CustomForm>
             </ModalHolder>
             </Modal1>
         )
@@ -186,28 +192,30 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
 
     return (
         <Body>
-            <Header>
-                <TextView>
-                    <HeaderName>{currentUser.name}</HeaderName>
-                </TextView>
-                <OptionsView>
-                    <TouchView selected={selected == 'view'} onPress={() => setSelected('view')}>
-                        <MaterialCommunityIcons name="magnify" size={24} color="black" style={{marginRight: 5}}/>
-                        <DarkText>View</DarkText>
-                    </TouchView>
-                    <EditView selected={selected == 'edit'} onPress={() => setSelected('edit')}>
-                        <SimpleLineIcons name="pencil" size={22} color="black" style={{marginRight: 5}}/>
-                        <DarkText>Edit</DarkText>
-                    </EditView>
-                </OptionsView>
-            </Header>
-            <MainInfoView showsVerticalScrollIndicator={false}>
-                <MainInfo/>
-                <PurpButton onPress={() => navigation.navigate('Main')}>
-                    <Span>To Map</Span>
-                </PurpButton>
-            </MainInfoView>
-            {modalVisible ? <OrderModal/> : null}
+            {/* <BlurView intensity={100} blurTint='dark'> */}
+                <Header>
+                    <TextView>
+                        <HeaderName>{currentUser.name}</HeaderName>
+                    </TextView>
+                    <OptionsView>
+                        <TouchView selected={selected == 'view'} onPress={() => setSelected('view')}>
+                            <MaterialCommunityIcons name="magnify" size={24} color="black" style={{marginRight: 5}}/>
+                            <DarkText>View</DarkText>
+                        </TouchView>
+                        <EditView selected={selected == 'edit'} onPress={() => setSelected('edit')}>
+                            <SimpleLineIcons name="pencil" size={22} color="black" style={{marginRight: 5}}/>
+                            <DarkText>Edit</DarkText>
+                        </EditView>
+                    </OptionsView>
+                </Header>
+                <MainInfoView modalVisible={modalVisible} showsVerticalScrollIndicator={false}>
+                    <MainInfo/>
+                    <PurpButton onPress={() => navigation.navigate('Main')}>
+                        <Span>To Map</Span>
+                    </PurpButton>
+                </MainInfoView>
+            {/* </BlurView> */}
+                {modalVisible ? <OrderModal/> : null}
         </Body>
     )
 }
