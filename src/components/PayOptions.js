@@ -63,7 +63,7 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
         left: 0;
         right: 0;
         bottom: 0;
-        height: 50%;
+        height: 80%;
         margin-left: 10px;
         margin-right: 10px;
         margin-top: 150px;
