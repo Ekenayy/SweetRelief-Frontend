@@ -39,6 +39,14 @@ export const Button = styled.TouchableOpacity`
     width: 100px;
     align-self: center;
 `
+// export const Button = styled.TouchableOpacity`
+//         background: #bea7e5;
+//         width: 150px;
+//         border-radius:20px;
+//         align_self: center;
+//         margin-top: 5px;
+//         margin-right: 5px;
+//     `
 
 export const PurpButton = styled(Button)`
     background-color: #bea7e5;
