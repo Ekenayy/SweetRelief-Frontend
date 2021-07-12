@@ -7,7 +7,6 @@ import { BASE_URL } from '@env'
 import { Modal, ActivityIndicator } from 'react-native'
 import { Foundation } from '@expo/vector-icons';
 import {WebView} from 'react-native-webview';
-import { BlurView } from 'expo-blur';
 
 
 

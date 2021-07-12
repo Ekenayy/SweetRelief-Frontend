@@ -130,7 +130,6 @@ function NavBar ( {modalContent, contextUserLocation, wholeMap, favoriteLocIds, 
         setLoggedIn(false)
     }
 
-
     return (
         <PanGestureHandler onGestureEvent={handleGesture}>
             <Animated.View style={[styles.animatedContainer, uas]}>
