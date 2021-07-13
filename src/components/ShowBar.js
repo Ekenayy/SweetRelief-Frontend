@@ -11,11 +11,8 @@ import WebComp from './WebComp'
 function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalContent, selectedLocation, setSelectedLocation, currentUser, comments, setModalVisible, modalVisible} ) {
 
     const [localLocIds, setLocalLocIds] = useState(favoriteLocIds)
-    const [showGateway, setShowGateway] = useState(false)
-    const [progClr, setProgClr] = useState("#000")
-    const [prog, setProg] = useState(false)
+    
 
-    let locationUrl = 'https://www.grubhub.com/restaurant/garam-masala-1819-palmetto-st-ridgewood/1038691?classicAffiliateId=%2Fr%2Fw%2F141623%2F&utm_source=kitchen.grubhub.com&utm_medium=OOL&utm_campaign=order%20online&utm_content=1038691'
     const Options = styled(Button)`
         margin: 5px 15px;
         flex-direction: row;
@@ -84,6 +81,10 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
         setSelectedLocation(null)
     }
 
+    const handleDiscover = () => {
+        setShowGateway(true)
+    }
+
     return (
         <ShowScroll
             horizontal={true}
@@ -97,9 +98,9 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
                 <FontAwesome5 name="directions" size={24} color="#F4A261" />
                 <OptionsText>Directions</OptionsText>
             </Options>
-            <Options onPress={() => setShowGateway(true)}>
+            <Options onPress={() => handleIconPress('discover')}>
                 <FontAwesome5 name="hiking" size={24} color="#F4A261" />
-                <OptionsText>Explore</OptionsText>
+                <OptionsText>Discover</OptionsText>
             </Options>
             { selectedLocation.free ? null : 
             <Options onPress={() => handleIconPress('pay')}>
@@ -122,8 +123,6 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
                     <OptionsText>Favorite</OptionsText> 
                 </Options>
             }
-            {showGateway ? <WebComp headerText='Explore' setProgClr={setProgClr} progClr={progClr} uri={locationUrl} showGateway={showGateway} setShowGateway={setShowGateway} setProg={setProg} prog={prog} /> 
-            : null}
             {/* <Options>
                 <MaterialIcons name="add-location-alt" size={24} color="#DDF8E8" />
                 <OptionsText>Add location</OptionsText>

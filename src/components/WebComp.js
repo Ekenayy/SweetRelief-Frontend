@@ -5,7 +5,7 @@ import {WebView} from 'react-native-webview';
 import styled from 'styled-components'
 import { Foundation } from '@expo/vector-icons';
 
-function WebComp ( {headerText, passValue, progClr, setProgClr, uri, showGateway, setShowGateway, setProg, prog, onMessage} ) {
+function WebComp ( {headerText, setModalVisible, passValue, progClr, setProgClr, uri, showGateway, setShowGateway, setProg, prog, onMessage} ) {
 
     const HeaderText = styled(DarkText)`
         font-weight: bold;
@@ -21,14 +21,23 @@ function WebComp ( {headerText, passValue, progClr, setProgClr, uri, showGateway
     return (
         <Modal
                 visible={showGateway}
-                onDismiss={() => setShowGateway(false)}
-                onRequestClose={() => setShowGateway(false)}
+                onDismiss={() => {
+                    setShowGateway(false)
+                    setModalVisible(false)
+                }}
+                onRequestClose={() => {
+                    setShowGateway(false)
+                    setModalVisible(false)
+                }}
                 animationType={'fade'}
                 transparent={true}
             >
             <WebViewCon>
                 <WebHead>
-                    <CloseView onPress={() => setShowGateway(false)}> 
+                    <CloseView onPress={() => {
+                        setShowGateway(false)
+                        setModalVisible(false)
+                    }}> 
                         <Foundation name="x" size={24} color="black" />
                     </CloseView>
                     <HeaderText>{headerText}</HeaderText>
@@ -41,16 +50,16 @@ function WebComp ( {headerText, passValue, progClr, setProgClr, uri, showGateway
                         // source={{uri: 'https://sweet-relief-web.web.app/'}}
                         style={{flex: 1}}
                         // ref={webRef}
-                        onLoadStart={() => {
-                            setProg(true);
-                            setProgClr('#00457C');
-                            // passValue()
-                        }}
+                        // onLoadStart={() => {
+                        //     setProg(true);
+                        //     setProgClr('#00457C');
+                        //     // passValue()
+                        // }}
                         // onLoadProgress={() => {
                         //     setProg(true);
                         //     setProgClr('#00457C');
                         // }}
-                        // onLoadEnd={passValue}
+                        // onLoadEnd={() => setProg(false)}
                         // onLoad={() => {
                         //     setProg(false);
                         // }}

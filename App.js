@@ -108,7 +108,6 @@ export default function App() {
           console.log('triggered')
           setCurrentUser(user)
           setLoggedIn(true)
-          setIsLoading(false)
           // <Redirect to="/challenges" />
           // history.push('/challenges')
         })
@@ -121,7 +120,10 @@ export default function App() {
     if (dynoAwake) {
       fetch(`${BASE_URL}/locations`)
       .then(res => res.json())
-      .then(locations => setLocations(locations))
+      .then(locations => {
+        setLocations(locations)
+        setIsLoading(false)
+      })
     }
 
   },[dynoAwake])
