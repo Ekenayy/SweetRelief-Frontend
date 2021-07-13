@@ -1,13 +1,12 @@
 import React, {useRef, useState, useEffect} from 'react' 
 import styled from 'styled-components'
-import { Text, DarkText, Wrapper, Span, H2 } from '../styles/Styles'
+import { Text, DarkText, Wrapper, Span, H2, ModalHolder, ModalForm } from '../styles/Styles'
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Linking from 'expo-linking';
 import { BASE_URL } from '@env'
 import { Modal, ActivityIndicator } from 'react-native'
 import { Foundation } from '@expo/vector-icons';
 import {WebView} from 'react-native-webview';
-import { BlurView } from 'expo-blur';
 
 
 
@@ -165,68 +164,70 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
     }
 
     return (
-        <>
-            <CloseView onPress={() => setModalVisible(!modalVisible)}>
-                <CloseText>❌</CloseText>
-            </CloseView>
-            <H2>Pay with</H2>
-            <AllOptionsView>
-                    <MoneyButton selected={selected} onPress={() => setSelected('money')} >
-                            <OptionsText>Money</OptionsText>
-                    </MoneyButton>                
-            </AllOptionsView>
-            {selected == 'money' ? 
-            <ConfirmationView>
-                <DarkText>{selectedLocation.name} charges ${selectedLocation.price_cents} for its restroom</DarkText>
-            </ConfirmationView> : 
-            null}
-            {selected ? 
-            <Button onPress={handleClick}>
-                <Span>Confirm</Span>
-            </Button> : 
-            null}
-            {showGateway ? (
-            <Modal
-                visible={showGateway}
-                onDismiss={() => setShowGateway(false)}
-                onRequestClose={() => setShowGateway(false)}
-                animationType={'fade'}
-                transparent={true}
-            >
-                <WebViewCon>
-                    <WebHead>
-                        <CloseView onPress={() => setShowGateway(false)}> 
-                            <Foundation name="x" size={24} color="black" />
-                        </CloseView>
-                        <HeaderText>PayPal Gateway</HeaderText>
-                        <IndicatorView progress={prog}>
-                            <ActivityIndicator size={24} color={progClr} />
-                        </IndicatorView>
-                    </WebHead>
-                    <WebView
-                        source={{uri: 'http://localhost:3001/pay'}}
-                        // source={{uri: 'https://sweet-relief-web.web.app/'}}
-                        style={{flex: 1}}
-                        ref={webRef}
-                        onLoadStart={() => {
-                            setProg(true);
-                            setProgClr('#00457C');
-                            passValue()
-                        }}
-                        // onLoadProgress={() => {
-                        //     setProg(true);
-                        //     setProgClr('#00457C');
-                        // }}
-                        // onLoadEnd={passValue}
-                        // onLoad={() => {
-                        //     setProg(false);
-                        // }}
-                        onMessage={onMessage}
-                    />
-                </WebViewCon>
-            </Modal>
-                ) : null}
-        </>
+        <ModalHolder>
+            <ModalForm>
+                <CloseView onPress={() => setModalVisible(!modalVisible)}>
+                    <CloseText>❌</CloseText>
+                </CloseView>
+                <H2>Pay with</H2>
+                <AllOptionsView>
+                        <MoneyButton selected={selected} onPress={() => setSelected('money')} >
+                                <OptionsText>Money</OptionsText>
+                        </MoneyButton>                
+                </AllOptionsView>
+                {selected == 'money' ? 
+                <ConfirmationView>
+                    <DarkText>{selectedLocation.name} charges ${selectedLocation.price_cents} for its restroom</DarkText>
+                </ConfirmationView> : 
+                null}
+                {selected ? 
+                <Button onPress={handleClick}>
+                    <Span>Confirm</Span>
+                </Button> : 
+                null}
+                {showGateway ? (
+                <Modal
+                    visible={showGateway}
+                    onDismiss={() => setShowGateway(false)}
+                    onRequestClose={() => setShowGateway(false)}
+                    animationType={'fade'}
+                    transparent={true}
+                >
+                    <WebViewCon>
+                        <WebHead>
+                            <CloseView onPress={() => setShowGateway(false)}> 
+                                <Foundation name="x" size={24} color="black" />
+                            </CloseView>
+                            <HeaderText>PayPal Gateway</HeaderText>
+                            <IndicatorView progress={prog}>
+                                <ActivityIndicator size={24} color={progClr} />
+                            </IndicatorView>
+                        </WebHead>
+                        <WebView
+                            source={{uri: 'http://localhost:3001/pay'}}
+                            // source={{uri: 'https://sweet-relief-web.web.app/'}}
+                            style={{flex: 1}}
+                            ref={webRef}
+                            onLoadStart={() => {
+                                setProg(true);
+                                setProgClr('#00457C');
+                                passValue()
+                            }}
+                            // onLoadProgress={() => {
+                            //     setProg(true);
+                            //     setProgClr('#00457C');
+                            // }}
+                            // onLoadEnd={passValue}
+                            // onLoad={() => {
+                            //     setProg(false);
+                            // }}
+                            onMessage={onMessage}
+                        />
+                    </WebViewCon>
+                </Modal>
+                    ) : null}
+            </ModalForm>
+        </ModalHolder>
     )
 }
 

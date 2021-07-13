@@ -31,6 +31,7 @@ export default function App() {
   const [loggedIn, setLoggedIn] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [ios, setIos] = useState(Platform.OS === 'ios')
+  const [dynoAwake, setDynoAwake] = useState(false)
   // const [sorted, setSorted] = useState(false)
 
 
@@ -46,6 +47,7 @@ export default function App() {
           if (thisToken !== 'none') {
             setToken(thisToken)
           } else {
+            // No token found. The user will be sent to the login page
             setIsLoading(false)
           }
           // setToken(thisToken) 
@@ -57,30 +59,23 @@ export default function App() {
   }
 
   useEffect(() => {
+    if (!dynoAwake) {
+      fetch(`${BASE_URL}/awake`)
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            setDynoAwake(true)
+          }
+        })
+    }
+  }, [dynoAwake])
+
+  // Loads the token from the device storage
+  useEffect(() => {
     load()
   }, [])
 
-  useEffect( () => {
-    if (token && !currentUser) {
-      fetch(`${BASE_URL}/token_show`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`
-        }, 
-      })
-        .then(r => r.json())
-        .then(user =>{
-          console.log('triggered')
-          setCurrentUser(user)
-          setLoggedIn(true)
-          setIsLoading(false)
-          // <Redirect to="/challenges" />
-          // history.push('/challenges')
-        })
-    }
-  }, [token])
-
-
+  // Request userLocation
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -100,11 +95,38 @@ export default function App() {
     })();
   }, []);
 
+  useEffect( () => {
+    if (token && !currentUser && dynoAwake) {
+      fetch(`${BASE_URL}/token_show`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }, 
+      })
+        .then(r => r.json())
+        .then(user =>{
+          console.log('triggered')
+          setCurrentUser(user)
+          setLoggedIn(true)
+          // <Redirect to="/challenges" />
+          // history.push('/challenges')
+        })
+    }
+  }, [token, dynoAwake])
+
+
+  // Should be dependent on Dyno awake
   useEffect(() => {
-    fetch(`${BASE_URL}/locations`)
+    if (dynoAwake) {
+      fetch(`${BASE_URL}/locations`)
       .then(res => res.json())
-      .then(locations => setLocations(locations))
-  },[])
+      .then(locations => {
+        setLocations(locations)
+        setIsLoading(false)
+      })
+    }
+
+  },[dynoAwake])
 
   // Sorting the locations once we have locations and a userlocation
   useEffect(() => {
