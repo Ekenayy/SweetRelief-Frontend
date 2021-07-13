@@ -70,11 +70,13 @@ function EditUser ( {currentUser, setCurrentUser}) {
             .then(updatedUser => {
                 if (updatedUser.errors) {
                     setErrors(updatedUser.errors)
+                    Alert.alert('Whoops! There was a problem updating your profile. Please try again.')
                 } else if (formBody.password) {
                     setCurrentUser(updatedUser)
                     Alert.alert('Password sucessfully changed!')
                 } else {
                     setCurrentUser(updatedUser)
+                    Alert.alert('Success!')
                 }
             })
     }

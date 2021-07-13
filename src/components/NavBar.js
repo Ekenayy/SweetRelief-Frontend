@@ -16,7 +16,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 
-function NavBar ( {modalContent, contextUserLocation, wholeMap, favoriteLocIds, setFavoriteLocIds, setLoggedIn, setCurrentUser, navigation, setToken, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
+function NavBar ( {modalContent, contextUserLocation, wholeMap, favoriteLocIds, setFavoriteLocIds, setCurrentUser, navigation, setToken, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
 
     const styles = StyleSheet.create({
         animatedContainer: {
@@ -128,7 +128,6 @@ function NavBar ( {modalContent, contextUserLocation, wholeMap, favoriteLocIds, 
         setToken(null)
         removeToken()
         setCurrentUser(null)
-        setLoggedIn(false)
     }
 
     return (
