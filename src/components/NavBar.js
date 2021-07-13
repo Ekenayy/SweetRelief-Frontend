@@ -14,6 +14,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 
 function NavBar ( {modalContent, contextUserLocation, wholeMap, favoriteLocIds, setFavoriteLocIds, setLoggedIn, setCurrentUser, navigation, setToken, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
 
@@ -136,7 +137,7 @@ function NavBar ( {modalContent, contextUserLocation, wholeMap, favoriteLocIds, 
                 <BigIconView>
                     <ZoomView >
                         <TouchView onPress={() => wholeMap.current.animateToRegion(contextUserLocation, 500)}>
-                            <MaterialIcons name="my-location" size={30} color="black" />
+                            <FontAwesome5 name="location-arrow" size={26} color="black" />
                         </TouchView>
                     </ZoomView>
                     <IconView>
