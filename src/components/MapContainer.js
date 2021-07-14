@@ -23,8 +23,6 @@ export default function MapContainer(  {filterBy, ios, favoriteLocIds, setFilter
     longitude: -73.90897
   }
 
-  console.log(contextUserLocation)
-
   const region = {
     ...contextUserLocation,
     latitudeDelta: 0.03,

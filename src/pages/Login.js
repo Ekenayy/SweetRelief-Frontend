@@ -22,7 +22,7 @@ function Login ( {navigation, currentUser, setCurrentUser}) {
 
     const Form = styled.View`
         padding-left:12px;
-        padding-top: 30px;
+        padding-top: 50px;
     `
 
     const TitleView = styled.View`
