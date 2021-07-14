@@ -151,6 +151,7 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
             setModalContent('receipt')
         } else if (paymentFromWeb && paymentFromWeb.status !== 'COMPLETED') {
             alert('PAYMENT FAILED. PLEASE TRY AGAIN.')
+            console.log(paymentFromWeb)
             // setModalVisible(false)
         }
     }
@@ -204,8 +205,7 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
                             </IndicatorView>
                         </WebHead>
                         <WebView
-                            source={{uri: 'http://localhost:3001/pay'}}
-                            // source={{uri: 'https://sweet-relief-web.web.app/'}}
+                            source={{uri: 'https://sweet-relief-web.web.app/pay'}}
                             style={{flex: 1}}
                             ref={webRef}
                             onLoadStart={() => {

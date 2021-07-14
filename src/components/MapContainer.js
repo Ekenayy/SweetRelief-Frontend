@@ -9,10 +9,10 @@ import { Wrapper, TouchView } from '../styles/Styles'
 import MapViewDirections from 'react-native-maps-directions';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { Ionicons } from '@expo/vector-icons';
-// import { PROVIDER_GOOGLE } from 'react-native-maps' 
+import { PROVIDER_GOOGLE } from 'react-native-maps' 
 
 
-export default function MapContainer(  {filterBy, favoriteLocIds, setFilterBy, setSelectedLocation, wholeMap, handlePress, selectedLocation} ) {
+export default function MapContainer(  {filterBy, ios, favoriteLocIds, setFilterBy, setSelectedLocation, wholeMap, handlePress, selectedLocation} ) {
   
   const {locations, userLocation} = React.useContext(LocationContext)
   const [contextLocations, setContextLocations] = locations
@@ -24,7 +24,7 @@ export default function MapContainer(  {filterBy, favoriteLocIds, setFilterBy, s
   }
 
   const region = {
-    ...customLocation,
+    ...contextUserLocation,
     latitudeDelta: 0.03,
     longitudeDelta: 0.03
   }
@@ -43,21 +43,6 @@ export default function MapContainer(  {filterBy, favoriteLocIds, setFilterBy, s
         return <Ionicons name="ios-pin-outline" size={30} color="#BEA7E5" />
     }
   }
-
-//   const reduceFilterList = (locations) => {
-//     if (filterBy === null) return locations;
-//     if (filterBy === "free") {
-//     return locations.filter((location) => location.free === true)
-// }  if (
-//     filterBy === "key_required") {
-//     return locations.filter((location) => location.key_required === false)
-// }  if (
-//     filterBy === "unisex") {
-//     return locations.filter((location) => location.unisex !== false)
-// }   if (ilterBy === "wheelchair_accessible") {
-//       return locations.filter((location) => location.wheelchair_accessible !== false)
-//     }
-// };
 
 // some array.includes(location)
 // Send back a list of favorite location ids and see if they match that location id 
@@ -106,7 +91,7 @@ const filteredLocations = reduceFilterList(contextLocations);
           initialRegion={region}
           style={styles.map}
           showsUserLocation={true}
-          followsUserLocation={true}
+          followsUserLocation={ios ? false : true}
           ref={wholeMap}
           // provider={PROVIDER_GOOGLE}
         >

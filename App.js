@@ -28,10 +28,11 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState(null)
   const [sortedLocations, setSortedLocations] = useState([])
   const [token, setToken] = useState(null)
-  const [loggedIn, setLoggedIn] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const [tokenSearched, setTokenSearched] = useState(false)
   const [ios, setIos] = useState(Platform.OS === 'ios')
   const [dynoAwake, setDynoAwake] = useState(false)
+  const [getPermission, setGetPermission] = useState(false)
   // const [sorted, setSorted] = useState(false)
 
 
@@ -47,10 +48,9 @@ export default function App() {
           if (thisToken !== 'none') {
             setToken(thisToken)
           } else {
+            setTokenSearched(true)
             // No token found. The user will be sent to the login page
-            setIsLoading(false)
           }
-          // setToken(thisToken) 
       } catch(e) {
         // read error
         console.log(e.message)
@@ -81,7 +81,7 @@ export default function App() {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
-        Alert.alert('Location is required to provide best service')
+        Alert.alert('Location is required to provide accurate service. Please change location settings to allow access')
         setUserLocation({
           latitude: 40.700415, 
           longitude: -73.90897
@@ -104,15 +104,18 @@ export default function App() {
         }, 
       })
         .then(r => r.json())
-        .then(user =>{
-          console.log('triggered')
-          setCurrentUser(user)
-          setLoggedIn(true)
-          // <Redirect to="/challenges" />
-          // history.push('/challenges')
+        .then(user => {
+          if (user.error) {
+            setErrorMsg(user.error)
+            setCurrentUser(null)
+          } else {
+            setCurrentUser(user)
+            setTokenSearched(true)
+          }
         })
     }
   }, [token, dynoAwake])
+
 
 
   // Should be dependent on Dyno awake
@@ -160,7 +163,7 @@ export default function App() {
     // setSorted(true)
   };
 
-if (isLoading) {
+if (isLoading && !tokenSearched) {
   return <SplashScreen />
 } 
   return (
@@ -185,7 +188,7 @@ if (isLoading) {
             {currentUser ? 
             <>
               <Stack.Screen name='Main'>
-                {(props) => <Main {...props} setLoggedIn={setLoggedIn} setToken={setToken} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+                {(props) => <Main {...props} ios={ios} setToken={setToken} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
               </Stack.Screen>
               <Stack.Screen name='Profile'>
                 {(props) => <Profile {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
