@@ -81,20 +81,23 @@ function Receipt( {currentUser, comments, setModalContent, selectedLocation, mod
                     <SmileyView>
                         <Ionicons name="happy-outline" size={60} color="#F4A261" />
                     </SmileyView>
-                    <InfoView>
-                        <IconView>
-                            <FontAwesome5 name="store-alt" size={18} color="#F4A261" />
-                            <InfoWords numberOfLines={2} ellipsizeMode='tail'>{selectedLocation.name}</InfoWords>
-                        </IconView>
-                        <IconView>
-                            <FontAwesome name="dollar" size={24} color="#F4A261" />
-                            <InfoWords>{paymentOrder.payment_order.price_cents}</InfoWords>
-                        </IconView>
-                        <IconView>
-                            <MaterialCommunityIcons name="clock-outline" size={22} color="#F4A261" />
-                            <InfoWords>{paymentOrder.time}</InfoWords>
-                        </IconView>
-                    </InfoView>
+                    {paymentOrder ? 
+                        <InfoView>
+                            <IconView>
+                                <FontAwesome5 name="store-alt" size={18} color="#F4A261" />
+                                <InfoWords numberOfLines={2} ellipsizeMode='tail'>{selectedLocation.name}</InfoWords>
+                            </IconView>
+                            <IconView>
+                                <FontAwesome name="dollar" size={24} color="#F4A261" />
+                                <InfoWords>{paymentOrder.payment_order.price_cents}</InfoWords>
+                            </IconView>
+                            <IconView>
+                                <MaterialCommunityIcons name="clock-outline" size={22} color="#F4A261" />
+                                <InfoWords>{paymentOrder.time}</InfoWords>
+                            </IconView>
+                        </InfoView> : 
+                        null
+                    }
                 </ConfirmView>
                 <View>
                     <DarkText>Show this to someone at the location. This receipt will also be availabe on your profile page.</DarkText>

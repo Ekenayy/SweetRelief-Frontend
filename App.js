@@ -112,11 +112,10 @@ export default function App() {
             setCurrentUser(user)
             setTokenSearched(true)
           }
-          // <Redirect to="/challenges" />
-          // history.push('/challenges')
         })
     }
   }, [token, dynoAwake])
+
 
 
   // Should be dependent on Dyno awake
