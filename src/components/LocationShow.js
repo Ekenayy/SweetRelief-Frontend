@@ -77,7 +77,18 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
 
     const RatingView = styled.View`
         flex-direction: row;
+        align-items: center;
     `
+
+    const InfoText = styled(Text)`
+        font-size: 20px;
+    `
+    const HeaderView = styled(Wrapper)`
+        display: flex;
+        flex-direction: column;
+        margin-left: 26px;
+    `
+
 
     const AllComments = () => 
         comments.map((comment) => {
@@ -103,6 +114,23 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
 
     return (
         <BigWrapper>
+            <HeaderView>
+                <InfoText>{name}</InfoText>
+                <RatingView>
+                    <Text>{averageRating()}</Text>
+                    {comments.length >= 1 ? <AntDesign name="heart" size={14} color="#FF7070" style={{marginLeft: 5}} /> : null } 
+                </RatingView>
+                <RatingView>
+                    <Text>{locType}</Text>
+                    <Text>  *  </Text>
+                    <Text>{`${distance} mi`}</Text>
+                </RatingView>
+                <RatingView>
+                    {free ? <Text>Free</Text> : null}
+                    {unisex ? <Text>Gender neutral</Text> : null}
+                    {wheelchair_accessible ? <Text>Wheelchair accessible</Text> : null}
+                </RatingView>
+            </HeaderView>
             <ShowBar setSelectedLocation={setSelectedLocation} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} modalContent={modalContent} setModalContent={setModalContent} currentUser={currentUser} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} selectedLocation={selectedLocation}/>
             <ShowScroll
                 contentContainerStyle={{
@@ -110,22 +138,16 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
                 }}
                 comments={comments.length > 0}
             >
-                <SectionWrapper>
+                {/* <SectionWrapper>
                     <H2>
                     Location
-                        {/* <ButtonView>
-                            <ClearButton onPress={() => setSelectedLocation(null)}>
-                                <Span>Clear Search</Span>
-                            </ClearButton>
-                        </ButtonView> */}
                     </H2>
                     <DetailsWrapper>
-                        {/* <DetailsText>{distance} miles away</DetailsText> */}
                         <DetailsText>{`${name} is ${distance} miles away`}</DetailsText>
                         <DetailsText>{address}</DetailsText>
                         <DetailsText>{locType}</DetailsText>
                     </DetailsWrapper>
-                </SectionWrapper>
+                </SectionWrapper> */}
                 <SectionWrapper>
                     <H2>Details</H2>
                     <DetailsWrapper>
