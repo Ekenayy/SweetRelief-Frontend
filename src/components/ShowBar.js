@@ -6,10 +6,12 @@ import { MaterialIcons } from '@expo/vector-icons';
 import styled from 'styled-components'
 import { createOpenLink } from 'react-native-open-maps';
 import { BASE_URL } from '@env'
+import WebComp from './WebComp'
 
 function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalContent, selectedLocation, setSelectedLocation, currentUser, comments, setModalVisible, modalVisible} ) {
 
     const [localLocIds, setLocalLocIds] = useState(favoriteLocIds)
+    
 
     const Options = styled(Button)`
         margin: 5px 15px;
@@ -79,6 +81,10 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
         setSelectedLocation(null)
     }
 
+    const handleDiscover = () => {
+        setShowGateway(true)
+    }
+
     return (
         <ShowScroll
             horizontal={true}
@@ -91,6 +97,10 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
             <Options onPress={openDirections}>
                 <FontAwesome5 name="directions" size={24} color="#F4A261" />
                 <OptionsText>Directions</OptionsText>
+            </Options>
+            <Options onPress={() => handleIconPress('discover')}>
+                <FontAwesome5 name="hiking" size={24} color="#F4A261" />
+                <OptionsText>Discover</OptionsText>
             </Options>
             { selectedLocation.free ? null : 
             <Options onPress={() => handleIconPress('pay')}>

@@ -39,6 +39,14 @@ export const Button = styled.TouchableOpacity`
     width: 100px;
     align-self: center;
 `
+// export const Button = styled.TouchableOpacity`
+//         background: #bea7e5;
+//         width: 150px;
+//         border-radius:20px;
+//         align_self: center;
+//         margin-top: 5px;
+//         margin-right: 5px;
+//     `
 
 export const PurpButton = styled(Button)`
     background-color: #bea7e5;
@@ -83,3 +91,28 @@ export const ModalForm = styled.View`
         border-radius: 20px;
         align-items: center;
     `
+
+export  const WebViewCon = styled.View`
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 80%;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 150px;
+        border-radius: 20px;
+        padding: 30px;
+        background-color: #F4A261;
+    `
+export const WebHead = styled.View`
+        flex-direction: row;
+        alignItems: center;
+        background-color: #ffffff;
+        zIndex: 25;
+        elevation: 2;
+        padding-top: 30px;
+        width: 100%
+    `
+

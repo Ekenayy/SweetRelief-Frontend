@@ -11,7 +11,7 @@ import * as geolib from 'geolib'
 import styled from 'styled-components'
 import { BlurView } from 'expo-blur';
 
-function Main ( {currentUser, navigation, setLoggedIn, setCurrentUser, setToken} ) {
+function Main ( {currentUser, ios, navigation, setCurrentUser, setToken} ) {
 
     // State
     const [selectedLocation, setSelectedLocation] = useState(null)
@@ -31,7 +31,6 @@ function Main ( {currentUser, navigation, setLoggedIn, setCurrentUser, setToken}
     const BigWrapper = styled.View`
         flex: 1;
     `
-
 
     const setAndFitToCoords = (location) => {
         fetchLocation(location)
@@ -59,8 +58,8 @@ function Main ( {currentUser, navigation, setLoggedIn, setCurrentUser, setToken}
     return (
         // <BigWrapper>
         <>
-            <MapContainer favoriteLocIds={favoriteLocIds} filterBy={filterBy} setFilterBy={setFilterBy} wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
-            <NavBar navigation={navigation} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} setToken={setToken} setLoggedIn={setLoggedIn} setCurrentUser={setCurrentUser} setModalContent={setModalContent} modalContent={modalContent} filterBy={filterBy} setFilterBy={setFilterBy} currentUser={currentUser} setComments={setComments} comments={comments}  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
+            <MapContainer ios={ios} favoriteLocIds={favoriteLocIds} filterBy={filterBy} setFilterBy={setFilterBy} wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
+            <NavBar contextUserLocation={contextUserLocation} wholeMap={wholeMap} navigation={navigation} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} setToken={setToken} setCurrentUser={setCurrentUser} setModalContent={setModalContent} modalContent={modalContent} filterBy={filterBy} setFilterBy={setFilterBy} currentUser={currentUser} setComments={setComments} comments={comments}  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
             {modalVisible ? <BlurView intensity={90} BlurTint='light' style={[StyleSheet.absoluteFill]}/> : null}
             {modalVisible ? <ShowModal  modalContent={modalContent} setModalContent={setModalContent} setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible} /> : null}
         </>

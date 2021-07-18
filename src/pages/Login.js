@@ -22,7 +22,7 @@ function Login ( {navigation, currentUser, setCurrentUser}) {
 
     const Form = styled.View`
         padding-left:12px;
-        padding-top: 30px;
+        padding-top: 50px;
     `
 
     const TitleView = styled.View`
@@ -97,8 +97,8 @@ function Login ( {navigation, currentUser, setCurrentUser}) {
                 secureTextEntry={true}
                 onChangeText={text => setValue('password', text)}
             />
-            {/* {errors ? <ErrorSpan>{errors}</ErrorSpan> : null} */}
-            {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
+            {errors ? <ErrorSpan>{errors}</ErrorSpan> : null}
+            {/* {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null} */}
             <LoginButton onPress={handleSubmit(onSubmit)}>
                 <Span>Log in</Span>
             </LoginButton>

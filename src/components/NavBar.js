@@ -13,8 +13,10 @@ import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 
-function NavBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setLoggedIn, setCurrentUser, navigation, setToken, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
+function NavBar ( {modalContent, contextUserLocation, wholeMap, favoriteLocIds, setFavoriteLocIds, setCurrentUser, navigation, setToken, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
 
     const [height, setHeight] = useState('100%')
 
@@ -53,14 +55,19 @@ function NavBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setLoggedIn,
         align-items: center;
     `
     const BigIconView = styled.View`
-        align-items: flex-end
         margin-bottom: 2px;
+        flex-direction: row;
+        justify-content: space-between;
     `
 
     const IconView = styled.View`
         flex-direction: row;
         justify-content: space-around;
         padding-right: 5px;
+    `
+
+    const ZoomView = styled(IconView)`
+        padding-left: 5px;
     `
 
     const TouchView = styled.TouchableOpacity`
@@ -124,20 +131,23 @@ function NavBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setLoggedIn,
         setToken(null)
         removeToken()
         setCurrentUser(null)
-        setLoggedIn(false)
     }
-
 
     return (
         <PanGestureHandler onGestureEvent={handleGesture}>
             <Animated.View style={[styles.animatedContainer, uas]}>
                 <BigIconView>
+                    <ZoomView >
+                        <TouchView onPress={() => wholeMap.current.animateToRegion(contextUserLocation, 500)}>
+                            <FontAwesome5 name="location-arrow" size={26} color="black" />
+                        </TouchView>
+                    </ZoomView>
                     <IconView>
                         <TouchView onPress={() => navigation.navigate('Profile')}>
-                            <Ionicons name="person" size={24} color="#1C1C1C" style={{paddingRight: 5}} />
+                            <Ionicons name="person" size={30} color="#1C1C1C" style={{paddingRight: 5}} />
                         </TouchView>
                         <TouchView onPress={handleLogOut}>
-                            <MaterialCommunityIcons name="logout" size={24} color="#1C1C1C" style={{paddingLeft: 5}}/>
+                            <MaterialCommunityIcons name="logout" size={30} color="#1C1C1C" style={{paddingLeft: 5}}/>
                         </TouchView>
                     </IconView>
                 </BigIconView>

@@ -21,7 +21,7 @@ function SignUp ( {navigation, currentUser, setCurrentUser} ) {
 
     const Form = styled.View`
         padding-left:12px;
-        padding-top: 30px;
+        padding-top: 50px;
     `
 
     const TitleView = styled.View`
@@ -91,7 +91,7 @@ function SignUp ( {navigation, currentUser, setCurrentUser} ) {
                     autoCorrect={false}
                 /> 
                 <Input 
-                    placeholder="Passsword"
+                    placeholder="Password"
                     secureTextEntry={true}
                     onChangeText={text => setValue('password', text)}
                 />

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Alert } from 'react-native'
 import { Rating } from 'react-native-ratings';
 import {useForm} from 'react-hook-form';
-import { Text, Scroll, CloseView, CloseText, H2, Wrapper } from '../styles/Styles'
+import { Text, Scroll, CloseView, ModalHolder, ModalForm, CloseText, H2, Wrapper } from '../styles/Styles'
 import { BASE_URL } from '@env'
 
 
@@ -41,11 +41,6 @@ function CommentForm ( {currentUser, comments, setComments, selectedLocation, se
         margin-right: 5px;
     `
 
-    const CancelButton = styled(Button)`
-        background: #F4A261;
-        margin-left: 5px;
-    `
-
     const Span = styled.Text`
         color: #F7F8F3
         padding: 12px;
@@ -56,22 +51,7 @@ function CommentForm ( {currentUser, comments, setComments, selectedLocation, se
         color: red
         font-weight: bold;
     `
-    const Modal1 = styled.Modal`
-    `
 
-    const ModalForm = styled.View`
-        padding:10px;
-        background-color: white;
-        border-radius: 20px;
-        align-items: center;
-    `
-
-    const ModalHolder = styled.View`
-        flex: 1;
-        margin-top: 200px;
-        width: 90%;
-        align-self: center;
-    `
     const FormTitle = styled.Text`
         font-size: 24px;
         color: black;
@@ -161,7 +141,8 @@ function CommentForm ( {currentUser, comments, setComments, selectedLocation, se
     }
 
     return (
-                <>
+                <ModalHolder>
+                    <ModalForm>
                         <CloseView onPress={() => setModalVisible(!modalVisible)}>
                             <CloseText>❌</CloseText>
                         </CloseView>
@@ -193,7 +174,9 @@ function CommentForm ( {currentUser, comments, setComments, selectedLocation, se
                                 <Span>Submit rating</Span>
                             </Button>
                         </ButtonView>
-                </>
+                    </ModalForm>
+                </ModalHolder>
+
     )
 
 }

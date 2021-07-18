@@ -28,9 +28,11 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState(null)
   const [sortedLocations, setSortedLocations] = useState([])
   const [token, setToken] = useState(null)
-  const [loggedIn, setLoggedIn] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const [tokenSearched, setTokenSearched] = useState(false)
   const [ios, setIos] = useState(Platform.OS === 'ios')
+  const [dynoAwake, setDynoAwake] = useState(false)
+  const [getPermission, setGetPermission] = useState(false)
   // const [sorted, setSorted] = useState(false)
 
 
@@ -46,9 +48,9 @@ export default function App() {
           if (thisToken !== 'none') {
             setToken(thisToken)
           } else {
-            setIsLoading(false)
+            setTokenSearched(true)
+            // No token found. The user will be sent to the login page
           }
-          // setToken(thisToken) 
       } catch(e) {
         // read error
         console.log(e.message)
@@ -57,36 +59,29 @@ export default function App() {
   }
 
   useEffect(() => {
+    if (!dynoAwake) {
+      fetch(`${BASE_URL}/awake`)
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            setDynoAwake(true)
+          }
+        })
+    }
+  }, [dynoAwake])
+
+  // Loads the token from the device storage
+  useEffect(() => {
     load()
   }, [])
 
-  useEffect( () => {
-    if (token && !currentUser) {
-      fetch(`${BASE_URL}/token_show`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`
-        }, 
-      })
-        .then(r => r.json())
-        .then(user =>{
-          console.log('triggered')
-          setCurrentUser(user)
-          setLoggedIn(true)
-          setIsLoading(false)
-          // <Redirect to="/challenges" />
-          // history.push('/challenges')
-        })
-    }
-  }, [token])
-
-
+  // Request userLocation
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
-        Alert.alert('Location is required to provide best service')
+        Alert.alert('Location is required to provide accurate service. Please change location settings to allow access')
         setUserLocation({
           latitude: 40.700415, 
           longitude: -73.90897
@@ -100,11 +95,41 @@ export default function App() {
     })();
   }, []);
 
+  useEffect( () => {
+    if (token && !currentUser && dynoAwake) {
+      fetch(`${BASE_URL}/token_show`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }, 
+      })
+        .then(r => r.json())
+        .then(user => {
+          if (user.error) {
+            setErrorMsg(user.error)
+            setCurrentUser(null)
+          } else {
+            setCurrentUser(user)
+            setTokenSearched(true)
+          }
+        })
+    }
+  }, [token, dynoAwake])
+
+
+
+  // Should be dependent on Dyno awake
   useEffect(() => {
-    fetch(`${BASE_URL}/locations`)
+    if (dynoAwake) {
+      fetch(`${BASE_URL}/locations`)
       .then(res => res.json())
-      .then(locations => setLocations(locations))
-  },[])
+      .then(locations => {
+        setLocations(locations)
+        setIsLoading(false)
+      })
+    }
+
+  },[dynoAwake])
 
   // Sorting the locations once we have locations and a userlocation
   useEffect(() => {
@@ -138,7 +163,7 @@ export default function App() {
     // setSorted(true)
   };
 
-if (isLoading) {
+if (isLoading && !tokenSearched) {
   return <SplashScreen />
 } 
   return (
@@ -163,7 +188,7 @@ if (isLoading) {
             {currentUser ? 
             <>
               <Stack.Screen name='Main'>
-                {(props) => <Main {...props} setLoggedIn={setLoggedIn} setToken={setToken} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+                {(props) => <Main {...props} ios={ios} setToken={setToken} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
               </Stack.Screen>
               <Stack.Screen name='Profile'>
                 {(props) => <Profile {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}

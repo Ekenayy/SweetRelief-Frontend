@@ -96,15 +96,19 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
             return 'No ratings yet'
         }
     }
+
     // Figure out how to provide an answer for null attributes (What if we don't know?)
+    // Use the first part for the bathroom details
+    // Use the second part to allow the business to load up their value prop
+
     return (
         <BigWrapper>
             <ShowBar setSelectedLocation={setSelectedLocation} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} modalContent={modalContent} setModalContent={setModalContent} currentUser={currentUser} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} selectedLocation={selectedLocation}/>
             <ShowScroll
-            contentContainerStyle={{
-                flexGrow: 1,
-            }}
-            comments={comments.length > 0}
+                contentContainerStyle={{
+                    flexGrow: 1,
+                }}
+                comments={comments.length > 0}
             >
                 <SectionWrapper>
                     <H2>
