@@ -60,12 +60,12 @@ function LocationItem ( { handlePress, location, setSelectedLocation}) {
     const LocationText = styled(Text)`
         color: white;
     `
-
+    //  Add the average rating here somewhere
     return (
         <LocationView onPress={() => handlePress(location)}>
             <DetailsView>
                 <InfoView>
-                    <LocationText numberOfLines={1}>{address}</LocationText>
+                    <LocationText numberOfLines={1}>{name}</LocationText>
                     <AttributesView>
                         <IconView>
                             <MaterialCommunityIcons name="tape-measure" size={18} color="#F4A261" style={{marginRight: 5}} />                            
