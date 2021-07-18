@@ -91,7 +91,7 @@ function SignUp ( {navigation, currentUser, setCurrentUser} ) {
                     autoCorrect={false}
                 /> 
                 <Input 
-                    placeholder="Passsword"
+                    placeholder="Password"
                     secureTextEntry={true}
                     onChangeText={text => setValue('password', text)}
                 />
