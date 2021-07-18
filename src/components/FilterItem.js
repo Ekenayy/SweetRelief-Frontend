@@ -8,8 +8,10 @@ function FilterItem ( {filter, filterBy, setFilterBy} ) {
     const ItemView = styled(TouchView)`
         ${'' /* background-color: white; */}
         ${'' /* margin: 4px; */}
-        border-radius: 5px;
-        background-color: ${props => props.selected ? '#bea7e5' : '#F7F8F3'};
+        border-radius: 10px;
+        background-color: ${props => props.selected ? '#F4A261' : 'transparent'};
+        border-width: 2px;
+        border-color: #F4A261
         justify-content: space-around;
         margin: 5px;
         padding-bottom: 5px;
@@ -23,6 +25,7 @@ function FilterItem ( {filter, filterBy, setFilterBy} ) {
         padding-right: 12px;
         padding-top: 5px;
         font-size: 15px;
+        color: ${props => props.selected ? 'white' : '#F4A261'} ;
     `
 
     const filterName = (name) => {
@@ -48,6 +51,7 @@ function FilterItem ( {filter, filterBy, setFilterBy} ) {
         // <ItemView onPress={() => setFilterBy(filter)}>
         <ItemView selected={filterBy === filter} onPress={handleFilterPress}>
             <FilterText 
+              selected={filterBy === filter}
               style={filterBy == filter ? {opacity: 0.5} : {opacity: 1}}
             >
               {filterName(filter)}

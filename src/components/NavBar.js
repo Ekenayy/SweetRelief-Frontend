@@ -36,7 +36,7 @@ function NavBar ( {modalContent, contextUserLocation, wholeMap, favoriteLocIds, 
     })
     
     const NavContainer = styled.View`
-        background-color: 'rgba(52, 52, 52, 0.85)';
+        background-color: rgba(52, 52, 52, 0.85);
         height: 100%;
         paddingBottom: 200px;
         flex: 1;
