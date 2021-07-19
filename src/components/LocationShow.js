@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { Text, H2, Wrapper, Button, Scroll } from '../styles/Styles'
+import { Text, H2, Wrapper, Button, PurpButton, CloseView, CloseText, Scroll } from '../styles/Styles'
 import styled from 'styled-components'
 import LocationContext from '../LocationContext'
 import ShowBar from './ShowBar'
@@ -7,6 +7,7 @@ import CommentItem from './CommentItem'
 import { createOpenLink } from 'react-native-open-maps';
 import { AntDesign } from '@expo/vector-icons';
 import { Rating } from 'react-native-ratings';
+import { MaterialIcons } from '@expo/vector-icons';
 
 function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModalContent, modalVisible, currentUser, comments, setComments, setModalVisible, setSelectedLocation, selectedLocation}) {
 
@@ -14,8 +15,8 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
     const {locations} = React.useContext(LocationContext)
     const [contextLocations, setContextLocations] = locations
 
-    const [stateUpVotes, setStateUpvotes] = useState(upvotes)
-    const [stateDownVotes, setStateDownvotes] = useState(downvotes)
+    const [localLocIds, setLocalLocIds] = useState(favoriteLocIds)
+
 
     const Span = styled(Text)`
         align-self: center;
@@ -26,7 +27,8 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
 
     const DetailsText = styled(Text)`
         color: #F7F8F3;
-        margin-bottom: 5px;
+        margin-bottom: 3px;
+        font-weight: 400;
     `
 
     const SectionWrapper = styled(Wrapper)`
@@ -35,13 +37,12 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
         margin-right: 5px;        
         padding: 15px;
         padding-left: 5px;
-        border-radius: 15px;
+        border-bottom-width: 1px;
+        border-color: #F7F8F3;
     `
 
     const DetailsWrapper = styled(Wrapper)`
-        margin-top: 5px;
-        borderTopWidth: .5px;
-        border-color: #F7F8F3
+        margin-top: 2px;
         padding-top: 10px;
         margin-left: 0px;
     `
@@ -52,15 +53,16 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
 
     const ClearButton = styled(Button)`
         background-color: #bea7e5;
-        width: 100px;
+        width: 140px;
         margin-top: 10px;
         height: 30px;
-        margin-left: 170px;
     `
 
     const ButtonView = styled(Wrapper)`
         flex-direction: row;
         align-self: center;
+        align-items: center;
+        margin-left: 0px;
     `
 
     const BigWrapper = styled(Wrapper)`
@@ -93,12 +95,22 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
 
     const SectionTitle = styled(H2)`
         color: #F7F8F3
+        font-weight: 500;
+    `
+
+    const TitleView = styled.View`
+        flex-direction: row;
+        justify-content: space-between;
+    `
+
+    const CancelView = styled.TouchableOpacity`
+        padding-right: 15px;
     `
 
     const gotComments = comments.length > 0
 
     const AllComments = () => 
-        comments.map((comment) => {
+        comments.slice(0, 3).map((comment) => {
             return <CommentItem key={comment.id} comment={comment}/>
     })
 
@@ -115,6 +127,11 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
         }
     }
 
+    const handleClear = () => {
+        setFavoriteLocIds(localLocIds)
+        setSelectedLocation(null)
+    }
+
     // Figure out how to provide an answer for null attributes (What if we don't know?)
     // Use the first part for the bathroom details
     // Use the second part to allow the business to load up their value prop
@@ -122,7 +139,12 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
     return (
         <BigWrapper>
             <HeaderView>
-                <InfoText>{name}</InfoText>
+                <TitleView>
+                    <InfoText numberOfLines={2}>{name}</InfoText>
+                    <CancelView onPress={handleClear}>
+                        <MaterialIcons name="cancel" size={24} color="#bea7e5" />
+                    </CancelView>
+                </TitleView>
                 <RatingView>
                     <Text>{averageRating()}</Text>
                     {gotComments ? 
@@ -143,7 +165,7 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
                     {wheelchair_accessible ? <Text>Wheelchair accessible</Text> : null}
                 </RatingView>
             </HeaderView>
-            <ShowBar setSelectedLocation={setSelectedLocation} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} modalContent={modalContent} setModalContent={setModalContent} currentUser={currentUser} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} selectedLocation={selectedLocation}/>
+            <ShowBar localLocIds={localLocIds} setLocalLocIds={setLocalLocIds} setSelectedLocation={setSelectedLocation} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} modalContent={modalContent} setModalContent={setModalContent} currentUser={currentUser} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} selectedLocation={selectedLocation}/>
             <ShowScroll
                 contentContainerStyle={{
                     flexGrow: 1,
@@ -181,6 +203,9 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
                     </HeaderWrapper>
                     <DetailsWrapper>
                         {comments.length ? <AllComments/> : null}
+                            <ClearButton>
+                                <Span>More Reviews</Span>
+                            </ClearButton>
                     </DetailsWrapper>
                 </SectionWrapper>
                 {/* <SectionWrapper>

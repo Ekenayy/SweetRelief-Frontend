@@ -8,11 +8,9 @@ import { createOpenLink } from 'react-native-open-maps';
 import { BASE_URL } from '@env'
 import WebComp from './WebComp'
 
-function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalContent, selectedLocation, setSelectedLocation, currentUser, comments, setModalVisible, modalVisible} ) {
+function ShowBar ( {modalContent, localLocIds, setLocalLocIds, favoriteLocIds, setFavoriteLocIds, setModalContent, selectedLocation, setSelectedLocation, currentUser, comments, setModalVisible, modalVisible} ) {
 
-    const [localLocIds, setLocalLocIds] = useState(favoriteLocIds)
     
-
     const Options = styled(Button)`
         margin: 5px 15px;
         flex-direction: row;
@@ -92,23 +90,19 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
         setSelectedLocation(null)
     }
 
-    const handleDiscover = () => {
-        setShowGateway(true)
-    }
-
     return (
         <ShowScroll
             horizontal={true}
             showsHorizontalScrollIndicator={true}
         >
-            <FirstOption onPress={handleClear}>
+            {/* <FirstOption onPress={handleClear}>
                 <MaterialIcons name="cancel" size={24} color="#bea7e5" />
                 <OptionsText>Clear Search</OptionsText>
-            </FirstOption>
-                <Options onPress={openDirections}>
+            </FirstOption> */}
+            <FirstOption onPress={openDirections}>
                         <FontAwesome5 name="directions" size={24} color="#F4A261" />
                     <OptionsText>Directions</OptionsText>
-                </Options>
+            </FirstOption>
             <Options onPress={() => handleIconPress('discover')}>
                 <FontAwesome5 name="hiking" size={24} color="#F4A261" />
                 <OptionsText>Discover</OptionsText>
