@@ -8,7 +8,7 @@ import { createOpenLink } from 'react-native-open-maps';
 import { BASE_URL } from '@env'
 import WebComp from './WebComp'
 
-function ShowBar ( {modalContent, localLocIds, setLocalLocIds, favoriteLocIds, setFavoriteLocIds, setModalContent, selectedLocation, setSelectedLocation, currentUser, comments, setModalVisible, modalVisible} ) {
+function ShowBar ( {handleIconPress, localLocIds, setLocalLocIds, selectedLocation, currentUser, comments} ) {
 
     
     const Options = styled(Button)`
@@ -47,11 +47,6 @@ function ShowBar ( {modalContent, localLocIds, setLocalLocIds, favoriteLocIds, s
     const myComments = comments.find(comment => comment.user.id === currentUser.id)
     const favorited = localLocIds.includes(selectedLocation.id);
 
-    const handleIconPress = (keyword) => {
-        setModalContent(keyword)
-        setModalVisible(!modalVisible)
-    }
-
     const handleFavorite = () => {
         let formBody = {
             user_id: currentUser.id,
@@ -85,20 +80,11 @@ function ShowBar ( {modalContent, localLocIds, setLocalLocIds, favoriteLocIds, s
             })
     }
 
-    const handleClear = () => {
-        setFavoriteLocIds(localLocIds)
-        setSelectedLocation(null)
-    }
-
     return (
         <ShowScroll
             horizontal={true}
             showsHorizontalScrollIndicator={true}
         >
-            {/* <FirstOption onPress={handleClear}>
-                <MaterialIcons name="cancel" size={24} color="#bea7e5" />
-                <OptionsText>Clear Search</OptionsText>
-            </FirstOption> */}
             <FirstOption onPress={openDirections}>
                         <FontAwesome5 name="directions" size={24} color="#F4A261" />
                     <OptionsText>Directions</OptionsText>

@@ -5,6 +5,8 @@ import CommentForm from './CommentForm'
 import PayOptions from './PayOptions'
 import Receipt from './Receipt'
 import WebComp from './WebComp'
+import CommentList from './CommentList'
+
 
 function ShowModal ({modalContent, setModalContent, currentUser, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
 
@@ -43,6 +45,8 @@ function ShowModal ({modalContent, setModalContent, currentUser, comments, setCo
                 return <Receipt comments={comments} currentUser={currentUser} setModalContent={setModalContent} selectedLocation={selectedLocation} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
             case 'discover':
                 return <WebComp headerText='Discover' setModalVisible={setModalVisible} setProgClr={setProgClr} progClr={progClr} uri={locationUrl} showGateway={true} setShowGateway={setShowGateway} setProg={setProg} prog={prog}/>
+            case 'comment list': 
+                return <CommentList setComments={setComments} comments={comments} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
         }
         // if (modalContent === 'comment') {
         //     return <CommentForm setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible}/>

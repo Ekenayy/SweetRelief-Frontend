@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 
-function CommentItem ( {comment}) {
+function CommentItem ( {comment, inModal}) {
 
     const {description, rating, still_open} = comment
 
@@ -29,13 +29,14 @@ function CommentItem ( {comment}) {
     `
 
     const Text = styled.Text`
-        color: #F7F8F3;
+        color: ${props => props.inModal ? '#1C1C1C' : '#F7F8F3'}
         margin-left: 5px;
     `
     const Name = styled(Text)`
         align-self: flex-start;
         margin-left: 5px;
         font-weight: bold;
+        color: ${props => props.inModal ? '#1C1C1C' : '#F7F8F3'}
     `
     const InfoView = styled.View`
         align-self: center;
@@ -48,13 +49,13 @@ function CommentItem ( {comment}) {
                     <AvatarImage  source={{uri: 'https://media.defense.gov/2020/Feb/19/2002251686/700/465/0/200219-A-QY194-002.JPG'}}/>
                 </Avatar>
                 <InfoView>
-                    <Name>{comment.user.name}</Name>
-                    <Text>Says the bathroom is {comment.still_open ? 'open' : 'closed'}</Text>
+                    <Name inModal={inModal}>{comment.user.name}</Name>
+                    <Text inModal={inModal}>Says the bathroom is {comment.still_open ? 'open' : 'closed'}</Text>
                 </InfoView>
             </AuthorDetails>
             <TextView>
-                <Text>{rating} out of 5</Text>
-                <Text>{description}</Text>
+                <Text inModal={inModal}>{rating} out of 5</Text>
+                <Text inModal={inModal}>{description}</Text>
             </TextView>
         </RatingView>
     )

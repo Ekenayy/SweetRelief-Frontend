@@ -37,7 +37,7 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
         margin-right: 5px;        
         padding: 15px;
         padding-left: 5px;
-        border-bottom-width: 1px;
+        border-bottom-width: .5px;
         border-color: #F7F8F3;
     `
 
@@ -123,13 +123,18 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
         } else if (comments.length == 1) {
             return comments[0].rating
         } else {
-            return 'No ratings yet'
+            return 'No reviews yet'
         }
     }
 
     const handleClear = () => {
         setFavoriteLocIds(localLocIds)
         setSelectedLocation(null)
+    }
+
+    const handleButtonPress = (keyword) => {
+        setModalContent(keyword)
+        setModalVisible(!modalVisible)
     }
 
     // Figure out how to provide an answer for null attributes (What if we don't know?)
@@ -165,7 +170,7 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
                     {wheelchair_accessible ? <Text>Wheelchair accessible</Text> : null}
                 </RatingView>
             </HeaderView>
-            <ShowBar localLocIds={localLocIds} setLocalLocIds={setLocalLocIds} setSelectedLocation={setSelectedLocation} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} modalContent={modalContent} setModalContent={setModalContent} currentUser={currentUser} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} selectedLocation={selectedLocation}/>
+            <ShowBar handleIconPress={handleButtonPress} localLocIds={localLocIds} setLocalLocIds={setLocalLocIds} currentUser={currentUser} comments={comments} selectedLocation={selectedLocation}/>
             <ShowScroll
                 contentContainerStyle={{
                     flexGrow: 1,
@@ -191,21 +196,21 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
                 </SectionWrapper>
                 <SectionWrapper>
                     <HeaderWrapper>
-                        <SectionTitle>Comments</SectionTitle>
+                        <SectionTitle>Reviews</SectionTitle>
                         <RatingView>
                             {comments.length ? 
                             <> 
                                 <SectionTitle>{`${averageRating()} / 5`}</SectionTitle>
                                 <AntDesign name="heart" size={18} color="#FF7070" style={{marginLeft: 5}} />  
                             </> : 
-                            <SectionTitle>No Reviews yet</SectionTitle>}
+                            <SectionTitle>No reviews yet</SectionTitle>}
                         </RatingView>
                     </HeaderWrapper>
                     <DetailsWrapper>
                         {comments.length ? <AllComments/> : null}
-                            <ClearButton>
+                        { comments.length > 0 ? <ClearButton onPress={() => handleButtonPress('comment list')}>
                                 <Span>More Reviews</Span>
-                            </ClearButton>
+                            </ClearButton> : null}
                     </DetailsWrapper>
                 </SectionWrapper>
                 {/* <SectionWrapper>
