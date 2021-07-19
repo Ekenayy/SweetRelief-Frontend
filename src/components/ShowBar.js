@@ -28,6 +28,13 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
         padding-bottom: 2px;
     `
 
+    const LogoView = styled.View`
+        border-radius: 600px; 
+        align-items: center;
+        border-width: 2px;
+        border-color: #F4A261
+    `
+
     const openDirections = createOpenLink({
         end: selectedLocation.address,
         provider: 'google',
@@ -94,10 +101,10 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
                 <MaterialIcons name="cancel" size={24} color="#bea7e5" />
                 <OptionsText>Clear Search</OptionsText>
             </Options>
-            <Options onPress={openDirections}>
-                <FontAwesome5 name="directions" size={24} color="#F4A261" />
-                <OptionsText>Directions</OptionsText>
-            </Options>
+                <Options onPress={openDirections}>
+                        <FontAwesome5 name="directions" size={24} color="#F4A261" />
+                    <OptionsText>Directions</OptionsText>
+                </Options>
             <Options onPress={() => handleIconPress('discover')}>
                 <FontAwesome5 name="hiking" size={24} color="#F4A261" />
                 <OptionsText>Discover</OptionsText>

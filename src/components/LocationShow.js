@@ -6,11 +6,11 @@ import ShowBar from './ShowBar'
 import CommentItem from './CommentItem'
 import { createOpenLink } from 'react-native-open-maps';
 import { AntDesign } from '@expo/vector-icons';
-
+import { Rating } from 'react-native-ratings';
 
 function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModalContent, modalVisible, currentUser, comments, setComments, setModalVisible, setSelectedLocation, selectedLocation}) {
 
-    const {name, address, locType, free, walkTime, distance, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
+    const {name, address, locType, free, walkTime, distance, baby_changing_station, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
     const {locations} = React.useContext(LocationContext)
     const [contextLocations, setContextLocations] = locations
 
@@ -89,6 +89,7 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
         margin-left: 26px;
     `
 
+    const gotComments = comments.length > 0
 
     const AllComments = () => 
         comments.map((comment) => {
@@ -118,7 +119,12 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
                 <InfoText>{name}</InfoText>
                 <RatingView>
                     <Text>{averageRating()}</Text>
-                    {comments.length >= 1 ? <AntDesign name="heart" size={14} color="#FF7070" style={{marginLeft: 5}} /> : null } 
+                    {gotComments ? 
+                        <AntDesign name="heart" size={14} color="#FF7070" style={{marginLeft: 6, marginRight: 6}} /> 
+                        :
+                        null }
+                    {gotComments ? <Text> ({comments.length})</Text> : null}
+                    {baby_changing_station ? <Text>Changing station</Text> : null}
                 </RatingView>
                 <RatingView>
                     <Text>{locType}</Text>
@@ -138,22 +144,21 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
                 }}
                 comments={comments.length > 0}
             >
-                {/* <SectionWrapper>
-                    <H2>
-                    Location
-                    </H2>
-                    <DetailsWrapper>
-                        <DetailsText>{`${name} is ${distance} miles away`}</DetailsText>
-                        <DetailsText>{address}</DetailsText>
-                        <DetailsText>{locType}</DetailsText>
-                    </DetailsWrapper>
-                </SectionWrapper> */}
                 <SectionWrapper>
                     <H2>Details</H2>
                     <DetailsWrapper>
                         <DetailsText>{free ? 'This location is free' : `This location charges $${price_cents}`}</DetailsText>
                         <DetailsText>{key_required ? 'Requires a key' : 'No key needed'}</DetailsText>
                         <DetailsText>{unisex ? 'Unisex' : 'Gender separated'}</DetailsText>
+                    </DetailsWrapper>
+                </SectionWrapper>
+                <SectionWrapper>
+                    <H2>
+                    Overview
+                    </H2>
+                    <DetailsWrapper>
+                        <DetailsText>A deep menu of Indian dishes served in a classic setting delivery available</DetailsText>
+                        <DetailsText>{address}</DetailsText>
                     </DetailsWrapper>
                 </SectionWrapper>
                 <SectionWrapper>
