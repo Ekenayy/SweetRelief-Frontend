@@ -118,6 +118,7 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
 
         if (comments.length > 1) {
             let totalNumber = comments.reduce( (a, b) => a.rating + b.rating)
+            console.log(comments)
             let averageNumber = (totalNumber / comments.length)
             return averageNumber
         } else if (comments.length == 1) {

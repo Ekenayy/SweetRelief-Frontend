@@ -6,31 +6,37 @@ import CommentItem from './CommentItem'
 
 function CommentList ( {comments, setComments, setModalVisible}) {
 
-    const Comment = ( {comment} ) => {
-        return (
-            <Wrapper>
-                <DarkText>{comment.name}</DarkText>
-            </Wrapper>
-        )
-    }
-
     const renderComment = ( {item} ) => {
         return <CommentItem inModal={true} comment={item} />
     }
 
+    const Form = styled(ModalForm)`
+        display: flex;
+        align-items: flex-start
+        padding-left: 20px;
+        height: 500px;
+    `
+
+    const ExitView = styled(CloseView)`
+        align-self: flex-end
+    `
+
     return (
         <ModalHolder>
-            <ModalForm>
-                <CloseView onPress={() => setModalVisible(false)}>
+            <Form>
+                <ExitView onPress={() => setModalVisible(false)}>
                     <CloseText>❌</CloseText>
-                </CloseView>
-                <DarkText>Hello from Comment List</DarkText>
-                <FlatList 
-                    data={comments}
-                    renderItem={renderComment}
-                    keyExtractor={(item) => item.id}
-                />
-            </ModalForm>
+                </ExitView>
+                    <H2>Reviews</H2>
+                    <FlatList 
+                        data={comments}
+                        renderItem={renderComment}
+                        keyExtractor={(item) => item.id}
+                        initialNumToRender={3}
+                        showsVerticalScrollIndicator={false}
+                        onEndReached={() => console.log('end')}
+                    />
+            </Form>
         </ModalHolder>
     )
 }

@@ -23,7 +23,7 @@ function CommentForm ( {currentUser, comments, setComments, selectedLocation, se
         width: 70%;
         border-radius:20px;
         padding-left: 12px;
-        height: 30px;
+        height: 40px;
         margin-bottom: 10px;
     `
     
@@ -165,7 +165,7 @@ function CommentForm ( {currentUser, comments, setComments, selectedLocation, se
                         </QuestionView>
                         <Input
                             placeholder="Comment..." 
-                            multline={true}
+                            multiline={true}
                             onChangeText={text => setValue('description', text)}
                         />
                         {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}

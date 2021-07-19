@@ -6,8 +6,8 @@ function CommentItem ( {comment, inModal}) {
     const {description, rating, still_open} = comment
 
     const RatingView = styled.View`
-        borderBottomWidth: .25px;
-        border-color: #F7F8F3;
+        borderBottomWidth:  ${props => props.inModal ? '0px' : '.25px'}
+        border-color: ${props => props.inModal ? '#1C1C1C' : '#F7F8F3'}
         margin-top: 10px;
     `
 
@@ -43,7 +43,7 @@ function CommentItem ( {comment, inModal}) {
     `
 
     return( 
-        <RatingView>
+        <RatingView inModal={inModal}>
             <AuthorDetails>
                 <Avatar>
                     <AvatarImage  source={{uri: 'https://media.defense.gov/2020/Feb/19/2002251686/700/465/0/200219-A-QY194-002.JPG'}}/>
