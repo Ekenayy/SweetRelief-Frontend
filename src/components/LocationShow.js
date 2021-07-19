@@ -32,8 +32,9 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
     const SectionWrapper = styled(Wrapper)`
         margin-left: 0px;
         margin-top: 0px;
-        margin-right: 15px;        
+        margin-right: 5px;        
         padding: 15px;
+        padding-left: 5px;
         border-radius: 15px;
     `
 
@@ -42,6 +43,7 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
         borderTopWidth: .5px;
         border-color: #F7F8F3
         padding-top: 10px;
+        margin-left: 0px;
     `
 
     const VoteButton = styled(Button)`
@@ -86,7 +88,7 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
     const HeaderView = styled(Wrapper)`
         display: flex;
         flex-direction: column;
-        margin-left: 26px;
+        margin-left: 22px;
     `
 
     const SectionTitle = styled(H2)`

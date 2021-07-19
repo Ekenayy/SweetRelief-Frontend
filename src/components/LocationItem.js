@@ -24,7 +24,7 @@ function LocationItem ( { handlePress, location, setSelectedLocation}) {
     const DetailsView = styled(Wrapper)`
         flex-direction: row;
         padding: 10px;
-        padding-left: 20px;
+        padding-left: 10px;
         margin-left: 0px;
         margin-right: 0px;
         width: 93%;
@@ -79,7 +79,7 @@ function LocationItem ( { handlePress, location, setSelectedLocation}) {
                 </InfoView>
             </DetailsView>
             <ArrowView>
-                <Fontisto name="angle-right" size={24} color="#1C1C1C" />
+                <Fontisto name="angle-right" size={24} color="#F4A261" />
             </ArrowView>
         </LocationView>
     )

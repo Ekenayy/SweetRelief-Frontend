@@ -18,6 +18,10 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
         flex-direction: row;
     `
 
+    const FirstOption = styled(Options)`
+        margin-left: 2px
+    `
+
     const ShowScroll = styled(Scroll)`
         margin-top: 5px;
     `
@@ -97,10 +101,10 @@ function ShowBar ( {modalContent, favoriteLocIds, setFavoriteLocIds, setModalCon
             horizontal={true}
             showsHorizontalScrollIndicator={true}
         >
-            <Options onPress={handleClear}>
+            <FirstOption onPress={handleClear}>
                 <MaterialIcons name="cancel" size={24} color="#bea7e5" />
                 <OptionsText>Clear Search</OptionsText>
-            </Options>
+            </FirstOption>
                 <Options onPress={openDirections}>
                         <FontAwesome5 name="directions" size={24} color="#F4A261" />
                     <OptionsText>Directions</OptionsText>
