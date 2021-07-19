@@ -19,28 +19,28 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
 
     const Span = styled(Text)`
         align-self: center;
-        color: #1C1C1C;
+        color: #F7F8F3;
         margin-top: 5px;
         font-weight: bold;
     `
 
     const DetailsText = styled(Text)`
-        color: #1C1C1C;
+        color: #F7F8F3;
         margin-bottom: 5px;
     `
 
     const SectionWrapper = styled(Wrapper)`
         margin-left: 0px;
-        margin-top: 20px;
+        margin-top: 0px;
         margin-right: 15px;        
         padding: 15px;
-        background-color: #fcfafa;
         border-radius: 15px;
     `
 
     const DetailsWrapper = styled(Wrapper)`
         margin-top: 5px;
         borderTopWidth: .5px;
+        border-color: #F7F8F3
         padding-top: 10px;
     `
 
@@ -87,6 +87,10 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
         display: flex;
         flex-direction: column;
         margin-left: 26px;
+    `
+
+    const SectionTitle = styled(H2)`
+        color: #F7F8F3
     `
 
     const gotComments = comments.length > 0
@@ -145,7 +149,7 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
                 comments={comments.length > 0}
             >
                 <SectionWrapper>
-                    <H2>Details</H2>
+                    <SectionTitle>Details</SectionTitle>
                     <DetailsWrapper>
                         <DetailsText>{free ? 'This location is free' : `This location charges $${price_cents}`}</DetailsText>
                         <DetailsText>{key_required ? 'Requires a key' : 'No key needed'}</DetailsText>
@@ -153,9 +157,9 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
                     </DetailsWrapper>
                 </SectionWrapper>
                 <SectionWrapper>
-                    <H2>
+                    <SectionTitle>
                     Overview
-                    </H2>
+                    </SectionTitle>
                     <DetailsWrapper>
                         <DetailsText>A deep menu of Indian dishes served in a classic setting delivery available</DetailsText>
                         <DetailsText>{address}</DetailsText>
@@ -163,14 +167,14 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
                 </SectionWrapper>
                 <SectionWrapper>
                     <HeaderWrapper>
-                        <H2>Comments</H2>
+                        <SectionTitle>Comments</SectionTitle>
                         <RatingView>
                             {comments.length ? 
                             <> 
-                                <H2>{`${averageRating()} / 5`}</H2>
+                                <SectionTitle>{`${averageRating()} / 5`}</SectionTitle>
                                 <AntDesign name="heart" size={18} color="#FF7070" style={{marginLeft: 5}} />  
                             </> : 
-                            <H2>No Reviews yet</H2>}
+                            <SectionTitle>No Reviews yet</SectionTitle>}
                         </RatingView>
                     </HeaderWrapper>
                     <DetailsWrapper>
@@ -178,7 +182,7 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
                     </DetailsWrapper>
                 </SectionWrapper>
                 {/* <SectionWrapper>
-                    <H2>Votes</H2>
+                    <SectionTitle>Votes</SectionTitle>
                     <ButtonView>
                         <VoteButton>
                             <Span onPress={() => setStateUpvotes(stateUpVotes + 1)}> 

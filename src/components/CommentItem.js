@@ -6,7 +6,8 @@ function CommentItem ( {comment}) {
     const {description, rating, still_open} = comment
 
     const RatingView = styled.View`
-        borderBottomWidth: .5px;
+        borderBottomWidth: .25px;
+        border-color: #F7F8F3;
         margin-top: 10px;
     `
 
@@ -28,7 +29,7 @@ function CommentItem ( {comment}) {
     `
 
     const Text = styled.Text`
-        color: black;
+        color: #F7F8F3;
         margin-left: 5px;
     `
     const Name = styled(Text)`
