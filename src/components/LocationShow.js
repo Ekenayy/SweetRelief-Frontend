@@ -10,7 +10,7 @@ import { Rating } from 'react-native-ratings';
 import { MaterialIcons } from '@expo/vector-icons';
 import { BASE_URL } from '@env'
 
-function LocationShow ({commentCount, setCommentCount, avgRating, commented, modalContent, favoriteLocIds, setFavoriteLocIds, setModalContent, modalVisible, currentUser, comments, setComments, setModalVisible, setSelectedLocation, selectedLocation}) {
+function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, commented, modalContent, favoriteLocIds, setFavoriteLocIds, setModalContent, modalVisible, currentUser, comments, setComments, setModalVisible, setSelectedLocation, selectedLocation}) {
 
     const {name, address, locType, free, walkTime, distance, baby_changing_station, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
     const {locations} = React.useContext(LocationContext)
@@ -117,18 +117,43 @@ function LocationShow ({commentCount, setCommentCount, avgRating, commented, mod
 
     const averageRating = () => {
 
-        if (avgRating > 1) {
+        if (avgRating > 0) {
             // let totalNumber = comments.reduce( (a, b) => ({rating: a.rating + b.rating}))
             // console.log(comments)
             // let averageNumber = (totalNumber / comments.length)
             return avgRating
-        } else {
+        } else if (avgRating = 0) {
+            // This is what the db returns when there are no reviews yet
             return 'No reviews yet'
+        }
+        else {
+            return null
+        }
+    }
+
+    const RatingComp = () => {
+        switch (true) {
+            case (avgRating > 0):
+                return (
+                    <>
+                        <Text>{averageRating()}</Text>
+                            <AntDesign name="heart" size={14} color="#FF7070" style={{marginLeft: 6, marginRight: 6}} /> 
+                        <Text> ({commentCount})</Text>
+                    </>
+                )
+            case (avgRating == 0): 
+                    return (
+                        <Text>No Reviews yet</Text>
+                    )
+            default:
+                return null
         }
     }
 
     const handleClear = () => {
         setFavoriteLocIds(localLocIds)
+        setAvgRating(null)
+        setCommentCount(null)
         setSelectedLocation(null)
     }
 
@@ -153,13 +178,13 @@ function LocationShow ({commentCount, setCommentCount, avgRating, commented, mod
                     </CancelView>
                 </TitleView>
                 <RatingView>
-                    <Text>{averageRating()}</Text>
+                    <RatingComp/>
+                    {/* <Text>{averageRating()}</Text>
                     {gotComments ? 
                         <AntDesign name="heart" size={14} color="#FF7070" style={{marginLeft: 6, marginRight: 6}} /> 
                         :
                         null }
-                    {gotComments ? <Text> ({commentCount})</Text> : null}
-                    {baby_changing_station ? <Text>Changing station</Text> : null}
+                    {gotComments ? <Text> ({commentCount})</Text> : null} */}
                 </RatingView>
                 <RatingView>
                     <Text>{locType}</Text>
@@ -170,6 +195,7 @@ function LocationShow ({commentCount, setCommentCount, avgRating, commented, mod
                     {free ? <Text>Free</Text> : null}
                     {unisex ? <Text>Gender neutral</Text> : null}
                     {wheelchair_accessible ? <Text>Wheelchair accessible</Text> : null}
+                    {baby_changing_station ? <Text>Changing station</Text> : null}
                 </RatingView>
             </HeaderView>
             <ShowBar commented={commented} handleIconPress={handleButtonPress} localLocIds={localLocIds} setLocalLocIds={setLocalLocIds} currentUser={currentUser} comments={comments} selectedLocation={selectedLocation}/>

@@ -16,7 +16,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 
-function NavBar ( {commentCount, setCommentCount, avgRating, commented, modalContent, contextUserLocation, wholeMap, favoriteLocIds, setFavoriteLocIds, setCurrentUser, navigation, setToken, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
+function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, commented, modalContent, contextUserLocation, wholeMap, favoriteLocIds, setFavoriteLocIds, setCurrentUser, navigation, setToken, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
 
     const [height, setHeight] = useState('100%')
 
@@ -155,7 +155,7 @@ function NavBar ( {commentCount, setCommentCount, avgRating, commented, modalCon
                     <IconWrapper>
                         <FontAwesome5 name="grip-lines" size={24} color="#1C1C1C"/>
                     </IconWrapper>
-                    {selectedLocation ? <LocationShow commentCount={commentCount} setCommentCount={setCommentCount} commented={commented} avgRating={avgRating} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} modalConent={modalContent} setModalContent={setModalContent} currentUser={currentUser} setComments={setComments} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
+                    {selectedLocation ? <LocationShow setAvgRating={setAvgRating} avgRating={avgRating} commentCount={commentCount} setCommentCount={setCommentCount} commented={commented} avgRating={avgRating} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} modalConent={modalContent} setModalContent={setModalContent} currentUser={currentUser} setComments={setComments} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
                 </NavContainer>
             </Animated.View>
         </PanGestureHandler>

@@ -16,8 +16,6 @@ function ShowModal ({offset, setOffset, modalContent, commentCount, setModalCont
     const [prog, setProg] = useState(false)
     const [fetchedCount, setFetchedCount] = useState(1)
 
-    let locationUrl = 'https://www.grubhub.com/restaurant/garam-masala-1819-palmetto-st-ridgewood/1038691?classicAffiliateId=%2Fr%2Fw%2F141623%2F&utm_source=kitchen.grubhub.com&utm_medium=OOL&utm_campaign=order%20online&utm_content=1038691'
-
     // I have the current user and the location -- I can prefill a price for now 
     const Modal1 = styled.Modal`
     `

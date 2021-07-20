@@ -92,10 +92,10 @@ function ShowBar ( {handleIconPress, commented, localLocIds, setLocalLocIds, sel
                         <FontAwesome5 name="directions" size={24} color="#F4A261" />
                     <OptionsText>Directions</OptionsText>
             </FirstOption>
-            <Options onPress={() => handleIconPress('discover')}>
+            {selectedLocation.marketing_link ? <Options onPress={() => handleIconPress('discover')}>
                 <FontAwesome5 name="hiking" size={24} color="#F4A261" />
                 <OptionsText>Discover</OptionsText>
-            </Options>
+            </Options> : null}
             { selectedLocation.free ? null : 
             <Options onPress={() => handleIconPress('pay')}>
                     <FontAwesome name="exchange" size={24} color="#F4A261" />
