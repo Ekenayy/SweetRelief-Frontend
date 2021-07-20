@@ -17,6 +17,7 @@ function Main ( {currentUser, ios, navigation, setCurrentUser, setToken} ) {
     const [selectedLocation, setSelectedLocation] = useState(null)
     const [modalVisible, setModalVisible] = useState(false)
     const [comments, setComments] = useState([])
+    const [avgRating, setAvgRating] = useState(null)
     const [filterBy, setFilterBy] = useState(null);
     const [modalContent, setModalContent] = useState('')
     const [favoriteLocIds, setFavoriteLocIds] = useState(currentUser.favorite_location_ids)
@@ -50,16 +51,29 @@ function Main ( {currentUser, ios, navigation, setCurrentUser, setToken} ) {
     }
 
     const fetchComments = (id) => {
-        fetch(`${BASE_URL}/comments/${id}`, {method: 'POST'})
+
+        fetch(`${BASE_URL}/location_comments/${id}`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({offset: 0})
+        })
                 .then(r => r.json())
-                .then(commentsFromDb => setComments(commentsFromDb))
+                .then(data => {
+                    if (data.errors) {
+                        setComments([])
+                    } else {
+                        console.log(data)
+                        setComments(data.comments)
+                        setAvgRating(data.average_rating)
+                    }
+                })
     }
 
     return (
         // <BigWrapper>
         <>
             <MapContainer ios={ios} favoriteLocIds={favoriteLocIds} filterBy={filterBy} setFilterBy={setFilterBy} wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
-            <NavBar contextUserLocation={contextUserLocation} wholeMap={wholeMap} navigation={navigation} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} setToken={setToken} setCurrentUser={setCurrentUser} setModalContent={setModalContent} modalContent={modalContent} filterBy={filterBy} setFilterBy={setFilterBy} currentUser={currentUser} setComments={setComments} comments={comments}  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
+            <NavBar avgRating={avgRating} contextUserLocation={contextUserLocation} wholeMap={wholeMap} navigation={navigation} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} setToken={setToken} setCurrentUser={setCurrentUser} setModalContent={setModalContent} modalContent={modalContent} filterBy={filterBy} setFilterBy={setFilterBy} currentUser={currentUser} setComments={setComments} comments={comments}  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
             {modalVisible ? <BlurView intensity={90} BlurTint='light' style={[StyleSheet.absoluteFill]}/> : null}
             {modalVisible ? <ShowModal  modalContent={modalContent} setModalContent={setModalContent} setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible} /> : null}
         </>

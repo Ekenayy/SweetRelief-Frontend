@@ -1,10 +1,14 @@
 import React, {useState} from 'react';
 import styled from "styled-components";
 import { Text, DarkText, Scroll, CloseView, ModalHolder, ModalForm, CloseText, H2, Wrapper } from '../styles/Styles'
-import {FlatList} from "react-native";
+import {FlatList, RefreshControl, ActivityIndicator} from "react-native";
 import CommentItem from './CommentItem'
 
 function CommentList ( {comments, setComments, setModalVisible}) {
+
+    const [refreshing, setRefreshing] = useState(false) 
+    const [limit, setLimit] = useState(5)
+    const [offset, setOffset] = useState(0)
 
     const renderComment = ( {item} ) => {
         return <CommentItem inModal={true} comment={item} />
@@ -21,6 +25,27 @@ function CommentList ( {comments, setComments, setModalVisible}) {
         align-self: flex-end
     `
 
+    const ActivityView = styled.View`
+        margin-top: 10px;
+    `
+
+    const onRefresh = () => {
+        setRefreshing(true)
+        console.log('end reached')
+    }
+
+    const renderFooter = () => {
+        if (refreshing) {
+            return (
+                <ActivityView>
+                    <ActivityIndicator animating size="large" />
+                </ActivityView>
+            )
+        } else {
+            return null
+        }
+    }
+
     return (
         <ModalHolder>
             <Form>
@@ -30,11 +55,16 @@ function CommentList ( {comments, setComments, setModalVisible}) {
                     <H2>Reviews</H2>
                     <FlatList 
                         data={comments}
+                        extraData={comments}
                         renderItem={renderComment}
-                        keyExtractor={(item) => item.id}
-                        initialNumToRender={3}
+                        keyExtractor={(item) => item.id.toString()}
+                        initialNumToRender={8}
                         showsVerticalScrollIndicator={false}
-                        onEndReached={() => console.log('end')}
+                        // refreshing={refreshing}
+                        // onRefresh={onRefresh}
+                        onEndReached={onRefresh}
+                        onEndReachedThreshold={0}
+                        ListFooterComponent={renderFooter}
                     />
             </Form>
         </ModalHolder>

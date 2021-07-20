@@ -8,11 +8,13 @@ import { createOpenLink } from 'react-native-open-maps';
 import { BASE_URL } from '@env'
 import WebComp from './WebComp'
 
-function ShowBar ( {handleIconPress, localLocIds, setLocalLocIds, selectedLocation, currentUser, comments} ) {
+function ShowBar ( {handleIconPress, commented, localLocIds, setLocalLocIds, selectedLocation, currentUser, comments} ) {
 
     
     const Options = styled(Button)`
         margin: 5px 15px;
+        margin-top: 0px;
+        margin-bottom: 0px;
         flex-direction: row;
     `
 
@@ -22,6 +24,7 @@ function ShowBar ( {handleIconPress, localLocIds, setLocalLocIds, selectedLocati
 
     const ShowScroll = styled(Scroll)`
         margin-top: 5px;
+        height: 40px;
     `
 
     const OptionsText = styled(Text)`
@@ -98,7 +101,7 @@ function ShowBar ( {handleIconPress, localLocIds, setLocalLocIds, selectedLocati
                     <FontAwesome name="exchange" size={24} color="#F4A261" />
                     <OptionsText>Pay</OptionsText>
             </Options>}
-            {myComments ? null : 
+            {commented ? null : 
                 <Options onPress={() => handleIconPress('comment')}>
                     <MaterialIcons name="add-comment" size={24} color="#F4A261" />
                     <OptionsText>Comment</OptionsText>

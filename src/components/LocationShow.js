@@ -8,15 +8,38 @@ import { createOpenLink } from 'react-native-open-maps';
 import { AntDesign } from '@expo/vector-icons';
 import { Rating } from 'react-native-ratings';
 import { MaterialIcons } from '@expo/vector-icons';
+import { BASE_URL } from '@env'
 
-function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModalContent, modalVisible, currentUser, comments, setComments, setModalVisible, setSelectedLocation, selectedLocation}) {
+function LocationShow ({avgRating, modalContent, favoriteLocIds, setFavoriteLocIds, setModalContent, modalVisible, currentUser, comments, setComments, setModalVisible, setSelectedLocation, selectedLocation}) {
 
     const {name, address, locType, free, walkTime, distance, baby_changing_station, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
     const {locations} = React.useContext(LocationContext)
     const [contextLocations, setContextLocations] = locations
 
     const [localLocIds, setLocalLocIds] = useState(favoriteLocIds)
+    const [commented, setCommented] = useState(false)
 
+    useEffect(() => {
+
+        let formBody = {
+            location_id: selectedLocation.id,
+            user_id: currentUser.id
+        }
+
+        fetch(`${BASE_URL}/commented`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(formBody)
+        })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    setCommented(true)
+                } else {
+                    setCommented(false)
+                }
+            })
+    }, [])
 
     const Span = styled(Text)`
         align-self: center;
@@ -71,7 +94,7 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
     `
     
     const ShowScroll = styled(Scroll)`
-        padding-bottom: ${props => props.comments ? '100px' : '220px'}
+        padding-bottom: ${props => props.comments ? '150px' : '220px'}
     `
 
     const HeaderWrapper = styled.View`
@@ -116,13 +139,11 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
 
     const averageRating = () => {
 
-        if (comments.length > 1) {
-            let totalNumber = comments.reduce( (a, b) => a.rating + b.rating)
-            console.log(comments)
-            let averageNumber = (totalNumber / comments.length)
-            return averageNumber
-        } else if (comments.length == 1) {
-            return comments[0].rating
+        if (avgRating > 1) {
+            // let totalNumber = comments.reduce( (a, b) => a.rating + b.rating)
+            // console.log(comments)
+            // let averageNumber = (totalNumber / comments.length)
+            return avgRating
         } else {
             return 'No reviews yet'
         }
@@ -137,6 +158,8 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
         setModalContent(keyword)
         setModalVisible(!modalVisible)
     }
+
+
 
     // Figure out how to provide an answer for null attributes (What if we don't know?)
     // Use the first part for the bathroom details
@@ -171,7 +194,7 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
                     {wheelchair_accessible ? <Text>Wheelchair accessible</Text> : null}
                 </RatingView>
             </HeaderView>
-            <ShowBar handleIconPress={handleButtonPress} localLocIds={localLocIds} setLocalLocIds={setLocalLocIds} currentUser={currentUser} comments={comments} selectedLocation={selectedLocation}/>
+            <ShowBar commented={commented} handleIconPress={handleButtonPress} localLocIds={localLocIds} setLocalLocIds={setLocalLocIds} currentUser={currentUser} comments={comments} selectedLocation={selectedLocation}/>
             <ShowScroll
                 contentContainerStyle={{
                     flexGrow: 1,
@@ -209,26 +232,11 @@ function LocationShow ({modalContent, favoriteLocIds, setFavoriteLocIds, setModa
                     </HeaderWrapper>
                     <DetailsWrapper>
                         {comments.length ? <AllComments/> : null}
-                        { comments.length > 0 ? <ClearButton onPress={() => handleButtonPress('comment list')}>
+                        { comments.length > 3 ? <ClearButton onPress={() => handleButtonPress('comment list')}>
                                 <Span>More Reviews</Span>
                             </ClearButton> : null}
                     </DetailsWrapper>
                 </SectionWrapper>
-                {/* <SectionWrapper>
-                    <SectionTitle>Votes</SectionTitle>
-                    <ButtonView>
-                        <VoteButton>
-                            <Span onPress={() => setStateUpvotes(stateUpVotes + 1)}> 
-                                {stateUpVotes} 👍 
-                            </Span>
-                        </VoteButton>
-                        <VoteButton >
-                            <Span onPress={() => setStateDownvotes(stateDownVotes + 1)}>
-                                👎 {stateDownVotes}
-                            </Span>
-                        </VoteButton>
-                    </ButtonView>
-                </SectionWrapper> */}
             </ShowScroll>
         </BigWrapper>
     )
