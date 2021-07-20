@@ -10,7 +10,7 @@ import { Rating } from 'react-native-ratings';
 import { MaterialIcons } from '@expo/vector-icons';
 import { BASE_URL } from '@env'
 
-function LocationShow ({avgRating, commented, modalContent, favoriteLocIds, setFavoriteLocIds, setModalContent, modalVisible, currentUser, comments, setComments, setModalVisible, setSelectedLocation, selectedLocation}) {
+function LocationShow ({commentCount, setCommentCount, avgRating, commented, modalContent, favoriteLocIds, setFavoriteLocIds, setModalContent, modalVisible, currentUser, comments, setComments, setModalVisible, setSelectedLocation, selectedLocation}) {
 
     const {name, address, locType, free, walkTime, distance, baby_changing_station, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
     const {locations} = React.useContext(LocationContext)
@@ -118,7 +118,7 @@ function LocationShow ({avgRating, commented, modalContent, favoriteLocIds, setF
     const averageRating = () => {
 
         if (avgRating > 1) {
-            // let totalNumber = comments.reduce( (a, b) => a.rating + b.rating)
+            // let totalNumber = comments.reduce( (a, b) => ({rating: a.rating + b.rating}))
             // console.log(comments)
             // let averageNumber = (totalNumber / comments.length)
             return avgRating
@@ -158,7 +158,7 @@ function LocationShow ({avgRating, commented, modalContent, favoriteLocIds, setF
                         <AntDesign name="heart" size={14} color="#FF7070" style={{marginLeft: 6, marginRight: 6}} /> 
                         :
                         null }
-                    {gotComments ? <Text> ({comments.length})</Text> : null}
+                    {gotComments ? <Text> ({commentCount})</Text> : null}
                     {baby_changing_station ? <Text>Changing station</Text> : null}
                 </RatingView>
                 <RatingView>
