@@ -46,7 +46,7 @@ function ShowModal ({modalContent, setModalContent, currentUser, comments, setCo
             case 'discover':
                 return <WebComp headerText='Discover' setModalVisible={setModalVisible} setProgClr={setProgClr} progClr={progClr} uri={locationUrl} showGateway={true} setShowGateway={setShowGateway} setProg={setProg} prog={prog}/>
             case 'comment list': 
-                return <CommentList setComments={setComments} comments={comments} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
+                return <CommentList selectedLocation={selectedLocation} setComments={setComments} comments={comments} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
         }
         // if (modalContent === 'comment') {
         //     return <CommentForm setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible}/>
