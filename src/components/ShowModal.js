@@ -8,12 +8,13 @@ import WebComp from './WebComp'
 import CommentList from './CommentList'
 
 
-function ShowModal ({modalContent, setModalContent, currentUser, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
+function ShowModal ({offset, setOffset, modalContent, commentCount, setModalContent, currentUser, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
 
     const [orderToken, setOrderToken] = useState()
     const [showGateway, setShowGateway] = useState(false)
     const [progClr, setProgClr] = useState("#000")
     const [prog, setProg] = useState(false)
+    const [fetchedCount, setFetchedCount] = useState(1)
 
     let locationUrl = 'https://www.grubhub.com/restaurant/garam-masala-1819-palmetto-st-ridgewood/1038691?classicAffiliateId=%2Fr%2Fw%2F141623%2F&utm_source=kitchen.grubhub.com&utm_medium=OOL&utm_campaign=order%20online&utm_content=1038691'
 
@@ -46,7 +47,7 @@ function ShowModal ({modalContent, setModalContent, currentUser, comments, setCo
             case 'discover':
                 return <WebComp headerText='Discover' setModalVisible={setModalVisible} setProgClr={setProgClr} progClr={progClr} uri={locationUrl} showGateway={true} setShowGateway={setShowGateway} setProg={setProg} prog={prog}/>
             case 'comment list': 
-                return <CommentList selectedLocation={selectedLocation} setComments={setComments} comments={comments} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
+                return <CommentList setFetchedCount={setFetchedCount} fetchedCount={fetchedCount} setOffset={setOffset} offset={offset} commentCount={commentCount} selectedLocation={selectedLocation} setComments={setComments} comments={comments} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
         }
         // if (modalContent === 'comment') {
         //     return <CommentForm setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible}/>

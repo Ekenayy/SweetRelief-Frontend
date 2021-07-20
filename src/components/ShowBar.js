@@ -47,7 +47,7 @@ function ShowBar ( {handleIconPress, commented, localLocIds, setLocalLocIds, sel
         travelType: 'walk'
     })
 
-    const myComments = comments.find(comment => comment.user.id === currentUser.id)
+    // const myComments = comments.find(comment => comment.user.id === currentUser.id)
     const favorited = localLocIds.includes(selectedLocation.id);
 
     const handleFavorite = () => {

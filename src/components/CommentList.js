@@ -6,11 +6,10 @@ import CommentItem from './CommentItem'
 import { BASE_URL } from '@env'
 
 
-function CommentList ( {selectedLocation, comments, setComments, setModalVisible}) {
+function CommentList ( {fetchedCount, setFetchedCount, offset, setOffset, selectedLocation, comments, commentCount, setComments, setModalVisible}) {
 
     const [refreshing, setRefreshing] = useState(false) 
-    const [limit, setLimit] = useState(5)
-    const [offset, setOffset] = useState(8)
+    
 
     const renderComment = ( {item} ) => {
         return <CommentItem inModal={true} comment={item} />
@@ -34,16 +33,26 @@ function CommentList ( {selectedLocation, comments, setComments, setModalVisible
     function onRefresh () {
         // setRefreshing(true)
 
-        fetch(`${BASE_URL}/location_comments/${selectedLocation.id}`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({offset: offset})
-        })
-                .then(r => r.json())
-                .then(data => {
-                    console.log(data, 'fetched')
-                    // setComments(...comments, data.comments)
-                })
+        // If the number of times fetched * offset is more than the amount of comments then don't fetch
+
+        console.log(offset)
+        if (offset < commentCount) {
+            fetch(`${BASE_URL}/location_comments/${selectedLocation.id}`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({offset: offset})
+            })
+                    .then(r => r.json())
+                    .then(data => {
+                        // console.log(data)
+                        // setComments([...comments, data.comments])
+                        let commentsFromDb = data.comments
+                        setComments(comments.concat(commentsFromDb))
+                        setOffset(offset + 8)
+                        setFetchedCount(fetchedCount + 1)
+                    })
+        }
+        
         // setRefreshing(false)
         // console.log(data)
     }
@@ -69,7 +78,7 @@ function CommentList ( {selectedLocation, comments, setComments, setModalVisible
                     <H2>Reviews</H2>
                     <FlatList 
                         data={comments}
-                        extraData={comments}
+                        // extraData={comments}
                         renderItem={renderComment}
                         keyExtractor={(item) => item.id.toString()}
                         initialNumToRender={8}
