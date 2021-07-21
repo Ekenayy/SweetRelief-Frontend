@@ -10,6 +10,7 @@ function Login ( {navigation, currentUser, setCurrentUser}) {
 
     const {register, handleSubmit, setValue} = useForm()
     const [errors, setErrors] = useState("")
+    const [attempts, setAttempts] = useState(0)
 
     const H1 = styled.Text`
     font-size: 24px;
@@ -51,7 +52,13 @@ function Login ( {navigation, currentUser, setCurrentUser}) {
         align-self: center;
         margin-top: 15px;
     `
+
+    const ResetView = styled(SignUpView)`
+        margin-top: 30px;
+    `
     const onSubmit = data => {
+
+        setErrors("")
 
         let formBody = {
             email: data.email.toLowerCase(),
@@ -67,6 +74,7 @@ function Login ( {navigation, currentUser, setCurrentUser}) {
             .then(newUser => {
                 if (newUser.error) {
                     setErrors(newUser.error)
+                    setAttempts(attempts + 1)
                 } else {
                     setCurrentUser(newUser.user)
                     saveData(newUser.token)
@@ -105,6 +113,9 @@ function Login ( {navigation, currentUser, setCurrentUser}) {
             <SignUpView onPress={() => navigation.navigate('SignUp')}>
                 <DarkText>Don't have an account yet? Tap here to sign up</DarkText>
             </SignUpView>
+            {attempts >= 3 ? <ResetView onPress={() => console.log('tapped')}>
+                <DarkText>Forgot your password? Tap here to reset</DarkText>
+            </ResetView> : null}
             </Form>  
         </Body>   
     )

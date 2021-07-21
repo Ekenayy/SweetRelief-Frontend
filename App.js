@@ -5,6 +5,7 @@ import Main from './src/pages/Main'
 import Login from './src/pages/Login'
 import SignUp from './src/pages/SignUp'
 import Profile from './src/pages/Profile'
+import ResetPass from './src/pages/ResetPass'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
@@ -201,7 +202,10 @@ if (isLoading && !tokenSearched) {
               </Stack.Screen>
               <Stack.Screen name='SignUp'>
                 {(props) => <SignUp {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
-              </Stack.Screen>  
+              </Stack.Screen>
+              <Stack.Screen name='ResetPass'>
+                {(props) => <ResetPass {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+              </Stack.Screen>    
             </>            
             }
           </Stack.Navigator>

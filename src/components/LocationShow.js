@@ -162,8 +162,6 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
         setModalVisible(!modalVisible)
     }
 
-
-
     // Figure out how to provide an answer for null attributes (What if we don't know?)
     // Use the first part for the bathroom details
     // Use the second part to allow the business to load up their value prop
@@ -179,12 +177,6 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
                 </TitleView>
                 <RatingView>
                     <RatingComp/>
-                    {/* <Text>{averageRating()}</Text>
-                    {gotComments ? 
-                        <AntDesign name="heart" size={14} color="#FF7070" style={{marginLeft: 6, marginRight: 6}} /> 
-                        :
-                        null }
-                    {gotComments ? <Text> ({commentCount})</Text> : null} */}
                 </RatingView>
                 <RatingView>
                     <Text>{locType}</Text>
