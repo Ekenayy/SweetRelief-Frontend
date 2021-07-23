@@ -17,6 +17,10 @@ export const Span = styled.Text`
     align-self: center
     font-weight: bold;
 `
+export const ErrorSpan = styled(Span)`
+        color: red;
+`
+
 export const H2 = styled.Text`
     font-size: 20px;
     color: #1C1C1C;

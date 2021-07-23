@@ -4,22 +4,23 @@ import { BASE_URL } from '@env'
 import styled from 'styled-components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Alert} from 'react-native'
-import { Input, Span, BrownButton, DarkText} from '../styles/Styles'
+import { Input, Span, BrownButton, DarkText, Text} from '../styles/Styles'
 
 function Login ( {navigation, currentUser, setCurrentUser}) {
 
     const {register, handleSubmit, setValue} = useForm()
     const [errors, setErrors] = useState("")
-    const [attempts, setAttempts] = useState(0)
+    const [attempts, setAttempts] = useState(3)
+
+    useEffect(() => {
+        register('email')
+        register('password')
+    }, [register])
 
     const H1 = styled.Text`
     font-size: 24px;
     color: blue;
     `
-    useEffect(() => {
-        register('email')
-        register('password')
-    }, [register])
 
     const Form = styled.View`
         padding-left:12px;
@@ -111,10 +112,10 @@ function Login ( {navigation, currentUser, setCurrentUser}) {
                 <Span>Log in</Span>
             </LoginButton>
             <SignUpView onPress={() => navigation.navigate('SignUp')}>
-                <DarkText>Don't have an account yet? Tap here to sign up</DarkText>
+                <DarkText>Don't have an account yet? Sign up</DarkText>
             </SignUpView>
-            {attempts >= 3 ? <ResetView onPress={() => console.log('tapped')}>
-                <DarkText>Forgot your password? Tap here to reset</DarkText>
+            {attempts >= 3 ? <ResetView onPress={() => navigation.navigate('ResetPass')}>
+                <DarkText>Forgot your password?</DarkText>
             </ResetView> : null}
             </Form>  
         </Body>   

@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import logo from '../photos/Logo_purp_bg.png'
 
 function SplashScreen () {
 
@@ -15,10 +16,23 @@ function SplashScreen () {
         padding-top: 30px;
     `
 
+    const LogoView = styled.View`
+        padding-top: 100px;
+        align-self: center;
+        height: 50%;
+        width: auto;
+    `
+
+    const Logo = styled.Image`
+
+    `
+
 
     return (
         <Body>
-            <Title>SweetRelief</Title>
+            <LogoView>
+                <Logo source={logo}/>
+            </LogoView>
         </Body>
     )
 }
