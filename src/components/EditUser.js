@@ -88,7 +88,7 @@ function EditUser ( {currentUser, setCurrentUser}) {
             email: currentUser.email
         }
 
-        fetch(`${BASE_URL}/change_password`, {
+        fetch(`${BASE_URL}/check_password`, {
             method: 'POST', 
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(formBody)

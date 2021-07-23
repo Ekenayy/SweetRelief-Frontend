@@ -38,7 +38,7 @@ function ResetPass ( {navigation, currentUser, setCurrentuser}) {
         fetch(`${BASE_URL}/check_email`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({email: data.email})
+            body: JSON.stringify({email: data.email.toLowerCase()})
         })
             .then(r => r.json())
             .then(data => {
@@ -49,6 +49,7 @@ function ResetPass ( {navigation, currentUser, setCurrentuser}) {
                     navigation.navigate('Login')
                 }
             })
+        setErrors(null)
     }
 
     return (
