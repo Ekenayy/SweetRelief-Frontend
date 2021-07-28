@@ -118,6 +118,10 @@ function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, comme
         }
     })
 
+    // If the y.value is less than 0, set the value to -258
+    // If the y.value is greater than
+    // Need a function that returns y.value 
+
     const removeToken = async () => {
         try {
             await AsyncStorage.removeItem('token')

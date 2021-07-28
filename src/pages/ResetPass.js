@@ -45,7 +45,7 @@ function ResetPass ( {navigation, currentUser, setCurrentuser}) {
                 if (data.error) {
                     setErrors(data.error)
                 } else {
-                    Alert.alert('Success! Password reset email sent')
+                    Alert.alert("Success! Password reset email sent. Check your spam folder if you don't see it in your inbox" )
                     navigation.navigate('Login')
                 }
             })
