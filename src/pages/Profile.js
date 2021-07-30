@@ -9,6 +9,7 @@ import { BASE_URL } from '@env'
 import PaymentOrder from '../components/PaymentOrder'
 import EditUser from '../components/EditUser'
 import { BlurView } from 'expo-blur';
+import logo from '../photos/WaterdropWordless1.png'
 
 // import { BlurView, VibrancyView } from "@react-native-community/blur";
 import {StyleSheet} from 'react-native'
@@ -55,14 +56,14 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
     `
 
     const Header = styled.View`
-        padding-top: 50px;
+        padding-top: 15px;
         background: #bea7e5;
         height: 20%;
     `
 
     const TextView = styled.View`
         align-self: center;
-        padding-top: 30px;
+        padding-top: 0px;
     `
 
     const OptionsView = styled.View`
@@ -113,6 +114,18 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
 
     const CustomForm = styled(ModalForm)`
         margin-top: 100px;
+    `
+
+    const LogoView = styled(CloseView)`
+        padding-bottom: 0px;
+        padding-top: 0px;
+        height: 70px;
+        width: 100%;
+    `
+
+    const Logo = styled.Image`
+        height: 70px;
+        width: 70px;
     `
 
 
@@ -202,6 +215,9 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
     return (
         <Body>
                 <Header>
+                    <LogoView onPress={() => navigation.navigate('Main')}>
+                        <Logo source={logo}></Logo>
+                    </LogoView>
                     <TextView>
                         <HeaderName>{currentUser.name}</HeaderName>
                     </TextView>
