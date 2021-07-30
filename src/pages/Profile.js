@@ -234,9 +234,9 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
                 </Header>
                 <MainInfoView modalVisible={modalVisible} showsVerticalScrollIndicator={false}>
                     <MainInfo/>
-                    <PurpButton onPress={() => navigation.navigate('Main')}>
+                    {/* <PurpButton onPress={() => navigation.navigate('Main')}>
                         <Span>To Map</Span>
-                    </PurpButton>
+                    </PurpButton> */}
                 </MainInfoView>
                 {modalVisible ? <BlurView intensity={60} blurTint='light' style={[StyleSheet.absoluteFill]}> 
                 </BlurView> : null}
