@@ -6,6 +6,21 @@ import PaymentOrder from './PaymentOrder';
 
 function PaymentOrderList () {
 
+    const Title = styled(H2)`
+        align-self: center;
+        margin-bottom: 15px;
+        font-weight: bold;
+    `
+
+    const MainView = styled.View`
+        margin-bottom: 10px;
+    `
+
+    return (
+        <MainView>
+            <Title>Recent Orders</Title>
+        </MainView>
+    )
 }
 
 export default PaymentOrderList

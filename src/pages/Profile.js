@@ -7,6 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { BASE_URL } from '@env'
 import PaymentOrder from '../components/PaymentOrder'
+import PaymentOrderList from '../components/PaymentOrderList'
 import EditUser from '../components/EditUser'
 import { BlurView } from 'expo-blur';
 import logo from '../photos/WaterdropWordless1.png'
@@ -144,7 +145,7 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
                         <InfoText>******</InfoText>
                     </OneInfoView>
                 </AllInfoView>
-                {orders ? <PastOrders/> : null}
+                {orders ? <PaymentOrderList orders={orders} modalVisible={modalVisible} setModalVisible={setModalVisible} setChosenOrder={setChosenOrder} chosenOrder={chosenOrder}/> : null}
             </>
         )
     }
