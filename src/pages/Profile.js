@@ -10,8 +10,6 @@ import PaymentOrder from '../components/PaymentOrder'
 import EditUser from '../components/EditUser'
 import { BlurView } from 'expo-blur';
 import logo from '../photos/WaterdropWordless1.png'
-
-// import { BlurView, VibrancyView } from "@react-native-community/blur";
 import {StyleSheet} from 'react-native'
 
 

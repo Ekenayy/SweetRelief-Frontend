@@ -14,7 +14,6 @@ function ShowModal ({offset, setOffset, modalContent, commentCount, setModalCont
     const [showGateway, setShowGateway] = useState(false)
     const [progClr, setProgClr] = useState("#000")
     const [prog, setProg] = useState(false)
-    const [fetchedCount, setFetchedCount] = useState(1)
 
     // I have the current user and the location -- I can prefill a price for now 
     const Modal1 = styled.Modal`
@@ -45,7 +44,7 @@ function ShowModal ({offset, setOffset, modalContent, commentCount, setModalCont
             case 'discover':
                 return <WebComp headerText='Discover' setModalVisible={setModalVisible} setProgClr={setProgClr} progClr={progClr} uri={locationUrl} showGateway={true} setShowGateway={setShowGateway} setProg={setProg} prog={prog}/>
             case 'comment list': 
-                return <CommentList setFetchedCount={setFetchedCount} fetchedCount={fetchedCount} setOffset={setOffset} offset={offset} commentCount={commentCount} selectedLocation={selectedLocation} setComments={setComments} comments={comments} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
+                return <CommentList commentCount={commentCount} selectedLocation={selectedLocation} setComments={setComments} comments={comments} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
         }
         // if (modalContent === 'comment') {
         //     return <CommentForm setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible}/>
