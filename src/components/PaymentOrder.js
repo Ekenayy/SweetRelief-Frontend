@@ -13,7 +13,7 @@ function PaymentOrder ( { order, chosenOrder, setChosenOrder, modalVisible, setM
 
     const OneOrderTouch = styled.TouchableOpacity`
         padding-left: 30px;
-        border-bottom-width: .5px;
+        border-bottom-width: ${props => props.modalVisible ? '0px' : '.5px'};
         border-color: #a6a3a8;
         padding-bottom: 10px;
         padding-top: 10px;
@@ -41,6 +41,14 @@ function PaymentOrder ( { order, chosenOrder, setChosenOrder, modalVisible, setM
     const StatusText = styled(DarkText)`
         color: ${props => props.status == 'paid' ? 'green' : 'red'}
     `
+
+    const OrderText = styled(DarkText)`
+        margin-bottom: ${props => props.modalVisible ? '7px' : '2px'}
+    `
+
+    const OrderH2 = styled(H2)`
+        font-size: ${props => props.modalVisible ? '30px' : '20px'}
+    `
     
     const handlePress = () => {
         setChosenOrder(order)
@@ -48,25 +56,25 @@ function PaymentOrder ( { order, chosenOrder, setChosenOrder, modalVisible, setM
     }
 
     return (
-        <OneOrderTouch onPress={handlePress}>
+        <OneOrderTouch modalVisible={modalVisible} onPress={handlePress}>
                 <TopView>
                     <DateView>
                         <Fontisto name="date" size={20} color="#F4A261" style={{marginRight: 7}} />
-                        <DarkText>{formatted_date}</DarkText>
+                        <DarkText modalVisible={modalVisible}>{formatted_date}</DarkText>
                     </DateView>
                     <TimeView>
                         <MaterialCommunityIcons name="clock-outline" size={24} color="#F4A261" style={{marginRight: 7}} />
-                        <DarkText>{formatted_time}</DarkText>
+                        <DarkText modalVisible={modalVisible}>{formatted_time}</DarkText>
                     </TimeView>
                     <StatusView>
-                        <DarkText>Status: </DarkText>
+                        <DarkText modalVisible={modalVisible}>Status: </DarkText>
                         <StatusText status={status} >{status}</StatusText>
                     </StatusView>
                 </TopView>
-                <H2>{location.name}</H2>
-                <DarkText>{location.address}</DarkText>
-                <DarkText>${price_cents}</DarkText>
-                <DarkText>#{token}</DarkText>
+                <OrderH2 modalVisible={modalVisible}>{location.name}</OrderH2>
+                <OrderText modalVisible={modalVisible}>{location.address}</OrderText>
+                <OrderText modalVisible={modalVisible}>${price_cents}</OrderText>
+                <OrderText modalVisible={modalVisible}>#{token}</OrderText>
         </OneOrderTouch>
     )
 

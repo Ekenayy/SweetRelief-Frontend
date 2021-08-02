@@ -126,7 +126,6 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
         width: 70px;
     `
 
-
     const ViewInfo = () => {
         return (
             <>
@@ -149,8 +148,6 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
             </>
         )
     }
-
-    // Should be able to enlarge the order onPress in a modal
 
     const last5Orders = orders.map((order) => {
         return <PaymentOrder key={order.id} modalVisible={modalVisible} setModalVisible={setModalVisible} setChosenOrder={setChosenOrder} chosenOrder={chosenOrder} order={order}/>
@@ -236,7 +233,7 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
                         <Span>To Map</Span>
                     </PurpButton> */}
                 </MainInfoView>
-                {modalVisible ? <BlurView intensity={60} blurTint='light' style={[StyleSheet.absoluteFill]}> 
+                {modalVisible ? <BlurView intensity={100} blurTint='light' style={[StyleSheet.absoluteFill]}> 
                 </BlurView> : null}
                 {modalVisible ? <OrderModal/> : null}
                 
