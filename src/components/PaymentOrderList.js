@@ -22,6 +22,11 @@ function PaymentOrderList ( {currentUser, orders, orderCount, modalVisible, setM
         padding-bottom: 0px;
     `
 
+    const ActivityView = styled.View`
+        margin-top: 10px;
+    `
+
+
     function onRefresh () {
         // If offset is less than commentCount then there are still comments left to be fetched
 
@@ -31,7 +36,7 @@ function PaymentOrderList ( {currentUser, orders, orderCount, modalVisible, setM
         }
 
         if (offset < orderCount) {
-            // setRefreshing(true)
+            setRefreshing(true)
             fetch(`${BASE_URL}/user_orders`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -39,7 +44,7 @@ function PaymentOrderList ( {currentUser, orders, orderCount, modalVisible, setM
             })
                     .then(r => r.json())
                     .then(data => {
-                        // setRefreshing(false)
+                        setRefreshing(false)
                         let oredersFromDb = data.payment_orders
                         setLocalOrders(localOrders.concat(oredersFromDb))
                         setOffset(offset + 5)
@@ -73,7 +78,8 @@ function PaymentOrderList ( {currentUser, orders, orderCount, modalVisible, setM
                 keyExtractor={(item) => item.id.toString()}
                 showsVerticalScrollIndicator={false}
                 onEndReached={onRefresh}
-                onEndReachedThreshold={0.5}
+                onEndReachedThreshold={0.1}
+                ListFooterComponent={renderFooter}
             />
     )
 }

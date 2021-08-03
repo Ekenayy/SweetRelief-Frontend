@@ -8,7 +8,7 @@ import { BASE_URL } from '@env'
 
 function CommentList ( {selectedLocation, comments, commentCount, setComments, setModalVisible}) {
 
-    const [refreshing, setRefreshing] = useState(false) 
+    const [refreshing, setRefreshing] = useState(true) 
     const [localComments, setLocalComments] = useState(comments)
     const [offset, setOffset] = useState(8)
     
@@ -36,7 +36,7 @@ function CommentList ( {selectedLocation, comments, commentCount, setComments, s
         // If offset is less than commentCount then there are still comments left to be fetched
 
         if (offset < commentCount) {
-            setRefreshing(true)
+            // setRefreshing(true)
             fetch(`${BASE_URL}/location_comments/${selectedLocation.id}`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -44,7 +44,7 @@ function CommentList ( {selectedLocation, comments, commentCount, setComments, s
             })
                     .then(r => r.json())
                     .then(data => {
-                        setRefreshing(false)
+                        // setRefreshing(false)
                         let commentsFromDb = data.comments
                         setLocalComments(localComments.concat(commentsFromDb))
                         setOffset(offset + 8)
