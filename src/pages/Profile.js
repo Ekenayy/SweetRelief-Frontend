@@ -16,39 +16,12 @@ import {StyleSheet} from 'react-native'
 
 function Profile ( {navigation, currentUser, setCurrentUser}) {
 
-    // Account details option -- Name and email next to a pencil icon. Name is in a solid header of color 
-    // Past 5 orders in a list with an option to make it bigger
-    // Settings?
-    // Help and Support 
-
     const [selected, setSelected] = useState('view')
     const [orders, setOrders] = useState([])
     const [chosenOrder, setChosenOrder] = useState(null)
     const [limit, setLimit] = useState(5)
     const [offset, setOffset] = useState(0)
     const [modalVisible, setModalVisible] = useState(false)
-
-    useEffect(() => {
-        let formBody = {
-            user_id: currentUser.id,
-            limit: 5,
-            offset: 0,
-        }
-
-        fetch(`${BASE_URL}/user_orders`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(formBody)
-        })
-            .then(r => r.json())
-            .then(data => setOrders(data))
-    }, [offset])
-
-    const styles = StyleSheet.create({
-        absolute: {
-            zIndex: -1
-        }
-    });
 
     const Body = styled.View`
         flex: 1;
@@ -126,6 +99,27 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
         height: 70px;
         width: 70px;
     `
+    useEffect(() => {
+        let formBody = {
+            user_id: currentUser.id,
+            limit: 5,
+            offset: 0,
+        }
+
+        fetch(`${BASE_URL}/user_orders`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(formBody)
+        })
+            .then(r => r.json())
+            .then(data => setOrders(data))
+    }, [offset])
+
+    const styles = StyleSheet.create({
+        absolute: {
+            zIndex: -1
+        }
+    });
 
     const ViewInfo = () => {
         return (
@@ -230,9 +224,6 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
                 </Header>
                 <MainInfoView modalVisible={modalVisible} showsVerticalScrollIndicator={false}>
                     <MainInfo/>
-                    {/* <PurpButton onPress={() => navigation.navigate('Main')}>
-                        <Span>To Map</Span>
-                    </PurpButton> */}
                 </MainInfoView>
                 {modalVisible ? <BlurView intensity={100} blurTint='light' style={[StyleSheet.absoluteFill]}> 
                 </BlurView> : null}

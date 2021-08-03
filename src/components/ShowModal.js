@@ -6,6 +6,8 @@ import PayOptions from './PayOptions'
 import Receipt from './Receipt'
 import WebComp from './WebComp'
 import CommentList from './CommentList'
+import ErrorMsg from './ErrorMsg'
+
 
 
 function ShowModal ({offset, setOffset, modalContent, commentCount, setModalContent, currentUser, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
@@ -45,6 +47,8 @@ function ShowModal ({offset, setOffset, modalContent, commentCount, setModalCont
                 return <WebComp headerText='Discover' setModalVisible={setModalVisible} setProgClr={setProgClr} progClr={progClr} uri={locationUrl} showGateway={true} setShowGateway={setShowGateway} setProg={setProg} prog={prog}/>
             case 'comment list': 
                 return <CommentList commentCount={commentCount} selectedLocation={selectedLocation} setComments={setComments} comments={comments} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
+            case 'error': 
+                return <ErrorMsg setModalVisible={setModalVisible}/>
         }
         // if (modalContent === 'comment') {
         //     return <CommentForm setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible}/>
@@ -53,6 +57,7 @@ function ShowModal ({offset, setOffset, modalContent, commentCount, setModalCont
         // }
     }
 
+    console.log(modalContent)
     return (
         <Modal1
                     animationType="slide"

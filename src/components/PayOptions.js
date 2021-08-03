@@ -4,7 +4,7 @@ import { Text, DarkText, Wrapper, Span, H2, ModalHolder, ModalForm } from '../st
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Linking from 'expo-linking';
 import { BASE_URL } from '@env'
-import { Modal, ActivityIndicator } from 'react-native'
+import { Modal, ActivityIndicator, Alert } from 'react-native'
 import { Foundation } from '@expo/vector-icons';
 import {WebView} from 'react-native-webview';
 
@@ -114,7 +114,6 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
         }
     }
 
-    
     const createPayment = () => {
 
         let formBody = {
@@ -150,8 +149,9 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
             console.log('payment successful')
             setModalContent('receipt')
         } else if (paymentFromWeb && paymentFromWeb.status !== 'COMPLETED') {
-            alert('PAYMENT FAILED. PLEASE TRY AGAIN.')
+            // Alert.alert('PAYMENT FAILED. PLEASE TRY AGAIN.')
             console.log(paymentFromWeb)
+            setModalContent('error')
             // setModalVisible(false)
         }
     }
