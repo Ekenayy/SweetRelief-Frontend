@@ -4,7 +4,9 @@ import { Text, DarkText, Scroll, CloseView, ModalHolder, ModalForm, CloseText, H
 import {FlatList, RefreshControl, ActivityIndicator} from "react-native";
 import PaymentOrder from './PaymentOrder';
 
-function PaymentOrderList () {
+function PaymentOrderList ( {orders, modalVisible, setModalVisible, chosenOrder, setChosenOrder}) {
+
+    const [refreshing, setRefreshing] = useState(false) 
 
     const Title = styled(H2)`
         align-self: center;
@@ -13,13 +15,39 @@ function PaymentOrderList () {
     `
 
     const MainView = styled.View`
-        margin-bottom: 10px;
+        padding-bottom: 0px;
     `
 
+    const renderPayment = ( {item} ) => {
+        return <PaymentOrder modalVisible={modalVisible} setModalVisible={setModalVisible} setChosenOrder={setChosenOrder} chosenOrder={chosenOrder} order={item} />
+    }
+
+    const renderFooter = () => {
+        if (refreshing) {
+            return (
+                <ActivityView>
+                    <ActivityIndicator animating size="large" />
+                </ActivityView>
+            )
+        } else {
+            return null
+        }
+    }
+
     return (
-        <MainView>
-            <Title>Recent Orders</Title>
-        </MainView>
+        // <MainView>
+        <>
+            <FlatList
+                ListHeaderComponent={
+                    <Title>Recent Orders</Title>
+                }
+                data={orders}
+                renderItem={renderPayment}
+                keyExtractor={(item) => item.id.toString()}
+                showsVerticalScrollIndicator={false}
+            />
+        </>
+        // </MainView>
     )
 }
 

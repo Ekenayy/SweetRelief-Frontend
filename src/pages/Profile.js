@@ -53,7 +53,8 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
     `
     const EditView = styled(TouchView)`
     `
-    const MainInfoView = styled.ScrollView`
+    const MainInfoView = styled.View`
+        flex: 1;
         margin-top: 10px;
     `
 
