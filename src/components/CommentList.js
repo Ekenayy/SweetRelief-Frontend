@@ -36,7 +36,7 @@ function CommentList ( {selectedLocation, comments, commentCount, setComments, s
         // If offset is less than commentCount then there are still comments left to be fetched
 
         if (offset < commentCount) {
-            // setRefreshing(true)
+            setRefreshing(true)
             fetch(`${BASE_URL}/location_comments/${selectedLocation.id}`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -44,7 +44,7 @@ function CommentList ( {selectedLocation, comments, commentCount, setComments, s
             })
                     .then(r => r.json())
                     .then(data => {
-                        // setRefreshing(false)
+                        setRefreshing(false)
                         let commentsFromDb = data.comments
                         setLocalComments(localComments.concat(commentsFromDb))
                         setOffset(offset + 8)
@@ -82,7 +82,7 @@ function CommentList ( {selectedLocation, comments, commentCount, setComments, s
                         // refreshing={refreshing}
                         // onRefresh={onRefresh}
                         onEndReached={onRefresh}
-                        onEndReachedThreshold={0.5}
+                        onEndReachedThreshold={0.1}
                         ListFooterComponent={renderFooter}
                     />
             </Form>
