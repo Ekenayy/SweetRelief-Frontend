@@ -3,10 +3,14 @@ import styled from "styled-components";
 import { Text, DarkText, Scroll, CloseView, ModalHolder, ModalForm, CloseText, H2, Wrapper } from '../styles/Styles'
 import {FlatList, RefreshControl, ActivityIndicator} from "react-native";
 import PaymentOrder from './PaymentOrder';
+import { BASE_URL } from '@env'
 
-function PaymentOrderList ( {orders, modalVisible, setModalVisible, chosenOrder, setChosenOrder}) {
+function PaymentOrderList ( {currentUser, orders, orderCount, modalVisible, setModalVisible, chosenOrder, setChosenOrder}) {
 
     const [refreshing, setRefreshing] = useState(false) 
+    const [offset, setOffset] = useState(5)
+    const [localOrders, setLocalOrders] = useState(orders)
+
 
     const Title = styled(H2)`
         align-self: center;
@@ -17,6 +21,31 @@ function PaymentOrderList ( {orders, modalVisible, setModalVisible, chosenOrder,
     const MainView = styled.View`
         padding-bottom: 0px;
     `
+
+    function onRefresh () {
+        // If offset is less than commentCount then there are still comments left to be fetched
+
+        let formBody = {
+            user_id: currentUser.id, 
+            offset
+        }
+
+        if (offset < orderCount) {
+            // setRefreshing(true)
+            fetch(`${BASE_URL}/user_orders`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(formBody)
+            })
+                    .then(r => r.json())
+                    .then(data => {
+                        // setRefreshing(false)
+                        let oredersFromDb = data.payment_orders
+                        setLocalOrders(localOrders.concat(oredersFromDb))
+                        setOffset(offset + 5)
+                    })
+        }
+    }
 
     const renderPayment = ( {item} ) => {
         return <PaymentOrder modalVisible={modalVisible} setModalVisible={setModalVisible} setChosenOrder={setChosenOrder} chosenOrder={chosenOrder} order={item} />
@@ -35,19 +64,17 @@ function PaymentOrderList ( {orders, modalVisible, setModalVisible, chosenOrder,
     }
 
     return (
-        // <MainView>
-        <>
             <FlatList
                 ListHeaderComponent={
                     <Title>Recent Orders</Title>
                 }
-                data={orders}
+                data={localOrders}
                 renderItem={renderPayment}
                 keyExtractor={(item) => item.id.toString()}
                 showsVerticalScrollIndicator={false}
+                onEndReached={onRefresh}
+                onEndReachedThreshold={0.5}
             />
-        </>
-        // </MainView>
     )
 }
 

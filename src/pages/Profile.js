@@ -20,8 +20,8 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
     const [orders, setOrders] = useState([])
     const [chosenOrder, setChosenOrder] = useState(null)
     const [limit, setLimit] = useState(5)
-    const [offset, setOffset] = useState(0)
     const [modalVisible, setModalVisible] = useState(false)
+    const [orderCount, setOrderCount] = useState(0)
 
     const Body = styled.View`
         flex: 1;
@@ -113,8 +113,11 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
             body: JSON.stringify(formBody)
         })
             .then(r => r.json())
-            .then(data => setOrders(data))
-    }, [offset])
+            .then(data => {
+                setOrders(data.payment_orders)
+                setOrderCount(data.count)
+            })
+    }, [])
 
     const styles = StyleSheet.create({
         absolute: {
@@ -140,7 +143,7 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
                         <InfoText>******</InfoText>
                     </OneInfoView>
                 </AllInfoView>
-                {orders ? <PaymentOrderList orders={orders} modalVisible={modalVisible} setModalVisible={setModalVisible} setChosenOrder={setChosenOrder} chosenOrder={chosenOrder}/> : null}
+                {orders ? <PaymentOrderList currentUser={currentUser} orderCount={orderCount} orders={orders} modalVisible={modalVisible} setModalVisible={setModalVisible} setChosenOrder={setChosenOrder} chosenOrder={chosenOrder}/> : null}
             </>
         )
     }

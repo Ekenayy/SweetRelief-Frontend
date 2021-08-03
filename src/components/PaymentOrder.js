@@ -33,7 +33,7 @@ function PaymentOrder ( { order, chosenOrder, setChosenOrder, modalVisible, setM
     `
 
     const StatusView = styled.View`
-        margin-left: 40px;
+        margin-left: ${props => props.modalVisible ? '15px' : '40px'};
         align-self: center;
         flex-direction: row;
     `
@@ -66,7 +66,7 @@ function PaymentOrder ( { order, chosenOrder, setChosenOrder, modalVisible, setM
                         <MaterialCommunityIcons name="clock-outline" size={24} color="#F4A261" style={{marginRight: 7}} />
                         <DarkText modalVisible={modalVisible}>{formatted_time}</DarkText>
                     </TimeView>
-                    <StatusView>
+                    <StatusView modalVisible={modalVisible}>
                         <DarkText modalVisible={modalVisible}>Status: </DarkText>
                         <StatusText status={status} >{status}</StatusText>
                     </StatusView>
