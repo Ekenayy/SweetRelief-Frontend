@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Alert } from 'react-native'
 import CommentForm from './CommentForm'
 import PayOptions from './PayOptions'
+import PaymentScreen from './PaymentScreen'
 import Receipt from './Receipt'
 import WebComp from './WebComp'
 import CommentList from './CommentList'
@@ -47,6 +48,8 @@ function ShowModal ({offset, setOffset, modalContent, commentCount, setModalCont
                 return <WebComp headerText='Discover' setModalVisible={setModalVisible} setProgClr={setProgClr} progClr={progClr} uri={locationUrl} showGateway={true} setShowGateway={setShowGateway} setProg={setProg} prog={prog}/>
             case 'comment list': 
                 return <CommentList commentCount={commentCount} selectedLocation={selectedLocation} setComments={setComments} comments={comments} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
+            case 'money':
+                return <PaymentScreen setModalContent={setModalContent} currentUser={currentUser} selectedLocation={selectedLocation} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
             case 'error': 
                 return <ErrorMsg setModalVisible={setModalVisible}/>
         }

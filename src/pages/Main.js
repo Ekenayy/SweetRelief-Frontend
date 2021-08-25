@@ -6,10 +6,12 @@ import LocationContext from '../LocationContext'
 import MapView, {AnimatedRegion} from "react-native-map-clustering";
 import CommentForm from '../components/CommentForm'
 import ShowModal from '../components/ShowModal'
-import { BASE_URL } from '@env'
+import { BASE_URL, STRIPE_TEST_KEY, URL_SCHEME } from '@env'
 import * as geolib from 'geolib'
 import styled from 'styled-components'
 import { BlurView } from 'expo-blur';
+import { StripeProvider } from '@stripe/stripe-react-native';
+
 
 function Main ( {currentUser, ios, navigation, setCurrentUser, setToken} ) {
 
@@ -100,12 +102,18 @@ function Main ( {currentUser, ios, navigation, setCurrentUser, setToken} ) {
 
     return (
         // <BigWrapper>
-        <>
-            <MapContainer ios={ios} favoriteLocIds={favoriteLocIds} filterBy={filterBy} setFilterBy={setFilterBy} wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
-            <NavBar commentCount={commentCount} setCommentCount={setCommentCount} commented={commented} setAvgRating={setAvgRating} avgRating={avgRating} contextUserLocation={contextUserLocation} wholeMap={wholeMap} navigation={navigation} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} setToken={setToken} setCurrentUser={setCurrentUser} setModalContent={setModalContent} modalContent={modalContent} filterBy={filterBy} setFilterBy={setFilterBy} currentUser={currentUser} setComments={setComments} comments={comments}  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
-            {modalVisible ? <BlurView intensity={90} BlurTint='light' style={[StyleSheet.absoluteFill]}/> : null}
-            {modalVisible ? <ShowModal commentCount={commentCount} modalContent={modalContent} setModalContent={setModalContent} setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible} /> : null}
-        </>
+        <StripeProvider
+            publishableKey={STRIPE_TEST_KEY}
+            urlScheme={URL_SCHEME}
+            // merchantIdentifier="merchant.com.{{YOUR_APP_NAME}}" 
+        >   
+            <>
+                <MapContainer ios={ios} favoriteLocIds={favoriteLocIds} filterBy={filterBy} setFilterBy={setFilterBy} wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
+                <NavBar commentCount={commentCount} setCommentCount={setCommentCount} commented={commented} setAvgRating={setAvgRating} avgRating={avgRating} contextUserLocation={contextUserLocation} wholeMap={wholeMap} navigation={navigation} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} setToken={setToken} setCurrentUser={setCurrentUser} setModalContent={setModalContent} modalContent={modalContent} filterBy={filterBy} setFilterBy={setFilterBy} currentUser={currentUser} setComments={setComments} comments={comments}  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
+                {modalVisible ? <BlurView intensity={90} BlurTint='light' style={[StyleSheet.absoluteFill]}/> : null}
+                {modalVisible ? <ShowModal commentCount={commentCount} modalContent={modalContent} setModalContent={setModalContent} setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible} /> : null}
+            </>
+        </StripeProvider>
         // </BigWrapper>
     )
 }

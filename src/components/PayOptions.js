@@ -109,8 +109,10 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
     // }, [payment])
 
     const handleClick = () => {
+        // Or just setMoalContent(selected) and name modal screens accordingly 
         if (selected == 'money') {
-            createPayment()
+            // createPayment()
+            setModalContent(selected)
         }
     }
 
