@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect, useContext} from 'react';
-import { BASE_URL } from '@env'
+import { BASE_URL, STRIPE_TEST_KEY, URL_SCHEME } from '@env'
 import Main from './src/pages/Main'
 import Login from './src/pages/Login'
 import SignUp from './src/pages/SignUp'
 import Profile from './src/pages/Profile'
 import ResetPass from './src/pages/ResetPass'
+import PayScreen from './src/components/PayScreen'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
@@ -18,6 +19,10 @@ import {SafeAreaView, Alert} from 'react-native'
 import {LogBox } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 LogBox.ignoreLogs(['Reanimated 2']);
+import { StripeProvider } from '@stripe/stripe-react-native';
+import { initStripe } from '@stripe/stripe-react-native';
+
+
 
 export default function App() {
 
@@ -34,6 +39,7 @@ export default function App() {
   const [ios, setIos] = useState(Platform.OS === 'ios')
   const [dynoAwake, setDynoAwake] = useState(false)
   const [getPermission, setGetPermission] = useState(false)
+  const [pubKey, setPubKey] = useState('')
   // const [sorted, setSorted] = useState(false)
 
 
@@ -139,6 +145,29 @@ export default function App() {
         }
   }, [locations, userLocation])
 
+//   const fetchKey = async () => {
+//     const response = await fetch(`${BASE_URL}/test_key`)
+
+//     const { publishableKey } = await response.json()
+
+//     return publishableKey
+//   }
+
+// console.log(pubKey)
+//   useEffect(() => {
+//     async function initialize() {
+//       const fetchedKey = await fetchKey()
+//       if (fetchedKey) {
+//         setPubKey(fetchedKey.pub_key)
+//         await initStripe({
+//           publishableKey: fetchedKey.pub_key
+//         })
+//       }
+//     }
+
+//     initialize()
+//   }, [!pubKey])
+
   const sortByDistance = (locations) => {
     let newLocations = [];
 
@@ -164,54 +193,71 @@ export default function App() {
     // setSorted(true)
   };
 
+  // useEffect(() => {
+  //   initStripe({
+  //     publishableKey: STRIPE_TEST_KEY,
+  //     // merchantIdentifier: 'merchant.identifier',
+  //   });
+  // }, []);
+
+
+
 if (isLoading && !tokenSearched) {
   return <SplashScreen />
 } 
   return (
-    <LocationContext.Provider 
-      value={{locations: sortedLocations.length ? [sortedLocations, setSortedLocations] : [locations, setLocations], 
-      userLocation: [userLocation, setUserLocation]}}>
-    <NavigationContainer>
-        <Body>
-          <Stack.Navigator
-            screenOptions={{
-            headerStyle: {
-              backgroundColor: '#FFEFD5',
-              height: '0%',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-              color: 'black',
-            },
-            }}
-          >
-            {currentUser ? 
-            <>
-              <Stack.Screen name='Main'>
-                {(props) => <Main {...props} ios={ios} setToken={setToken} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
-              </Stack.Screen>
-              <Stack.Screen name='Profile'>
-                {(props) => <Profile {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
-              </Stack.Screen>
-            </>
-            :
-            <>
-              <Stack.Screen name='Login'>
-                {(props) => <Login {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
-              </Stack.Screen>
-              <Stack.Screen name='SignUp'>
-                {(props) => <SignUp {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
-              </Stack.Screen>
-              <Stack.Screen name='ResetPass'>
-                {(props) => <ResetPass {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
-              </Stack.Screen>    
-            </>            
-            }
-          </Stack.Navigator>
-        </Body>
-    </NavigationContainer>
-    </LocationContext.Provider>
+    <StripeProvider
+      publishableKey={STRIPE_TEST_KEY}
+    >
+      <LocationContext.Provider 
+        value={{locations: sortedLocations.length ? [sortedLocations, setSortedLocations] : [locations, setLocations], 
+        userLocation: [userLocation, setUserLocation]}}>
+      <NavigationContainer>
+          <Body>
+            <Stack.Navigator
+              screenOptions={{
+              headerStyle: {
+                backgroundColor: '#FFEFD5',
+                height: '0%',
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+                color: 'black',
+              },
+              }}
+            >
+              {currentUser ? 
+              <>
+                <Stack.Screen name='Main'>
+                  {(props) => <Main {...props} ios={ios} setToken={setToken} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+                </Stack.Screen>
+                <Stack.Screen name='Profile'>
+                  {(props) => <Profile {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+                </Stack.Screen>
+                <Stack.Screen name='PayScreen'>
+                  {(props) => <PayScreen {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+                </Stack.Screen>
+              </>
+              :
+              <>
+                <Stack.Screen name='Login'>
+                  {(props) => <Login {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+                </Stack.Screen>
+                <Stack.Screen name='SignUp'>
+                  {(props) => <SignUp {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+                </Stack.Screen>
+                <Stack.Screen name='ResetPass'>
+                  {(props) => <ResetPass {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+                </Stack.Screen>    
+              </>            
+              }
+            </Stack.Navigator>
+          </Body>
+      </NavigationContainer>
+      </LocationContext.Provider>
+    </StripeProvider>
+
   );
 }
 

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Alert } from 'react-native'
 import CommentForm from './CommentForm'
 import PayOptions from './PayOptions'
-import PaymentScreen from './PaymentScreen'
+import PayScreen from './PayScreen'
 import Receipt from './Receipt'
 import WebComp from './WebComp'
 import CommentList from './CommentList'
@@ -11,7 +11,7 @@ import ErrorMsg from './ErrorMsg'
 
 
 
-function ShowModal ({offset, setOffset, modalContent, commentCount, setModalContent, currentUser, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
+function ShowModal ({offset, setOffset, modalContent, commentCount, setModalContent, currentUser, setCurrentUser, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
 
     const [orderToken, setOrderToken] = useState()
     const [showGateway, setShowGateway] = useState(false)
@@ -49,18 +49,12 @@ function ShowModal ({offset, setOffset, modalContent, commentCount, setModalCont
             case 'comment list': 
                 return <CommentList commentCount={commentCount} selectedLocation={selectedLocation} setComments={setComments} comments={comments} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
             case 'money':
-                return <PaymentScreen setModalContent={setModalContent} currentUser={currentUser} selectedLocation={selectedLocation} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
+                return <PayScreen setCurrentUser={setCurrentUser} setModalContent={setModalContent} currentUser={currentUser} selectedLocation={selectedLocation} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
             case 'error': 
                 return <ErrorMsg setModalVisible={setModalVisible}/>
         }
-        // if (modalContent === 'comment') {
-        //     return <CommentForm setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible}/>
-        // } else if (modalContent === 'pay') {
-        //     return <PayOptions currentUser={currentUser} selectedLocation={selectedLocation} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
-        // }
     }
 
-    console.log(modalContent)
     return (
         <Modal1
                     animationType="slide"
