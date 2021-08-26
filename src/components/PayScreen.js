@@ -67,6 +67,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             },
             body: JSON.stringify({
                 currency: 'usd',
+                location_id: selectedLocation.id,
             }),
             });
             const {clientSecret} = await response.json();
