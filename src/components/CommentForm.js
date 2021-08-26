@@ -8,7 +8,7 @@ import { BASE_URL } from '@env'
 
 
 
-function CommentForm ( {currentUser, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
+function CommentForm ( {currentUser, setCommentCount, commentCount, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
 
     const [ios, setIos] = useState(Platform.OS === 'ios')
     const [errors, setErrors] = useState("")
@@ -112,6 +112,7 @@ function CommentForm ( {currentUser, comments, setComments, selectedLocation, se
                     setErrors(newComment.errors)
                 } else {
                     setComments([...comments, newComment])}
+                    setCommentCount(commentCount + 1)
                 }
             )
         setModalVisible(!modalVisible)

@@ -9,6 +9,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Rating } from 'react-native-ratings';
 import { MaterialIcons } from '@expo/vector-icons';
 import { BASE_URL } from '@env'
+import { cos } from 'react-native-reanimated'
 
 function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, commented, modalContent, favoriteLocIds, setFavoriteLocIds, setModalContent, modalVisible, currentUser, comments, setComments, setModalVisible, setSelectedLocation, selectedLocation}) {
 
@@ -115,14 +116,34 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
             return <CommentItem key={comment.id} comment={comment}/>
     })
 
-    const averageRating = () => {
+    // const sumObj  = ( obj ) => {
+    //     var sum = 0;
+    //     for( var el in obj ) {
+    //         if ( obj.hasOwnProperty( el ) ) {
+    //             sum += parseFloat( obj[el] );
+    //         }
+    //     }
 
-        if (avgRating > 0) {
-            // let totalNumber = comments.reduce( (a, b) => ({rating: a.rating + b.rating}))
-            // console.log(comments)
-            // let averageNumber = (totalNumber / comments.length)
-            return avgRating
-        } else if (avgRating = 0) {
+    //     return sum;
+    // }
+
+    // const sumObj = ( obj ) => {
+    //     let sum = obj.reduce(function (total, currentvalue) {
+    //         return total + currentValue.rating
+    //     })
+    //     return sum
+    // }
+
+    const averageRating = () => {
+        var sumObj = comments.reduce(function (total, currentValue) {
+                return total + currentValue.rating;
+            }, 0);
+            console.log(sumObj)
+        if (sumObj > 0) {
+            
+            let avgNumb = parseFloat(sumObj / comments.length)
+            return avgNumb
+        } else if (sumObj === 0) {
             // This is what the db returns when there are no reviews yet
             return 'No reviews yet'
         }
@@ -133,7 +154,7 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
 
     const RatingComp = () => {
         switch (true) {
-            case (avgRating > 0):
+            case (comments.length > 0):
                 return (
                     <>
                         <Text>{averageRating()}</Text>
@@ -141,7 +162,7 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
                         <Text> ({commentCount})</Text>
                     </>
                 )
-            case (avgRating == 0): 
+            case (comments.length === 0): 
                     return (
                         <Text>No Reviews yet</Text>
                     )

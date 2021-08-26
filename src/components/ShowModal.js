@@ -11,7 +11,7 @@ import ErrorMsg from './ErrorMsg'
 
 
 
-function ShowModal ({offset, setOffset, modalContent, commentCount, setModalContent, currentUser, setCurrentUser, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
+function ShowModal ({offset, setOffset, modalContent, commentCount, setCommentCount, setModalContent, currentUser, setCurrentUser, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
 
     const [orderToken, setOrderToken] = useState()
     const [showGateway, setShowGateway] = useState(false)
@@ -39,13 +39,13 @@ function ShowModal ({offset, setOffset, modalContent, commentCount, setModalCont
     const ConditionalComponent = () => {
         switch (modalContent) {
             case 'comment':
-                return <CommentForm setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible}/>
+                return <CommentForm setCommentCount={setCommentCount} commentCount={commentCount} setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible}/>
             case 'pay':
                 return <PayOptions orderToken={orderToken} setOrderToken={setOrderToken} setModalContent={setModalContent} currentUser={currentUser} selectedLocation={selectedLocation} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
             case 'receipt':
                 return <Receipt comments={comments} currentUser={currentUser} setModalContent={setModalContent} selectedLocation={selectedLocation} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
             case 'discover':
-                return <WebComp headerText='Discover' setModalVisible={setModalVisible} setProgClr={setProgClr} progClr={progClr} uri={locationUrl} showGateway={true} setShowGateway={setShowGateway} setProg={setProg} prog={prog}/>
+                return <WebComp headerText='Discover' setModalVisible={setModalVisible} setProgClr={setProgClr} progClr={progClr} uri={selectedLocation.marketing_link} showGateway={true} setShowGateway={setShowGateway} setProg={setProg} prog={prog}/>
             case 'comment list': 
                 return <CommentList commentCount={commentCount} selectedLocation={selectedLocation} setComments={setComments} comments={comments} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
             case 'money':
