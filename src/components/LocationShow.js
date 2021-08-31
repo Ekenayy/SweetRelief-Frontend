@@ -138,7 +138,6 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
         var sumObj = comments.reduce(function (total, currentValue) {
                 return total + currentValue.rating;
             }, 0);
-            console.log(sumObj)
         if (sumObj > 0) {
             
             let avgNumb = parseFloat(sumObj / comments.length)

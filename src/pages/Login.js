@@ -10,7 +10,7 @@ function Login ( {navigation, currentUser, setCurrentUser}) {
 
     const {register, handleSubmit, setValue} = useForm()
     const [errors, setErrors] = useState("")
-    const [attempts, setAttempts] = useState(3)
+    const [attempts, setAttempts] = useState(0)
 
     useEffect(() => {
         register('email')

@@ -1,6 +1,6 @@
 import React, {useRef, useState, useEffect} from 'react' 
 import styled from 'styled-components'
-import { Text, DarkText, Wrapper, Span, H2, CloseView, PurpButton, CloseText} from '../styles/Styles'
+import { Text, DarkText, Wrapper, Span, H2, CloseView, PurpButton, ErrorSpan, CloseText} from '../styles/Styles'
 import { Foundation } from '@expo/vector-icons';
 import { CardField, useStripe, CardForm } from '@stripe/stripe-react-native';
 import {View} from 'react-native'
@@ -9,8 +9,10 @@ import { BASE_URL } from '@env'
 
 function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible, setCurrentUser, currentUser, selectedLocation} ) {
 
-    const { confirmPayment } = useStripe();
-    const [error, setError] = useState('') 
+    const { confirmPayment, loading } = useStripe();
+    const [errors, setErrors] = useState('')
+    const [saveCard, setSaveCard] = useState(true)
+    const [localUser, setLocalUser] = useState(currentUser)
 
     const CardView = styled.View`
     `
@@ -32,6 +34,12 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     const TitleText = styled(DarkText)`
         font-size: 24px;
     `
+
+    const PayButton = styled(PurpButton)`
+        width: 70%;
+        border-radius: 10px;
+    `
+
     useEffect(() => {
         // If the user doesn't have a stripe_id, then send a request to make an account
         // If they do then don't do anything.
@@ -52,15 +60,16 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             .then(data =>{ 
                 // console.log(data)
                 if (data.error) {
-                    setError(data.error)
+                    setErrors([data.error])
                 } else {
-                    setCurrentUser(data)
+                    setLocalUser(data)
                 }
             })
     }
 
+    // console.log(selectedLocation.stripe_plan_name)
     const fetchPaymentIntentClientSecret = async () => {
-        const response = await fetch(`${API_URL}/create_payment_intent`, {
+        const response = await fetch(`${BASE_URL}/create_payment_intent`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -68,23 +77,46 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             body: JSON.stringify({
                 currency: 'usd',
                 location_id: selectedLocation.id,
+                user_id: currentUser.id,
+                save_card: saveCard,
+                // Here I should be sending over a stipe_plan_id
             }),
             });
+
             const {clientSecret} = await response.json();
         
-            return clientSecret;
+            return clientSecret.seret;
         };
 
     const handlePayPress = async () => {
+
+        let details = {
+            email: currentUser.email
+        }
         
         const clientSecret = await fetchPaymentIntentClientSecret();
+
+        const { paymentIntent, error } = await confirmPayment(clientSecret, {
+            type: 'Card',
+            billingDetails: details,
+            setupFutureUsage: 'OnSession',
+        });
+        if (error) {
+            console.log('Payment confirmation error', error);
+        } else if (paymentIntent) {
+            console.log('Success from promise', paymentIntent);
+        }
     }
 
+    const handleClose = () => {
+        setCurrentUser(localUser)
+        setModalVisible(false)
+    }
 
     return (
         <ModalHolder>
             <ModalForm>
-                <CloseView onPress={() => setModalVisible(false)}>
+                <CloseView onPress={handleClose}>
                     <CloseText>❌</CloseText>
                 </CloseView>
                 <TitleText>Payment information</TitleText>
@@ -110,9 +142,10 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                         }}
                         // onBlur={(obj) => console.log(obj)}
                     />
-                    <PurpButton>
-                        <Span>Pay</Span>
-                    </PurpButton>
+                    {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
+                    <PayButton onPress={handlePayPress}>
+                        <Span>Pay ${selectedLocation.price_cents}</Span>
+                    </PayButton>
             </ModalForm>
         </ModalHolder>
     )
