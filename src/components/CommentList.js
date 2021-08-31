@@ -14,7 +14,7 @@ function CommentList ( {selectedLocation, comments, commentCount, setComments, s
     
 
     const renderComment = ( {item} ) => {
-        return <CommentItem inModal={true} comment={item} />
+        return <CommentItem key={item.id} inModal={true} comment={item} />
     }
 
     const Form = styled(ModalForm)`
@@ -64,6 +64,9 @@ function CommentList ( {selectedLocation, comments, commentCount, setComments, s
         }
     }
 
+    const handleClear = () => {
+    }
+
     return (
         <ModalHolder>
             <Form>
@@ -75,7 +78,7 @@ function CommentList ( {selectedLocation, comments, commentCount, setComments, s
                         data={localComments}
                         // extraData={comments}
                         renderItem={renderComment}
-                        style={{ flex: 1 }}
+                        style={{ flex: 1, minWidth: '100%' }}
                         keyExtractor={(item) => item.id.toString()}
                         initialNumToRender={5}
                         showsVerticalScrollIndicator={false}

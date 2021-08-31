@@ -9,7 +9,7 @@ function CommentItem ( {comment, inModal}) {
         borderBottomWidth:  ${props => props.inModal ? '0px' : '.25px'}
         border-color: ${props => props.inModal ? '#1C1C1C' : '#F7F8F3'}
         margin-top: 10px;
-        width: 100%;
+        min-width: 100%;
     `
 
     const AuthorDetails = styled.View`
@@ -27,6 +27,7 @@ function CommentItem ( {comment, inModal}) {
     const TextView = styled.View`
         margin-top: 10px;
         padding-bottom: 15px;
+        max-width: 95%
     `
 
     const Text = styled.Text`

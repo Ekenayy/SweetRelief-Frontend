@@ -8,7 +8,7 @@ import { BASE_URL } from '@env'
 
 
 
-function CommentForm ( {currentUser, setCommentCount, commentCount, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
+function CommentForm ( {avgRating, setAvgRating, currentUser, setCommentCount, commentCount, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
 
     const [ios, setIos] = useState(Platform.OS === 'ios')
     const [errors, setErrors] = useState("")
@@ -111,7 +111,9 @@ function CommentForm ( {currentUser, setCommentCount, commentCount, comments, se
                 if (newComment.errors) {
                     setErrors(newComment.errors)
                 } else {
-                    setComments([...comments, newComment])}
+                    console.log(newComment)
+                    setComments([newComment.comment, ...comments])}
+                    setAvgRating(newComment.average_rating)
                     setCommentCount(commentCount + 1)
                 }
             )

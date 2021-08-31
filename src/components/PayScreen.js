@@ -109,6 +109,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     }
 
     const handleClose = () => {
+        // If the user hasn't changed it well setCurrentUser to the same object
         setCurrentUser(localUser)
         setModalVisible(false)
     }

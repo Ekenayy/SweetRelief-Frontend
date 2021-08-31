@@ -11,7 +11,7 @@ import ErrorMsg from './ErrorMsg'
 
 
 
-function ShowModal ({offset, setOffset, modalContent, commentCount, setCommentCount, setModalContent, currentUser, setCurrentUser, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
+function ShowModal ({avgRating, setAvgRating, modalContent, commentCount, setCommentCount, setModalContent, currentUser, setCurrentUser, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
 
     const [orderToken, setOrderToken] = useState()
     const [showGateway, setShowGateway] = useState(false)
@@ -39,7 +39,7 @@ function ShowModal ({offset, setOffset, modalContent, commentCount, setCommentCo
     const ConditionalComponent = () => {
         switch (modalContent) {
             case 'comment':
-                return <CommentForm setCommentCount={setCommentCount} commentCount={commentCount} setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible}/>
+                return <CommentForm avgRating={avgRating} setAvgRating={setAvgRating} setCommentCount={setCommentCount} commentCount={commentCount} setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible}/>
             case 'pay':
                 return <PayOptions orderToken={orderToken} setOrderToken={setOrderToken} setModalContent={setModalContent} currentUser={currentUser} selectedLocation={selectedLocation} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
             case 'receipt':

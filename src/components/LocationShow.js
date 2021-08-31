@@ -138,6 +138,7 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
         var sumObj = comments.reduce(function (total, currentValue) {
                 return total + currentValue.rating;
             }, 0);
+            console.log(sumObj, comments.length, avgRating)
         if (sumObj > 0) {
             
             let avgNumb = parseFloat(sumObj / comments.length)
@@ -156,7 +157,7 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
             case (comments.length > 0):
                 return (
                     <>
-                        <Text>{averageRating()}</Text>
+                        <Text>{avgRating}</Text>
                             <AntDesign name="heart" size={14} color="#FF7070" style={{marginLeft: 6, marginRight: 6}} /> 
                         <Text> ({commentCount})</Text>
                     </>
@@ -240,7 +241,7 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
                         <RatingView>
                             {comments.length ? 
                             <> 
-                                <SectionTitle>{`${averageRating()} / 5`}</SectionTitle>
+                                <SectionTitle>{`${avgRating} / 5`}</SectionTitle>
                                 <AntDesign name="heart" size={18} color="#FF7070" style={{marginLeft: 5}} />  
                             </> : 
                             <SectionTitle>No reviews yet</SectionTitle>}
