@@ -10,10 +10,12 @@ import { Rating } from 'react-native-ratings';
 import { MaterialIcons } from '@expo/vector-icons';
 import { BASE_URL } from '@env'
 import { cos } from 'react-native-reanimated'
+import uuid from 'react-native-uuid';
+
 
 function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, commented, modalContent, favoriteLocIds, setFavoriteLocIds, setModalContent, modalVisible, currentUser, comments, setComments, setModalVisible, setSelectedLocation, selectedLocation}) {
 
-    const {name, address, locType, free, walkTime, distance, baby_changing_station, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
+    const {name, address, promotions, locType, free, walkTime, distance, baby_changing_station, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
     const {locations} = React.useContext(LocationContext)
     const [contextLocations, setContextLocations] = locations
 
@@ -109,6 +111,14 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
         padding-right: 15px;
     `
 
+    const AttrView = styled.View`
+        flex-direction: row;
+        padding-right: 5px;
+    `
+
+    const AttrText = styled(Text)`
+        margin-right: 7px;
+    `
     const gotComments = comments.length > 0
 
     const AllComments = () => 
@@ -116,23 +126,6 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
             return <CommentItem key={comment.id} comment={comment}/>
     })
 
-    // const sumObj  = ( obj ) => {
-    //     var sum = 0;
-    //     for( var el in obj ) {
-    //         if ( obj.hasOwnProperty( el ) ) {
-    //             sum += parseFloat( obj[el] );
-    //         }
-    //     }
-
-    //     return sum;
-    // }
-
-    // const sumObj = ( obj ) => {
-    //     let sum = obj.reduce(function (total, currentvalue) {
-    //         return total + currentValue.rating
-    //     })
-    //     return sum
-    // }
 
     const averageRating = () => {
         var sumObj = comments.reduce(function (total, currentValue) {
@@ -171,6 +164,10 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
         }
     }
 
+    const allPromotions = promotions.map(prom => {
+        return <DetailsText key={uuid.v4()}>{prom}</DetailsText>
+    })
+
     const handleClear = () => {
         setFavoriteLocIds(localLocIds)
         setAvgRating(null)
@@ -204,12 +201,12 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
                     <Text>  *  </Text>
                     <Text>{`${distance} mi`}</Text>
                 </RatingView>
-                <RatingView>
-                    {free ? <Text>Free</Text> : null}
-                    {unisex ? <Text>Gender neutral</Text> : null}
-                    {wheelchair_accessible ? <Text>Wheelchair accessible</Text> : null}
-                    {baby_changing_station ? <Text>Changing station</Text> : null}
-                </RatingView>
+                <AttrView>
+                    {free ? <AttrText>Free</AttrText> : null}
+                    {unisex ? <AttrText>Gender neutral</AttrText> : null}
+                    {wheelchair_accessible ? <AttrText>Wheelchair accessible</AttrText> : null}
+                    {baby_changing_station ? <AttrText>Changing station</AttrText> : null}
+                </AttrView>
             </HeaderView>
             <ShowBar commented={commented} handleIconPress={handleButtonPress} localLocIds={localLocIds} setLocalLocIds={setLocalLocIds} currentUser={currentUser} comments={comments} selectedLocation={selectedLocation}/>
             <ShowScroll
@@ -227,14 +224,21 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
                     </DetailsWrapper>
                 </SectionWrapper>
                 <SectionWrapper>
-                    <SectionTitle>
-                    Overview
-                    </SectionTitle>
+                    <SectionTitle>Overview</SectionTitle>
                     <DetailsWrapper>
                         <DetailsText>A deep menu of Indian dishes served in a classic setting delivery available</DetailsText>
                         <DetailsText>{address}</DetailsText>
                     </DetailsWrapper>
                 </SectionWrapper>
+                {promotions.length ? 
+                    <SectionWrapper>
+                        <SectionTitle>Promotions</SectionTitle>
+                        <DetailsWrapper>
+                            {allPromotions}
+                        </DetailsWrapper>
+                    </SectionWrapper> 
+                    : null
+                }
                 <SectionWrapper>
                     <HeaderWrapper>
                         <SectionTitle>Reviews</SectionTitle>
