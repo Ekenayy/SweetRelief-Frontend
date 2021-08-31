@@ -181,8 +181,6 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
     }
 
     // Figure out how to provide an answer for null attributes (What if we don't know?)
-    // Use the first part for the bathroom details
-    // Use the second part to allow the business to load up their value prop
 
     return (
         <BigWrapper>
@@ -202,7 +200,6 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
                     <Text>{`${distance} mi`}</Text>
                 </RatingView>
                 <AttrView>
-                    {free ? <AttrText>Free</AttrText> : null}
                     {unisex ? <AttrText>Gender neutral</AttrText> : null}
                     {wheelchair_accessible ? <AttrText>Wheelchair accessible</AttrText> : null}
                     {baby_changing_station ? <AttrText>Changing station</AttrText> : null}
@@ -217,10 +214,10 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
             >
                 <SectionWrapper>
                     <SectionTitle>Details</SectionTitle>
-                    <DetailsWrapper>
+                    <DetailsWrapper numberOfLines={1}>
                         <DetailsText>{free ? 'This location is free' : `This location charges $${price_cents}`}</DetailsText>
                         <DetailsText>{key_required ? 'Requires a key' : 'No key needed'}</DetailsText>
-                        <DetailsText>{unisex ? 'Unisex' : 'Gender separated'}</DetailsText>
+                        <DetailsText>{unisex ? 'Gender Neutral' : 'Gender separated'}</DetailsText>
                     </DetailsWrapper>
                 </SectionWrapper>
                 <SectionWrapper>
