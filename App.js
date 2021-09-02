@@ -128,7 +128,7 @@ export default function App() {
   // Should be dependent on Dyno awake
   useEffect(() => {
     if (dynoAwake) {
-      fetch(`${BASE_URL}/locations`)
+      fetch(`${BASE_URL}/active_locations`)
       .then(res => res.json())
       .then(locations => {
         setLocations(locations)

@@ -1,18 +1,19 @@
 import React, {useRef, useState, useEffect} from 'react' 
 import styled from 'styled-components'
 import { Text, DarkText, Wrapper, Span, H2, CloseView, PurpButton, ErrorSpan, CloseText} from '../styles/Styles'
-import { Foundation } from '@expo/vector-icons';
-import { CardField, useStripe, CardForm } from '@stripe/stripe-react-native';
-import {View} from 'react-native'
+import { CardField, useStripe, CardForm, useConfirmPayment } from '@stripe/stripe-react-native';
 import { BASE_URL } from '@env'
 
 
 function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible, setCurrentUser, currentUser, selectedLocation} ) {
 
-    const { confirmPayment, loading } = useStripe();
+    const { confirmPayment, loading } = useConfirmPayment()
+    const cardRef = useRef()
     const [errors, setErrors] = useState('')
     const [saveCard, setSaveCard] = useState(true)
     const [localUser, setLocalUser] = useState(currentUser)
+    const [cardDeets, setCardDeets] = useState({})
+    const [type, setType] = useState('card')
 
     const CardView = styled.View`
     `
@@ -67,7 +68,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             })
     }
 
-    // console.log(selectedLocation.stripe_plan_name)
     const fetchPaymentIntentClientSecret = async () => {
         const response = await fetch(`${BASE_URL}/create_payment_intent`, {
             method: 'POST',
@@ -83,29 +83,37 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             }),
             });
 
-            const {clientSecret} = await response.json();
-        
-            return clientSecret.seret;
+            const {clientSecret} = await response.json()
+            // console.log(clientSecret)
+            return clientSecret;
         };
 
     const handlePayPress = async () => {
-
         let details = {
+            name: currentUser.name,
             email: currentUser.email
         }
         
-        const clientSecret = await fetchPaymentIntentClientSecret();
+        try {
+            const clientSecret = await fetchPaymentIntentClientSecret();
+            
+            console.log(clientSecret)
+                const {paymentIntent, error} = await confirmPayment(clientSecret, {
+                    type: 'Card',
+                    billingDetails: details,
+                    setupFutureUsage: 'OnSession',
+                });
+        
+                if (error) {
+                    console.log('Payment confirmation error', error, `Error code ${error.code}`);
+                } else if (paymentIntent) {
+                    console.log('Success from promise', paymentIntent);
+                }
 
-        const { paymentIntent, error } = await confirmPayment(clientSecret, {
-            type: 'Card',
-            billingDetails: details,
-            setupFutureUsage: 'OnSession',
-        });
-        if (error) {
-            console.log('Payment confirmation error', error);
-        } else if (paymentIntent) {
-            console.log('Success from promise', paymentIntent);
+        } catch(e) {
+            console.log(e)
         }
+
     }
 
     const handleClose = () => {
@@ -122,6 +130,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                 </CloseView>
                 <TitleText>Payment information</TitleText>
                     <CardField
+                        // ref={cardRef}
                         postalCodeEnabled={true}
                         placeholder={{
                         number: '4242 4242 4242 4242',
@@ -135,16 +144,17 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                             height: 70,
                             marginVertical: 30,
                         }}
-                        onCardChange={(cardDetails) => {
-                            console.log('cardDetails', cardDetails);
-                        }}
+                        // onCardChange={(cardDetails) => {
+                        //     console.log('cardDetails', cardDetails);
+                        //     // setCardDeets({...cardDeets, cardDetails})
+                        // }}
                         onFocus={(focusedField) => {
                             console.log('focusField', focusedField);
                         }}
                         // onBlur={(obj) => console.log(obj)}
                     />
                     {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
-                    <PayButton onPress={handlePayPress}>
+                    <PayButton onPress={handlePayPress} disabled={loading}>
                         <Span>Pay ${selectedLocation.price_cents}</Span>
                     </PayButton>
             </ModalForm>
