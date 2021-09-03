@@ -1,8 +1,9 @@
 import React, {useRef, useState, useEffect} from 'react' 
 import styled from 'styled-components'
 import { Text, DarkText, Wrapper, Span, H2, CloseView, PurpButton, ErrorSpan, CloseText} from '../styles/Styles'
-import { CardField, useStripe, CardForm, useConfirmPayment } from '@stripe/stripe-react-native';
+import { CardField, useStripe, useConfirmPayment } from '@stripe/stripe-react-native';
 import { BASE_URL } from '@env'
+import {Alert, Button} from 'react-native'
 
 
 function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible, setCurrentUser, currentUser, selectedLocation} ) {
@@ -12,11 +13,13 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     const [errors, setErrors] = useState('')
     const [saveCard, setSaveCard] = useState(true)
     const [localUser, setLocalUser] = useState(currentUser)
-    const [cardDeets, setCardDeets] = useState({})
+    const [cardDetails, setCardDetails] = useState()
     const [type, setType] = useState('card')
 
     const CardView = styled.View`
     `
+
+    let cardDeets
 
     const ModalHolder = styled.View`
         flex: 1;
@@ -74,46 +77,52 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                currency: 'usd',
-                location_id: selectedLocation.id,
-                user_id: currentUser.id,
-                save_card: saveCard,
-                // Here I should be sending over a stipe_plan_id
-            }),
+            // body: JSON.stringify({
+            //     currency: 'usd',
+            //     location_id: selectedLocation.id,
+            //     user_id: currentUser.id,
+            //     save_card: saveCard,
+            // }),
             });
 
-            const {clientSecret} = await response.json()
-            // console.log(clientSecret)
-            return clientSecret;
+            const {clientSecret, error} = await response.json()
+            return {clientSecret, error}
         };
 
     const handlePayPress = async () => {
-        let details = {
-            name: currentUser.name,
-            email: currentUser.email
+        if (!cardDeets?.complete || !currentUser.email) {
+            Alert.alert('Please enter card details')
+            return;
         }
+
+        const billingDetails = {
+            // name: currentUser.name,
+            email: 'test@stripe.com'
+        }
+
         
         try {
-            const clientSecret = await fetchPaymentIntentClientSecret();
-            
-            console.log(clientSecret)
+            const {clientSecret, error} = await fetchPaymentIntentClientSecret()
+
+            if (error) {
+                console.log(error)
+            } else {
                 const {paymentIntent, error} = await confirmPayment(clientSecret, {
                     type: 'Card',
-                    billingDetails: details,
-                    setupFutureUsage: 'OnSession',
-                });
-        
-                if (error) {
-                    console.log('Payment confirmation error', error, `Error code ${error.code}`);
-                } else if (paymentIntent) {
-                    console.log('Success from promise', paymentIntent);
-                }
+                    billingDetails: billingDetails
+                })
 
-        } catch(e) {
+                if (error) {
+                    Alert.alert(`Error message: ${error.message}`)
+                    console.log(error.message)
+                } else if (paymentIntent) {
+                    Alert.alert('Payment Successful')
+                    console.log('success', paymentIntent)
+                }
+            }
+        } catch (e) {   
             console.log(e)
         }
-
     }
 
     const handleClose = () => {
@@ -130,10 +139,9 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                 </CloseView>
                 <TitleText>Payment information</TitleText>
                     <CardField
-                        // ref={cardRef}
                         postalCodeEnabled={true}
                         placeholder={{
-                        number: '4242 4242 4242 4242',
+                            number: '4242 4242 4242 4242',
                         }}
                         cardStyle={{
                             backgroundColor: '#191818',
@@ -144,19 +152,18 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                             height: 70,
                             marginVertical: 30,
                         }}
-                        // onCardChange={(cardDetails) => {
-                        //     console.log('cardDetails', cardDetails);
-                        //     // setCardDeets({...cardDeets, cardDetails})
-                        // }}
-                        onFocus={(focusedField) => {
-                            console.log('focusField', focusedField);
+                        onCardChange={(cardStuff) => {
+                            cardDeets = cardStuff
                         }}
+                        // onFocus={(focusedField) => {
+                        //     console.log('focusField', focusedField);
+                        // }}
                         // onBlur={(obj) => console.log(obj)}
                     />
                     {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
-                    <PayButton onPress={handlePayPress} disabled={loading}>
-                        <Span>Pay ${selectedLocation.price_cents}</Span>
-                    </PayButton>
+                    <Button onPress={handlePayPress} disabled={loading} title={`Pay $${selectedLocation.price_cents}`}>
+                        {/* <Span>Pay ${selectedLocation.price_cents}</Span> */}
+                    </Button>
             </ModalForm>
         </ModalHolder>
     )

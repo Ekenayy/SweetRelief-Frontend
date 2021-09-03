@@ -170,7 +170,6 @@ export default function App() {
     // setSorted(true)
   };
 
-  console.log(BASE_URL)
 if (isLoading && !tokenSearched) {
   return <SplashScreen />
 } 
