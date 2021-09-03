@@ -145,29 +145,6 @@ export default function App() {
         }
   }, [locations, userLocation])
 
-//   const fetchKey = async () => {
-//     const response = await fetch(`${BASE_URL}/test_key`)
-
-//     const { publishableKey } = await response.json()
-
-//     return publishableKey
-//   }
-
-// console.log(pubKey)
-//   useEffect(() => {
-//     async function initialize() {
-//       const fetchedKey = await fetchKey()
-//       if (fetchedKey) {
-//         setPubKey(fetchedKey.pub_key)
-//         await initStripe({
-//           publishableKey: fetchedKey.pub_key
-//         })
-//       }
-//     }
-
-//     initialize()
-//   }, [!pubKey])
-
   const sortByDistance = (locations) => {
     let newLocations = [];
 
@@ -193,15 +170,7 @@ export default function App() {
     // setSorted(true)
   };
 
-  // useEffect(() => {
-  //   initStripe({
-  //     publishableKey: STRIPE_TEST_KEY,
-  //     // merchantIdentifier: 'merchant.identifier',
-  //   });
-  // }, []);
-
-
-
+  console.log(BASE_URL)
 if (isLoading && !tokenSearched) {
   return <SplashScreen />
 } 

@@ -148,20 +148,20 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
         )
     }
 
-    const last5Orders = orders.map((order) => {
-        return <PaymentOrder key={order.id} modalVisible={modalVisible} setModalVisible={setModalVisible} setChosenOrder={setChosenOrder} chosenOrder={chosenOrder} order={order}/>
-    })
+    // const last5Orders = orders.map((order) => {
+    //     return <PaymentOrder key={order.id} modalVisible={modalVisible} setModalVisible={setModalVisible} setChosenOrder={setChosenOrder} chosenOrder={chosenOrder} order={order}/>
+    // })
 
-    const PastOrders = () => {
-        return (
-            <>
-                <Title>Recent Orders</Title>
-                <AllInfoView>
-                    {last5Orders}
-                </AllInfoView>
-            </>
-        )
-    }
+    // const PastOrders = () => {
+    //     return (
+    //         <>
+    //             <Title>Recent Orders</Title>
+    //             <AllInfoView>
+    //                 {last5Orders}
+    //             </AllInfoView>
+    //         </>
+    //     )
+    // }
 
     const EditInfo = () => {
         return (
