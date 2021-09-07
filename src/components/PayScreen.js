@@ -2,9 +2,9 @@ import React, {useRef, useState, useEffect} from 'react'
 import styled from 'styled-components'
 import { Text, DarkText, Wrapper, Span, H2, CloseView, PurpButton, ErrorSpan, CloseText} from '../styles/Styles'
 import { CardField, useStripe, useConfirmPayment } from '@stripe/stripe-react-native';
-import { BASE_URL } from '@env'
-import {Alert, Button} from 'react-native'
-
+import { BASE_URL, STRIPE_TEST_KEY } from '@env'
+import {Alert, Button, View, StyleSheet} from 'react-native'
+import { initStripe } from '@stripe/stripe-react-native';
 
 function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible, setCurrentUser, currentUser, selectedLocation} ) {
 
@@ -15,9 +15,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     const [localUser, setLocalUser] = useState(currentUser)
     const [cardDetails, setCardDetails] = useState()
     const [type, setType] = useState('card')
-
-    const CardView = styled.View`
-    `
 
     let cardDeets
 
@@ -104,17 +101,19 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         try {
             const {clientSecret, error} = await fetchPaymentIntentClientSecret()
 
+            console.log(clientSecret)
             if (error) {
                 console.log(error)
             } else {
                 const {paymentIntent, error} = await confirmPayment(clientSecret, {
                     type: 'Card',
-                    billingDetails: billingDetails
+                    billingDetails: billingDetails,
+                    // cardDetails: cardDeets
                 })
 
                 if (error) {
-                    Alert.alert(`Error message: ${error.message}`)
-                    console.log(error.message)
+                    Alert.alert(`Error message: ${error.message} `)
+                    console.log(error.message, error)
                 } else if (paymentIntent) {
                     Alert.alert('Payment Successful')
                     console.log('success', paymentIntent)
@@ -131,9 +130,19 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         setModalVisible(false)
     }
 
+    useEffect(() => {
+        async function initialize() {
+            console.log('starting initailizing ')
+            await initStripe({
+                publishableKey: STRIPE_TEST_KEY,
+            });
+            }
+        initialize().catch(console.error);
+    }, []);
+
     return (
-        <ModalHolder>
-            <ModalForm>
+        <View style={styles.modalHolder}>
+            <View style={styles.modalForm}> 
                 <CloseView onPress={handleClose}>
                     <CloseText>❌</CloseText>
                 </CloseView>
@@ -164,9 +173,24 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                     <Button onPress={handlePayPress} disabled={loading} title={`Pay $${selectedLocation.price_cents}`}>
                         {/* <Span>Pay ${selectedLocation.price_cents}</Span> */}
                     </Button>
-            </ModalForm>
-        </ModalHolder>
+            </View> 
+        </View>
     )
 }
 
 export default PayScreen
+
+const styles = StyleSheet.create({
+    modalForm: {
+        padding: 10,
+        backgroundColor: '#fff',
+        borderRadius: 20,
+        alignItems: 'center',
+    },
+    modalHolder: {
+        flex: 1,
+        marginTop: 300,
+        width: '90%',
+        alignSelf: 'center'
+    }
+})

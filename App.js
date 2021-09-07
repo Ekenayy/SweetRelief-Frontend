@@ -174,9 +174,6 @@ if (isLoading && !tokenSearched) {
   return <SplashScreen />
 } 
   return (
-    <StripeProvider
-      publishableKey={STRIPE_TEST_KEY}
-    >
       <LocationContext.Provider 
         value={{locations: sortedLocations.length ? [sortedLocations, setSortedLocations] : [locations, setLocations], 
         userLocation: [userLocation, setUserLocation]}}>
@@ -224,8 +221,6 @@ if (isLoading && !tokenSearched) {
           </Body>
       </NavigationContainer>
       </LocationContext.Provider>
-    </StripeProvider>
-
   );
 }
 
