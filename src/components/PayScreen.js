@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Text, DarkText, Wrapper, Span, H2, CloseView, PurpButton, ErrorSpan, CloseText} from '../styles/Styles'
 import { CardField, useStripe, useConfirmPayment } from '@stripe/stripe-react-native';
 import { BASE_URL, STRIPE_TEST_KEY } from '@env'
-import {Alert, Button, View, StyleSheet} from 'react-native'
+import {Alert, Button, View, StyleSheet, TouchableOpacity, Switch, ActivityIndicator} from 'react-native'
 import { initStripe } from '@stripe/stripe-react-native';
 
 function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible, setCurrentUser, currentUser, selectedLocation} ) {
@@ -36,9 +36,20 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         font-size: 24px;
     `
 
-    const PayButton = styled(PurpButton)`
+    const PayButton = styled.TouchableOpacity`
         width: 70%;
-        border-radius: 10px;
+        border-radius: 10px;  
+        align-items: center;
+        border-radius: 20px;
+        align-self: center;
+        background-color: #bea7e5;
+    `
+
+    const SwitchView = styled.View`
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 10px;
+        padding: 5px;
     `
 
     useEffect(() => {
@@ -74,12 +85,12 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             headers: {
                 'Content-Type': 'application/json',
             },
-            // body: JSON.stringify({
-            //     currency: 'usd',
-            //     location_id: selectedLocation.id,
-            //     user_id: currentUser.id,
-            //     save_card: saveCard,
-            // }),
+            body: JSON.stringify({
+                currency: 'usd',
+                location_id: selectedLocation.id,
+                user_id: currentUser.id,
+                save_card: saveCard,
+            }),
             });
 
             const {clientSecret, error} = await response.json()
@@ -160,6 +171,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                             width: '100%',
                             height: 70,
                             marginVertical: 30,
+                            marginBottom: 10,
                         }}
                         onCardChange={(cardStuff) => {
                             cardDeets = cardStuff
@@ -169,10 +181,23 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                         // }}
                         // onBlur={(obj) => console.log(obj)}
                     />
+                    <SwitchView>
+                        <Switch
+                            trackColor={{ false: "#767577", true: "#F4A261" }}
+                            value={saveCard}
+                            onValueChange={() => setSaveCard(!saveCard)}
+                            style={{marginRight: 10}}
+                        />
+                        <DarkText>Save card for future use</DarkText>
+                    </SwitchView>
                     {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
-                    <Button onPress={handlePayPress} disabled={loading} title={`Pay $${selectedLocation.price_cents}`}>
-                        {/* <Span>Pay ${selectedLocation.price_cents}</Span> */}
-                    </Button>
+                    {loading ? 
+                    <PayButton>
+                        <ActivityIndicator size='large' color='#F7F8F3'/>
+                    </PayButton> : 
+                    <PayButton  onPress={handlePayPress} disabled={loading} >
+                        <Span>{`Pay $${selectedLocation.price_cents}`}</Span>
+                    </PayButton>}
             </View> 
         </View>
     )
@@ -192,5 +217,12 @@ const styles = StyleSheet.create({
         marginTop: 300,
         width: '90%',
         alignSelf: 'center'
+    },
+    payButton: {
+        width: '70%',
+        borderRadius: 10,
+        alignItems: 'center',
+        alignSelf: 'center',
+        backgroundColor: '#bea7e5'
     }
 })
