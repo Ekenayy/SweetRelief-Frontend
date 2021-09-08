@@ -9,12 +9,11 @@ import { initStripe } from '@stripe/stripe-react-native';
 function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible, setCurrentUser, currentUser, selectedLocation} ) {
 
     const { confirmPayment, loading } = useConfirmPayment()
-    const cardRef = useRef()
     const [errors, setErrors] = useState('')
     const [saveCard, setSaveCard] = useState(true)
     const [localUser, setLocalUser] = useState(currentUser)
     const [cardDetails, setCardDetails] = useState()
-    const [type, setType] = useState('card')
+    const [hasPayMethod, setHasPayMethod] = useState(false)
 
     let cardDeets
 
@@ -40,7 +39,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         width: 70%;
         border-radius: 10px;  
         align-items: center;
-        border-radius: 20px;
+        border-radius: 10px;
         align-self: center;
         background-color: #bea7e5;
     `
@@ -58,9 +57,17 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         if (!currentUser.stripe_user_id) {
             createAccount()
         } else {
+            fetch(`${BASE_URL}/user_payment_methods/${currentUser.id}`)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.blank || data.error) {
+                        console.log(data)
+                    } else {
+                        setHasPayMethod(true)
+                    }
+                })
             // console.log(stripe_user_id)
         }
-
     }, [])
 
     const createAccount = () => {
@@ -143,7 +150,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
 
     useEffect(() => {
         async function initialize() {
-            console.log('starting initailizing ')
             await initStripe({
                 publishableKey: STRIPE_TEST_KEY,
             });
