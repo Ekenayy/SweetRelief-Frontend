@@ -44,6 +44,10 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         background-color: #bea7e5;
     `
 
+    const SubButton = styled(PayButton)`
+        background-color: #F4A261
+    `
+
     const SwitchView = styled.View`
         flex-direction: row;
         align-items: center;
@@ -66,7 +70,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                         setHasPayMethod(true)
                     }
                 })
-            // console.log(stripe_user_id)
         }
     }, [])
 
@@ -111,8 +114,8 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         }
 
         const billingDetails = {
-            // name: currentUser.name,
-            email: 'test@stripe.com'
+            name: currentUser.name,
+            email: currentUser.email
         }
 
         
@@ -146,6 +149,24 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         // If the user hasn't changed it well setCurrentUser to the same object
         setCurrentUser(localUser)
         setModalVisible(false)
+    }
+
+    // These two buttons will call different functions
+    const ConditionalButton = () => {
+        switch (hasPayMethod) {
+            case true:
+                return (
+                    <PayButton onPress={handlePayPress} disabled={loading}>
+                        {loading ? <ActivityIndicator size='large' color='#F7F8F3'/> : <Span>{`Pay $${selectedLocation.price_cents}`}</Span>}
+                    </PayButton>
+                )
+            case false:
+                return (
+                    <SubButton onPress={handlePayPress} disabled={loading}>
+                        {loading ? <ActivityIndicator size='large' color='#F7F8F3'/> : <Span>{`Pay $${selectedLocation.price_cents}`}</Span>}
+                    </SubButton>
+                )
+        }
     }
 
     useEffect(() => {
@@ -182,10 +203,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                         onCardChange={(cardStuff) => {
                             cardDeets = cardStuff
                         }}
-                        // onFocus={(focusedField) => {
-                        //     console.log('focusField', focusedField);
-                        // }}
-                        // onBlur={(obj) => console.log(obj)}
                     />
                     <SwitchView>
                         <Switch
@@ -197,13 +214,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                         <DarkText>Save card for future use</DarkText>
                     </SwitchView>
                     {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
-                    {loading ? 
-                    <PayButton>
-                        <ActivityIndicator size='large' color='#F7F8F3'/>
-                    </PayButton> : 
-                    <PayButton  onPress={handlePayPress} disabled={loading} >
-                        <Span>{`Pay $${selectedLocation.price_cents}`}</Span>
-                    </PayButton>}
+                    <ConditionalButton/>
             </View> 
         </View>
     )
