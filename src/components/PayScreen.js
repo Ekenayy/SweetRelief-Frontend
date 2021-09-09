@@ -61,7 +61,9 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     const CardView = styled.TouchableOpacity`
         flex-direction: row;
         margin-bottom: 5px;
-        min-width: 80%;
+        min-width: 90%;
+        margin-top: 10px;
+        margin-bottom: 10px;
     `
 
     const CardText = styled(DarkText)`
@@ -110,28 +112,36 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     }
 
     const fetchPaymentIntentClientSecret = async () => {
+
+        let formBody = {
+            currency: 'usd',
+            location_id: selectedLocation.id,
+            user_id: currentUser.id,
+            save_card: saveCard,
+        }
+
+        if (hasPayMethod) {
+            formBody.selectedMethod = payMethods[0].id
+        }
+
         const response = await fetch(`${BASE_URL}/create_payment_intent`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                currency: 'usd',
-                location_id: selectedLocation.id,
-                user_id: currentUser.id,
-                save_card: saveCard,
-            }),
-            });
+            body: JSON.stringify(formBody),
+        });
 
             const {clientSecret, error} = await response.json()
             return {clientSecret, error}
         };
 
-    const handlePayPress = async () => {
-        if (!cardDeets?.complete || !currentUser.email) {
-            Alert.alert('Please enter card details')
-            return;
-        }
+        // console.log(payMethods[0].id)
+    const handleSavedCardPay = async () => {
+        triggerPaySequence()
+    }
+
+    const triggerPaySequence = async () => {
 
         const billingDetails = {
             name: currentUser.name,
@@ -154,7 +164,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
 
                 if (error) {
                     Alert.alert(`Error message: ${error.message} `)
-                    console.log(error.message, error)
+                    console.log('Error message', error.message, error)
                 } else if (paymentIntent) {
                     Alert.alert('Payment Successful')
                     console.log('success', paymentIntent)
@@ -164,6 +174,47 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         } catch (e) {   
             console.log(e)
         }
+    }
+
+    const handleNewCardPay = async () => {
+        if (!cardDeets?.complete || !currentUser.email) {
+            Alert.alert('Please enter card details')
+            return;
+        }
+
+        triggerPaySequence()
+
+        // const billingDetails = {
+        //     name: currentUser.name,
+        //     email: currentUser.email
+        // }
+
+        
+        // try {
+        //     const {clientSecret, error} = await fetchPaymentIntentClientSecret()
+
+        //     console.log(clientSecret)
+        //     if (error) {
+        //         console.log(error)
+        //     } else {
+        //         const {paymentIntent, error} = await confirmPayment(clientSecret, {
+        //             type: 'Card',
+        //             billingDetails: billingDetails,
+        //             // cardDetails: cardDeets
+        //         })
+
+        //         if (error) {
+        //             Alert.alert(`Error message: ${error.message} `)
+        //             console.log(error.message, error)
+        //         } else if (paymentIntent) {
+        //             Alert.alert('Payment Successful')
+        //             console.log('success', paymentIntent)
+        //             setModalVisible(!modalVisible)
+        //         }
+        //     }
+        // } catch (e) {   
+        //     console.log(e)
+        // }
     }
 
     const handleClose = () => {
@@ -178,13 +229,13 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         switch (hasPayMethod) {
             case true:
                 return (
-                    <PayButton onPress={handlePayPress} disabled={loading}>
+                    <PayButton onPress={handleSavedCardPay} disabled={loading}>
                         {loading ? <ActivityIndicator size='large' color='#F7F8F3'/> : <Span>{`Pay $${selectedLocation.price_cents}`}</Span>}
                     </PayButton>
                 )
             case false:
                 return (
-                    <SubButton onPress={handlePayPress} disabled={loading}>
+                    <SubButton onPress={handleNewCardPay} disabled={loading}>
                         {loading ? <ActivityIndicator size='large' color='#F7F8F3'/> : <Span>{`Pay $${selectedLocation.price_cents}`}</Span>}
                     </SubButton>
                 )
