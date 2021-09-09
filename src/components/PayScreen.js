@@ -11,6 +11,7 @@ import { convertSpeed } from 'geolib';
 function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible, setCurrentUser, currentUser, selectedLocation} ) {
 
     const { confirmPayment, loading } = useConfirmPayment()
+    const {createPaymentMethod } = useStripe()
     const [errors, setErrors] = useState('')
     const [saveCard, setSaveCard] = useState(true)
     const [localUser, setLocalUser] = useState(currentUser)
@@ -85,7 +86,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                 .then(r => r.json())
                 .then(data => {
                     if (data.blank || data.error) {
-                        console.log(data)
                         setIsLoaded(true)
                     } else {
                         setHasPayMethod(true)
@@ -103,7 +103,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         })
             .then( r => r.json())
             .then(data =>{ 
-                // console.log(data)
                 if (data.error) {
                     setErrors([data.error])
                 } else {
@@ -114,6 +113,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     }
 
     const fetchPaymentIntentClientSecret = async () => {
+        // newPayMethod = newPayMethod || ''
 
         let formBody = {
             currency: 'usd',
@@ -124,7 +124,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
 
         if (hasPayMethod) {
             formBody.selectedMethod = payMethods[0].id
-        }
+        } 
 
         const response = await fetch(`${BASE_URL}/create_payment_intent`, {
             method: 'POST',
@@ -138,7 +138,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             return {clientSecret, error, succeeded}
         };
 
-        // console.log(payMethods[0].id)
     const handleSavedCardPay = async () => {
 
         try {
@@ -152,6 +151,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                 setPayLoading(false)
                 console.log(clientSecret, succeeded)
                 Alert.alert('Payment Successful')
+                setModalVisible(!modalVisible)
             }
         } catch (e) {
             console.log(e)
@@ -164,11 +164,20 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             name: currentUser.name,
             email: currentUser.email
         }
-
+        
         
         try {
+            // const {paymentMethod, error} = await createPaymentMethod({
+            //     type: 'Card',
+            //     billingDetails,
+            //     setUpFutureUsage: 'OnSession',
+            // })
+    
+            // if (paymentMethod) {
+            //     // console.log(paymentMethod)
+            // }            
+            
             const {clientSecret, error, succeeded} = await fetchPaymentIntentClientSecret()
-
             console.log(clientSecret)
             if (error) {
                 console.log(error)
@@ -181,11 +190,15 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
 
                 if (error) {
                     Alert.alert(`Error message: ${error.message} `)
-                    console.log('Error message', error.message, error)
+                    console.log('Error message from trigger sequence', error.message, error)
                 } else if (paymentIntent) {
-                    Alert.alert('Payment Successful')
+                    Alert.alert('Payment Successful', [{
+                        text: 'OK',
+                        style: 'cancel',
+                        onPress: () => setModalVisible(!modalVisible)
+                    }])
                     console.log('success', paymentIntent)
-                    setModalVisible(!modalVisible)
+                    // setModalVisible(!modalVisible)
                 }
             }
         } catch (e) {   
@@ -198,40 +211,8 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             Alert.alert('Please enter card details')
             return;
         }
-
         triggerPaySequence()
 
-        // const billingDetails = {
-        //     name: currentUser.name,
-        //     email: currentUser.email
-        // }
-
-        
-        // try {
-        //     const {clientSecret, error} = await fetchPaymentIntentClientSecret()
-
-        //     console.log(clientSecret)
-        //     if (error) {
-        //         console.log(error)
-        //     } else {
-        //         const {paymentIntent, error} = await confirmPayment(clientSecret, {
-        //             type: 'Card',
-        //             billingDetails: billingDetails,
-        //             // cardDetails: cardDeets
-        //         })
-
-        //         if (error) {
-        //             Alert.alert(`Error message: ${error.message} `)
-        //             console.log(error.message, error)
-        //         } else if (paymentIntent) {
-        //             Alert.alert('Payment Successful')
-        //             console.log('success', paymentIntent)
-        //             setModalVisible(!modalVisible)
-        //         }
-        //     }
-        // } catch (e) {   
-        //     console.log(e)
-        // }
     }
 
     const handleClose = () => {
@@ -323,6 +304,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                                 }}
                                 onCardChange={(cardStuff) => {
                                     cardDeets = cardStuff
+                                    // console.log(cardStuff)
                                 }}
                             />
                             <SwitchView>
@@ -356,10 +338,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                 </CloseView>
                 <TitleText>Payment information</TitleText>
                     <MainPage/>
-                        {/* {isLoaded && hasPayMethod ? 
-                        <CardComponents/> : 
-                        <> 
-                            <CardField
+                            {/* <CardField
                                 postalCodeEnabled={true}
                                 placeholder={{
                                     number: '4242 4242 4242 4242',
@@ -386,9 +365,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                                     style={{marginRight: 10}}
                                 />
                                 <DarkText>Save card for future use</DarkText>
-                            </SwitchView> 
-                        </>
-                        } */}
+                            </SwitchView>  */}
                     {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
                     <ConditionalButton/>
             </View> 
