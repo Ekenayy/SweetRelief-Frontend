@@ -15,7 +15,7 @@
     "@stripe/stripe-react-native": "0.1.4",
     "expo": "^42.0.3",
     "expo-blur": "~9.0.3",
-    "expo-linking": "^2.2.1",
+    "expo-linking": "~2.3.1",
     "expo-location": "~12.1.2",
     "expo-status-bar": "~1.0.4",
     "geolib": "^3.3.1",
