@@ -6,6 +6,7 @@ import { BASE_URL, STRIPE_TEST_KEY } from '@env'
 import {Alert, Button, View, StyleSheet, TouchableOpacity, Switch, ActivityIndicator} from 'react-native'
 import { initStripe } from '@stripe/stripe-react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import { convertSpeed } from 'geolib';
 
 function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible, setCurrentUser, currentUser, selectedLocation} ) {
 
@@ -17,6 +18,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     const [hasPayMethod, setHasPayMethod] = useState(false)
     const [payMethods, setPayMethods] = useState('')
     const [isLoaded, setIsLoaded] = useState(false)
+    const [payLoading, setPayLoading] = useState(false)
 
     let cardDeets
 
@@ -132,13 +134,28 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             body: JSON.stringify(formBody),
         });
 
-            const {clientSecret, error} = await response.json()
-            return {clientSecret, error}
+            const {clientSecret, error, succeeded} = await response.json()
+            return {clientSecret, error, succeeded}
         };
 
         // console.log(payMethods[0].id)
     const handleSavedCardPay = async () => {
-        triggerPaySequence()
+
+        try {
+            setPayLoading(true)
+            const {clientSecret, error, succeeded} = await fetchPaymentIntentClientSecret()
+
+            if (error) {
+                setPayLoading(false)
+                console.log(error)
+            } else if (succeeded) {
+                setPayLoading(false)
+                console.log(clientSecret, succeeded)
+                Alert.alert('Payment Successful')
+            }
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     const triggerPaySequence = async () => {
@@ -150,7 +167,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
 
         
         try {
-            const {clientSecret, error} = await fetchPaymentIntentClientSecret()
+            const {clientSecret, error, succeeded} = await fetchPaymentIntentClientSecret()
 
             console.log(clientSecret)
             if (error) {
@@ -229,8 +246,8 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         switch (hasPayMethod) {
             case true:
                 return (
-                    <PayButton onPress={handleSavedCardPay} disabled={loading}>
-                        {loading ? <ActivityIndicator size='large' color='#F7F8F3'/> : <Span>{`Pay $${selectedLocation.price_cents}`}</Span>}
+                    <PayButton onPress={handleSavedCardPay} disabled={payLoading}>
+                        {payLoading ? <ActivityIndicator size='large' color='#F7F8F3'/> : <Span>{`Pay $${selectedLocation.price_cents}`}</Span>}
                     </PayButton>
                 )
             case false:
