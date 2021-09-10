@@ -149,9 +149,9 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                 console.log(error)
             } else if (succeeded) {
                 setPayLoading(false)
-                console.log(clientSecret, succeeded)
-                Alert.alert('Payment Successful')
-                setModalVisible(!modalVisible)
+                // console.log(clientSecret, succeeded)
+                // Alert.alert('Payment Successful')
+                setModalContent('receipt')            
             }
         } catch (e) {
             console.log(e)
@@ -192,12 +192,9 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                     Alert.alert(`Error message: ${error.message} `)
                     console.log('Error message from trigger sequence', error.message, error)
                 } else if (paymentIntent) {
-                    Alert.alert('Payment Successful', [{
-                        text: 'OK',
-                        style: 'cancel',
-                        onPress: () => setModalVisible(!modalVisible)
-                    }])
+                    Alert.alert('Payment Successful')
                     console.log('success', paymentIntent)
+                    setModalContent('receipt')
                     // setModalVisible(!modalVisible)
                 }
             }

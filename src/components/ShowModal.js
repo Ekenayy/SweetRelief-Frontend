@@ -36,6 +36,8 @@ function ShowModal ({avgRating, setAvgRating, modalContent, commentCount, setCom
         align-items: center;
     `
 
+    // console.log(modalContent)
+
     const ConditionalComponent = () => {
         switch (modalContent) {
             case 'comment':
