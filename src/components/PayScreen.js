@@ -20,6 +20,8 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     const [payMethods, setPayMethods] = useState('')
     const [isLoaded, setIsLoaded] = useState(false)
     const [payLoading, setPayLoading] = useState(false)
+    const [paymentOrderId, setPaymentOrderId] = useState('')
+    const [status, setStatus] = useState(0)
 
     let cardDeets
 
@@ -74,7 +76,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         margin-right: 5px;
     `
 
-
+// UseEffects ------ 
     useEffect(() => {
         // If the user doesn't have a stripe_id, then send a request to make an account
         // If they do then don't do anything.
@@ -96,6 +98,16 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         }
     }, [])
 
+    useEffect(() => {
+        async function initialize() {
+            await initStripe({
+                publishableKey: STRIPE_TEST_KEY,
+            });
+            }
+        initialize().catch(console.error);
+    }, []);
+
+// Functions ------ 
     const createAccount = () => {
         fetch(`${BASE_URL}/create_user_stripe_account/${currentUser.id}`, {
             method: 'POST',
@@ -134,8 +146,12 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             body: JSON.stringify(formBody),
         });
 
-            const {clientSecret, error, succeeded} = await response.json()
-            return {clientSecret, error, succeeded}
+            const {clientSecret, payment_order_id, error, succeeded} = await response.json()
+
+            if (payment_order_id) {
+                setPaymentOrderId(paymentOrderId)
+            }
+            return {clientSecret, error, payment_order_id, succeeded}
         };
 
     const handleSavedCardPay = async () => {
@@ -177,7 +193,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             //     // console.log(paymentMethod)
             // }            
             
-            const {clientSecret, error, succeeded} = await fetchPaymentIntentClientSecret()
+            const {clientSecret, error, payment_order_id, succeeded} = await fetchPaymentIntentClientSecret()
             console.log(clientSecret)
             if (error) {
                 console.log(error)
@@ -189,13 +205,16 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                 })
 
                 if (error) {
+                    setStatus(1)
                     Alert.alert(`Error message: ${error.message} `)
+                    updatePaymentOrder()
                     console.log('Error message from trigger sequence', error.message, error)
                 } else if (paymentIntent) {
+                    setStatus(2)
                     Alert.alert('Payment Successful')
+                    updatePaymentOrder()
                     console.log('success', paymentIntent)
-                    setModalContent('receipt')
-                    // setModalVisible(!modalVisible)
+                    // Send an update message to your backend
                 }
             }
         } catch (e) {   
@@ -212,12 +231,29 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
 
     }
 
+    const updatePaymentOrder = () => {
+        fetch(`${BASE_URL}/payment_orders/${paymentOrderId}`, {
+            method: 'PATCH',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({status})
+        })
+            .then(r => r.json())
+            .then(data => {
+                if (data.error) {
+                    console.log(data)
+                } else {
+                    setModalContent('receipt')
+                }
+            })
+    }
+
     const handleClose = () => {
         // If the user hasn't changed it well setCurrentUser to the same object
         setCurrentUser(localUser)
         setModalVisible(false)
     }
 
+// Comoponents ------- 
     // These two buttons will call different functions
     // If they have a saved payment method then create an invoice item if not then create a payment Intent
     const ConditionalButton = () => {
@@ -318,14 +354,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         }
     }
 
-    useEffect(() => {
-        async function initialize() {
-            await initStripe({
-                publishableKey: STRIPE_TEST_KEY,
-            });
-            }
-        initialize().catch(console.error);
-    }, []);
+
 
     return (
         <View style={styles.modalHolder}>

@@ -131,15 +131,15 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
                 <Title>View Info</Title>
                 <AllInfoView>
                     <OneInfoView>
-                        <Ionicons name="person-outline" size={26} color="#F4A261" style={{marginRight: 20}} />
+                        <Ionicons name="person-outline" size={26} color="#F4A261"  />
                         <InfoText>{currentUser.name}</InfoText>
                     </OneInfoView>
                     <OneInfoView>
-                        <Fontisto name="email" size={26} color="#F4A261" style={{marginRight: 20}} />
-                        <InfoText>{currentUser.email}</InfoText>
+                        <Fontisto name="email" size={26} color="#F4A261"  />
+                        <InfoText numberOfLines={2}>{currentUser.email}</InfoText>
                     </OneInfoView>
                     <OneInfoView>
-                        <Ionicons name="eye-outline" size={26} color="#F4A261" style={{marginRight: 20}} />
+                        <Ionicons name="eye-outline" size={26} color="#F4A261"  />
                         <InfoText>******</InfoText>
                     </OneInfoView>
                 </AllInfoView>
@@ -148,20 +148,6 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
         )
     }
 
-    // const last5Orders = orders.map((order) => {
-    //     return <PaymentOrder key={order.id} modalVisible={modalVisible} setModalVisible={setModalVisible} setChosenOrder={setChosenOrder} chosenOrder={chosenOrder} order={order}/>
-    // })
-
-    // const PastOrders = () => {
-    //     return (
-    //         <>
-    //             <Title>Recent Orders</Title>
-    //             <AllInfoView>
-    //                 {last5Orders}
-    //             </AllInfoView>
-    //         </>
-    //     )
-    // }
 
     const EditInfo = () => {
         return (
