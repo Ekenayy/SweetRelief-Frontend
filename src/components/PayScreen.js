@@ -21,7 +21,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     const [isLoaded, setIsLoaded] = useState(false)
     const [payLoading, setPayLoading] = useState(false)
     const [paymentOrderId, setPaymentOrderId] = useState('')
-    const [status, setStatus] = useState(0)
+    const [status, setStatus] = useState('pending')
 
     let cardDeets
 
@@ -119,7 +119,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                     setErrors([data.error])
                 } else {
                     setLocalUser(data.user)
-                    console.log(data.subscription)
                 }
             })
     }
@@ -147,10 +146,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         });
 
             const {clientSecret, payment_order_id, error, succeeded} = await response.json()
-
-            if (payment_order_id) {
-                setPaymentOrderId(paymentOrderId)
-            }
             return {clientSecret, error, payment_order_id, succeeded}
         };
 
@@ -163,6 +158,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             if (error) {
                 setPayLoading(false)
                 console.log(error)
+                setErrors([error])
             } else if (succeeded) {
                 setPayLoading(false)
                 // console.log(clientSecret, succeeded)
@@ -194,7 +190,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             // }            
             
             const {clientSecret, error, payment_order_id, succeeded} = await fetchPaymentIntentClientSecret()
-            console.log(clientSecret)
             if (error) {
                 console.log(error)
             } else {
@@ -205,15 +200,27 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                 })
 
                 if (error) {
-                    setStatus(1)
-                    Alert.alert(`Error message: ${error.message} `)
-                    updatePaymentOrder()
+                    setStatus('failed')
+                    // Alert.alert(`Error message: ${error.message} `)
                     console.log('Error message from trigger sequence', error.message, error)
+                    const {update_error, payment_order} = await updatePaymentOrder(payment_order_id)
+                        if (update_error) {
+                            console.log(update_error)
+                        } else if (payment_order) {
+                            console.log('from failure', payment_order)
+                        }
                 } else if (paymentIntent) {
-                    setStatus(2)
+                    setStatus('paid')
                     Alert.alert('Payment Successful')
-                    updatePaymentOrder()
                     console.log('success', paymentIntent)
+                    const {error, payment_order} = await updatePaymentOrder(payment_order_id)
+                        if (error) {
+                            console.log(error)
+                        } else if (payment_order) {
+                            setModalVisible(true)
+                            setModalContent('receipt')
+                            console.log(payment_order)
+                        }
                     // Send an update message to your backend
                 }
             }
@@ -231,20 +238,15 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
 
     }
 
-    const updatePaymentOrder = () => {
-        fetch(`${BASE_URL}/payment_orders/${paymentOrderId}`, {
+    const updatePaymentOrder = async (id) => {
+        const response = await fetch(`${BASE_URL}/payment_orders/${id}`, {
             method: 'PATCH',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({status})
         })
-            .then(r => r.json())
-            .then(data => {
-                if (data.error) {
-                    console.log(data)
-                } else {
-                    setModalContent('receipt')
-                }
-            })
+            
+        const {error, payment_order} = await response.json()
+        return {error, payment_order}
     }
 
     const handleClose = () => {
@@ -355,7 +357,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     }
 
 
-
     return (
         <View style={styles.modalHolder}>
             <View style={styles.modalForm}> 
@@ -363,8 +364,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                     <CloseText>❌</CloseText>
                 </CloseView>
                 <TitleText>Payment information</TitleText>
-                    <MainPage/>
-                            {/* <CardField
+                            <CardField
                                 postalCodeEnabled={true}
                                 placeholder={{
                                     number: '4242 4242 4242 4242',
@@ -373,25 +373,26 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                                     backgroundColor: '#191818',
                                     textColor: '#ffffff',
                                 }}
-                                style={{
-                                    width: '100%',
-                                    height: 70,
-                                    marginVertical: 30,
-                                    marginBottom: 10,
-                                }}
+                                style={[
+                                    styles.cardField,
+                                    isLoaded && hasPayMethod ? styles.hasPayMethod : styles.noPayMethod
+                                ]}
                                 onCardChange={(cardStuff) => {
                                     cardDeets = cardStuff
                                 }}
                             />
-                            <SwitchView>
-                                <Switch
-                                    trackColor={{ false: "#767577", true: "#F4A261" }}
-                                    value={saveCard}
-                                    onValueChange={() => setSaveCard(!saveCard)}
-                                    style={{marginRight: 10}}
-                                />
-                                <DarkText>Save card for future use</DarkText>
-                            </SwitchView>  */}
+                            { isLoaded && !hasPayMethod ? 
+                                <SwitchView>
+                                    <Switch
+                                        trackColor={{ false: "#767577", true: "#F4A261" }}
+                                        value={saveCard}
+                                        onValueChange={() => setSaveCard(!saveCard)}
+                                        style={{marginRight: 10}}
+                                    />
+                                    <DarkText>Save card for future use</DarkText>
+                                </SwitchView> : 
+                                <CardComponents/>
+                            }
                     {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
                     <ConditionalButton/>
             </View> 
@@ -420,5 +421,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'center',
         backgroundColor: '#bea7e5'
+    },
+    cardField: {
+        width: '100%',
+        height: 70,
+        marginVertical: 30,
+        marginBottom: 10,
+    },
+    hasPayMethod: {
+        display: 'none',
+    },
+    noPayMethod: {
+        display: 'flex'
     }
 })
