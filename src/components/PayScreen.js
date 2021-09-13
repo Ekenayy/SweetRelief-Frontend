@@ -7,6 +7,7 @@ import {Alert, Button, View, StyleSheet, TouchableOpacity, Switch, ActivityIndic
 import { initStripe } from '@stripe/stripe-react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { convertSpeed } from 'geolib';
 
 function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible, setCurrentUser, currentUser, selectedLocation} ) {
@@ -16,13 +17,13 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     const [errors, setErrors] = useState('')
     const [saveCard, setSaveCard] = useState(true)
     const [localUser, setLocalUser] = useState(currentUser)
-    const [cardDetails, setCardDetails] = useState()
     const [hasPayMethod, setHasPayMethod] = useState(false)
     const [payMethods, setPayMethods] = useState([])
     const [isLoaded, setIsLoaded] = useState(false)
     const [payLoading, setPayLoading] = useState(false)
-    const [paymentOrderId, setPaymentOrderId] = useState('')
     const [status, setStatus] = useState('pending')
+    const [selectedMethod, setSelectedMethod] = useState('')
+    const [showList, setShowList] = useState(false)
 
     let cardDeets
 
@@ -54,7 +55,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     `
 
     const SubButton = styled(PayButton)`
-        background-color: #F4A261
+        background-color: #F4A261;
     `
 
     const SwitchView = styled.View`
@@ -71,7 +72,10 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         min-width: 90%;
         margin-top: 10px;
         margin-bottom: 10px;
+        border-radius: 10px;
+        border-bottom-width: ${props => props.showList ? '.5px' : '0px'}
     `
+    // background-color: ${props => props.selected ? 'grey' : 'white'}
 
     const CardText = styled(DarkText)`
         font-size: 22px;
@@ -151,9 +155,13 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             save_card: saveCard,
         }
 
-        if (hasPayMethod) {
+        if (hasPayMethod && selectedMethod) {
+            // Find the paymentMethod with the selected Id
+            formBody.selectedMethod = selectedMethod.id
+        } else {
+            // Then just use the first one
             formBody.selectedMethod = payMethods[0].id
-        } 
+        }
 
         const response = await fetch(`${BASE_URL}/create_payment_intent`, {
             method: 'POST',
@@ -273,6 +281,18 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         setModalVisible(false)
     }
 
+    const handleCardPress = (payMeth) => {
+        // If the id of the payMeth is the same as the first one in the stack and showList is false
+        // Isn't already open then open up the payment list
+        // Else setSelectedMethod(payMeth) 
+        if (payMeth.id === payMethods[0].id && !showList) {
+            setShowList(true)
+        } else {
+            setSelectedMethod(payMeth)
+        }
+
+    }
+
 // Comoponents ------- 
     // These two buttons will call different functions
     // If they have a saved payment method then create and confirm the payment intent on the backend
@@ -310,16 +330,24 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     }
 
     const VirtualCard = ( {payMeth} ) => {
-        const {card} = payMeth
+        const {id, card} = payMeth
+
+        const selected = selectedMethod.id === id
+
             return (
-                <CardView>
+                <CardView showList={showList} selected={selected} onPress={() => handleCardPress(payMeth)}>
                     <DetailsView> 
                         <ConditionalIcon brand={card.brand} />
                         <CardText>{card.brand}</CardText>
                         <CardText>{card.last4}</CardText>
                     </DetailsView>
+                    {showList ? null : 
+                        <ArrowView> 
+                            <Fontisto name="angle-right" size={30} color="black" /> 
+                        </ArrowView>
+                    }
                     <ArrowView> 
-                        <Fontisto name="angle-right" size={24} color="black"/>
+                        {selected ? <Ionicons name="ios-checkmark-sharp" size={30} color="#F4A261" /> : null}
                     </ArrowView>
                 </CardView>
             )
@@ -335,6 +363,18 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         } else {
             return null;
         }
+    }
+
+    const PayMethodsList = () => {
+        return (
+            <>
+                <CardComponents/>
+                <CardView>
+                    <FontAwesome name="plus" size={30} color="black" style={{marginRight: 10}}/>
+                    <CardText>Add Payment Method</CardText>
+                </CardView>
+            </>
+        )
     }
 
     return (
@@ -372,7 +412,8 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                                     <DarkText>Save card for future use</DarkText>
                                 </SwitchView> : null
                             }
-                            {payMethods.length > 0 ? <VirtualCard payMeth={payMethods[0]}/> : null}
+                            {payMethods.length > 0 && !showList ? <VirtualCard payMeth={payMethods[0]}/> : null}
+                            {showList ? <PayMethodsList/> : null}
                     {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
                     <ConditionalButton/>
             </View> 
