@@ -24,6 +24,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     const [status, setStatus] = useState('pending')
     const [selectedMethod, setSelectedMethod] = useState('')
     const [showList, setShowList] = useState(false)
+    const [addClicked, setAddClicked] = useState(false)
 
     let cardDeets
 
@@ -287,18 +288,20 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         // Else setSelectedMethod(payMeth) 
         if (payMeth.id === payMethods[0].id && !showList) {
             setShowList(true)
-        } else {
-            setSelectedMethod(payMeth)
-        }
-
+        } 
+        setSelectedMethod(payMeth)
+        
     }
 
+    // Logic for cardfield and switch
+    const cardLogic = ((addClicked) || (isLoaded && !hasPayMethod))
+    
 // Comoponents ------- 
     // These two buttons will call different functions
     // If they have a saved payment method then create and confirm the payment intent on the backend
     // If not then create a paymentintent on the backend and confirm on the frontend
     const ConditionalButton = () => {
-        switch (hasPayMethod) {
+        switch (hasPayMethod && !addClicked) {
             case true:
                 return (
                     <PayButton onPress={handleSavedCardPay} disabled={payLoading}>
@@ -369,7 +372,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         return (
             <>
                 <CardComponents/>
-                <CardView>
+                <CardView onPress={() => setAddClicked(true)}>
                     <FontAwesome name="plus" size={30} color="black" style={{marginRight: 10}}/>
                     <CardText>Add Payment Method</CardText>
                 </CardView>
@@ -395,13 +398,13 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                                 }}
                                 style={[
                                     styles.cardField,
-                                    isLoaded && hasPayMethod ? styles.hasPayMethod : styles.noPayMethod
+                                    cardLogic ? styles.noPayMethod : styles.hasPayMethod 
                                 ]}
                                 onCardChange={(cardStuff) => {
                                     cardDeets = cardStuff
                                 }}
                             />
-                            { isLoaded && !hasPayMethod ? 
+                            { cardLogic ? 
                                 <SwitchView>
                                     <Switch
                                         trackColor={{ false: "#767577", true: "#F4A261" }}
@@ -413,7 +416,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                                 </SwitchView> : null
                             }
                             {payMethods.length > 0 && !showList ? <VirtualCard payMeth={payMethods[0]}/> : null}
-                            {showList ? <PayMethodsList/> : null}
+                            {showList & !addClicked ? <PayMethodsList/> : null}
                     {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
                     <ConditionalButton/>
             </View> 
