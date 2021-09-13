@@ -6,6 +6,7 @@ import { BASE_URL, STRIPE_TEST_KEY } from '@env'
 import {Alert, Button, View, StyleSheet, TouchableOpacity, Switch, ActivityIndicator} from 'react-native'
 import { initStripe } from '@stripe/stripe-react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import { Fontisto } from '@expo/vector-icons';
 import { convertSpeed } from 'geolib';
 
 function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible, setCurrentUser, currentUser, selectedLocation} ) {
@@ -17,7 +18,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     const [localUser, setLocalUser] = useState(currentUser)
     const [cardDetails, setCardDetails] = useState()
     const [hasPayMethod, setHasPayMethod] = useState(false)
-    const [payMethods, setPayMethods] = useState('')
+    const [payMethods, setPayMethods] = useState([])
     const [isLoaded, setIsLoaded] = useState(false)
     const [payLoading, setPayLoading] = useState(false)
     const [paymentOrderId, setPaymentOrderId] = useState('')
@@ -64,6 +65,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     `
 
     const CardView = styled.TouchableOpacity`
+        display: flex;
         flex-direction: row;
         margin-bottom: 5px;
         min-width: 90%;
@@ -74,6 +76,22 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     const CardText = styled(DarkText)`
         font-size: 22px;
         margin-right: 5px;
+    `
+
+    const ArrowView = styled(Wrapper)`
+        align-self: center;
+        margin-left: 0px;
+        padding-left: 0px;
+        justify-content: flex-end;
+    `
+
+    const DetailsView = styled(Wrapper)`
+        flex-direction: row;
+        padding: 10px;
+        padding-left: 10px;
+        margin-left: 0px;
+        margin-right: 0px;
+        width: 93%;
     `
 
 // UseEffects ------ 
@@ -257,7 +275,8 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
 
 // Comoponents ------- 
     // These two buttons will call different functions
-    // If they have a saved payment method then create an invoice item if not then create a payment Intent
+    // If they have a saved payment method then create and confirm the payment intent on the backend
+    // If not then create a paymentintent on the backend and confirm on the frontend
     const ConditionalButton = () => {
         switch (hasPayMethod) {
             case true:
@@ -291,15 +310,19 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     }
 
     const VirtualCard = ( {payMeth} ) => {
-        const {id, card} = payMeth
-
-        return (
-            <CardView>
-                <ConditionalIcon brand={card.brand} />
-                <CardText>{card.brand}</CardText>
-                <CardText>{card.last4}</CardText>
-            </CardView>
-        )
+        const {card} = payMeth
+            return (
+                <CardView>
+                    <DetailsView> 
+                        <ConditionalIcon brand={card.brand} />
+                        <CardText>{card.brand}</CardText>
+                        <CardText>{card.last4}</CardText>
+                    </DetailsView>
+                    <ArrowView> 
+                        <Fontisto name="angle-right" size={24} color="black"/>
+                    </ArrowView>
+                </CardView>
+            )
     }
 
     const CardComponents = () => {
@@ -313,49 +336,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             return null;
         }
     }
-
-    const MainPage = () => {
-        if (!isLoaded && !hasPayMethod) {
-            return null;
-        } else if (hasPayMethod) {
-            return <CardComponents/>
-        } else if (isLoaded && !hasPayMethod) {
-            return (
-                <> 
-                            <CardField
-                                postalCodeEnabled={true}
-                                placeholder={{
-                                    number: '4242 4242 4242 4242',
-                                }}
-                                cardStyle={{
-                                    backgroundColor: '#191818',
-                                    textColor: '#ffffff',
-                                }}
-                                style={{
-                                    width: '100%',
-                                    height: 70,
-                                    marginVertical: 30,
-                                    marginBottom: 10,
-                                }}
-                                onCardChange={(cardStuff) => {
-                                    cardDeets = cardStuff
-                                    // console.log(cardStuff)
-                                }}
-                            />
-                            <SwitchView>
-                                <Switch
-                                    trackColor={{ false: "#767577", true: "#F4A261" }}
-                                    value={saveCard}
-                                    onValueChange={() => setSaveCard(!saveCard)}
-                                    style={{marginRight: 10}}
-                                />
-                                <DarkText>Save card for future use</DarkText>
-                            </SwitchView> 
-                        </>
-            )
-        }
-    }
-
 
     return (
         <View style={styles.modalHolder}>
@@ -390,9 +370,9 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                                         style={{marginRight: 10}}
                                     />
                                     <DarkText>Save card for future use</DarkText>
-                                </SwitchView> : 
-                                <CardComponents/>
+                                </SwitchView> : null
                             }
+                            {payMethods.length > 0 ? <VirtualCard payMeth={payMethods[0]}/> : null}
                     {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
                     <ConditionalButton/>
             </View> 
