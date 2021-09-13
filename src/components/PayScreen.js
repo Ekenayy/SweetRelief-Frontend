@@ -146,6 +146,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             })
     }
 
+    console.log(payMethods.length)
     const fetchPaymentIntentClientSecret = async () => {
         // newPayMethod = newPayMethod || ''
 
@@ -159,8 +160,8 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         if (hasPayMethod && selectedMethod) {
             // Find the paymentMethod with the selected Id
             formBody.selectedMethod = selectedMethod.id
-        } else {
-            // Then just use the first one
+        } else if (hasPayMethod && !addClicked) {
+            // In the defaults state where this a pay method but the user hasn't selected anything
             formBody.selectedMethod = payMethods[0].id
         }
 
@@ -228,7 +229,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
 
                 if (error) {
                     setStatus('failed')
-                    // Alert.alert(`Error message: ${error.message} `)
+                    Alert.alert(`Error message: ${error.message} `)
                     console.log('Error message from trigger sequence', error.message, error)
                     const {update_error, payment_order} = await updatePaymentOrder(payment_order_id)
                         if (update_error) {
@@ -244,9 +245,9 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                         if (error) {
                             console.log(error)
                         } else if (payment_order) {
-                            setModalVisible(true)
+                            // setModalVisible(true)
                             setModalContent('receipt')
-                            console.log(payment_order)
+                            console.log('from succes', payment_order)
                         }
                     // Send an update message to your backend
                 }
@@ -295,7 +296,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
 
     // Logic for cardfield and switch
     const cardLogic = ((addClicked) || (isLoaded && !hasPayMethod))
-    
 // Comoponents ------- 
     // These two buttons will call different functions
     // If they have a saved payment method then create and confirm the payment intent on the backend
@@ -403,6 +403,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                                 onCardChange={(cardStuff) => {
                                     cardDeets = cardStuff
                                 }}
+                                onFocus={(card) => setSelectedMethod(null)}
                             />
                             { cardLogic ? 
                                 <SwitchView>
@@ -416,7 +417,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                                 </SwitchView> : null
                             }
                             {payMethods.length > 0 && !showList ? <VirtualCard payMeth={payMethods[0]}/> : null}
-                            {showList & !addClicked ? <PayMethodsList/> : null}
+                            {showList && !addClicked ? <PayMethodsList/> : null}
                     {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
                     <ConditionalButton/>
             </View> 

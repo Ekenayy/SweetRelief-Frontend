@@ -13,6 +13,7 @@ function Receipt( {currentUser, comments, setModalContent, selectedLocation, mod
 
     const [paymentOrder, setPaymentOrder] = useState(null)
 
+    // console.log('hello', modalVisible)
     // What are the drawbacks of doing it this way? 
     useEffect(() => {
         fetch(`${BASE_URL}/last_payment/${currentUser.id}`)
