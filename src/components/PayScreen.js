@@ -165,7 +165,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             formBody.selectedMethod = selectedMethod.id
             formBody.save_card = false
         } else if (hasPayMethod && !addClicked) {
-            setSelectedMethod(payMethods[0])
             formBody.save_card = false
             // In the defaults state where this a pay method but the user hasn't selected anything
             formBody.selectedMethod = payMethods[0].id
@@ -229,23 +228,11 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         if (error) {
             Alert.alert(`Error message: ${error.message} `)
             console.log('Error message from trigger sequence', payId, error.message, error)
-            const {update_error, payment_order} = await updatePaymentOrder(orderId, 'failed')
-                if (update_error) {
-                    console.log(update_error)
-                } else if (payment_order) {
-                    console.log('from failure', payment_order)
-                }
+            updatePaymentOrder(orderId, 'failed')
         } else if (paymentIntent) {
             Alert.alert('Payment Successful')
             console.log('success', paymentIntent)
-            const {error, payment_order} = await updatePaymentOrder(orderId, 'paid')
-                if (error) {
-                    console.log(error)
-                } else if (payment_order) {
-                    // setModalVisible(true)
-                    setModalContent('receipt')
-                    console.log('from succes', payment_order)
-                }
+            updatePaymentOrder(orderId, 'paid')
             // Send an update message to your backend
         }
     }
@@ -282,23 +269,12 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                 if (error) {
                     Alert.alert(`Error message: ${error.message} `)
                     console.log('Error message from trigger sequence', error.message, error)
-                    const {update_error, payment_order} = await updatePaymentOrder(payment_order_id, 'failed')
-                        if (update_error) {
-                            console.log(update_error)
-                        } else if (payment_order) {
-                            console.log('from failure', payment_order)
-                        }
+                    updatePaymentOrder(payment_order_id, 'failed')
                 } else if (paymentIntent) {
                     Alert.alert('Payment Successful')
                     console.log('success', paymentIntent)
-                    const {error, payment_order} = await updatePaymentOrder(payment_order_id, 'paid')
-                        if (error) {
-                            console.log(error)
-                        } else if (payment_order) {
-                            // setModalVisible(true)
-                            setModalContent('receipt')
-                            console.log('from succes', payment_order)
-                        }
+                    updatePaymentOrder(payment_order_id, 'paid')
+                        // Look at the payment_order status. If it's successful then setModalContent to receipt
                     // Send an update message to your backend
                 }
             }
@@ -316,15 +292,22 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
 
     }
 
-    const updatePaymentOrder = async (id, status) => {
-        const response = await fetch(`${BASE_URL}/payment_orders/${id}`, {
+    const updatePaymentOrder = (id, status) => {
+        fetch(`${BASE_URL}/payment_orders/${id}`, {
             method: 'PATCH',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({status})
         })
-            
-        const {error, payment_order} = await response.json()
-        return {error, payment_order}
+            .then(r => r.json())
+            .then(data => {
+                if (data.update_error) {
+                    console.log(data)
+                } else if (data.payment_order.status === 'paid') {
+                    setModalContent('receipt')
+                } else {
+                    console.log(data)
+                }
+            })
     }
 
     const handleClose = () => {
