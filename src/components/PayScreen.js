@@ -9,6 +9,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { convertSpeed } from 'geolib';
+import { MaterialIcons } from '@expo/vector-icons';
 
 function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible, setCurrentUser, currentUser, selectedLocation} ) {
 
@@ -95,7 +96,18 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         padding-left: 10px;
         margin-left: 0px;
         margin-right: 0px;
-        width: 93%;
+        width: 85%;
+    `
+
+    const RowView = styled.View`
+        flex-direction: row;
+        
+    `
+
+    const TrashIconView = styled.TouchableOpacity`
+        align-self: center;
+        justify-content: flex-start
+        margin-right: 5px;
     `
 
 // UseEffects ------ 
@@ -145,8 +157,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             })
     }
 
-    console.log(hasPayMethod && !addClicked)
-    // console.log('checking second condition', selectedMethod && hasPayMethod)
     const fetchPaymentIntentClientSecret = async () => {
 
         let formBody = {
@@ -208,7 +218,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         }
     }
 
-    // console.log(status)
 
     // It needs access to the paymentMethodId somehow. State isn't getting set fast enough
     const handleConfirmPayment = async (secret, orderId, payId) => {
@@ -217,8 +226,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             email: currentUser.email
         }
 
-        console.log('hello from handle confirm')
-
         const {paymentIntent, error} = await confirmPayment(secret, {
             type: 'Card',
             billingDetails: billingDetails,
@@ -226,8 +233,8 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         })
 
         if (error) {
-            Alert.alert(`Error message: ${error.message} `)
-            console.log('Error message from trigger sequence', payId, error.message, error)
+            Alert.alert(`Error: ${error.message} `)
+            console.log('Error message from confirm payment', payId, error.message, error)
             updatePaymentOrder(orderId, 'failed')
         } else if (paymentIntent) {
             Alert.alert('Payment Successful')
@@ -255,28 +262,11 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             // if (paymentMethod) {
             //     // console.log(paymentMethod)
             // }            
-            
-            const {clientSecret, error, payment_order_id, succeeded} = await fetchPaymentIntentClientSecret()
+            const {clientSecret, error, payment_order_id, payment_method_id, succeeded} = await fetchPaymentIntentClientSecret()
             if (error) {
                 console.log(error)
             } else {
-                const {paymentIntent, error} = await confirmPayment(clientSecret, {
-                    type: 'Card',
-                    billingDetails: billingDetails,
-                    // cardDetails: cardDeets
-                })
-
-                if (error) {
-                    Alert.alert(`Error message: ${error.message} `)
-                    console.log('Error message from trigger sequence', error.message, error)
-                    updatePaymentOrder(payment_order_id, 'failed')
-                } else if (paymentIntent) {
-                    Alert.alert('Payment Successful')
-                    console.log('success', paymentIntent)
-                    updatePaymentOrder(payment_order_id, 'paid')
-                        // Look at the payment_order status. If it's successful then setModalContent to receipt
-                    // Send an update message to your backend
-                }
+                handleConfirmPayment(clientSecret, payment_order_id, payment_method_id)
             }
         } catch (e) {   
             console.log(e)
@@ -324,7 +314,22 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             setShowList(true)
         } 
         setSelectedMethod(payMeth)
-        
+    }
+
+    const handleDeletePress = (payMeth) => {
+        console.log(payMeth)
+        Alert.alert(
+            "Confirm Delete",
+            "Delete this payment method?",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { text: "Delete", onPress: () => console.log("OK Pressed") }
+            ]
+        )
     }
 
     // Logic for cardfield and switch
@@ -371,21 +376,27 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         const selected = selectedMethod.id === id
 
             return (
-                <CardView showList={showList} selected={selected} onPress={() => handleCardPress(payMeth)}>
-                    <DetailsView> 
-                        <ConditionalIcon brand={card.brand} />
-                        <CardText>{card.brand}</CardText>
-                        <CardText>{card.last4}</CardText>
-                    </DetailsView>
-                    {showList ? null : 
+                <RowView >
+                    {showList ? <TrashIconView onPress={() => handleDeletePress(payMeth)}>
+                        <MaterialIcons name="delete" size={24} color="black" />
+                    </TrashIconView> : null}
+                    <CardView showList={showList} onPress={() => handleCardPress(payMeth)}>
+                        <DetailsView> 
+                            <ConditionalIcon brand={card.brand} />
+                            <CardText>{card.brand}</CardText>
+                            <CardText>{card.last4}</CardText>
+                        </DetailsView>
+                        {showList ? null : 
+                            <ArrowView> 
+                                <Fontisto name="angle-right" size={30} color="black" /> 
+                            </ArrowView>
+                        }
                         <ArrowView> 
-                            <Fontisto name="angle-right" size={30} color="black" /> 
+                            {selected ? <Ionicons name="ios-checkmark-sharp" size={30} color="#F4A261" /> : null}
                         </ArrowView>
-                    }
-                    <ArrowView> 
-                        {selected ? <Ionicons name="ios-checkmark-sharp" size={30} color="#F4A261" /> : null}
-                    </ArrowView>
-                </CardView>
+                    </CardView>
+                </RowView>
+
             )
     }
 
