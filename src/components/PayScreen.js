@@ -21,7 +21,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     const [payMethods, setPayMethods] = useState([])
     const [isLoaded, setIsLoaded] = useState(false)
     const [payLoading, setPayLoading] = useState(false)
-    const [status, setStatus] = useState('pending')
     const [selectedMethod, setSelectedMethod] = useState('')
     const [showList, setShowList] = useState(false)
     const [addClicked, setAddClicked] = useState(false)
@@ -196,13 +195,13 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                 setErrors([error])
             } else if (succeeded === true) {
                 console.log('succeeded', succeeded)
-                setStatus('paid')
                 setPayLoading(false)
                 // console.log(clientSecret, succeeded)
                 // Alert.alert('Payment Successful')
                 setModalContent('receipt')            
             } else if (succeeded === false) {
                 handleConfirmPayment(clientSecret, payment_order_id, payment_method_id)
+                setPayLoading(false)
                 // If there's another kind of error than try to confirm the payment on the frontend 
             }
         } catch (e) {
@@ -228,20 +227,18 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         })
 
         if (error) {
-            setStatus('failed')
             Alert.alert(`Error message: ${error.message} `)
             console.log('Error message from trigger sequence', payId, error.message, error)
-            const {update_error, payment_order} = await updatePaymentOrder(orderId)
+            const {update_error, payment_order} = await updatePaymentOrder(orderId, 'failed')
                 if (update_error) {
                     console.log(update_error)
                 } else if (payment_order) {
                     console.log('from failure', payment_order)
                 }
         } else if (paymentIntent) {
-            setStatus('paid')
             Alert.alert('Payment Successful')
             console.log('success', paymentIntent)
-            const {error, payment_order} = await updatePaymentOrder(orderId)
+            const {error, payment_order} = await updatePaymentOrder(orderId, 'paid')
                 if (error) {
                     console.log(error)
                 } else if (payment_order) {
@@ -283,20 +280,18 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                 })
 
                 if (error) {
-                    setStatus('failed')
                     Alert.alert(`Error message: ${error.message} `)
                     console.log('Error message from trigger sequence', error.message, error)
-                    const {update_error, payment_order} = await updatePaymentOrder(payment_order_id)
+                    const {update_error, payment_order} = await updatePaymentOrder(payment_order_id, 'failed')
                         if (update_error) {
                             console.log(update_error)
                         } else if (payment_order) {
                             console.log('from failure', payment_order)
                         }
                 } else if (paymentIntent) {
-                    setStatus('paid')
                     Alert.alert('Payment Successful')
                     console.log('success', paymentIntent)
-                    const {error, payment_order} = await updatePaymentOrder(payment_order_id)
+                    const {error, payment_order} = await updatePaymentOrder(payment_order_id, 'paid')
                         if (error) {
                             console.log(error)
                         } else if (payment_order) {
@@ -321,7 +316,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
 
     }
 
-    const updatePaymentOrder = async (id) => {
+    const updatePaymentOrder = async (id, status) => {
         const response = await fetch(`${BASE_URL}/payment_orders/${id}`, {
             method: 'PATCH',
             headers: {'Content-Type': 'application/json'},
