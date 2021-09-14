@@ -237,8 +237,8 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             console.log('Error message from confirm payment', payId, error.message, error)
             updatePaymentOrder(orderId, 'failed')
         } else if (paymentIntent) {
-            Alert.alert('Payment Successful')
-            console.log('success', paymentIntent)
+            // Alert.alert('Payment Successful')
+            // console.log('success', paymentIntent)
             updatePaymentOrder(orderId, 'paid')
             // Send an update message to your backend
         }
@@ -293,7 +293,19 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                 if (data.update_error) {
                     console.log(data)
                 } else if (data.payment_order.status === 'paid') {
-                    setModalContent('receipt')
+                    Alert.alert(
+                        "Payment Booty",
+                        'alertmsg'
+                        [
+                            {
+                                text: "Cancel",
+                                onPress: () => console.log("Cancel Pressed"),
+                                style: "cancel"
+                            },
+                            { text: "OK", onPress: () => setModalContent('receipt') }
+                        ]
+                      );
+                    // setModalContent('receipt')
                 } else {
                     console.log(data)
                 }
@@ -317,7 +329,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     }
 
     const handleDeletePress = (payMeth) => {
-        console.log(payMeth)
         Alert.alert(
             "Confirm Delete",
             "Delete this payment method?",
@@ -327,11 +338,31 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                     onPress: () => console.log("Cancel Pressed"),
                     style: "cancel"
                 },
-                { text: "Delete", onPress: () => console.log("OK Pressed") }
+                { text: "Delete", onPress: () => deletePaymentMethod(payMeth.id) }
             ]
         )
     }
 
+    const deletePaymentMethod = (payMethId) => {
+        console.log(payMethId)
+        fetch(`${BASE_URL}/detach_payment_method`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({payMethId})
+        })
+            .then(r => r.json())
+            .then(data => {
+                if (data.error) {
+                    setErrors([data.error])
+                    Alert.alert(`Error ${data.error}`)
+                } else {
+                    Alert.alert(`Success! ${data.success}.`)
+                    let newArr = payMethods.filter(method => method.id !== payMethId)
+                    console.log(newArr)
+                    setPayMethods(newArr)
+                }
+            })
+    }
     // Logic for cardfield and switch
     const cardLogic = ((addClicked) || (isLoaded && !hasPayMethod))
 // Comoponents ------- 
