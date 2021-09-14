@@ -146,9 +146,9 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             })
     }
 
-    console.log(payMethods.length)
+    console.log(hasPayMethod && !addClicked)
+    // console.log('checking second condition', selectedMethod && hasPayMethod)
     const fetchPaymentIntentClientSecret = async () => {
-        // newPayMethod = newPayMethod || ''
 
         let formBody = {
             currency: 'usd',
@@ -157,10 +157,17 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             save_card: saveCard,
         }
 
-        if (hasPayMethod && selectedMethod) {
+        //  In this first case -- If a user has a paymethod and there's a selected method
+        // make the selectedMethod the method that is used here. hasPayMethod doesn't matter if there's a selectedMethod
+        // If the user has many payment methods and picks one
+        // And if the user doesn't select anything
+        if (selectedMethod) {
             // Find the paymentMethod with the selected Id
             formBody.selectedMethod = selectedMethod.id
+            formBody.save_card = false
         } else if (hasPayMethod && !addClicked) {
+            setSelectedMethod(payMethods[0])
+            formBody.save_card = false
             // In the defaults state where this a pay method but the user hasn't selected anything
             formBody.selectedMethod = payMethods[0].id
         }
@@ -173,28 +180,76 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             body: JSON.stringify(formBody),
         });
 
-            const {clientSecret, payment_order_id, error, succeeded} = await response.json()
-            return {clientSecret, error, payment_order_id, succeeded}
+            const {clientSecret, payment_method_id, payment_order_id, error, succeeded} = await response.json()
+            return {clientSecret, payment_method_id, error, payment_order_id, succeeded}
         };
 
     const handleSavedCardPay = async () => {
 
         try {
             setPayLoading(true)
-            const {clientSecret, error, succeeded} = await fetchPaymentIntentClientSecret()
+            const {clientSecret, error, succeeded, payment_order_id, payment_method_id} = await fetchPaymentIntentClientSecret()
 
             if (error) {
                 setPayLoading(false)
                 console.log(error)
                 setErrors([error])
-            } else if (succeeded) {
+            } else if (succeeded === true) {
+                console.log('succeeded', succeeded)
+                setStatus('paid')
                 setPayLoading(false)
                 // console.log(clientSecret, succeeded)
                 // Alert.alert('Payment Successful')
                 setModalContent('receipt')            
+            } else if (succeeded === false) {
+                handleConfirmPayment(clientSecret, payment_order_id, payment_method_id)
+                // If there's another kind of error than try to confirm the payment on the frontend 
             }
         } catch (e) {
             console.log(e)
+        }
+    }
+
+    // console.log(status)
+
+    // It needs access to the paymentMethodId somehow. State isn't getting set fast enough
+    const handleConfirmPayment = async (secret, orderId, payId) => {
+        const billingDetails = {
+            name: currentUser.name,
+            email: currentUser.email
+        }
+
+        console.log('hello from handle confirm')
+
+        const {paymentIntent, error} = await confirmPayment(secret, {
+            type: 'Card',
+            billingDetails: billingDetails,
+            paymentMethodId: payId
+        })
+
+        if (error) {
+            setStatus('failed')
+            Alert.alert(`Error message: ${error.message} `)
+            console.log('Error message from trigger sequence', payId, error.message, error)
+            const {update_error, payment_order} = await updatePaymentOrder(orderId)
+                if (update_error) {
+                    console.log(update_error)
+                } else if (payment_order) {
+                    console.log('from failure', payment_order)
+                }
+        } else if (paymentIntent) {
+            setStatus('paid')
+            Alert.alert('Payment Successful')
+            console.log('success', paymentIntent)
+            const {error, payment_order} = await updatePaymentOrder(orderId)
+                if (error) {
+                    console.log(error)
+                } else if (payment_order) {
+                    // setModalVisible(true)
+                    setModalContent('receipt')
+                    console.log('from succes', payment_order)
+                }
+            // Send an update message to your backend
         }
     }
 
