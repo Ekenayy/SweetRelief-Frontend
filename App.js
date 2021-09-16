@@ -96,7 +96,7 @@ export default function App() {
         return;
       }
 
-      let location = await Location.getCurrentPositionAsync({});
+      let location = await Location.getCurrentPositionAsync({accuracy: 6});
       let latlong = {latitude: location.coords.latitude, longitude: location.coords.longitude}
       setUserLocation(latlong);
     })();

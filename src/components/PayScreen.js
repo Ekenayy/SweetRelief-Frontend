@@ -205,8 +205,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             } else if (succeeded === true) {
                 console.log('succeeded', succeeded)
                 setPayLoading(false)
-                // console.log(clientSecret, succeeded)
-                // Alert.alert('Payment Successful')
                 setModalContent('receipt')            
             } else if (succeeded === false) {
                 handleConfirmPayment(clientSecret, payment_order_id, payment_method_id)
@@ -237,8 +235,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             console.log('Error message from confirm payment', payId, error.message, error)
             updatePaymentOrder(orderId, 'failed')
         } else if (paymentIntent) {
-            // Alert.alert('Payment Successful')
-            // console.log('success', paymentIntent)
             updatePaymentOrder(orderId, 'paid')
             // Send an update message to your backend
         }
@@ -293,19 +289,8 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                 if (data.update_error) {
                     console.log(data)
                 } else if (data.payment_order.status === 'paid') {
-                    Alert.alert(
-                        "Payment Booty",
-                        'alertmsg'
-                        [
-                            {
-                                text: "Cancel",
-                                onPress: () => console.log("Cancel Pressed"),
-                                style: "cancel"
-                            },
-                            { text: "OK", onPress: () => setModalContent('receipt') }
-                        ]
-                      );
-                    // setModalContent('receipt')
+                    // handlePaySuccess()
+                    setModalContent('receipt')
                 } else {
                     console.log(data)
                 }
