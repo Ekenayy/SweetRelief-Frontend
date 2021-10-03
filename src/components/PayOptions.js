@@ -178,11 +178,11 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
                                 <OptionsText>Money</OptionsText>
                         </MoneyButton>                
                 </AllOptionsView>
-                {selected == 'money' ? 
+                {/* {selected == 'money' ? 
                 <ConfirmationView>
                     <DarkText>{selectedLocation.name} charges ${selectedLocation.price_cents} for its restroom</DarkText>
                 </ConfirmationView> : 
-                null}
+                null} */}
                 {selected ? 
                 <Button onPress={handleClick}>
                     <Span>Confirm</Span>

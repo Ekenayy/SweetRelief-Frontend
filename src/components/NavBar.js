@@ -136,7 +136,7 @@ function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, comme
         removeToken()
         setCurrentUser(null)
     }
-
+    
     return (
         <PanGestureHandler onGestureEvent={handleGesture}>
             <Animated.View style={[styles.animatedContainer, uas]}>

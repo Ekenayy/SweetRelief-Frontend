@@ -53,6 +53,7 @@ export default function App() {
           thisToken = await AsyncStorage.getItem('token') || 'none'  
           
           if (thisToken !== 'none') {
+            console.log(thisToken)
             setToken(thisToken)
           } else {
             setTokenSearched(true)
@@ -86,7 +87,9 @@ export default function App() {
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
+      console.log(status)
       if (status !== 'granted') {
+        console.log(status)
         setErrorMsg('Permission to access location was denied');
         Alert.alert('Location is required to provide accurate service. Please change location settings to allow access')
         setUserLocation({
@@ -98,6 +101,7 @@ export default function App() {
 
       let location = await Location.getCurrentPositionAsync({accuracy: 6});
       let latlong = {latitude: location.coords.latitude, longitude: location.coords.longitude}
+      console.log(latlong)
       setUserLocation(latlong);
     })();
   }, []);
