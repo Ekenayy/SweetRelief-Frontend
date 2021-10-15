@@ -10,8 +10,8 @@ function SplashScreen () {
         background-color: #BEA7E5
     `
 
-    const Title = styled.Text`
-        font-size: 34px;
+    const Words = styled.Text`
+        font-size: 16px;
         color: #1C1C1C;
         align-self: center;
         padding-top: 30px;
@@ -27,13 +27,18 @@ function SplashScreen () {
     const Logo = styled.Image`
     `
 
+    const LoadingView = styled.View`
+        flex-direction: row;
+        align-items: center;
+    `
+
 
     return (
         <Body>
             <LogoView>
                 <Logo source={logo}/>
             </LogoView>
-            <ActivityIndicator size='large' color='#F7F8F3'/>
+                <ActivityIndicator size='large' color='#F7F8F3'/>
         </Body>
     )
 }

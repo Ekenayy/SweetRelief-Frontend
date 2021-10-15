@@ -84,6 +84,9 @@ export default function App() {
 
   // Loads the token from the device storage
 
+  const getLocationPermissions = () => {
+    
+  }
   // Request userLocation
   useEffect(() => {
     (async () => {
@@ -92,7 +95,7 @@ export default function App() {
       if (status !== 'granted') {
         console.log(status)
         setErrorMsg('Permission to access location was denied');
-        Alert.alert('Location is required to provide accurate service. Please change location settings to allow access')
+        Alert.alert('Location is required to provide accurate service. Go to Settings -> SweetRelief -> Location to allow access')
         // setUserLocation({
         //   latitude: 40.700415, 
         //   longitude: -73.90897
