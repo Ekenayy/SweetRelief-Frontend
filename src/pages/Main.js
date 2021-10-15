@@ -64,6 +64,7 @@ function Main ( {currentUser, ios, navigation, setCurrentUser, setToken} ) {
     }, [selectedLocation])
 
     const setAndFitToCoords = (location) => {
+        console.log('pressed', location.name)
         fetchLocation(location)
 
         let latLongs = [contextUserLocation, {latitude: location.latitude,

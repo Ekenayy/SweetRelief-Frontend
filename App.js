@@ -67,6 +67,10 @@ export default function App() {
   }
 
   useEffect(() => {
+    load()
+  }, [])
+  
+  useEffect(() => {
     if (!dynoAwake) {
       fetch(`${BASE_URL}/awake`)
         .then(r => r.json())
@@ -79,9 +83,6 @@ export default function App() {
   }, [dynoAwake])
 
   // Loads the token from the device storage
-  useEffect(() => {
-    load()
-  }, [])
 
   // Request userLocation
   useEffect(() => {
@@ -92,10 +93,10 @@ export default function App() {
         console.log(status)
         setErrorMsg('Permission to access location was denied');
         Alert.alert('Location is required to provide accurate service. Please change location settings to allow access')
-        setUserLocation({
-          latitude: 40.700415, 
-          longitude: -73.90897
-        })
+        // setUserLocation({
+        //   latitude: 40.700415, 
+        //   longitude: -73.90897
+        // })
         return;
       }
 
@@ -107,7 +108,7 @@ export default function App() {
   }, []);
 
   useEffect( () => {
-    if (token && !currentUser && dynoAwake) {
+    if ((token && !currentUser) && dynoAwake) {
       fetch(`${BASE_URL}/token_show`, {
         method: 'GET',
         headers: {
@@ -126,7 +127,6 @@ export default function App() {
         })
     }
   }, [token, dynoAwake])
-
 
 
   // Should be dependent on Dyno awake
@@ -174,9 +174,7 @@ export default function App() {
     // setSorted(true)
   };
 
-if (isLoading && !tokenSearched) {
-  return <SplashScreen />
-} 
+if ((!isLoading && userLocation) && tokenSearched) {
   return (
       <LocationContext.Provider 
         value={{locations: sortedLocations.length ? [sortedLocations, setSortedLocations] : [locations, setLocations], 
@@ -226,5 +224,8 @@ if (isLoading && !tokenSearched) {
       </NavigationContainer>
       </LocationContext.Provider>
   );
+  } 
+return <SplashScreen />
+
 }
 

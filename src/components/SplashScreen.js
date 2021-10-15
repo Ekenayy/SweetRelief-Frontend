@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import logo from '../photos/Logo_purp_bg.png'
+import {ActivityIndicator} from 'react-native'
 
 function SplashScreen () {
 
@@ -24,7 +25,6 @@ function SplashScreen () {
     `
 
     const Logo = styled.Image`
-
     `
 
 
@@ -33,6 +33,7 @@ function SplashScreen () {
             <LogoView>
                 <Logo source={logo}/>
             </LogoView>
+            <ActivityIndicator size='large' color='#F7F8F3'/>
         </Body>
     )
 }
