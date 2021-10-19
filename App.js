@@ -53,7 +53,6 @@ export default function App() {
           thisToken = await AsyncStorage.getItem('token') || 'none'  
           
           if (thisToken !== 'none') {
-            console.log(thisToken)
             setToken(thisToken)
           } else {
             setTokenSearched(true)
@@ -84,14 +83,40 @@ export default function App() {
 
   // Loads the token from the device storage
 
-  const getLocationPermissions = () => {
-    
+  const getLocationPermissions = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      console.log(status)
+      setErrorMsg('Permission to access location was denied');
+      // Alert.alert('Location is required to provide accurate service. Go to Settings -> SweetRelief -> Location to allow access')
+      Alert.alert(
+        'Location is required to provide accurate service. Go to Settings -> SweetRelief -> Location to allow access',
+        "Provide Access",
+        [
+            {
+                text: "Cancel",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel"
+            },
+            { text: "Retry", onPress: () => getLocationPermissions() }
+        ]
+    )
+      // setUserLocation({
+      //   latitude: 40.700415, 
+      //   longitude: -73.90897
+      // })
+      return;
+    }
+
+    let location = await Location.getCurrentPositionAsync({accuracy: 6});
+    let latlong = {latitude: location.coords.latitude, longitude: location.coords.longitude}
+    console.log(latlong)
+    setUserLocation(latlong);
   }
   // Request userLocation
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
-      console.log(status)
       if (status !== 'granted') {
         console.log(status)
         setErrorMsg('Permission to access location was denied');
@@ -104,9 +129,8 @@ export default function App() {
       }
 
       let location = await Location.getCurrentPositionAsync({accuracy: 6});
-      let latlong = {latitude: location.coords.latitude, longitude: location.coords.longitude}
-      console.log(latlong)
-      setUserLocation(latlong);
+        let latlong = {latitude: location.coords.latitude, longitude: location.coords.longitude}
+        setUserLocation(latlong);
     })();
   }, []);
 

@@ -4,9 +4,9 @@
     "slug": "SweetReliefFrontend",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./photos/WaterdropWordless1.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./photos/Logo_purp_bg.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

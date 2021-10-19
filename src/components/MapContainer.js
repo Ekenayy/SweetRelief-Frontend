@@ -93,10 +93,11 @@ const filteredLocations = reduceFilterList(contextLocations);
       <Marker 
         key={location.id}
         coordinate={{latitude: location.latitude, longitude: location.longitude}} 
+        onPress={() => handlePress(location)}
       >
-        <TouchView onPress={() => handlePress(location)}>
+        {/* <TouchView onPress={() => handlePress(location)}> */}
           {createLogo(location.locType)}
-        </TouchView>
+        {/* </TouchView> */}
       </Marker>
     )
   })
