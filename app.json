@@ -4,7 +4,7 @@
     "slug": "SweetReliefFrontend",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./photos/WaterdropWordless1.png",
+    "icon": "./assets/favicon.png",
     "splash": {
       "image": "./photos/Logo_purp_bg.png",
       "resizeMode": "contain",
@@ -19,6 +19,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.ekene.SweetRelief",
+      "buildNumber": "1.0.0",
       "config": {
         "googleMapsApiKey": "AIzaSyAoFW6rXnNnzGXKqkumIDgmDH0amGoLuMo"
       }
@@ -28,7 +29,9 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "versionCode": 1,
+      "package": "com.ekene.SweetRelief"
     },
     "web": {
       "favicon": "./assets/favicon.png"
