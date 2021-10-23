@@ -118,10 +118,6 @@ function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, comme
         }
     })
 
-    // If the y.value is less than 0, set the value to -258
-    // If the y.value is greater than
-    // Need a function that returns y.value 
-
     const removeToken = async () => {
         try {
             await AsyncStorage.removeItem('token')
@@ -150,7 +146,10 @@ function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, comme
                         <TouchView onPress={() => navigation.navigate('Profile')}>
                             <Ionicons name="person" size={30} color="#1C1C1C" style={{paddingRight: 5}} />
                         </TouchView>
-                        <TouchView onPress={() => console.log('pressed')}>
+                        <TouchView onPress={() => {
+                            setModalVisible(true)
+                            setModalContent('info')
+                        }}>
                             <Ionicons name="information-circle-outline" size={30} color="#1C1C1C" />
                         </TouchView>
                         <TouchView onPress={handleLogOut}>

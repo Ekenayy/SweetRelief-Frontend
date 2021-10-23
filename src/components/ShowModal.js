@@ -6,6 +6,7 @@ import PayOptions from './PayOptions'
 import PayScreen from './PayScreen'
 import Receipt from './Receipt'
 import Discover from './Discover'
+import Info from './Info'
 import CommentList from './CommentList'
 import ErrorMsg from './ErrorMsg'
 
@@ -50,6 +51,8 @@ function ShowModal ({avgRating, setAvgRating, modalContent, commentCount, setCom
                 return <CommentList commentCount={commentCount} selectedLocation={selectedLocation} setComments={setComments} comments={comments} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
             case 'money':
                 return <PayScreen setCurrentUser={setCurrentUser} setModalContent={setModalContent} currentUser={currentUser} selectedLocation={selectedLocation} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
+            case 'info':
+                return <Info setModalContent={setModalContent} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
             case 'error': 
                 return <ErrorMsg setModalVisible={setModalVisible}/>
         }
