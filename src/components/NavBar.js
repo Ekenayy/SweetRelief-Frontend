@@ -150,7 +150,7 @@ function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, comme
                         <TouchView onPress={() => navigation.navigate('Profile')}>
                             <Ionicons name="person" size={30} color="#1C1C1C" style={{paddingRight: 5}} />
                         </TouchView>
-                        <TouchView>
+                        <TouchView onPress={() => console.log('pressed')}>
                             <Ionicons name="information-circle-outline" size={30} color="#1C1C1C" />
                         </TouchView>
                         <TouchView onPress={handleLogOut}>
