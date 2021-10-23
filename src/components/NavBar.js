@@ -71,7 +71,7 @@ function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, comme
     `
 
     const TouchView = styled.TouchableOpacity`
-
+        margin-left: 7px;
     `
 
     const NoPress = ( ) => {
@@ -149,6 +149,9 @@ function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, comme
                     <IconView>
                         <TouchView onPress={() => navigation.navigate('Profile')}>
                             <Ionicons name="person" size={30} color="#1C1C1C" style={{paddingRight: 5}} />
+                        </TouchView>
+                        <TouchView>
+                            <Ionicons name="information-circle-outline" size={30} color="#1C1C1C" />
                         </TouchView>
                         <TouchView onPress={handleLogOut}>
                             <MaterialCommunityIcons name="logout" size={30} color="#1C1C1C" style={{paddingLeft: 5}}/>

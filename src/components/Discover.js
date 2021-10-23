@@ -5,7 +5,10 @@ import {WebView} from 'react-native-webview';
 import styled from 'styled-components'
 import { Foundation } from '@expo/vector-icons';
 
-function WebComp ( {headerText, setModalVisible, passValue, progClr, setProgClr, uri, showGateway, setShowGateway, setProg, prog, onMessage} ) {
+function Discover ( {headerText, setModalVisible, passValue, uri, showGateway, setShowGateway, onMessage} ) {
+    
+    const [progClr, setProgClr] = useState("#000")
+    const [prog, setProg] = useState(false)
 
     const HeaderText = styled(DarkText)`
         font-weight: bold;
@@ -49,17 +52,16 @@ function WebComp ( {headerText, setModalVisible, passValue, progClr, setProgClr,
                         source={{uri: uri}}
                         // source={{uri: 'https://sweet-relief-web.web.app/'}}
                         style={{flex: 1}}
-                        // ref={webRef}
-                        // onLoadStart={() => {
-                        //     setProg(true);
-                        //     setProgClr('#00457C');
-                        //     // passValue()
-                        // }}
+                        onLoadStart={() => {
+                            setProg(true);
+                            setProgClr('#00457C');
+                            // passValue()
+                        }}
                         // onLoadProgress={() => {
                         //     setProg(true);
                         //     setProgClr('#00457C');
                         // }}
-                        // onLoadEnd={() => setProg(false)}
+                        onLoadEnd={() => setProg(false)}
                         // onLoad={() => {
                         //     setProg(false);
                         // }}
@@ -71,4 +73,4 @@ function WebComp ( {headerText, setModalVisible, passValue, progClr, setProgClr,
 
 }
 
-export default WebComp
+export default Discover

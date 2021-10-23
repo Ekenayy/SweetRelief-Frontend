@@ -5,7 +5,7 @@ import CommentForm from './CommentForm'
 import PayOptions from './PayOptions'
 import PayScreen from './PayScreen'
 import Receipt from './Receipt'
-import WebComp from './WebComp'
+import Discover from './Discover'
 import CommentList from './CommentList'
 import ErrorMsg from './ErrorMsg'
 
@@ -15,8 +15,7 @@ function ShowModal ({avgRating, setAvgRating, modalContent, commentCount, setCom
 
     const [orderToken, setOrderToken] = useState()
     const [showGateway, setShowGateway] = useState(false)
-    const [progClr, setProgClr] = useState("#000")
-    const [prog, setProg] = useState(false)
+    
 
     // I have the current user and the location -- I can prefill a price for now 
     const Modal1 = styled.Modal`
@@ -46,7 +45,7 @@ function ShowModal ({avgRating, setAvgRating, modalContent, commentCount, setCom
             case 'receipt':
                 return <Receipt comments={comments} currentUser={currentUser} setModalContent={setModalContent} selectedLocation={selectedLocation} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
             case 'discover':
-                return <WebComp headerText='Discover' setModalVisible={setModalVisible} setProgClr={setProgClr} progClr={progClr} uri={selectedLocation.marketing_link} showGateway={true} setShowGateway={setShowGateway} setProg={setProg} prog={prog}/>
+                return <Discover headerText='Discover' setModalVisible={setModalVisible} uri={selectedLocation.marketing_link} showGateway={true} setShowGateway={setShowGateway}/>
             case 'comment list': 
                 return <CommentList commentCount={commentCount} selectedLocation={selectedLocation} setComments={setComments} comments={comments} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
             case 'money':

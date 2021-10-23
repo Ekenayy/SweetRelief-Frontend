@@ -6,7 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import styled from 'styled-components'
 import { createOpenLink } from 'react-native-open-maps';
 import { BASE_URL } from '@env'
-import WebComp from './WebComp'
+import WebComp from './Discover'
 
 function ShowBar ( {handleIconPress, commented, localLocIds, setLocalLocIds, selectedLocation, currentUser, comments} ) {
 
