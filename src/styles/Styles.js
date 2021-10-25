@@ -108,7 +108,7 @@ export  const WebViewCon = styled.View`
         margin-top: 150px;
         border-radius: 20px;
         padding: 30px;
-        background-color: #F4A261;
+        background-color: white;
     `
 export const WebHead = styled.View`
         flex-direction: row;

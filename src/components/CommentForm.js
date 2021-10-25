@@ -5,6 +5,8 @@ import { Rating } from 'react-native-ratings';
 import {useForm} from 'react-hook-form';
 import { Text, Scroll, CloseView, ModalHolder, ModalForm, CloseText, H2, Wrapper } from '../styles/Styles'
 import { BASE_URL } from '@env'
+import { MaterialIcons } from '@expo/vector-icons';
+
 
 
 
@@ -147,7 +149,7 @@ function CommentForm ( {avgRating, setAvgRating, currentUser, setCommentCount, c
                 <ModalHolder>
                     <ModalForm>
                         <CloseView onPress={() => setModalVisible(!modalVisible)}>
-                            <CloseText>❌</CloseText>
+                            <MaterialIcons name="cancel" size={30} color="#bea7e5" />
                         </CloseView>
                         <Rating
                             showRating={ios ? false : true}

@@ -4,6 +4,7 @@ import { Modal, ActivityIndicator } from 'react-native'
 import {WebView} from 'react-native-webview';
 import styled from 'styled-components'
 import { Foundation } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 function Discover ( {headerText, setModalVisible, passValue, uri, showGateway, setShowGateway, onMessage} ) {
     
@@ -41,7 +42,7 @@ function Discover ( {headerText, setModalVisible, passValue, uri, showGateway, s
                         setShowGateway(false)
                         setModalVisible(false)
                     }}> 
-                        <Foundation name="x" size={24} color="black" />
+                        <MaterialIcons name="cancel" size={30} color="#bea7e5" />
                     </CloseView>
                     <HeaderText>{headerText}</HeaderText>
                     <IndicatorView progress={prog}>
