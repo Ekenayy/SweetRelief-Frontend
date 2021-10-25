@@ -444,9 +444,9 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         <View style={styles.modalHolder}>
             <View style={styles.modalForm}> 
                 <CloseView onPress={handleClose}>
-                    <CloseText>❌</CloseText>
+                    <MaterialIcons name="cancel" size={30} color="#bea7e5" />
                 </CloseView>
-                <TitleText>Payment information</TitleText>
+                    <TitleText>Payment information</TitleText>
                             <CardField
                                 postalCodeEnabled={true}
                                 placeholder={{

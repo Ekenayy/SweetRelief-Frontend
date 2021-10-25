@@ -13,7 +13,7 @@ function Info ( {setModalVisible, modalVisible, setModalContent} ) {
     `
     const HeaderView = styled(WebHead)`
         background-color: transparent;
-        padding-top: 10px;
+        padding-top: 5px;
     `
 
     const HeaderText = styled(H2)`
@@ -23,6 +23,7 @@ function Info ( {setModalVisible, modalVisible, setModalContent} ) {
     `
 
     const MainSection = styled(Wrapper)`
+        margin-top: 20px;
     `
 
     return (
@@ -34,7 +35,7 @@ function Info ( {setModalVisible, modalVisible, setModalContent} ) {
                 <HeaderText>Information</HeaderText>
             </HeaderView>
             <MainSection>
-                <Text>Hello from Info</Text>
+                <Text>About</Text>
             </MainSection>
         </BigView>
     )

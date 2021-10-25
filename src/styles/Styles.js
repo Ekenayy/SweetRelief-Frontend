@@ -61,6 +61,8 @@ export const BrownButton = styled(Button)`
 export const CloseView = styled.TouchableOpacity`
         align-self: flex-start;
         padding: 13px;
+        display: flex;
+        flex-direction: row;
 `
 
 export const CloseText = styled.Text`

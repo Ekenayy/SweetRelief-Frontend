@@ -170,7 +170,7 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
         <ModalHolder>
             <ModalForm>
                 <CloseView onPress={() => setModalVisible(!modalVisible)}>
-                    <CloseText>❌</CloseText>
+                    <MaterialIcons name="cancel" size={30} color="#bea7e5" />
                 </CloseView>
                 <H2>Pay with</H2>
                 <AllOptionsView>
