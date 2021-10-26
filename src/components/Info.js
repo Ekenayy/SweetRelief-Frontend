@@ -19,12 +19,35 @@ function Info ( {setModalVisible, modalVisible, setModalContent} ) {
     const HeaderText = styled(H2)`
         color: #F7F8F3
         font-weight: 500;
-        text-align: center;
     `
 
     const MainSection = styled(Wrapper)`
         margin-top: 20px;
     `
+
+    const SectionWrapper = styled.View`
+        margin-left: 0px;
+        margin-top: 0px;
+        margin-right: 5px;        
+        padding: 15px;
+        padding-left: 5px;
+        border-bottom-width: .5px;
+        border-color: #F7F8F3;
+    `
+
+    const DetailsWrapper = styled(Wrapper)`
+        margin-top: 2px;
+        padding-top: 10px;
+        margin-left: 10px;
+    `
+
+    const DetailsText = styled(Text)`
+        color: #F7F8F3;
+        margin-bottom: 3px;
+        font-weight: 400;
+    `
+
+
 
     return (
         <BigView>
@@ -35,7 +58,13 @@ function Info ( {setModalVisible, modalVisible, setModalContent} ) {
                 <HeaderText>Information</HeaderText>
             </HeaderView>
             <MainSection>
-                <Text>About</Text>
+                <SectionWrapper>
+                    <HeaderText>About</HeaderText>
+                    <DetailsWrapper>
+                        <DetailsText>Contact us</DetailsText>
+                        <DetailsText>Legal</DetailsText>
+                    </DetailsWrapper>
+                </SectionWrapper>
             </MainSection>
         </BigView>
     )
