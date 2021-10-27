@@ -65,7 +65,7 @@ function Info ( {setModalVisible, modalVisible, setModalContent} ) {
                 <SectionWrapper>
                     <HeaderText>About</HeaderText>
                     <DetailsWrapper>
-                        <TouchView onPress={() => Linking.openURL('mailto:info@sweetrelief.tech')}>
+                        <TouchView onPress={() => Linking.openURL('mailto:support@sweetrelief.tech')}>
                             <DetailsText>Contact us</DetailsText>
                         </TouchView>
                         <TouchView> 
