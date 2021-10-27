@@ -3,6 +3,8 @@ import { Text, DarkText, Wrapper, Span, H2, Modal, ModalHolder, CloseView, WebHe
 import { Foundation } from '@expo/vector-icons';
 import styled from "styled-components";
 import { MaterialIcons } from '@expo/vector-icons';
+import * as Linking from 'expo-linking';
+
 
 
 function Info ( {setModalVisible, modalVisible, setModalContent} ) {
@@ -45,9 +47,11 @@ function Info ( {setModalVisible, modalVisible, setModalContent} ) {
         color: #F7F8F3;
         margin-bottom: 3px;
         font-weight: 400;
+        padding-bottom: 10px;
     `
 
-
+    const TouchView = styled.TouchableOpacity`
+    `
 
     return (
         <BigView>
@@ -61,8 +65,12 @@ function Info ( {setModalVisible, modalVisible, setModalContent} ) {
                 <SectionWrapper>
                     <HeaderText>About</HeaderText>
                     <DetailsWrapper>
-                        <DetailsText>Contact us</DetailsText>
-                        <DetailsText>Legal</DetailsText>
+                        <TouchView onPress={() => Linking.openURL('mailto:info@sweetrelief.tech')}>
+                            <DetailsText>Contact us</DetailsText>
+                        </TouchView>
+                        <TouchView> 
+                            <DetailsText>Legal</DetailsText>
+                        </TouchView>
                     </DetailsWrapper>
                 </SectionWrapper>
             </MainSection>
