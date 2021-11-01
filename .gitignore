@@ -14,3 +14,7 @@ web-build/
 
 #Reproduce on Local Machine
 .env 
+
+
+# Build files
+app.json
