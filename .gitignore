@@ -17,4 +17,4 @@ web-build/
 
 
 # Build files
-app.json
+/app.json
