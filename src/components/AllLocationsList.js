@@ -28,32 +28,18 @@ function AllLocationsList ({filterBy, favoriteLocIds, setFilterBy, handlePress, 
 
 
     const filterLocations = (locations) => {
-
         if (filterBy === null) {return locations}
-
         if (filterBy === "free") {
-        return locations.filter((location) => 
-        location.props.location.free === true
-        )
-    }  if (
-        filterBy === "key_required") {
-        return locations.filter((location) => 
-        location.props.location.key_required === false
-        )
-    }  if (
-        filterBy === "unisex") {
-        return locations.filter((location) => 
-        location.props.location.unisex !== false
-        )
-    }   if (
-        filterBy === "wheelchair_accessible") {
-        return locations.filter((location) => 
-        location.props.location.wheelchair_accessible !== false
-        )
+            return locations.filter((location) => location.props.location.free === true)
+    }  if (filterBy === "key_required") {
+            return locations.filter((location) => location.props.location.key_required === false)
+    }  if (filterBy === "unisex") {
+            return locations.filter((location) => location.props.location.unisex === true)
+    }   if (filterBy === "wheelchair_accessible") {
+            return locations.filter((location) => location.props.location.wheelchair_accessible === true)
         }
     };
 
-    // use filterBy = favorites
     return (
         <LocationsScroll>
             {filterBy === 'favorites' ? favoriteLocations : filterLocations(twentyFiveLocations)}

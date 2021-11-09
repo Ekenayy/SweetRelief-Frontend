@@ -28,8 +28,8 @@ function FilterItem ( {filter, filterBy, setFilterBy} ) {
         color: ${props => props.selected ? 'white' : '#F4A261'} ;
     `
 
-    const filterName = (name) => {
-      switch (name) {
+    const filterName = (filterName) => {
+      switch (filterName) {
         case 'key_required':
           return "No key needed"
         case 'free':
