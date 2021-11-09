@@ -4,6 +4,7 @@ import { Foundation } from '@expo/vector-icons';
 import styled from "styled-components";
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Linking from 'expo-linking';
+import {HOME_URL} from '@env'
 
 
 
@@ -68,8 +69,11 @@ function Info ( {setModalVisible, modalVisible, setModalContent} ) {
                         <TouchView onPress={() => Linking.openURL('mailto:support@sweetrelief.tech')}>
                             <DetailsText>Contact us</DetailsText>
                         </TouchView>
-                        <TouchView> 
-                            <DetailsText>Legal</DetailsText>
+                        <TouchView onPress={() => Linking.openURL(`${HOME_URL}/privacy`)}> 
+                            <DetailsText>Privacy Policy</DetailsText>
+                        </TouchView>
+                        <TouchView onPress={() => Linking.openURL(`${HOME_URL}/terms`)}> 
+                            <DetailsText>Terms of Service</DetailsText>
                         </TouchView>
                     </DetailsWrapper>
                 </SectionWrapper>
