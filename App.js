@@ -1,6 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect, useContext} from 'react';
-import { BASE_URL, STRIPE_TEST_KEY, URL_SCHEME } from '@env'
+import { BASE_URL, URL_SCHEME } from '@env'
 import Main from './src/pages/Main'
 import Login from './src/pages/Login'
 import SignUp from './src/pages/SignUp'
@@ -19,10 +18,6 @@ import {SafeAreaView, Alert} from 'react-native'
 import {LogBox } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 LogBox.ignoreLogs(['Reanimated 2']);
-import { StripeProvider } from '@stripe/stripe-react-native';
-import { initStripe } from '@stripe/stripe-react-native';
-
-
 
 export default function App() {
 
@@ -41,7 +36,6 @@ export default function App() {
   const [getPermission, setGetPermission] = useState(false)
   const [pubKey, setPubKey] = useState('')
   // const [sorted, setSorted] = useState(false)
-
 
   const Body = styled.View`
     flex: 1;
@@ -82,7 +76,6 @@ export default function App() {
   }, [dynoAwake])
 
   // Loads the token from the device storage
-
   const getLocationPermissions = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
@@ -101,10 +94,6 @@ export default function App() {
             { text: "Retry", onPress: () => getLocationPermissions() }
         ]
     )
-      // setUserLocation({
-      //   latitude: 40.700415, 
-      //   longitude: -73.90897
-      // })
       return;
     }
 
@@ -113,6 +102,7 @@ export default function App() {
     console.log(latlong)
     setUserLocation(latlong);
   }
+
   // Request userLocation
   useEffect(() => {
     (async () => {
@@ -121,10 +111,6 @@ export default function App() {
         console.log(status)
         setErrorMsg('Permission to access location was denied');
         Alert.alert('Location is required to provide accurate service. Go to Settings -> SweetRelief -> Location to allow access')
-        // setUserLocation({
-        //   latitude: 40.700415, 
-        //   longitude: -73.90897
-        // })
         return;
       }
 

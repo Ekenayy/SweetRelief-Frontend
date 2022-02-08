@@ -96,17 +96,13 @@ function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, comme
     const handleGesture = useAnimatedGestureHandler({
         onStart: (event, ctx) => {
             pressed.value = true;
-            // ctx.startX = x.value;
             ctx.startY = y.value;
         },
         onActive: (event, ctx) => {
-            // x.value = ctx.startX + event.translationX;
             y.value = ctx.startY + event.translationY;
         },
         onEnd: (event, ctx) => {
             pressed.value = false;
-            // x.value = withSpring(startingPosition);
-            // y.value = withSpring(startingPosition);
             y.value = ctx.startY + event.translationY;
         },
     })
@@ -114,7 +110,6 @@ function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, comme
     const uas = useAnimatedStyle(() => {
         return {
             transform: [{ translateY: y.value < -258 ? -258 : y.value }],
-            // transform: [{ translateY: y.value }]
         }
     })
 
