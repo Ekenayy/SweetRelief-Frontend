@@ -7,14 +7,26 @@ function SplashScreen () {
     const fadeAnim = useRef(new Animated.Value(0)).current
 
     useEffect(() => {
-        Animated.timing(
-            fadeAnim,
-            {
-                toValue: 1,
-                duration: 2000,
-                useNativeDriver: true
-            }
-        ).start();
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(
+                    fadeAnim,
+                    {
+                        toValue: 1,
+                        duration: 1800,
+                        useNativeDriver: true
+                    }
+                ),
+                Animated.timing(
+                    fadeAnim,
+                    {
+                        toValue: 0,
+                        duration: 1800,
+                        useNativeDriver: true
+                    }
+                )
+            ])
+        ).start()
     }, [fadeAnim])
     
     const Body = styled.View`
@@ -34,7 +46,7 @@ function SplashScreen () {
             <LogoView>
                 <Animated.Image style={{opacity: fadeAnim}} source={logo}/>
             </LogoView>
-                <ActivityIndicator size='large' color='#F7F8F3'/>
+                {/* <ActivityIndicator size='large' color='#F7F8F3'/> */}
         </Body>
     )
 }
