@@ -1,20 +1,25 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import logo from '../photos/Logo_purp_bg.png'
-import {ActivityIndicator} from 'react-native'
+import { ActivityIndicator, Animated } from 'react-native'
 
 function SplashScreen () {
+    const fadeAnim = useRef(new Animated.Value(0)).current
 
+    useEffect(() => {
+        Animated.timing(
+            fadeAnim,
+            {
+                toValue: 1,
+                duration: 2000,
+                useNativeDriver: true
+            }
+        ).start();
+    }, [fadeAnim])
+    
     const Body = styled.View`
         flex: 1;
-        background-color: #BEA7E5
-    `
-
-    const Words = styled.Text`
-        font-size: 16px;
-        color: #1C1C1C;
-        align-self: center;
-        padding-top: 30px;
+        background-color: #BEA7E5;
     `
 
     const LogoView = styled.View`
@@ -24,19 +29,10 @@ function SplashScreen () {
         width: auto;
     `
 
-    const Logo = styled.Image`
-    `
-
-    const LoadingView = styled.View`
-        flex-direction: row;
-        align-items: center;
-    `
-
-
     return (
         <Body>
             <LogoView>
-                <Logo source={logo}/>
+                <Animated.Image style={{opacity: fadeAnim}} source={logo}/>
             </LogoView>
                 <ActivityIndicator size='large' color='#F7F8F3'/>
         </Body>
