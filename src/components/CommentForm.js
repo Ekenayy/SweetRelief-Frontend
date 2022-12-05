@@ -7,10 +7,7 @@ import { Text, Scroll, CloseView, ModalHolder, ModalForm, CloseText, H2, Wrapper
 import { BASE_URL } from '@env'
 import { MaterialIcons } from '@expo/vector-icons';
 
-
-
-
-function CommentForm ( {avgRating, setAvgRating, currentUser, setCommentCount, commentCount, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
+function CommentForm ( {setAvgRating, currentUser, setCommented, setCommentCount, commentCount, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
 
     const [ios, setIos] = useState(Platform.OS === 'ios')
     const [errors, setErrors] = useState("")
@@ -77,7 +74,6 @@ function CommentForm ( {avgRating, setAvgRating, currentUser, setCommentCount, c
         margin-bottom: 20px;
     `
 
-
     const {register, handleSubmit, setValue} = useForm()
 
     useEffect(() => {
@@ -113,10 +109,10 @@ function CommentForm ( {avgRating, setAvgRating, currentUser, setCommentCount, c
                 if (newComment.errors) {
                     setErrors(newComment.errors)
                 } else {
-                    console.log(newComment)
                     setComments([newComment.comment, ...comments])}
                     setAvgRating(newComment.average_rating)
                     setCommentCount(commentCount + 1)
+                    setCommented(true);
                 }
             )
         setModalVisible(!modalVisible)
@@ -153,7 +149,6 @@ function CommentForm ( {avgRating, setAvgRating, currentUser, setCommentCount, c
                         </CloseView>
                         <Rating
                             showRating={ios ? false : true}
-                            // ratingBackgroundColor="#03DAC5"
                             type="heart"
                             imageSize={ ios ? 50 : 20}
                             onFinishRating={rating => locationRating = rating}

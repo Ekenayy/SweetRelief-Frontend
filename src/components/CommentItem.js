@@ -48,11 +48,14 @@ function CommentItem ( {comment, inModal}) {
         <RatingView inModal={inModal}>
             <AuthorDetails>
                 <Avatar>
-                    <AvatarImage  source={{uri: 'https://media.defense.gov/2020/Feb/19/2002251686/700/465/0/200219-A-QY194-002.JPG'}}/>
+                    <AvatarImage source={{uri: 'https://media.defense.gov/2020/Feb/19/2002251686/700/465/0/200219-A-QY194-002.JPG'}}/>
                 </Avatar>
                 <InfoView>
                     <Name inModal={inModal}>{comment.user.name}</Name>
-                    <Text inModal={inModal}>Says the bathroom is {comment.still_open ? 'open' : 'closed'}</Text>
+                    {comment.still_open != null ? 
+                        <Text inModal={inModal}>Says the bathroom is {comment.still_open ? 'open' : 'closed'}</Text> :
+                        null
+                    }
                 </InfoView>
             </AuthorDetails>
             <TextView>

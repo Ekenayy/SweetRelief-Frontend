@@ -13,7 +13,7 @@ import { cos } from 'react-native-reanimated'
 import uuid from 'react-native-uuid';
 
 
-function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, commented, modalContent, favoriteLocIds, setFavoriteLocIds, setModalContent, modalVisible, currentUser, comments, setComments, setModalVisible, setSelectedLocation, selectedLocation}) {
+function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, commented, favoriteLocIds, setFavoriteLocIds, setModalContent, modalVisible, currentUser, comments, setModalVisible, setSelectedLocation, selectedLocation}) {
 
     const {name, address, promotions, locType, free, walkTime, distance, baby_changing_station, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
     const {locations} = React.useContext(LocationContext)
@@ -181,6 +181,7 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
     }
 
     // Figure out how to provide an answer for null attributes (What if we don't know?)
+    console.log(comments)
 
     return (
         <BigWrapper>

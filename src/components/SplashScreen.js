@@ -30,15 +30,17 @@ function SplashScreen () {
     }, [fadeAnim])
     
     const Body = styled.View`
-        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         background-color: #BEA7E5;
     `
 
     const LogoView = styled.View`
-        padding-top: 100px;
-        align-self: center;
-        height: 50%;
-        width: auto;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 100%;
     `
 
     return (
