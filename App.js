@@ -50,7 +50,6 @@ export default function App() {
           }
       } catch(e) {
         // read error
-        console.log(e.message)
       }
       return thisToken
   }
@@ -75,7 +74,6 @@ export default function App() {
   const getLocationPermissions = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
-      console.log(status)
       setErrorMsg('Permission to access location was denied');
       // Alert.alert('Location is required to provide accurate service. Go to Settings -> SweetRelief -> Location to allow access')
       Alert.alert(
@@ -95,7 +93,6 @@ export default function App() {
 
     let location = await Location.getCurrentPositionAsync({accuracy: 6});
     let latlong = {latitude: location.coords.latitude, longitude: location.coords.longitude}
-    console.log(latlong)
     setUserLocation(latlong);
   }
 
@@ -104,7 +101,6 @@ export default function App() {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        console.log(status)
         setErrorMsg('Permission to access location was denied');
         Alert.alert('Location is required to provide accurate service. Go to Settings -> SweetRelief -> Location to allow access')
         return;

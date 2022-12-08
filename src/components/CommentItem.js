@@ -52,10 +52,7 @@ function CommentItem ( {comment, inModal}) {
                 </Avatar>
                 <InfoView>
                     <Name inModal={inModal}>{comment.user.name}</Name>
-                    {comment.still_open != null ? 
-                        <Text inModal={inModal}>Says the bathroom is {comment.still_open ? 'open' : 'closed'}</Text> :
-                        null
-                    }
+                    {comment.still_open && <Text inModal={inModal}>Says the bathroom is {comment.still_open ? 'open' : 'closed'}</Text>}
                 </InfoView>
             </AuthorDetails>
             <TextView>

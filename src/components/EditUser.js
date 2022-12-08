@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { DarkText, H2, Wrapper, PurpButton, Scroll, Span, Input } from '../styles/Styles'
+import { DarkText, PurpButton, Span, Input } from '../styles/Styles'
 import { Ionicons } from '@expo/vector-icons';
-import { Fontisto } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { SimpleLineIcons } from '@expo/vector-icons';
 import { BASE_URL } from '@env'
 import {useForm} from 'react-hook-form'
 import {Alert} from 'react-native'
-
 
 function EditUser ( {currentUser, setCurrentUser}) {
 
@@ -17,7 +13,6 @@ function EditUser ( {currentUser, setCurrentUser}) {
     const [errors, setErrors] = useState("")
     const [passwordClicked, setPasswordClicked] = useState(false)
     const [success, setSuccess] = useState(false)
-    // const [newPassword, setNewPassword] = useState("")
 
     useEffect(() => {
         register('name')
@@ -30,7 +25,6 @@ function EditUser ( {currentUser, setCurrentUser}) {
         padding-left: 12px;
         margin-bottom: 20px;
     `
-    // background: #c9c9c9;
 
     const EditInput = styled(Input)`
         background: #F4A261
@@ -96,7 +90,6 @@ function EditUser ( {currentUser, setCurrentUser}) {
             .then(r=> r.json())
             .then(result => {
                 if (result.success) {
-                    console.log(result)
                     setSuccess(true)
                     setErrors(null)
                 } else if (result.error) {
@@ -109,7 +102,6 @@ function EditUser ( {currentUser, setCurrentUser}) {
 
         if (data.password === data.newPassword) {
             handleInfoEdit({password: data.password})
-            // console.log(data)
         } else {
             setErrors("Passwords do not match")
         }
@@ -130,7 +122,7 @@ function EditUser ( {currentUser, setCurrentUser}) {
                     defaultValue={currentUser.email}
                     onChangeText={text => setValue('email', text)}
                 />
-                {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
+                {errors && errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>)}
                 <ChangePassView onPress={() => setPasswordClicked(true)}>
                     <Ionicons name="eye-outline" size={26} color="#F4A261" style={{marginRight: 10}} />
                     <DarkText>Change Password</DarkText>
@@ -156,7 +148,7 @@ function EditUser ( {currentUser, setCurrentUser}) {
                     secureTextEntry={true}
                     onChangeText={text => setValue('password', text)}
                 />
-                {errors ? <ErrorSpan>{errors}</ErrorSpan> : null}
+                {erorrs && <ErrorSpan>{errors}</ErrorSpan>}
                 <ButtonView>
                     <PurpButton onPress={handleSubmit(handleCheckPassword)}>
                         <Span>Submit</Span>
@@ -173,7 +165,6 @@ function EditUser ( {currentUser, setCurrentUser}) {
                         placeholderTextColor="black"
                         secureTextEntry={true}
                         onChangeText={text => setValue('newPassword', text)}
-                        // onChangeText={text => setValue('password', text)}
                     />
                     <EditInput
                         placeholder="Re-type pasword.."
@@ -181,7 +172,7 @@ function EditUser ( {currentUser, setCurrentUser}) {
                         secureTextEntry={true}
                         onChangeText={text => setValue('password', text)}
                     /> 
-                    {errors ? <ErrorSpan>{errors}</ErrorSpan> : null}
+                    {erorrs && <ErrorSpan>{errors}</ErrorSpan>}
                     <ButtonView>
                         <PurpButton onPress={handleSubmit(handleChangePassowrd)}>
                             <Span>Change Password</Span>
@@ -193,11 +184,9 @@ function EditUser ( {currentUser, setCurrentUser}) {
     }
 
     return (
-        // <Form>
         <Form>
             {passwordClicked ? <EditPassword/> : <EditInfo/> }
         </Form>
-        // </Form>
     )
 
 }

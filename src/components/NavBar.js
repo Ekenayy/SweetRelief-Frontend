@@ -113,7 +113,6 @@ function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, comme
         } catch(e) {
         }
     
-        console.log('Token Removed.')
     }
 
     const handleLogOut = () => {

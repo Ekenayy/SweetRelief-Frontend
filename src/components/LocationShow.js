@@ -131,7 +131,6 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
         var sumObj = comments.reduce(function (total, currentValue) {
                 return total + currentValue.rating;
             }, 0);
-            console.log(sumObj, comments.length, avgRating)
         if (sumObj > 0) {
             
             let avgNumb = parseFloat(sumObj / comments.length)
@@ -181,8 +180,7 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
     }
 
     // Figure out how to provide an answer for null attributes (What if we don't know?)
-    console.log(comments)
-
+    
     return (
         <BigWrapper>
             <HeaderView>
@@ -201,9 +199,9 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
                     <Text>{`${distance} mi`}</Text>
                 </RatingView>
                 <AttrView>
-                    {unisex ? <AttrText>Gender neutral</AttrText> : null}
-                    {wheelchair_accessible ? <AttrText>Wheelchair accessible</AttrText> : null}
-                    {baby_changing_station ? <AttrText>Changing station</AttrText> : null}
+                    {unisex && <AttrText>Gender neutral</AttrText>}
+                    {wheelchair_accessible && <AttrText>Wheelchair accessible</AttrText>}
+                    {baby_changing_station && <AttrText>Changing station</AttrText>}
                 </AttrView>
             </HeaderView>
             <ShowBar commented={commented} handleIconPress={handleButtonPress} localLocIds={localLocIds} setLocalLocIds={setLocalLocIds} currentUser={currentUser} comments={comments} selectedLocation={selectedLocation}/>

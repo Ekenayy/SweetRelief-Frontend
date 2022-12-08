@@ -73,7 +73,6 @@ function Main ( {currentUser, ios, navigation, setCurrentUser, setToken} ) {
         wholeMap.current.fitToCoordinates(latLongs, { edgePadding: { top: 10, right: 100, bottom: 150, left: 100 }, animated: true })
     }
 
-    // Basically if you call stripe payments_enabled and it's false then don't show the location?
     const fetchLocation = (location) => {
         fetch(`${BASE_URL}/locations/${location.id}`)
             .then(r => r.json())

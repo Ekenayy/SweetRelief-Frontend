@@ -10,7 +10,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 function CommentForm ( {setAvgRating, currentUser, setCommented, setCommentCount, commentCount, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
 
     const [ios, setIos] = useState(Platform.OS === 'ios')
-    const [errors, setErrors] = useState("")
+    const [errors, setErrors] = useState([])
     const yesButton = useRef()
     const noButton = useRef()
 
@@ -99,24 +99,27 @@ function CommentForm ( {setAvgRating, currentUser, setCommented, setCommentCount
             user_id: currentUser.id
         }
 
-        fetch(`${BASE_URL}/comments`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(formBody)
-        })
-            .then(res => res.json())
-            .then(newComment => {
-                if (newComment.errors) {
-                    setErrors(newComment.errors)
-                } else {
-                    setComments([newComment.comment, ...comments])}
-                    setAvgRating(newComment.average_rating)
-                    setCommentCount(commentCount + 1)
-                    setCommented(true);
-                }
-            )
-        setModalVisible(!modalVisible)
-
+        if (formBody.rating) {
+            fetch(`${BASE_URL}/comments`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(formBody)
+            })
+                .then(res => res.json())
+                .then(newComment => {
+                    if (newComment.errors) {
+                        setErrors(newComment.errors)
+                    } else {
+                        setComments([newComment.comment, ...comments])}
+                        setAvgRating(newComment.average_rating)
+                        setCommentCount(commentCount + 1)
+                        setCommented(true);
+                    }
+                )
+            setModalVisible(!modalVisible)
+        } else {
+            setErrors(['Review must include a rating'])
+        }
     }
 
     const changeColors = (word) => {
@@ -168,7 +171,7 @@ function CommentForm ( {setAvgRating, currentUser, setCommented, setCommentCount
                             multiline={true}
                             onChangeText={text => setValue('description', text)}
                         />
-                        {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
+                        {errors && errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>)}
                         <ButtonView>
                             <Button onPress={handleSubmit(onSubmit)}>
                                 <Span>Submit rating</Span>

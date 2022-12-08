@@ -1,11 +1,9 @@
-import React, {useState, useEffect, useContext, useRef} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import { Marker } from 'react-native-maps';
 import { GOOGLE_KEY } from '@env'
-import styled from 'styled-components'
-import MapView, {AnimatedRegion} from "react-native-map-clustering";
+import MapView from "react-native-map-clustering";
 import LocationContext from '../LocationContext'
-import { Wrapper, TouchView } from '../styles/Styles'
 import MapViewDirections from 'react-native-maps-directions';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { Ionicons } from '@expo/vector-icons';
@@ -21,7 +19,7 @@ export default function MapContainer(  {filterBy, ios, favoriteLocIds, setFilter
   const customLocation = {
     latitude: 40.700415, 
     longitude: -73.90897
-  }
+  } 
 
   const region = {
     ...contextUserLocation,
@@ -63,12 +61,6 @@ export default function MapContainer(  {filterBy, ios, favoriteLocIds, setFilter
     }
   }
 
-// some array.includes(location)
-// Send back a list of favorite location ids and see if they match that location id 
-// To unfavorite you send a delete request to the favorites controller delete action with location_id whatever
-// To favorite you send a post request to the favorites controller with loc id and user_id
-// To know if you've already favorited you send 
-
   const reduceFilterList = (locations) => {
     switch (filterBy){
       case 'free': 
@@ -95,9 +87,7 @@ const filteredLocations = reduceFilterList(contextLocations);
         coordinate={{latitude: location.latitude, longitude: location.longitude}} 
         onPress={() => handlePress(location)}
       >
-        {/* <TouchView onPress={() => handlePress(location)}> */}
           {createLogo(location.locType)}
-        {/* </TouchView> */}
       </Marker>
     )
   })
@@ -116,7 +106,7 @@ const filteredLocations = reduceFilterList(contextLocations);
           // provider={PROVIDER_GOOGLE}
         >
           {allLocations}
-          {selectedLocation ? 
+          {selectedLocation && 
             <MapViewDirections
               strokeWidth={4}
               mode="WALKING"
@@ -125,7 +115,7 @@ const filteredLocations = reduceFilterList(contextLocations);
               destination={{latitude: selectedLocation.latitude, longitude: selectedLocation.longitude}}
               apikey={GOOGLE_KEY}
             />
-            : null}
+          }
         </MapView>
       </View>
   );

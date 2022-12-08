@@ -82,7 +82,6 @@ function ShowBar ( {handleIconPress, commented, localLocIds, setLocalLocIds, sel
             })
     }
     
-    console.log(commented);
     return (
         <ShowScroll
             horizontal={true}

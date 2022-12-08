@@ -18,7 +18,6 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
     const [showGateway, setShowGateway] = useState(false)
     const [progClr, setProgClr] = useState("#000")
     const [prog, setProg] = useState(false)
-    const [payment, setPayment] = useState(null)
     const webRef = useRef()
 
     const Button = styled.TouchableOpacity`
@@ -44,18 +43,11 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
         color: #1C1C1C;
     `
 
-    const OneOptionView = styled.View`
-        flex-direction: row;
-    `
-
     const CloseView = styled.TouchableOpacity`
         align-self: flex-start;
         padding: 13px;
     `
 
-    const CloseText = styled.Text`
-        align-self: flex-start;
-    `
     const WebViewCon = styled.View`
         position: absolute;
         top: 0;
@@ -91,70 +83,21 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
         opacity: ${props => props.progress ? 1 : 0}
     `
 
-    const ConfirmationView = styled.View`
-        align-items: center;
-        margin-bottom: 5px;
-    `
-
-    // useEffect(() => {
-    //     if (payment && payment.status === 'COMPLETED') {
-    //         setPayment(null)
-    //         alert('PAYMENT MADE SUCCESSFULLY!')
-    //         setModalContent('receipt')
-    //     } else if (payment && payment.status !== 'COMPLETED') {
-    //         setPayment(null)
-    //         alert('PAYMENT FAILED. PLEASE TRY AGAIN.')
-    //         // setModalVisible(false)
-    //     }
-    // }, [payment])
-
     const handleClick = () => {
-        // Or just setMoalContent(selected) and name modal screens accordingly 
         if (selected == 'money') {
-            // createPayment()
             setModalContent(selected)
         }
     }
 
-    const createPayment = () => {
-
-        let formBody = {
-            // Read email_address from location.email_address
-            email: selectedLocation.email,
-            user_id: currentUser.id,
-            location_id: selectedLocation.id,
-            location_price: selectedLocation.price_cents
-        }
-
-        fetch(`${BASE_URL}/create_order`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(formBody)
-        })
-            .then(r => r.json())
-            .then(data => {
-                setOrderId(data.id)
-                setShowGateway(!showGateway)
-            })
-        
-    }
-
     function onMessage(e) {
         let data = e.nativeEvent.data;
-        // console.log(data);
         let paymentFromWeb = JSON.parse(data);
-        // setPayment(paymentFromWeb)
         setShowGateway(false)
 
         if (paymentFromWeb.status === 'COMPLETED') {
-            // alert('PAYMENT MADE SUCCESSFULLY!')
-            console.log('payment successful')
             setModalContent('receipt')
         } else if (paymentFromWeb && paymentFromWeb.status !== 'COMPLETED') {
-            // Alert.alert('PAYMENT FAILED. PLEASE TRY AGAIN.')
-            console.log(paymentFromWeb)
             setModalContent('error')
-            // setModalVisible(false)
         }
     }
 
@@ -178,11 +121,6 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
                                 <OptionsText>Money</OptionsText>
                         </MoneyButton>                
                 </AllOptionsView>
-                {/* {selected == 'money' ? 
-                <ConfirmationView>
-                    <DarkText>{selectedLocation.name} charges ${selectedLocation.price_cents} for its restroom</DarkText>
-                </ConfirmationView> : 
-                null} */}
                 {selected ? 
                 <Button onPress={handleClick}>
                     <Span>Confirm</Span>
@@ -215,14 +153,6 @@ function PayOptions( {orderToken, setOrderToken, modalVisible, setModalContent, 
                                 setProgClr('#00457C');
                                 passValue()
                             }}
-                            // onLoadProgress={() => {
-                            //     setProg(true);
-                            //     setProgClr('#00457C');
-                            // }}
-                            // onLoadEnd={passValue}
-                            // onLoad={() => {
-                            //     setProg(false);
-                            // }}
                             onMessage={onMessage}
                         />
                     </WebViewCon>
