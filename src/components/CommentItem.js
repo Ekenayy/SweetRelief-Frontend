@@ -5,7 +5,9 @@ function CommentItem ( {comment, inModal}) {
 
     const {description, rating, still_open} = comment
 
-    const RatingView = styled.View`
+    const RatingView = styled.View.attrs({
+        className: 'RatingView'
+    })`
         borderBottomWidth:  ${props => props.inModal ? '0px' : '.25px'}
         border-color: ${props => props.inModal ? '#1C1C1C' : '#F7F8F3'}
         margin-top: 10px;
