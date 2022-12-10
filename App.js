@@ -1,6 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useState, useEffect, useContext} from 'react';
-import { BASE_URL, STRIPE_TEST_KEY, URL_SCHEME } from '@env'
+import React, { useState, useEffect } from 'react';
+import { BASE_URL } from '@env'
 import Main from './src/pages/Main'
 import Login from './src/pages/Login'
 import SignUp from './src/pages/SignUp'
@@ -9,20 +8,15 @@ import ResetPass from './src/pages/ResetPass'
 import PayScreen from './src/components/PayScreen'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
 import LocationContext from './src/LocationContext'
 import SplashScreen from './src/components/SplashScreen';
 import styled from 'styled-components'
 import * as Location from 'expo-location';
 import * as geolib from 'geolib'
-import {SafeAreaView, Alert} from 'react-native'
+import {Alert} from 'react-native'
 import {LogBox } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 LogBox.ignoreLogs(['Reanimated 2']);
-import { StripeProvider } from '@stripe/stripe-react-native';
-import { initStripe } from '@stripe/stripe-react-native';
-
-
 
 export default function App() {
 
@@ -38,10 +32,6 @@ export default function App() {
   const [tokenSearched, setTokenSearched] = useState(false)
   const [ios, setIos] = useState(Platform.OS === 'ios')
   const [dynoAwake, setDynoAwake] = useState(false)
-  const [getPermission, setGetPermission] = useState(false)
-  const [pubKey, setPubKey] = useState('')
-  // const [sorted, setSorted] = useState(false)
-
 
   const Body = styled.View`
     flex: 1;
@@ -60,7 +50,6 @@ export default function App() {
           }
       } catch(e) {
         // read error
-        console.log(e.message)
       }
       return thisToken
   }
@@ -82,11 +71,9 @@ export default function App() {
   }, [dynoAwake])
 
   // Loads the token from the device storage
-
   const getLocationPermissions = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
-      console.log(status)
       setErrorMsg('Permission to access location was denied');
       // Alert.alert('Location is required to provide accurate service. Go to Settings -> SweetRelief -> Location to allow access')
       Alert.alert(
@@ -101,30 +88,21 @@ export default function App() {
             { text: "Retry", onPress: () => getLocationPermissions() }
         ]
     )
-      // setUserLocation({
-      //   latitude: 40.700415, 
-      //   longitude: -73.90897
-      // })
       return;
     }
 
     let location = await Location.getCurrentPositionAsync({accuracy: 6});
     let latlong = {latitude: location.coords.latitude, longitude: location.coords.longitude}
-    console.log(latlong)
     setUserLocation(latlong);
   }
+
   // Request userLocation
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        console.log(status)
         setErrorMsg('Permission to access location was denied');
         Alert.alert('Location is required to provide accurate service. Go to Settings -> SweetRelief -> Location to allow access')
-        // setUserLocation({
-        //   latitude: 40.700415, 
-        //   longitude: -73.90897
-        // })
         return;
       }
 
@@ -198,7 +176,6 @@ export default function App() {
 
     let sortedByDistance = newLocations.sort(numberCompare);
     setSortedLocations(sortedByDistance)
-    // setSorted(true)
   };
 
 if ((!isLoading && userLocation) && tokenSearched) {
@@ -251,7 +228,7 @@ if ((!isLoading && userLocation) && tokenSearched) {
       </NavigationContainer>
       </LocationContext.Provider>
   );
-  } 
+} 
 return <SplashScreen />
 
 }

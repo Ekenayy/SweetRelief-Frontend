@@ -13,8 +13,6 @@ function Receipt( {currentUser, comments, setModalContent, selectedLocation, mod
 
     const [paymentOrder, setPaymentOrder] = useState(null)
 
-    // console.log('hello', modalVisible)
-    // What are the drawbacks of doing it this way? 
     useEffect(() => {
         fetch(`${BASE_URL}/last_payment/${currentUser.id}`)
             .then(r => r.json())
@@ -72,17 +70,11 @@ function Receipt( {currentUser, comments, setModalContent, selectedLocation, mod
                     <CloseText>❌</CloseText>
                 </CloseView>
                 <Title>Thank you for your order {currentUser.name}!</Title>
-                {/* <View>
-                    {paymentOrder ? 
-                        <DarkText> ${String(paymentOrder.payment_order.price_cents)} paid to {selectedLocation.name} at {paymentOrder.time} on {paymentOrder.date}</DarkText>
-                        : null
-                    }
-                </View> */}
                 <ConfirmView>
                     <SmileyView>
                         <Ionicons name="happy-outline" size={60} color="#F4A261" />
                     </SmileyView>
-                    {paymentOrder ? 
+                    {paymentOrder && 
                         <InfoView>
                             <IconView>
                                 <FontAwesome5 name="store-alt" size={18} color="#F4A261" />
@@ -96,8 +88,7 @@ function Receipt( {currentUser, comments, setModalContent, selectedLocation, mod
                                 <MaterialCommunityIcons name="clock-outline" size={22} color="#F4A261" />
                                 <InfoWords>{paymentOrder.time}</InfoWords>
                             </IconView>
-                        </InfoView> : 
-                        null
+                        </InfoView>
                     }
                 </ConfirmView>
                 <View>

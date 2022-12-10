@@ -18,6 +18,7 @@ function PaymentOrder ( { order, chosenOrder, setChosenOrder, modalVisible, setM
         padding-bottom: 10px;
         padding-top: 10px;
     `
+    
     const TopView = styled.View`
         flex-direction: row;
         margin-bottom: 5px;
@@ -37,7 +38,6 @@ function PaymentOrder ( { order, chosenOrder, setChosenOrder, modalVisible, setM
         align-self: center;
         flex-direction: row;
     `
-
     const StatusText = styled(DarkText)`
         color: ${props => props.status == 'paid' ? 'green' : 'red'}
     `
@@ -74,7 +74,7 @@ function PaymentOrder ( { order, chosenOrder, setChosenOrder, modalVisible, setM
                 <OrderH2 modalVisible={modalVisible}>{location.name}</OrderH2>
                 <OrderText modalVisible={modalVisible}>{location.address}</OrderText>
                 <OrderText modalVisible={modalVisible}>${price_cents}</OrderText>
-                <OrderText modalVisible={modalVisible}>#{token}</OrderText>
+                {/* <OrderText modalVisible={modalVisible}>#{token}</OrderText> */}
         </OneOrderTouch>
     )
 

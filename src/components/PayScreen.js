@@ -200,10 +200,8 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
 
             if (error) {
                 setPayLoading(false)
-                console.log(error)
                 setErrors([error])
             } else if (succeeded === true) {
-                console.log('succeeded', succeeded)
                 setPayLoading(false)
                 setModalContent('receipt')            
             } else if (succeeded === false) {
@@ -212,7 +210,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                 // If there's another kind of error than try to confirm the payment on the frontend 
             }
         } catch (e) {
-            console.log(e)
         }
     }
 
@@ -232,7 +229,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
 
         if (error) {
             Alert.alert(`Error: ${error.message} `)
-            console.log('Error message from confirm payment', payId, error.message, error)
             updatePaymentOrder(orderId, 'failed')
         } else if (paymentIntent) {
             updatePaymentOrder(orderId, 'paid')
@@ -248,24 +244,13 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         }
         
         
-        try {
-            // const {paymentMethod, error} = await createPaymentMethod({
-            //     type: 'Card',
-            //     billingDetails,
-            //     setUpFutureUsage: 'OnSession',
-            // })
-    
-            // if (paymentMethod) {
-            //     // console.log(paymentMethod)
-            // }            
+        try {         
             const {clientSecret, error, payment_order_id, payment_method_id, succeeded} = await fetchPaymentIntentClientSecret()
             if (error) {
-                console.log(error)
             } else {
                 handleConfirmPayment(clientSecret, payment_order_id, payment_method_id)
             }
         } catch (e) {   
-            console.log(e)
         }
     }
 
@@ -287,12 +272,8 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             .then(r => r.json())
             .then(data => {
                 if (data.update_error) {
-                    console.log(data)
                 } else if (data.payment_order.status === 'paid') {
-                    // handlePaySuccess()
                     setModalContent('receipt')
-                } else {
-                    console.log(data)
                 }
             })
     }
@@ -329,7 +310,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     }
 
     const deletePaymentMethod = (payMethId) => {
-        console.log(payMethId)
         fetch(`${BASE_URL}/detach_payment_method`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -343,7 +323,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                 } else {
                     Alert.alert(`Success! ${data.success}.`)
                     let newArr = payMethods.filter(method => method.id !== payMethId)
-                    console.log(newArr)
                     setPayMethods(newArr)
                 }
             })
@@ -393,9 +372,10 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
 
             return (
                 <RowView >
-                    {showList ? <TrashIconView onPress={() => handleDeletePress(payMeth)}>
+                    {showList && 
+                    <TrashIconView onPress={() => handleDeletePress(payMeth)}>
                         <MaterialIcons name="delete" size={24} color="black" />
-                    </TrashIconView> : null}
+                    </TrashIconView>}
                     <CardView showList={showList} onPress={() => handleCardPress(payMeth)}>
                         <DetailsView> 
                             <ConditionalIcon brand={card.brand} />
@@ -408,7 +388,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                             </ArrowView>
                         }
                         <ArrowView> 
-                            {selected ? <Ionicons name="ios-checkmark-sharp" size={30} color="#F4A261" /> : null}
+                            {selected && <Ionicons name="ios-checkmark-sharp" size={30} color="#F4A261" /> }
                         </ArrowView>
                     </CardView>
                 </RowView>

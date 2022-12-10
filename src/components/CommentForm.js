@@ -7,13 +7,10 @@ import { Text, Scroll, CloseView, ModalHolder, ModalForm, CloseText, H2, Wrapper
 import { BASE_URL } from '@env'
 import { MaterialIcons } from '@expo/vector-icons';
 
-
-
-
-function CommentForm ( {avgRating, setAvgRating, currentUser, setCommentCount, commentCount, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
+function CommentForm ( {setAvgRating, currentUser, setCommented, setCommentCount, commentCount, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
 
     const [ios, setIos] = useState(Platform.OS === 'ios')
-    const [errors, setErrors] = useState("")
+    const [errors, setErrors] = useState([])
     const yesButton = useRef()
     const noButton = useRef()
 
@@ -77,7 +74,6 @@ function CommentForm ( {avgRating, setAvgRating, currentUser, setCommentCount, c
         margin-bottom: 20px;
     `
 
-
     const {register, handleSubmit, setValue} = useForm()
 
     useEffect(() => {
@@ -103,24 +99,27 @@ function CommentForm ( {avgRating, setAvgRating, currentUser, setCommentCount, c
             user_id: currentUser.id
         }
 
-        fetch(`${BASE_URL}/comments`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(formBody)
-        })
-            .then(res => res.json())
-            .then(newComment => {
-                if (newComment.errors) {
-                    setErrors(newComment.errors)
-                } else {
-                    console.log(newComment)
-                    setComments([newComment.comment, ...comments])}
-                    setAvgRating(newComment.average_rating)
-                    setCommentCount(commentCount + 1)
-                }
-            )
-        setModalVisible(!modalVisible)
-
+        if (formBody.rating) {
+            fetch(`${BASE_URL}/comments`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(formBody)
+            })
+                .then(res => res.json())
+                .then(newComment => {
+                    if (newComment.errors) {
+                        setErrors(newComment.errors)
+                    } else {
+                        setComments([newComment.comment, ...comments])}
+                        setAvgRating(newComment.average_rating)
+                        setCommentCount(commentCount + 1)
+                        setCommented(true);
+                    }
+                )
+            setModalVisible(!modalVisible)
+        } else {
+            setErrors(['Review must include a rating'])
+        }
     }
 
     const changeColors = (word) => {
@@ -153,7 +152,6 @@ function CommentForm ( {avgRating, setAvgRating, currentUser, setCommentCount, c
                         </CloseView>
                         <Rating
                             showRating={ios ? false : true}
-                            // ratingBackgroundColor="#03DAC5"
                             type="heart"
                             imageSize={ ios ? 50 : 20}
                             onFinishRating={rating => locationRating = rating}
@@ -173,7 +171,7 @@ function CommentForm ( {avgRating, setAvgRating, currentUser, setCommentCount, c
                             multiline={true}
                             onChangeText={text => setValue('description', text)}
                         />
-                        {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
+                        {errors && errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>)}
                         <ButtonView>
                             <Button onPress={handleSubmit(onSubmit)}>
                                 <Span>Submit rating</Span>

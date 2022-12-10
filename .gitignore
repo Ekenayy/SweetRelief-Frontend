@@ -14,6 +14,8 @@ web-build/
 
 #Reproduce on Local Machine
 .env 
+.env.development
+.env.production
 
 
 # Build files

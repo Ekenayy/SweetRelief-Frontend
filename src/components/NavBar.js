@@ -1,24 +1,18 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import AllLocationsList from './AllLocationsList'
-import { View, StyleSheet} from "react-native";
-import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
-import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
-import { Text, Wrapper, Button } from '../styles/Styles'
+import { StyleSheet} from "react-native";
+import { Wrapper } from '../styles/Styles'
 import LocationShow from './LocationShow'
 import Filters from './Filters'
 import { FontAwesome5 } from '@expo/vector-icons';
-import  { PanGestureHandler, FlingGestureHandler } from 'react-native-gesture-handler'
-import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, withSpring} from 'react-native-reanimated';
+import  { PanGestureHandler } from 'react-native-gesture-handler'
+import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler} from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
 
 function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, commented, modalContent, contextUserLocation, wholeMap, favoriteLocIds, setFavoriteLocIds, setCurrentUser, navigation, setToken, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
-
-    const [height, setHeight] = useState('100%')
 
     const styles = StyleSheet.create({
         animatedContainer: {
@@ -96,17 +90,13 @@ function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, comme
     const handleGesture = useAnimatedGestureHandler({
         onStart: (event, ctx) => {
             pressed.value = true;
-            // ctx.startX = x.value;
             ctx.startY = y.value;
         },
         onActive: (event, ctx) => {
-            // x.value = ctx.startX + event.translationX;
             y.value = ctx.startY + event.translationY;
         },
         onEnd: (event, ctx) => {
             pressed.value = false;
-            // x.value = withSpring(startingPosition);
-            // y.value = withSpring(startingPosition);
             y.value = ctx.startY + event.translationY;
         },
     })
@@ -114,7 +104,6 @@ function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, comme
     const uas = useAnimatedStyle(() => {
         return {
             transform: [{ translateY: y.value < -258 ? -258 : y.value }],
-            // transform: [{ translateY: y.value }]
         }
     })
 
@@ -124,7 +113,6 @@ function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, comme
         } catch(e) {
         }
     
-        console.log('Token Removed.')
     }
 
     const handleLogOut = () => {

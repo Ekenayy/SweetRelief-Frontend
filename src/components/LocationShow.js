@@ -13,7 +13,7 @@ import { cos } from 'react-native-reanimated'
 import uuid from 'react-native-uuid';
 
 
-function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, commented, modalContent, favoriteLocIds, setFavoriteLocIds, setModalContent, modalVisible, currentUser, comments, setComments, setModalVisible, setSelectedLocation, selectedLocation}) {
+function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, commented, favoriteLocIds, setFavoriteLocIds, setModalContent, modalVisible, currentUser, comments, setModalVisible, setSelectedLocation, selectedLocation}) {
 
     const {name, address, promotions, locType, free, walkTime, distance, baby_changing_station, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
     const {locations} = React.useContext(LocationContext)
@@ -126,25 +126,6 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
             return <CommentItem key={comment.id} comment={comment}/>
     })
 
-
-    const averageRating = () => {
-        var sumObj = comments.reduce(function (total, currentValue) {
-                return total + currentValue.rating;
-            }, 0);
-            console.log(sumObj, comments.length, avgRating)
-        if (sumObj > 0) {
-            
-            let avgNumb = parseFloat(sumObj / comments.length)
-            return avgNumb
-        } else if (sumObj === 0) {
-            // This is what the db returns when there are no reviews yet
-            return 'No reviews yet'
-        }
-        else {
-            return null
-        }
-    }
-
     const RatingComp = () => {
         switch (true) {
             case (comments.length > 0):
@@ -181,7 +162,7 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
     }
 
     // Figure out how to provide an answer for null attributes (What if we don't know?)
-
+    
     return (
         <BigWrapper>
             <HeaderView>
@@ -200,9 +181,9 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
                     <Text>{`${distance} mi`}</Text>
                 </RatingView>
                 <AttrView>
-                    {unisex ? <AttrText>Gender neutral</AttrText> : null}
-                    {wheelchair_accessible ? <AttrText>Wheelchair accessible</AttrText> : null}
-                    {baby_changing_station ? <AttrText>Changing station</AttrText> : null}
+                    {unisex && <AttrText>Gender neutral</AttrText>}
+                    {wheelchair_accessible && <AttrText>Wheelchair accessible</AttrText>}
+                    {baby_changing_station && <AttrText>Changing station</AttrText>}
                 </AttrView>
             </HeaderView>
             <ShowBar commented={commented} handleIconPress={handleButtonPress} localLocIds={localLocIds} setLocalLocIds={setLocalLocIds} currentUser={currentUser} comments={comments} selectedLocation={selectedLocation}/>

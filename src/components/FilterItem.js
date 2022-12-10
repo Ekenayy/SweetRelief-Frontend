@@ -6,8 +6,6 @@ import styled from 'styled-components'
 function FilterItem ( {filter, filterBy, setFilterBy} ) {
     
     const ItemView = styled(TouchView)`
-        ${'' /* background-color: white; */}
-        ${'' /* margin: 4px; */}
         border-radius: 10px;
         background-color: ${props => props.selected ? '#F4A261' : 'transparent'};
         border-width: 2px;
@@ -18,6 +16,10 @@ function FilterItem ( {filter, filterBy, setFilterBy} ) {
         height: 35px;
     `
 
+    const FavoriteView = styled(ItemView)`
+      border-color: ${props => props.selected ? 'transparent': '#bea7e5'};
+      background-color: ${props => props.selected ? '#bea7e5' : 'transparent'};
+    `
     const FilterText = styled(DarkText)`
         align-self: center;
         font-weight: bold;
@@ -25,7 +27,11 @@ function FilterItem ( {filter, filterBy, setFilterBy} ) {
         padding-right: 12px;
         padding-top: 5px;
         font-size: 15px;
-        color: ${props => props.selected ? 'white' : '#F4A261'} ;
+        color: ${props => props.selected ? 'black' : '#F4A261'} ;
+    `
+
+    const FavoriteText = styled(FilterText)`
+      color: ${props => props.selected ? 'black' : '#bea7e5'} ;
     `
 
     const filterName = (filterName) => {
@@ -47,17 +53,29 @@ function FilterItem ( {filter, filterBy, setFilterBy} ) {
         filterBy === filter ? setFilterBy(null) : setFilterBy(filter)
       }
 
-    return (
-        // <ItemView onPress={() => setFilterBy(filter)}>
-        <ItemView selected={filterBy === filter} onPress={handleFilterPress}>
-            <FilterText 
-              selected={filterBy === filter}
-              style={filterBy == filter ? {opacity: 0.5} : {opacity: 1}}
-            >
-              {filterName(filter)}
-            </FilterText>
-        </ItemView>
-    )
+    if (filter == 'favorites') {
+      return (
+        <FavoriteView selected={filterBy === filter} onPress={handleFilterPress}>
+          <FavoriteText 
+            selected={filterBy === filter}
+            style={filterBy == filter ? {opacity: 0.5} : {opacity: 1}}
+          >
+            {filterName(filter)}
+          </FavoriteText>
+        </FavoriteView>
+      )
+    } else {
+      return (
+          <ItemView selected={filterBy === filter} onPress={handleFilterPress}>
+              <FilterText 
+                selected={filterBy === filter}
+                style={filterBy == filter ? {opacity: 0.5} : {opacity: 1}}
+              >
+                {filterName(filter)}
+              </FilterText>
+          </ItemView>
+      )
+    }
 
 }
 

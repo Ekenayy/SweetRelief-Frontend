@@ -12,13 +12,11 @@ import ErrorMsg from './ErrorMsg'
 
 
 
-function ShowModal ({avgRating, setAvgRating, modalContent, commentCount, setCommentCount, setModalContent, currentUser, setCurrentUser, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
+function ShowModal ({avgRating, setAvgRating, modalContent, commentCount, setCommentCount, setCommented, setModalContent, currentUser, setCurrentUser, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
 
     const [orderToken, setOrderToken] = useState()
     const [showGateway, setShowGateway] = useState(false)
     
-
-    // I have the current user and the location -- I can prefill a price for now 
     const Modal1 = styled.Modal`
     `
 
@@ -36,11 +34,10 @@ function ShowModal ({avgRating, setAvgRating, modalContent, commentCount, setCom
         align-items: center;
     `
 
-    console.log(modalContent)
     const ConditionalComponent = () => {
         switch (modalContent) {
             case 'comment':
-                return <CommentForm avgRating={avgRating} setAvgRating={setAvgRating} setCommentCount={setCommentCount} commentCount={commentCount} setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible}/>
+                return <CommentForm avgRating={avgRating} setAvgRating={setAvgRating} setCommented={setCommented} setCommentCount={setCommentCount} commentCount={commentCount} setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible}/>
             case 'pay':
                 return <PayOptions orderToken={orderToken} setOrderToken={setOrderToken} setModalContent={setModalContent} currentUser={currentUser} selectedLocation={selectedLocation} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
             case 'receipt':
@@ -68,12 +65,7 @@ function ShowModal ({avgRating, setAvgRating, modalContent, commentCount, setCom
                         setModalVisible(!modalVisible);
                     }}
         >
-            {/* <ModalHolder>
-                <ModalForm> */}
-                    <ConditionalComponent/>
-                    {/* <CommentForm setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible}/> */}
-                {/* </ModalForm>
-            </ModalHolder> */}
+            <ConditionalComponent/>
         </Modal1>
     )
 
