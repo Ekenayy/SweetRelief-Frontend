@@ -64,8 +64,6 @@ function CommentList ( {selectedLocation, comments, commentCount, setComments, s
         }
     }
 
-    const handleClear = () => {
-    }
 
     return (
         <ModalHolder>

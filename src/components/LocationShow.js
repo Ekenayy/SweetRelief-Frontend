@@ -126,24 +126,6 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
             return <CommentItem key={comment.id} comment={comment}/>
     })
 
-
-    const averageRating = () => {
-        var sumObj = comments.reduce(function (total, currentValue) {
-                return total + currentValue.rating;
-            }, 0);
-        if (sumObj > 0) {
-            
-            let avgNumb = parseFloat(sumObj / comments.length)
-            return avgNumb
-        } else if (sumObj === 0) {
-            // This is what the db returns when there are no reviews yet
-            return 'No reviews yet'
-        }
-        else {
-            return null
-        }
-    }
-
     const RatingComp = () => {
         switch (true) {
             case (comments.length > 0):
