@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
 import styled from "styled-components";
-import { Text, DarkText, Scroll, CloseView, ModalHolder, ModalForm, CloseText, H2, Wrapper } from '../styles/Styles'
-import {FlatList, RefreshControl, ActivityIndicator} from "react-native";
+import { CloseView, ModalHolder, ModalForm, CloseText, H2 } from '../styles/Styles'
+import {FlatList, ActivityIndicator} from "react-native";
 import CommentItem from './CommentItem'
 import { BASE_URL } from '@env'
 
-
-function CommentList ( {selectedLocation, comments, commentCount, setComments, setModalVisible}) {
+function CommentList ( {selectedLocation, comments, commentCount, setModalVisible}) {
 
     const [refreshing, setRefreshing] = useState(true) 
     const [localComments, setLocalComments] = useState(comments)
@@ -33,7 +32,6 @@ function CommentList ( {selectedLocation, comments, commentCount, setComments, s
     `
 
     function onRefresh () {
-        // If offset is less than commentCount then there are still comments left to be fetched
 
         if (offset < commentCount) {
             setRefreshing(true)
@@ -74,14 +72,11 @@ function CommentList ( {selectedLocation, comments, commentCount, setComments, s
                     <H2>Reviews</H2>
                     <FlatList 
                         data={localComments}
-                        // extraData={comments}
                         renderItem={renderComment}
                         style={{ flex: 1, minWidth: '100%' }}
                         keyExtractor={(item) => item.id.toString()}
                         initialNumToRender={5}
                         showsVerticalScrollIndicator={false}
-                        // refreshing={refreshing}
-                        // onRefresh={onRefresh}
                         onEndReached={onRefresh}
                         onEndReachedThreshold={0.1}
                         ListFooterComponent={renderFooter}

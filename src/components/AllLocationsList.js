@@ -9,21 +9,19 @@ function AllLocationsList ({filterBy, favoriteLocIds, setFilterBy, handlePress, 
 
     const {locations, userLocation} = React.useContext(LocationContext)
     const [contextLocations, setContextLocations] = locations
-    const [contextUserLocation, setContextUserLocation] = userLocation
-    const [sortedLocations, setSortedLocations] = useState([])
 
     const LocationsScroll = styled(Scroll)`
         margin-left: 0px;
     `;
 
     const twentyFiveLocations = contextLocations.slice(0, 25).map((location) => {
-        return <LocationItem key={location.id} handlePress={handlePress} distance={distance} setDistance={setDistance} setSelectedLocation={setSelectedLocation} location={location} />
+        return <LocationItem key={location.id} handlePress={handlePress} distance={distance} setDistance={setDistance} location={location} />
     })
 
     const favoriteLocations = contextLocations.filter(location => {
         return favoriteLocIds.includes(location.id)
     }).map(location => {
-        return <LocationItem key={location.id} handlePress={handlePress} distance={distance} setDistance={setDistance} setSelectedLocation={setSelectedLocation} location={location} />
+        return <LocationItem key={location.id} handlePress={handlePress} distance={distance} setDistance={setDistance} location={location} />
     })
 
 

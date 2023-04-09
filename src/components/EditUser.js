@@ -109,6 +109,7 @@ function EditUser ( {currentUser, setCurrentUser}) {
     }
 
     const EditInfo = () => {
+
         return (
             <>
                 <EditInput
@@ -138,7 +139,6 @@ function EditUser ( {currentUser, setCurrentUser}) {
 
     const EditPassword = () => {
 
-        // If sucess return something
         if (!success) {
             return (
                 <>
@@ -185,7 +185,7 @@ function EditUser ( {currentUser, setCurrentUser}) {
 
     return (
         <Form>
-            {passwordClicked ? <EditPassword/> : <EditInfo/> }
+            {passwordClicked ? <EditPassword/> : <EditInfo/>}
         </Form>
     )
 

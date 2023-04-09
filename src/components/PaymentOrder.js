@@ -74,7 +74,6 @@ function PaymentOrder ( { order, chosenOrder, setChosenOrder, modalVisible, setM
                 <OrderH2 modalVisible={modalVisible}>{location.name}</OrderH2>
                 <OrderText modalVisible={modalVisible}>{location.address}</OrderText>
                 <OrderText modalVisible={modalVisible}>${price_cents}</OrderText>
-                {/* <OrderText modalVisible={modalVisible}>#{token}</OrderText> */}
         </OneOrderTouch>
     )
 

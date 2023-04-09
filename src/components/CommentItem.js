@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 function CommentItem ( {comment, inModal}) {
 
-    const {description, rating, still_open} = comment
+    const {description, rating} = comment
 
     const RatingView = styled.View.attrs({
         className: 'RatingView'

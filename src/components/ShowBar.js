@@ -1,5 +1,5 @@
-import React, {useState}  from 'react'
-import { Text, H2, Wrapper, Button, Scroll, TouchView } from '../styles/Styles'
+import React from 'react'
+import { Text, Button, Scroll } from '../styles/Styles'
 import { FontAwesome5 } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -7,9 +7,8 @@ import styled from 'styled-components'
 import { createOpenLink } from 'react-native-open-maps';
 import { BASE_URL } from '@env'
 
-function ShowBar ( {handleIconPress, commented, localLocIds, setLocalLocIds, selectedLocation, currentUser, comments} ) {
+function ShowBar ( {handleIconPress, commented, localLocIds, setLocalLocIds, selectedLocation, currentUser} ) {
 
-    
     const Options = styled(Button)`
         margin: 5px 15px;
         margin-top: 0px;
@@ -32,13 +31,6 @@ function ShowBar ( {handleIconPress, commented, localLocIds, setLocalLocIds, sel
         padding-bottom: 2px;
     `
 
-    const LogoView = styled.View`
-        border-radius: 600px; 
-        align-items: center;
-        border-width: 2px;
-        border-color: #F4A261
-    `
-
     const openDirections = createOpenLink({
         end: selectedLocation.address,
         provider: 'google',
@@ -46,7 +38,6 @@ function ShowBar ( {handleIconPress, commented, localLocIds, setLocalLocIds, sel
         travelType: 'walk'
     })
 
-    // const myComments = comments.find(comment => comment.user.id === currentUser.id)
     const favorited = localLocIds.includes(selectedLocation.id);
 
     const handleFavorite = () => {
@@ -91,15 +82,15 @@ function ShowBar ( {handleIconPress, commented, localLocIds, setLocalLocIds, sel
                         <FontAwesome5 name="directions" size={24} color="#F4A261" />
                     <OptionsText>Directions</OptionsText>
             </FirstOption>
-            {selectedLocation.marketing_link ? <Options onPress={() => handleIconPress('discover')}>
+            {selectedLocation.marketing_link && <Options onPress={() => handleIconPress('discover')}>
                 <FontAwesome5 name="hiking" size={24} color="#F4A261" />
                 <OptionsText>Discover</OptionsText>
-            </Options> : null}
+            </Options>}
             { selectedLocation.free ? null : 
-            <Options onPress={() => handleIconPress('pay')}>
+                <Options onPress={() => handleIconPress('pay')}>
                     <FontAwesome name="exchange" size={24} color="#F4A261" />
                     <OptionsText>Pay</OptionsText>
-            </Options>}
+                </Options>}
             {commented ? null : 
                 <Options onPress={() => handleIconPress('comment')}>
                     <MaterialIcons name="add-comment" size={24} color="#F4A261" />
@@ -116,10 +107,6 @@ function ShowBar ( {handleIconPress, commented, localLocIds, setLocalLocIds, sel
                     <OptionsText>Favorite</OptionsText> 
                 </Options>
             }
-            {/* <Options>
-                <MaterialIcons name="add-location-alt" size={24} color="#DDF8E8" />
-                <OptionsText>Add location</OptionsText>
-            </Options> */}
         </ShowScroll>
     )
 }

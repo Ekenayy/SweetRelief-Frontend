@@ -7,10 +7,8 @@ import LocationContext from '../LocationContext'
 import MapViewDirections from 'react-native-maps-directions';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { Ionicons } from '@expo/vector-icons';
-import { PROVIDER_GOOGLE } from 'react-native-maps' 
 
-
-export default function MapContainer(  {filterBy, ios, favoriteLocIds, setFilterBy, setSelectedLocation, wholeMap, handlePress, selectedLocation} ) {
+export default function MapContainer(  {filterBy, ios, favoriteLocIds, wholeMap, handlePress, selectedLocation} ) {
   
   const {locations, userLocation} = React.useContext(LocationContext)
   const [contextLocations, setContextLocations] = locations
@@ -103,7 +101,6 @@ const filteredLocations = reduceFilterList(contextLocations);
           showsUserLocation={true}
           followsUserLocation={ios ? false : true}
           ref={wholeMap}
-          // provider={PROVIDER_GOOGLE}
         >
           {allLocations}
           {selectedLocation && 

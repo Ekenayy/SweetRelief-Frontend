@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { DarkText, H2, CloseView, CloseText, Wrapper, Button, Span, PurpButton, ModalHolder, ModalForm } from '../styles/Styles'
+import { DarkText, H2, CloseView, CloseText, Wrapper, Span, PurpButton, ModalHolder, ModalForm } from '../styles/Styles'
 import { BASE_URL } from '@env'
-import { Fontisto } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
@@ -58,8 +57,6 @@ function Receipt( {currentUser, comments, setModalContent, selectedLocation, mod
         font-size: 20px;
         margin-left: 5px;
     `
-
-    // Encourage people to comment by prompting them to rate the bathroom on the receipt 
 
     const myComments = comments.find(comment => comment.user.id === currentUser.id)
 
