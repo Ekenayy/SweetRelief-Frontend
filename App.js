@@ -68,7 +68,8 @@ export default function App() {
           }
         })
     }
-  }, [dynoAwake])
+    // This probably doesn't belong in the dependency array
+  }, [dynoAwake]) 
 
   // Loads the token from the device storage
   const getLocationPermissions = async () => {
@@ -98,6 +99,7 @@ export default function App() {
 
   // Request userLocation
   useEffect(() => {
+    // Shouldn't this be if there's no userlocation?
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
@@ -160,7 +162,6 @@ export default function App() {
     const numberCompare = (num1, num2) =>{
         return num1.distance-num2.distance
     };
-
 
     locations.map((location) => {
         const latLongs = [ userLocation, {latitude: location.latitude,
