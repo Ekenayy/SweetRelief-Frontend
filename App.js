@@ -175,6 +175,20 @@ export default function App() {
         newLocations.push(updatedLocation)
     });
 
+    const quickSort = (items, left, right) => {
+        let index;
+        if (items.length > 1) {
+            index = partition(items, left, right);
+            if (left < index - 1) {
+                quickSort(items, left, index - 1);
+            }
+            if (index < right) {
+                quickSort(items, index, right);
+            }
+        }
+        return items;
+    }
+
     let sortedByDistance = newLocations.sort(numberCompare);
     setSortedLocations(sortedByDistance)
   };
