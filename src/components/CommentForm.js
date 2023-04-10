@@ -170,7 +170,7 @@ function CommentForm ( {setAvgRating, currentUser, setCommented, setCommentCount
                             multiline={true}
                             onChangeText={text => setValue('description', text)}
                         />
-                        {errors && errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>)}
+                        {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
                         <ButtonView>
                             <Button onPress={handleSubmit(onSubmit)}>
                                 <Span>Submit rating</Span>
