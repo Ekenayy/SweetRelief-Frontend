@@ -159,10 +159,6 @@ export default function App() {
   const sortByDistance = (locations) => {
     let newLocations = [];
 
-    const numberCompare = (num1, num2) =>{
-        return num1.distance-num2.distance
-    };
-
     locations.map((location) => {
         const latLongs = [ userLocation, {latitude: location.latitude,
             longitude: location.longitude}];
@@ -175,21 +171,27 @@ export default function App() {
         newLocations.push(updatedLocation)
     });
 
-    const quickSort = (items, left, right) => {
-        let index;
-        if (items.length > 1) {
-            index = partition(items, left, right);
-            if (left < index - 1) {
-                quickSort(items, left, index - 1);
-            }
-            if (index < right) {
-                quickSort(items, index, right);
-            }
+    const quickSort = (arr) => {
+      if (arr.length <= 1) {
+        return arr;
+      }
+    
+      let pivot = arr[0];
+      let leftArr = [];
+      let rightArr = [];
+    
+      for (let i = 1; i < arr.length; i++) {
+        if (arr[i].distance < pivot.distance) {
+          leftArr.push(arr[i]);
+        } else {
+          rightArr.push(arr[i]);
         }
-        return items;
-    }
+      }
+    
+      return [...quickSort(leftArr), pivot, ...quickSort(rightArr)];
+    };
 
-    let sortedByDistance = newLocations.sort(numberCompare);
+    let sortedByDistance = quickSort(newLocations);
     setSortedLocations(sortedByDistance)
   };
 
