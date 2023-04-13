@@ -5,7 +5,7 @@ import LocationContext from '../LocationContext'
 import styled from 'styled-components'
 
 
-function AllLocationsList ({filterBy, favoriteLocIds, setFilterBy, handlePress, distance, setDistance, selectedLocation, setSelectedLocation, filters}) {
+function AllLocationsList ({filterBy, favoriteLocIds, handlePress, distance, setDistance}) {
 
     const {locations, userLocation} = React.useContext(LocationContext)
     const [contextLocations, setContextLocations] = locations

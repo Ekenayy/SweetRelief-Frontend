@@ -75,7 +75,7 @@ function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, comme
                     <Filters filterBy={filterBy} setFilterBy={setFilterBy} />
                 </FilterContainer>
                 <LocContainer>
-                    <AllLocationsList favoriteLocIds={favoriteLocIds} filterBy={filterBy} setFilterBy={setFilterBy} handlePress={handlePress} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
+                    <AllLocationsList favoriteLocIds={favoriteLocIds} filterBy={filterBy} handlePress={handlePress}/>
                 </LocContainer>
             </>
         )

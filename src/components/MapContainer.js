@@ -25,25 +25,6 @@ export default function MapContainer(  {filterBy, ios, favoriteLocIds, wholeMap,
     longitudeDelta: 0.03
   }
 
-  const getRegion = () => {
-    let region
-    if (contextUserLocation) {
-      region = {
-          ...contextUserLocation,
-          latitudeDelta: 0.03,
-          longitudeDelta: 0.03
-      }
-    }
-    else {
-      region = {
-        ...customLocation,
-        latitudeDelta: 0.03,
-        longitudeDelta: 0.03
-      }
-    }
-    return region
-  }
-
   const createLogo = (locType) => {
     switch (locType) {
       case 'Park':
