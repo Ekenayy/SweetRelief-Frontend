@@ -46,10 +46,8 @@ export default function App() {
             setToken(thisToken)
           } else {
             setTokenSearched(true)
-            // No token found. The user will be sent to the login page
           }
       } catch(e) {
-        // read error
       }
       return thisToken
   }
@@ -68,7 +66,6 @@ export default function App() {
           }
         })
     }
-    // This probably doesn't belong in the dependency array
   }, [dynoAwake]) 
 
   // Loads the token from the device storage
@@ -76,7 +73,6 @@ export default function App() {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
       setErrorMsg('Permission to access location was denied');
-      // Alert.alert('Location is required to provide accurate service. Go to Settings -> SweetRelief -> Location to allow access')
       Alert.alert(
         'Location is required to provide accurate service. Go to Settings -> SweetRelief -> Location to allow access',
         "Provide Access",
@@ -97,21 +93,22 @@ export default function App() {
     setUserLocation(latlong);
   }
 
-  // Request userLocation
   useEffect(() => {
-    // Shouldn't this be if there's no userlocation?
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        Alert.alert('Location is required to provide accurate service. Go to Settings -> SweetRelief -> Location to allow access')
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({accuracy: 6});
-        let latlong = {latitude: location.coords.latitude, longitude: location.coords.longitude}
-        setUserLocation(latlong);
-    })();
+    if (!userLocation) {
+      getLocationPermissions();
+      // (async () => {
+      //   let { status } = await Location.requestForegroundPermissionsAsync();
+      //   if (status !== 'granted') {
+      //     setErrorMsg('Permission to access location was denied');
+      //     Alert.alert('Location is required to provide accurate service. Go to Settings -> SweetRelief -> Location to allow access')
+      //     return;
+      //   }
+  
+      //   let location = await Location.getCurrentPositionAsync({accuracy: 6});
+      //     let latlong = {latitude: location.coords.latitude, longitude: location.coords.longitude}
+      //     setUserLocation(latlong);
+      // })();
+    }
   }, []);
 
   useEffect( () => {
@@ -136,7 +133,6 @@ export default function App() {
   }, [token, dynoAwake])
 
 
-  // Should be dependent on Dyno awake
   useEffect(() => {
     if (dynoAwake) {
       fetch(`${BASE_URL}/active_locations`)
