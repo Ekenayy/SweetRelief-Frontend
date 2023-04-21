@@ -15,7 +15,7 @@
     "@react-native-async-storage/async-storage": "1.18.1",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/native": "^6.1.6",
-    "@react-navigation/stack": "^5.14.9",
+    "@react-navigation/stack": "^6.3.16",
     "@stripe/stripe-react-native": "0.27.0",
     "expo": "^48.0.12",
     "expo-blur": "~12.3.0",
