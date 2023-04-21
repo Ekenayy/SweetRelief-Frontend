@@ -83,10 +83,8 @@ const filteredLocations = reduceFilterList(contextLocations);
           apikey={GOOGLE_KEY}
         />
       )
-    } else return;
+    } else return null;
   }
-
-  console.log(contextUserLocation, GOOGLE_KEY, selectedLocation);
 
   return (
       <View style={styles.container}>
