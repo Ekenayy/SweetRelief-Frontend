@@ -4,7 +4,7 @@ import { Marker } from 'react-native-maps';
 import { GOOGLE_KEY } from '@env'
 import MapView from "react-native-map-clustering";
 import LocationContext from '../LocationContext'
-import MapViewDirections from 'react-native-maps-directions';
+import { MapViewDirections } from 'react-native-maps-directions';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -73,6 +73,7 @@ const filteredLocations = reduceFilterList(contextLocations);
 
   const Directions = ( ) => {
     if (selectedLocation) {
+      console.log(MapViewDirections);
       return (
         <MapViewDirections
           strokeWidth={4}
@@ -99,7 +100,7 @@ const filteredLocations = reduceFilterList(contextLocations);
           ref={wholeMap}
         >
           {allLocations}
-          <Directions />
+          <Directions/>
         </MapView>
       </View>
   );
