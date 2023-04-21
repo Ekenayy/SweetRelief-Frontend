@@ -71,6 +71,23 @@ const filteredLocations = reduceFilterList(contextLocations);
     )
   })
 
+  const Directions = ( ) => {
+    if (selectedLocation) {
+      return (
+        <MapViewDirections
+          strokeWidth={4}
+          mode="WALKING"
+          strokeColor="#BEA7E5"
+          origin={contextUserLocation ? contextUserLocation : customLocation}
+          destination={{latitude: selectedLocation.latitude, longitude: selectedLocation.longitude}}
+          apikey={GOOGLE_KEY}
+        />
+      )
+    } else return;
+  }
+
+  console.log(contextUserLocation, GOOGLE_KEY, selectedLocation);
+
   return (
       <View style={styles.container}>
         <MapView 
@@ -84,16 +101,7 @@ const filteredLocations = reduceFilterList(contextLocations);
           ref={wholeMap}
         >
           {allLocations}
-          {selectedLocation && 
-            <MapViewDirections
-              strokeWidth={4}
-              mode="WALKING"
-              strokeColor="#BEA7E5"
-              origin={contextUserLocation ? contextUserLocation : customLocation}
-              destination={{latitude: selectedLocation.latitude, longitude: selectedLocation.longitude}}
-              apikey={GOOGLE_KEY}
-            />
-          }
+          <Directions />
         </MapView>
       </View>
   );
