@@ -86,6 +86,12 @@ function ShowBar ( {handleIconPress, commented, localLocIds, setLocalLocIds, sel
                 <FontAwesome5 name="hiking" size={24} color="#F4A261" />
                 <OptionsText>Discover</OptionsText>
             </Options>}
+            {selectedLocation.free ? null : 
+                <Options onPress={() => handleIconPress('pay')}>
+                    <FontAwesome name="exchange" size={24} color="#F4A261" />
+                    <OptionsText>Pay</OptionsText>
+                </Options>
+            }
             {commented ? null : 
                 <Options onPress={() => handleIconPress('comment')}>
                     <MaterialIcons name="add-comment" size={24} color="#F4A261" />
