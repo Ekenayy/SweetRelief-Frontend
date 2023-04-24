@@ -9,7 +9,7 @@ import uuid from 'react-native-uuid';
 
 function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, commented, favoriteLocIds, setFavoriteLocIds, setModalContent, modalVisible, currentUser, comments, setModalVisible, setSelectedLocation, selectedLocation}) {
 
-    const {name, address, promotions, locType, free, distance, baby_changing_station, price_cents, unisex, key_required, wheelchair_accessible} = selectedLocation
+    const {name, address, promotions, locType, free, distance, baby_changing_station, price_cents, unisex, key_required, wheelchair_accessible, walkTime} = selectedLocation
     const [localLocIds, setLocalLocIds] = useState(favoriteLocIds)
     
     const Span = styled(Text)`
@@ -167,8 +167,10 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
                 </RatingView>
                 <RatingView>
                     <Text>{locType}</Text>
-                    <Text>  *  </Text>
+                    <Text> * </Text>
                     <Text>{`${distance} mi`}</Text>
+                    <Text> * </Text>
+                    <Text>{`${walkTime} mins`}</Text>
                 </RatingView>
                 <AttrView>
                     {unisex && <AttrText>Gender neutral</AttrText>}
