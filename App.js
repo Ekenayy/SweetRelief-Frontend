@@ -222,13 +222,13 @@ if ((!isLoading && userLocation) && tokenSearched) {
               :
               <>
                 <Stack.Screen name='Login'>
-                  {(props) => <Login {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+                  {(props) => <Login {...props} setCurrentUser={setCurrentUser} />}
                 </Stack.Screen>
                 <Stack.Screen name='SignUp'>
-                  {(props) => <SignUp {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+                  {(props) => <SignUp {...props} setCurrentUser={setCurrentUser} />}
                 </Stack.Screen>
                 <Stack.Screen name='ResetPass'>
-                  {(props) => <ResetPass {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+                  {(props) => <ResetPass {...props} />}
                 </Stack.Screen>    
               </>            
               }

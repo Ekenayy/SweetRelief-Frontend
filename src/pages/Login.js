@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Alert} from 'react-native'
 import { Input, Span, BrownButton, DarkText, Text} from '../styles/Styles'
 
-function Login ( {navigation, currentUser, setCurrentUser}) {
+function Login ( {navigation, setCurrentUser}) {
 
     const {register, handleSubmit, setValue} = useForm()
     const [errors, setErrors] = useState("")
@@ -107,7 +107,6 @@ function Login ( {navigation, currentUser, setCurrentUser}) {
                 onChangeText={text => setValue('password', text)}
             />
             {errors ? <ErrorSpan>{errors}</ErrorSpan> : null}
-            {/* {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null} */}
             <LoginButton onPress={handleSubmit(onSubmit)}>
                 <Span>Log in</Span>
             </LoginButton>

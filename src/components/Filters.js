@@ -1,7 +1,6 @@
 import React from 'react'
 import { Scroll } from '../styles/Styles'
 import FilterItem from './FilterItem'
-import LocationContext from '../LocationContext'
 import styled from 'styled-components'
 import { Ionicons } from '@expo/vector-icons';
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Alert } from 'react-native'
 import CommentForm from './CommentForm'
@@ -8,9 +8,6 @@ import ErrorMsg from './ErrorMsg'
 
 function ShowModal ({avgRating, setAvgRating, modalContent, commentCount, setCommentCount, setCommented, setModalContent, currentUser, setCurrentUser, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
 
-    const [orderToken, setOrderToken] = useState()
-    const [showGateway, setShowGateway] = useState(false)
-    
     const Modal1 = styled.Modal`
     `
 

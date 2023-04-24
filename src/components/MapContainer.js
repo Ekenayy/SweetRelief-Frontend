@@ -14,11 +14,6 @@ export default function MapContainer(  {filterBy, ios, favoriteLocIds, wholeMap,
   const [contextLocations, setContextLocations] = locations
   const [contextUserLocation, setContextUserLocation] = userLocation
 
-  const customLocation = {
-    latitude: 40.700415, 
-    longitude: -73.90897
-  } 
-
   const region = {
     ...contextUserLocation,
     latitudeDelta: 0.03,

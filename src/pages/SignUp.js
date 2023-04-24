@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import { Alert } from 'react-native'
 import {useForm} from 'react-hook-form'
 import { BASE_URL } from '@env'
-import { Input, Span, DarkText, Button, BrownButton} from '../styles/Styles'
+import { Input, Span, DarkText, BrownButton} from '../styles/Styles'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function SignUp ( {navigation, currentUser, setCurrentUser} ) {
+function SignUp ( {navigation, setCurrentUser} ) {
 
     const [loaded, setLoaded] = useState(false)
     const [errors, setErrors] = useState("")
@@ -100,7 +100,6 @@ function SignUp ( {navigation, currentUser, setCurrentUser} ) {
                     onChangeText={text => setValue('email', text)}
                     autoCorrect={false}
                 />
-                {/* {errors ? <ErrorSpan>{errors}</ErrorSpan> : null} */}
                 {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
                 <SignUpButton onPress={handleSubmit(onSubmit)}>
                     <Span>Create account</Span>

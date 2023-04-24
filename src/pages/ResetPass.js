@@ -2,10 +2,10 @@ import React, {useState, useEffect} from 'react'
 import {useForm} from 'react-hook-form';
 import { BASE_URL } from '@env'
 import styled from 'styled-components';
-import { Input, Span, BrownButton, DarkText, ErrorSpan, H2, Wrapper} from '../styles/Styles'
+import { Input, Span, BrownButton, ErrorSpan, H2 } from '../styles/Styles'
 import {Alert} from 'react-native'
 
-function ResetPass ( {navigation, currentUser, setCurrentuser}) {
+function ResetPass ( {navigation}) {
 
     const {register, handleSubmit, setValue} = useForm()
     const [errors, setErrors] = useState("")

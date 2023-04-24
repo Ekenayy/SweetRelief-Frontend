@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import LocationItem from './LocationItem'
-import { Text, Scroll } from '../styles/Styles'
+import { Scroll } from '../styles/Styles'
 import LocationContext from '../LocationContext'
 import styled from 'styled-components'
 

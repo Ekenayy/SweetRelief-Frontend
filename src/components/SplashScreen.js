@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import logo from '../photos/Logo_purp_bg.png'
-import { ActivityIndicator, Animated } from 'react-native'
+import { Animated } from 'react-native'
 
 function SplashScreen () {
     const fadeAnim = useRef(new Animated.Value(0)).current
@@ -48,7 +48,6 @@ function SplashScreen () {
             <LogoView>
                 <Animated.Image style={{opacity: fadeAnim}} source={logo}/>
             </LogoView>
-                {/* <ActivityIndicator size='large' color='#F7F8F3'/> */}
         </Body>
     )
 }

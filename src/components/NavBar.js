@@ -84,7 +84,6 @@ function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, comme
     const pressed = useSharedValue(false)
 
     const startingPosition = 300;
-    // const x = useSharedValue(startingPosition);
     const y = useSharedValue(startingPosition);
 
     const handleGesture = useAnimatedGestureHandler({
