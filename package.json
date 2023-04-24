@@ -9,11 +9,10 @@
     "eject": "expo eject"
   },
   "engines": {
-    "node": ">=14.0.0 <16.0.0"
+    "node": ">=16.0.0 <18.16.0"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.17.11",
-    "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
     "@stripe/stripe-react-native": "0.23.3",
