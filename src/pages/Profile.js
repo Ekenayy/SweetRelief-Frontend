@@ -22,7 +22,7 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
     const Header = styled.View`
         padding-top: 15px;
         background: #bea7e5;
-        height: 20%;
+        padding-bottom: 15px;
     `
 
     const TextView = styled.View`
@@ -39,8 +39,8 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
     const TouchView = styled.TouchableOpacity`
         flex-direction: row;
         align-items: center;
-        border-bottom-width: ${props => props.selected ? '2px': '0px'}
-        border-color: #F7F8F3
+        border-bottom-width: 2px;
+        border-color: ${props => props.selected ? '#F7F8F3 ': 'transparent'};
         padding-bottom: 3px;
     `
     const EditView = styled(TouchView)`

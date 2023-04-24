@@ -8,7 +8,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function SignUp ( {navigation, setCurrentUser} ) {
 
-    const [loaded, setLoaded] = useState(false)
     const [errors, setErrors] = useState("")
 
     const {register, handleSubmit, setValue} = useForm()

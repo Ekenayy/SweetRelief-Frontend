@@ -41,10 +41,6 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
         margin-left: 0px;
     `
 
-    const VoteButton = styled(Button)`
-        margin: 10px;
-    `
-
     const ClearButton = styled(Button)`
         background-color: #bea7e5;
         width: 140px;
@@ -52,16 +48,8 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
         height: 30px;
     `
 
-    const ButtonView = styled(Wrapper)`
-        flex-direction: row;
-        align-self: center;
-        align-items: center;
-        margin-left: 0px;
-    `
-
     const BigWrapper = styled(Wrapper)`
         margin-left: 0px;
-        flex: 1;
     `
     
     const ShowScroll = styled(Scroll)`
@@ -109,7 +97,6 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
     const AttrText = styled(Text)`
         margin-right: 7px;
     `
-    const gotComments = comments.length > 0
 
     const AllComments = () => 
         comments.slice(0, 3).map((comment) => {
@@ -150,8 +137,6 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
         setModalContent(keyword)
         setModalVisible(!modalVisible)
     }
-
-    // Figure out how to provide an answer for null attributes (What if we don't know?)
     
     return (
         <BigWrapper>

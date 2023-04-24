@@ -148,7 +148,10 @@ function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, comme
                     <IconWrapper>
                         <FontAwesome5 name="grip-lines" size={24} color="#1C1C1C"/>
                     </IconWrapper>
-                    {selectedLocation ? <LocationShow setAvgRating={setAvgRating} avgRating={avgRating} commentCount={commentCount} setCommentCount={setCommentCount} commented={commented} avgRating={avgRating} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} modalConent={modalContent} setModalContent={setModalContent} currentUser={currentUser} setComments={setComments} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> : <NoPress/>}
+                    {selectedLocation ? <LocationShow setAvgRating={setAvgRating} avgRating={avgRating} commentCount={commentCount} setCommentCount={setCommentCount} commented={commented} avgRating={avgRating} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} modalConent={modalContent} setModalContent={setModalContent} currentUser={currentUser} setComments={setComments} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> 
+                        : 
+                        <NoPress/>
+                    }
                 </NavContainer>
             </Animated.View>
         </PanGestureHandler>
