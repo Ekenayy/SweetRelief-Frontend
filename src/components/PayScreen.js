@@ -1,20 +1,18 @@
-import React, {useRef, useState, useEffect} from 'react' 
+import React, {useState, useEffect} from 'react' 
 import styled from 'styled-components'
-import { Text, DarkText, Wrapper, Span, H2, CloseView, PurpButton, ErrorSpan, CloseText} from '../styles/Styles'
-import { CardField, useStripe, useConfirmPayment } from '@stripe/stripe-react-native';
+import { DarkText, Wrapper, Span, CloseView, ErrorSpan} from '../styles/Styles'
+import { CardField, useConfirmPayment } from '@stripe/stripe-react-native';
 import { BASE_URL, STRIPE_TEST_KEY } from '@env'
-import {Alert, Button, View, StyleSheet, TouchableOpacity, Switch, ActivityIndicator} from 'react-native'
+import {Alert, View, StyleSheet, Switch, ActivityIndicator} from 'react-native'
 import { initStripe } from '@stripe/stripe-react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import { convertSpeed } from 'geolib';
 import { MaterialIcons } from '@expo/vector-icons';
 
-function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible, setCurrentUser, currentUser, selectedLocation} ) {
+function PayScreen( { setModalContent, setModalVisible, setCurrentUser, currentUser, selectedLocation } ) {
 
     const { confirmPayment, loading } = useConfirmPayment()
-    const {createPaymentMethod } = useStripe()
     const [errors, setErrors] = useState('')
     const [saveCard, setSaveCard] = useState(true)
     const [localUser, setLocalUser] = useState(currentUser)
@@ -26,21 +24,8 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     const [showList, setShowList] = useState(false)
     const [addClicked, setAddClicked] = useState(false)
 
+    // Don't orphan
     let cardDeets
-
-    const ModalHolder = styled.View`
-        flex: 1;
-        margin-top: 300px;
-        width: 90%;
-        align-self: center;
-    `
-
-    const ModalForm = styled.View`
-        padding: 10px;
-        background-color: white;
-        border-radius: 20px;
-        align-items: center;
-    `
 
     const TitleText = styled(DarkText)`
         font-size: 24px;
@@ -76,8 +61,7 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         border-radius: 10px;
         border-bottom-width: ${props => props.showList ? '.5px' : '0px'}
     `
-    // background-color: ${props => props.selected ? 'grey' : 'white'}
-
+    
     const CardText = styled(DarkText)`
         font-size: 22px;
         margin-right: 5px;
@@ -112,8 +96,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
 
 // UseEffects ------ 
     useEffect(() => {
-        // If the user doesn't have a stripe_id, then send a request to make an account
-        // If they do then don't do anything.
         if (!currentUser.stripe_user_id) {
             createAccount()
             setIsLoaded(true)
@@ -166,17 +148,11 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             save_card: saveCard,
         }
 
-        //  In this first case -- If a user has a paymethod and there's a selected method
-        // make the selectedMethod the method that is used here. hasPayMethod doesn't matter if there's a selectedMethod
-        // If the user has many payment methods and picks one
-        // And if the user doesn't select anything
         if (selectedMethod) {
-            // Find the paymentMethod with the selected Id
             formBody.selectedMethod = selectedMethod.id
             formBody.save_card = false
         } else if (hasPayMethod && !addClicked) {
             formBody.save_card = false
-            // In the defaults state where this a pay method but the user hasn't selected anything
             formBody.selectedMethod = payMethods[0].id
         }
 
@@ -193,7 +169,6 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
         };
 
     const handleSavedCardPay = async () => {
-
         try {
             setPayLoading(true)
             const {clientSecret, error, succeeded, payment_order_id, payment_method_id} = await fetchPaymentIntentClientSecret()
@@ -207,14 +182,11 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             } else if (succeeded === false) {
                 handleConfirmPayment(clientSecret, payment_order_id, payment_method_id)
                 setPayLoading(false)
-                // If there's another kind of error than try to confirm the payment on the frontend 
             }
         } catch (e) {
         }
     }
 
-
-    // It needs access to the paymentMethodId somehow. State isn't getting set fast enough
     const handleConfirmPayment = async (secret, orderId, payId) => {
         const billingDetails = {
             name: currentUser.name,
@@ -232,18 +204,10 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
             updatePaymentOrder(orderId, 'failed')
         } else if (paymentIntent) {
             updatePaymentOrder(orderId, 'paid')
-            // Send an update message to your backend
         }
     }
 
     const triggerPaySequence = async () => {
-
-        const billingDetails = {
-            name: currentUser.name,
-            email: currentUser.email
-        }
-        
-        
         try {         
             const {clientSecret, error, payment_order_id, payment_method_id, succeeded} = await fetchPaymentIntentClientSecret()
             if (error) {
@@ -256,11 +220,10 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
 
     const handleNewCardPay = async () => {
         if (!cardDeets?.complete || !currentUser.email) {
-            Alert.alert('Please enter card details')
+            Alert.alert('Please correct card details')
             return;
         }
         triggerPaySequence()
-
     }
 
     const updatePaymentOrder = (id, status) => {
@@ -279,15 +242,11 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
     }
 
     const handleClose = () => {
-        // If the user hasn't changed it well setCurrentUser to the same object
         setCurrentUser(localUser)
         setModalVisible(false)
     }
 
     const handleCardPress = (payMeth) => {
-        // If the id of the payMeth is the same as the first one in the stack and showList is false
-        // Isn't already open then open up the payment list
-        // Else setSelectedMethod(payMeth) 
         if (payMeth.id === payMethods[0].id && !showList) {
             setShowList(true)
         } 
@@ -327,13 +286,12 @@ function PayScreen( { navigation, modalVisible, setModalContent, setModalVisible
                 }
             })
     }
-    // Logic for cardfield and switch
+
+    // This shouldn't be orphaned here
     const cardLogic = ((addClicked) || (isLoaded && !hasPayMethod))
-// Comoponents ------- 
-    // These two buttons will call different functions
-    // If they have a saved payment method then create and confirm the payment intent on the backend
-    // If not then create a paymentintent on the backend and confirm on the frontend
+
     const ConditionalButton = () => {
+        // Can just make conditional in one function that triggers either one of these
         switch (hasPayMethod && !addClicked) {
             case true:
                 return (

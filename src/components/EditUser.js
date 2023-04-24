@@ -54,6 +54,7 @@ function EditUser ( {currentUser, setCurrentUser}) {
                 formBody[key]=value
             }
         }
+        
 
         fetch(`${BASE_URL}/users/${currentUser.id}`, {
             method: 'PATCH', 
@@ -107,8 +108,9 @@ function EditUser ( {currentUser, setCurrentUser}) {
         }
         
     }
-
+    
     const EditInfo = () => {
+
         return (
             <>
                 <EditInput
@@ -122,7 +124,7 @@ function EditUser ( {currentUser, setCurrentUser}) {
                     defaultValue={currentUser.email}
                     onChangeText={text => setValue('email', text)}
                 />
-                {errors && errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>)}
+                {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
                 <ChangePassView onPress={() => setPasswordClicked(true)}>
                     <Ionicons name="eye-outline" size={26} color="#F4A261" style={{marginRight: 10}} />
                     <DarkText>Change Password</DarkText>
@@ -138,7 +140,6 @@ function EditUser ( {currentUser, setCurrentUser}) {
 
     const EditPassword = () => {
 
-        // If sucess return something
         if (!success) {
             return (
                 <>
@@ -185,7 +186,7 @@ function EditUser ( {currentUser, setCurrentUser}) {
 
     return (
         <Form>
-            {passwordClicked ? <EditPassword/> : <EditInfo/> }
+            {passwordClicked ? <EditPassword/> : <EditInfo/>}
         </Form>
     )
 

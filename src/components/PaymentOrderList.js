@@ -1,16 +1,14 @@
 import React, {useState} from 'react';
 import styled from "styled-components";
-import { Text, DarkText, Scroll, CloseView, ModalHolder, ModalForm, CloseText, H2, Wrapper } from '../styles/Styles'
-import {FlatList, RefreshControl, ActivityIndicator} from "react-native";
+import { H2 } from '../styles/Styles'
+import {FlatList, ActivityIndicator} from "react-native";
 import PaymentOrder from './PaymentOrder';
 import { BASE_URL } from '@env'
 
 function PaymentOrderList ( {currentUser, orders, orderCount, modalVisible, setModalVisible, chosenOrder, setChosenOrder}) {
-
     const [refreshing, setRefreshing] = useState(false) 
     const [offset, setOffset] = useState(5)
     const [localOrders, setLocalOrders] = useState(orders)
-
 
     const Title = styled(H2)`
         align-self: center;
@@ -26,9 +24,7 @@ function PaymentOrderList ( {currentUser, orders, orderCount, modalVisible, setM
         margin-top: 10px;
     `
 
-
     function onRefresh () {
-        // If offset is less than commentCount then there are still comments left to be fetched
 
         let formBody = {
             user_id: currentUser.id, 

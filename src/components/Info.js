@@ -1,12 +1,11 @@
-import React, {useState}  from 'react'
-import { Text, DarkText, Wrapper, Span, H2, Modal, ModalHolder, CloseView, WebHead, WebViewCon, CloseText } from '../styles/Styles'
-import { Foundation } from '@expo/vector-icons';
+import React from 'react'
+import { Text, Wrapper, H2, CloseView, WebHead, WebViewCon } from '../styles/Styles'
 import styled from "styled-components";
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Linking from 'expo-linking';
 import {HOME_URL, SUPPORT_MAIL} from '@env'
 
-function Info ( {setModalVisible, modalVisible, setModalContent} ) {
+function Info ( {setModalVisible} ) {
 
     const BigView = styled(WebViewCon)`
         background-color: 'rgba(52, 52, 52, 0.85)';

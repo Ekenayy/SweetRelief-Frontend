@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { DarkText, H2, CloseView, CloseText, Wrapper, Button, Span, PurpButton, ModalHolder, ModalForm } from '../styles/Styles'
+import { H2, CloseView, CloseText, ModalHolder, ModalForm } from '../styles/Styles'
 import { FontAwesome5 } from '@expo/vector-icons';
 
 function ErrorMsg ( {setModalVisible}) {

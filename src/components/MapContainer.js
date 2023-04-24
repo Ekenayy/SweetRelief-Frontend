@@ -7,10 +7,8 @@ import LocationContext from '../LocationContext'
 import MapViewDirections from 'react-native-maps-directions';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { Ionicons } from '@expo/vector-icons';
-import { PROVIDER_GOOGLE } from 'react-native-maps' 
 
-
-export default function MapContainer(  {filterBy, ios, favoriteLocIds, setFilterBy, setSelectedLocation, wholeMap, handlePress, selectedLocation} ) {
+export default function MapContainer(  {filterBy, ios, favoriteLocIds, wholeMap, handlePress, selectedLocation} ) {
   
   const {locations, userLocation} = React.useContext(LocationContext)
   const [contextLocations, setContextLocations] = locations
@@ -25,25 +23,6 @@ export default function MapContainer(  {filterBy, ios, favoriteLocIds, setFilter
     ...contextUserLocation,
     latitudeDelta: 0.03,
     longitudeDelta: 0.03
-  }
-
-  const getRegion = () => {
-    let region
-    if (contextUserLocation) {
-      region = {
-          ...contextUserLocation,
-          latitudeDelta: 0.03,
-          longitudeDelta: 0.03
-      }
-    }
-    else {
-      region = {
-        ...customLocation,
-        latitudeDelta: 0.03,
-        longitudeDelta: 0.03
-      }
-    }
-    return region
   }
 
   const createLogo = (locType) => {
@@ -92,6 +71,21 @@ const filteredLocations = reduceFilterList(contextLocations);
     )
   })
 
+  const Directions = ( ) => {
+    if (selectedLocation && contextUserLocation) {
+      return (
+        <MapViewDirections
+          strokeWidth={4}
+          mode="WALKING"
+          strokeColor="#BEA7E5"
+          origin={contextUserLocation}
+          destination={{latitude: selectedLocation.latitude, longitude: selectedLocation.longitude}}
+          apikey={GOOGLE_KEY}
+        />
+      )
+    } else return null;
+  }
+
   return (
       <View style={styles.container}>
         <MapView 
@@ -103,19 +97,9 @@ const filteredLocations = reduceFilterList(contextLocations);
           showsUserLocation={true}
           followsUserLocation={ios ? false : true}
           ref={wholeMap}
-          // provider={PROVIDER_GOOGLE}
         >
           {allLocations}
-          {selectedLocation && 
-            <MapViewDirections
-              strokeWidth={4}
-              mode="WALKING"
-              strokeColor="#BEA7E5"
-              origin={contextUserLocation ? contextUserLocation : customLocation}
-              destination={{latitude: selectedLocation.latitude, longitude: selectedLocation.longitude}}
-              apikey={GOOGLE_KEY}
-            />
-          }
+          <Directions/>
         </MapView>
       </View>
   );

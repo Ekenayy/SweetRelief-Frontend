@@ -1,9 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react'
 import styled from "styled-components";
-import { Alert } from 'react-native'
 import { Rating } from 'react-native-ratings';
 import {useForm} from 'react-hook-form';
-import { Text, Scroll, CloseView, ModalHolder, ModalForm, CloseText, H2, Wrapper } from '../styles/Styles'
+import { CloseView, ModalHolder, ModalForm, H2 } from '../styles/Styles'
 import { BASE_URL } from '@env'
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -171,7 +170,7 @@ function CommentForm ( {setAvgRating, currentUser, setCommented, setCommentCount
                             multiline={true}
                             onChangeText={text => setValue('description', text)}
                         />
-                        {errors && errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>)}
+                        {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
                         <ButtonView>
                             <Button onPress={handleSubmit(onSubmit)}>
                                 <Span>Submit rating</Span>

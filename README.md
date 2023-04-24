@@ -1,4 +1,4 @@
 # SweetRelief-Frontend
-A mobile app connecting NY residents to 600+ public restrooms. It also connects businesses to consumers by allowing them to sell the use of their bathrooms. 
-
-[Check out the demo here](https://www.loom.com/share/0fae65616c5440fea04d4a64add3bafc)
+ENV Vars:
+Checkout .env.development.example to see an example of necessary environment variables
+You'll need a google maps api key(https://elfsight.com/blog/2018/06/how-to-get-google-maps-api-key-guide/). Make sure to add the directions api. 

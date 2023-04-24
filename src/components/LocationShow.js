@@ -1,27 +1,17 @@
-import React, {useState, useEffect} from 'react'
-import { Text, H2, Wrapper, Button, PurpButton, CloseView, CloseText, Scroll } from '../styles/Styles'
+import React, { useState } from 'react'
+import { Text, H2, Wrapper, Button, Scroll } from '../styles/Styles'
 import styled from 'styled-components'
-import LocationContext from '../LocationContext'
 import ShowBar from './ShowBar'
 import CommentItem from './CommentItem'
-import { createOpenLink } from 'react-native-open-maps';
 import { AntDesign } from '@expo/vector-icons';
-import { Rating } from 'react-native-ratings';
 import { MaterialIcons } from '@expo/vector-icons';
-import { BASE_URL } from '@env'
-import { cos } from 'react-native-reanimated'
 import uuid from 'react-native-uuid';
-
 
 function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, commented, favoriteLocIds, setFavoriteLocIds, setModalContent, modalVisible, currentUser, comments, setModalVisible, setSelectedLocation, selectedLocation}) {
 
-    const {name, address, promotions, locType, free, walkTime, distance, baby_changing_station, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = selectedLocation
-    const {locations} = React.useContext(LocationContext)
-    const [contextLocations, setContextLocations] = locations
-
+    const {name, address, promotions, locType, free, distance, baby_changing_station, price_cents, unisex, key_required, wheelchair_accessible} = selectedLocation
     const [localLocIds, setLocalLocIds] = useState(favoriteLocIds)
     
-
     const Span = styled(Text)`
         align-self: center;
         color: #F7F8F3;

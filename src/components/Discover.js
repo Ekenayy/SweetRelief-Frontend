@@ -6,21 +6,10 @@ import styled from 'styled-components'
 import { Foundation } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
-function Discover ( {headerText, setModalVisible, passValue, uri, showGateway, setShowGateway, onMessage} ) {
+function Discover ( {headerText, setModalVisible, uri, showGateway, setShowGateway} ) {
     
     const [progClr, setProgClr] = useState("#000")
     const [prog, setProg] = useState(false)
-
-    const HeaderText = styled(DarkText)`
-        font-weight: bold;
-        flex: 1;
-        text-align: center;
-        font-size: 16px;
-    `
-    const IndicatorView = styled.View`
-        padding: 13px;
-        opacity: ${props => props.progress ? 1 : 0}
-    `
 
     return (
         <Modal
@@ -51,27 +40,27 @@ function Discover ( {headerText, setModalVisible, passValue, uri, showGateway, s
                 </WebHead>
                     <WebView
                         source={{uri: uri}}
-                        // source={{uri: 'https://sweet-relief-web.web.app/'}}
                         style={{flex: 1}}
                         onLoadStart={() => {
                             setProg(true);
                             setProgClr('#00457C');
-                            // passValue()
                         }}
-                        // onLoadProgress={() => {
-                        //     setProg(true);
-                        //     setProgClr('#00457C');
-                        // }}
                         onLoadEnd={() => setProg(false)}
-                        // onLoad={() => {
-                        //     setProg(false);
-                        // }}
-                        // onMessage={onMessage}
                     />
             </WebViewCon>
         </Modal>
     )
-
 }
+
+const HeaderText = styled(DarkText)`
+font-weight: bold;
+flex: 1;
+text-align: center;
+font-size: 16px;
+`
+const IndicatorView = styled.View`
+padding: 13px;
+opacity: ${props => props.progress ? 1 : 0}
+`
 
 export default Discover

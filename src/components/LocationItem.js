@@ -1,19 +1,13 @@
 import React from 'react'
 import { Text, Wrapper, TouchView } from '../styles/Styles'
 import styled from 'styled-components'
-import * as geolib from 'geolib'
-import LocationContext from '../LocationContext'
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 
-function LocationItem ( { handlePress, location, setSelectedLocation}) {
+function LocationItem ( { handlePress, location }) {
 
-    const {name, address, distance, latitude, walkTime, longitude, locType, free, upvotes, downvotes, price_cents, unisex, key_required, wheelchair_accessible, id} = location
-
-    const {userLocation} = React.useContext(LocationContext)
-    const [contextUserLocation, setcontextUserLocation] = userLocation
-
+    const {name, distance, walkTime} = location
 
     const LocationView = styled(TouchView)`
         borderBottomWidth: .3px;

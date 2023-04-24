@@ -46,10 +46,8 @@ export default function App() {
             setToken(thisToken)
           } else {
             setTokenSearched(true)
-            // No token found. The user will be sent to the login page
           }
       } catch(e) {
-        // read error
       }
       return thisToken
   }
@@ -68,14 +66,13 @@ export default function App() {
           }
         })
     }
-  }, [dynoAwake])
+  }, [dynoAwake]) 
 
   // Loads the token from the device storage
   const getLocationPermissions = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
       setErrorMsg('Permission to access location was denied');
-      // Alert.alert('Location is required to provide accurate service. Go to Settings -> SweetRelief -> Location to allow access')
       Alert.alert(
         'Location is required to provide accurate service. Go to Settings -> SweetRelief -> Location to allow access',
         "Provide Access",
@@ -96,20 +93,22 @@ export default function App() {
     setUserLocation(latlong);
   }
 
-  // Request userLocation
   useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        Alert.alert('Location is required to provide accurate service. Go to Settings -> SweetRelief -> Location to allow access')
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({accuracy: 6});
-        let latlong = {latitude: location.coords.latitude, longitude: location.coords.longitude}
-        setUserLocation(latlong);
-    })();
+    if (!userLocation) {
+      getLocationPermissions();
+      // (async () => {
+      //   let { status } = await Location.requestForegroundPermissionsAsync();
+      //   if (status !== 'granted') {
+      //     setErrorMsg('Permission to access location was denied');
+      //     Alert.alert('Location is required to provide accurate service. Go to Settings -> SweetRelief -> Location to allow access')
+      //     return;
+      //   }
+  
+      //   let location = await Location.getCurrentPositionAsync({accuracy: 6});
+      //     let latlong = {latitude: location.coords.latitude, longitude: location.coords.longitude}
+      //     setUserLocation(latlong);
+      // })();
+    }
   }, []);
 
   useEffect( () => {
@@ -134,7 +133,6 @@ export default function App() {
   }, [token, dynoAwake])
 
 
-  // Should be dependent on Dyno awake
   useEffect(() => {
     if (dynoAwake) {
       fetch(`${BASE_URL}/active_locations`)
@@ -157,11 +155,6 @@ export default function App() {
   const sortByDistance = (locations) => {
     let newLocations = [];
 
-    const numberCompare = (num1, num2) =>{
-        return num1.distance-num2.distance
-    };
-
-
     locations.map((location) => {
         const latLongs = [ userLocation, {latitude: location.latitude,
             longitude: location.longitude}];
@@ -174,7 +167,27 @@ export default function App() {
         newLocations.push(updatedLocation)
     });
 
-    let sortedByDistance = newLocations.sort(numberCompare);
+    const quickSort = (arr) => {
+      if (arr.length <= 1) {
+        return arr;
+      }
+    
+      let pivot = arr[0];
+      let leftArr = [];
+      let rightArr = [];
+    
+      for (let i = 1; i < arr.length; i++) {
+        if (arr[i].distance < pivot.distance) {
+          leftArr.push(arr[i]);
+        } else {
+          rightArr.push(arr[i]);
+        }
+      }
+    
+      return [...quickSort(leftArr), pivot, ...quickSort(rightArr)];
+    };
+
+    let sortedByDistance = quickSort(newLocations);
     setSortedLocations(sortedByDistance)
   };
 

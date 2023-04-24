@@ -1,17 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import MapContainer from '../components/MapContainer'
 import NavBar from '../components/NavBar'
 import LocationContext from '../LocationContext'
-import MapView, {AnimatedRegion} from "react-native-map-clustering";
-import CommentForm from '../components/CommentForm'
 import ShowModal from '../components/ShowModal'
-import { BASE_URL, STRIPE_TEST_KEY, URL_SCHEME } from '@env'
-import * as geolib from 'geolib'
-import styled from 'styled-components'
+import { BASE_URL } from '@env'
 import { BlurView } from 'expo-blur';
-import { StripeProvider } from '@stripe/stripe-react-native';
-
 
 function Main ( {currentUser, ios, navigation, setCurrentUser, setToken} ) {
 
@@ -29,13 +23,9 @@ function Main ( {currentUser, ios, navigation, setCurrentUser, setToken} ) {
     // Context
     const {userLocation, locations} = React.useContext(LocationContext)
     const [contextUserLocation, setContextUserLocation] = userLocation
-    const [contextLocations, setContextLocations ] = locations
-    // Refs
-    const wholeMap = useRef()
     
-    const BigWrapper = styled.View`
-        flex: 1;
-    `
+    // Refs
+    const wholeMap = useRef(null)
 
     useEffect(() => {
 
@@ -53,7 +43,6 @@ function Main ( {currentUser, ios, navigation, setCurrentUser, setToken} ) {
             })
                 .then(r => r.json())
                 .then(data => {
-                    console.log(data)
                     if (data.success) {
                         setCommented(true)
                     } else {
@@ -69,7 +58,7 @@ function Main ( {currentUser, ios, navigation, setCurrentUser, setToken} ) {
 
         let latLongs = [contextUserLocation, {latitude: location.latitude,
             longitude: location.longitude}]
-        // Focuses the map on the two locations using ref
+
         wholeMap.current.fitToCoordinates(latLongs, { edgePadding: { top: 10, right: 100, bottom: 150, left: 100 }, animated: true })
     }
 
@@ -103,7 +92,7 @@ function Main ( {currentUser, ios, navigation, setCurrentUser, setToken} ) {
 
     return ( 
             <>
-                <MapContainer ios={ios} favoriteLocIds={favoriteLocIds} filterBy={filterBy} setFilterBy={setFilterBy} wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}/>
+                <MapContainer ios={ios} favoriteLocIds={favoriteLocIds} filterBy={filterBy} wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation}/>
                 <NavBar commentCount={commentCount} setCommentCount={setCommentCount} commented={commented} setAvgRating={setAvgRating} avgRating={avgRating} contextUserLocation={contextUserLocation} wholeMap={wholeMap} navigation={navigation} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} setToken={setToken} setCurrentUser={setCurrentUser} setModalContent={setModalContent} modalContent={modalContent} filterBy={filterBy} setFilterBy={setFilterBy} currentUser={currentUser} setComments={setComments} comments={comments}  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
                 {modalVisible ? <BlurView intensity={90} BlurTint='light' style={[StyleSheet.absoluteFill]}/> : null}
                 {modalVisible ? <ShowModal setCommented={setCommented} avgRating={avgRating} setAvgRating={setAvgRating} setCommentCount={setCommentCount} setCurrentUser={setCurrentUser} commentCount={commentCount} modalContent={modalContent} setModalContent={setModalContent} setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible} /> : null}

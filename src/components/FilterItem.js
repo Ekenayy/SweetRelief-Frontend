@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, DarkText, Scroll, TouchView } from '../styles/Styles'
+import { DarkText, TouchView } from '../styles/Styles'
 import styled from 'styled-components'
 
 
@@ -49,7 +49,8 @@ function FilterItem ( {filter, filterBy, setFilterBy} ) {
       }
     }
 
-      const handleFilterPress = (e) => {
+      const handleFilterPress = () => {
+        // Create multi-select filter
         filterBy === filter ? setFilterBy(null) : setFilterBy(filter)
       }
 
