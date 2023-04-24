@@ -1,27 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import { DarkText, H2, PurpButton, Span, Modal1, ModalHolder, CloseView, ModalForm, CloseText} from '../styles/Styles'
+import { DarkText, H2, CloseView } from '../styles/Styles'
 import { Ionicons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
-import { BASE_URL } from '@env'
-import PaymentOrder from '../components/PaymentOrder'
-import PaymentOrderList from '../components/PaymentOrderList'
 import EditUser from '../components/EditUser'
 import { BlurView } from 'expo-blur';
 import logo from '../photos/WaterdropWordless1.png'
 import {StyleSheet} from 'react-native'
 
-
 function Profile ( {navigation, currentUser, setCurrentUser}) {
 
     const [selected, setSelected] = useState('view')
-    const [orders, setOrders] = useState([])
-    const [chosenOrder, setChosenOrder] = useState(null)
-    const [limit, setLimit] = useState(5)
     const [modalVisible, setModalVisible] = useState(false)
-    const [orderCount, setOrderCount] = useState(0)
 
     const Body = styled.View`
         flex: 1;
@@ -85,10 +77,6 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
         font-size: 18px;
     `
 
-    const CustomForm = styled(ModalForm)`
-        margin-top: 100px;
-    `
-
     const LogoView = styled(CloseView)`
         padding-bottom: 0px;
         padding-top: 0px;
@@ -100,30 +88,6 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
         height: 70px;
         width: 70px;
     `
-    useEffect(() => {
-        let formBody = {
-            user_id: currentUser.id,
-            limit: 5,
-            offset: 0,
-        }
-
-        fetch(`${BASE_URL}/user_orders`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(formBody)
-        })
-            .then(r => r.json())
-            .then(data => {
-                setOrders(data.payment_orders)
-                setOrderCount(data.count)
-            })
-    }, [])
-
-    const styles = StyleSheet.create({
-        absolute: {
-            zIndex: -1
-        }
-    });
 
     const ViewInfo = () => {
         return (
@@ -143,7 +107,6 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
                         <InfoText>******</InfoText>
                     </OneInfoView>
                 </AllInfoView>
-                {orders ? <PaymentOrderList currentUser={currentUser} orderCount={orderCount} orders={orders} modalVisible={modalVisible} setModalVisible={setModalVisible} setChosenOrder={setChosenOrder} chosenOrder={chosenOrder}/> : null}
             </>
         )
     }
@@ -167,29 +130,6 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
             default: 
                 return <ViewInfo/>
         }
-    }
-
-    const OrderModal = () => {
-        return (
-            <Modal1
-                    animationType="slide"
-                    transparent={true}
-                    visible={modalVisible}
-                    onRequestClose={() => {
-                        Alert.alert("Modal has been closed.");
-                        setModalVisible(!modalVisible);
-                    }}
-            >
-            <ModalHolder>
-                <CustomForm>
-                    <CloseView onPress={() => setModalVisible(!modalVisible)}>
-                        <CloseText>❌</CloseText>
-                    </CloseView>
-                    <PaymentOrder order={chosenOrder} setModalVisible={setModalVisible} modalVisible={modalVisible} setChosenOrder={setChosenOrder} chosenOrder={chosenOrder}/>
-                </CustomForm>
-            </ModalHolder>
-            </Modal1>
-        )
     }
 
     return (
@@ -216,9 +156,7 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
                     <MainInfo/>
                 </MainInfoView>
                 {modalVisible ? <BlurView intensity={100} blurTint='light' style={[StyleSheet.absoluteFill]}> 
-                </BlurView> : null}
-                {modalVisible ? <OrderModal/> : null}
-                
+                </BlurView> : null}                
         </Body>
     )
 }

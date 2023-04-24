@@ -5,7 +5,6 @@ import Login from './src/pages/Login'
 import SignUp from './src/pages/SignUp'
 import Profile from './src/pages/Profile'
 import ResetPass from './src/pages/ResetPass'
-import PayScreen from './src/components/PayScreen'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LocationContext from './src/LocationContext'
@@ -218,9 +217,6 @@ if ((!isLoading && userLocation) && tokenSearched) {
                 </Stack.Screen>
                 <Stack.Screen name='Profile'>
                   {(props) => <Profile {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
-                </Stack.Screen>
-                <Stack.Screen name='PayScreen'>
-                  {(props) => <PayScreen {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
                 </Stack.Screen>
               </>
               :
