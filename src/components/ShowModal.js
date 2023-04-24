@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Alert } from 'react-native'
 import CommentForm from './CommentForm'
-import Discover from './Discover'
 import Info from './Info'
 import CommentList from './CommentList'
 import ErrorMsg from './ErrorMsg'
@@ -19,8 +18,6 @@ function ShowModal ({avgRating, setAvgRating, modalContent, commentCount, setCom
         switch (modalContent) {
             case 'comment':
                 return <CommentForm avgRating={avgRating} setAvgRating={setAvgRating} setCommented={setCommented} setCommentCount={setCommentCount} commentCount={commentCount} setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible}/>
-            case 'discover':
-                return <Discover headerText='Discover' setModalVisible={setModalVisible} uri={selectedLocation.marketing_link} showGateway={true} setShowGateway={setShowGateway}/>
             case 'comment list': 
                 return <CommentList commentCount={commentCount} selectedLocation={selectedLocation} comments={comments} setModalVisible={setModalVisible}/>
             case 'info':

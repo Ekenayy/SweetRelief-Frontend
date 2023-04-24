@@ -1,7 +1,6 @@
 import React from 'react'
 import { Text, Button, Scroll } from '../styles/Styles'
 import { FontAwesome5 } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import styled from 'styled-components'
 import { createOpenLink } from 'react-native-open-maps';
@@ -82,10 +81,6 @@ function ShowBar ( {handleIconPress, commented, localLocIds, setLocalLocIds, sel
                         <FontAwesome5 name="directions" size={24} color="#F4A261" />
                     <OptionsText>Directions</OptionsText>
             </FirstOption>
-            {selectedLocation.marketing_link && <Options onPress={() => handleIconPress('discover')}>
-                <FontAwesome5 name="hiking" size={24} color="#F4A261" />
-                <OptionsText>Discover</OptionsText>
-            </Options>}
             {commented ? null : 
                 <Options onPress={() => handleIconPress('comment')}>
                     <MaterialIcons name="add-comment" size={24} color="#F4A261" />
