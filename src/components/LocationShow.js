@@ -9,7 +9,7 @@ import uuid from 'react-native-uuid';
 
 function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, commented, favoriteLocIds, setFavoriteLocIds, setModalContent, modalVisible, currentUser, comments, setModalVisible, setSelectedLocation, selectedLocation}) {
 
-    const {name, address, promotions, locType, free, distance, baby_changing_station, price_cents, unisex, key_required, wheelchair_accessible, walkTime} = selectedLocation
+    const {name, address, description, promotions, locType, free, distance, baby_changing_station, price_cents, unisex, key_required, wheelchair_accessible, walkTime} = selectedLocation
     const [localLocIds, setLocalLocIds] = useState(favoriteLocIds)
     
     const Span = styled(Text)`
@@ -193,13 +193,13 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
                         <DetailsText>{unisex ? 'Gender Neutral' : 'Gender separated'}</DetailsText>
                     </DetailsWrapper>
                 </SectionWrapper>
-                <SectionWrapper>
+                { description ? <SectionWrapper>
                     <SectionTitle>Overview</SectionTitle>
                     <DetailsWrapper>
-                        <DetailsText>A deep menu of Indian dishes served in a classic setting delivery available</DetailsText>
+                        <DetailsText>{description}</DetailsText>
                         <DetailsText>{address}</DetailsText>
                     </DetailsWrapper>
-                </SectionWrapper>
+                </SectionWrapper> : null}
                 {promotions.length ? 
                     <SectionWrapper>
                         <SectionTitle>Promotions</SectionTitle>
