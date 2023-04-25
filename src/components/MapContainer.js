@@ -8,7 +8,7 @@ import MapViewDirections from 'react-native-maps-directions';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { Ionicons } from '@expo/vector-icons';
 
-export default function MapContainer(  {filterBy, ios, favoriteLocIds, wholeMap, handlePress, selectedLocation} ) {
+export default function MapContainer(  {filterBy, ios, favoriteLocIds, wholeMap, handlePress, selectedLocation, userInRadius} ) {
   
   const {locations, userLocation} = React.useContext(LocationContext)
   const [contextLocations, setContextLocations] = locations
@@ -67,15 +67,16 @@ const filteredLocations = reduceFilterList(contextLocations);
   })
 
   const Directions = ( ) => {
-    if (selectedLocation && contextUserLocation) {
+    if ((selectedLocation && contextUserLocation) && userInRadius ) {
       return (
         <MapViewDirections
           strokeWidth={4}
-          mode="WALKING"
+          mode="WALKING" 
           strokeColor="#BEA7E5"
           origin={contextUserLocation}
           destination={{latitude: selectedLocation.latitude, longitude: selectedLocation.longitude}}
           apikey={GOOGLE_KEY}
+          onError={(error) => console.log('Directions Error: ', error)}
         />
       )
     } else return null;

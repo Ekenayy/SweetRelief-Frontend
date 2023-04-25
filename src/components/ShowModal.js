@@ -5,6 +5,7 @@ import CommentForm from './CommentForm'
 import Info from './Info'
 import CommentList from './CommentList'
 import ErrorMsg from './ErrorMsg'
+import OutOfRadius from './OutOfRadius'
 
 function ShowModal ({avgRating, setAvgRating, modalContent, commentCount, setCommentCount, setCommented, setModalContent, currentUser, setCurrentUser, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
 
@@ -21,6 +22,8 @@ function ShowModal ({avgRating, setAvgRating, modalContent, commentCount, setCom
                 return <Info setModalVisible={setModalVisible}/>
             case 'error': 
                 return <ErrorMsg setModalVisible={setModalVisible}/>
+            case 'outOfRange':
+                return <OutOfRadius setModalVisible={setModalVisible}/>
         }
     }
 

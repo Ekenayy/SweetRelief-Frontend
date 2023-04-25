@@ -54,7 +54,6 @@ function LocationItem ( { handlePress, location }) {
     const LocationText = styled(Text)`
         color: white;
     `
-    //  Add the average rating here somewhere
     return (
         <LocationView onPress={() => handlePress(location)}>
             <DetailsView>

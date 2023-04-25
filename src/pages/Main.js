@@ -6,6 +6,7 @@ import LocationContext from '../LocationContext'
 import ShowModal from '../components/ShowModal'
 import { BASE_URL } from '@env'
 import { BlurView } from 'expo-blur';
+import * as geolib from 'geolib'
 
 function Main ( {currentUser, ios, navigation, setCurrentUser, setToken} ) {
 
@@ -19,6 +20,7 @@ function Main ( {currentUser, ios, navigation, setCurrentUser, setToken} ) {
     const [favoriteLocIds, setFavoriteLocIds] = useState(currentUser.favorite_location_ids)
     const [commented, setCommented] = useState(false)
     const [commentCount, setCommentCount] = useState(0)
+    const [userInRadius, setUserInRadius] = useState(false)
 
     // Context
     const {userLocation, locations} = React.useContext(LocationContext)
@@ -90,9 +92,27 @@ function Main ( {currentUser, ios, navigation, setCurrentUser, setToken} ) {
                 })
     }
 
+    useEffect(() => {
+        if (contextUserLocation) {
+            const inMetroArea = geolib.isPointWithinRadius(
+                { latitude: 40.719134, longitude: -73.9858 },
+                contextUserLocation,
+                60000
+            )
+
+            if (!inMetroArea) {
+                setModalContent('outOfRange');
+                setModalVisible(true);
+            }
+
+            setUserInRadius(inMetroArea);
+        }
+    }, [userInRadius])
+
+
     return ( 
             <>
-                <MapContainer ios={ios} favoriteLocIds={favoriteLocIds} filterBy={filterBy} wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation}/>
+                <MapContainer ios={ios} userInRadius={userInRadius} favoriteLocIds={favoriteLocIds} filterBy={filterBy} wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation}/>
                 <NavBar commentCount={commentCount} setCommentCount={setCommentCount} commented={commented} setAvgRating={setAvgRating} avgRating={avgRating} contextUserLocation={contextUserLocation} wholeMap={wholeMap} navigation={navigation} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} setToken={setToken} setCurrentUser={setCurrentUser} setModalContent={setModalContent} modalContent={modalContent} filterBy={filterBy} setFilterBy={setFilterBy} currentUser={currentUser} setComments={setComments} comments={comments}  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
                 {modalVisible ? <BlurView intensity={90} BlurTint='light' style={[StyleSheet.absoluteFill]}/> : null}
                 {modalVisible ? <ShowModal setCommented={setCommented} avgRating={avgRating} setAvgRating={setAvgRating} setCommentCount={setCommentCount} setCurrentUser={setCurrentUser} commentCount={commentCount} modalContent={modalContent} setModalContent={setModalContent} setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible} /> : null}

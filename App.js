@@ -95,18 +95,6 @@ export default function App() {
   useEffect(() => {
     if (!userLocation) {
       getLocationPermissions();
-      // (async () => {
-      //   let { status } = await Location.requestForegroundPermissionsAsync();
-      //   if (status !== 'granted') {
-      //     setErrorMsg('Permission to access location was denied');
-      //     Alert.alert('Location is required to provide accurate service. Go to Settings -> SweetRelief -> Location to allow access')
-      //     return;
-      //   }
-  
-      //   let location = await Location.getCurrentPositionAsync({accuracy: 6});
-      //     let latlong = {latitude: location.coords.latitude, longitude: location.coords.longitude}
-      //     setUserLocation(latlong);
-      // })();
     }
   }, []);
 
@@ -121,11 +109,11 @@ export default function App() {
         .then(r => r.json())
         .then(user => {
           if (user.error) {
-            setErrorMsg(user.error)
-            setCurrentUser(null)
+            setErrorMsg(user.error);
+            setCurrentUser(null);
           } else {
-            setCurrentUser(user)
-            setTokenSearched(true)
+            setCurrentUser(user);
+            setTokenSearched(true);
           }
         })
     }
@@ -137,8 +125,8 @@ export default function App() {
       fetch(`${BASE_URL}/active_locations`)
       .then(res => res.json())
       .then(locations => {
-        setLocations(locations)
-        setIsLoading(false)
+        setLocations(locations);
+        setIsLoading(false);
       })
     }
 

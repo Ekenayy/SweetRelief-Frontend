@@ -1,6 +1,4 @@
-import React from 'react'
 import styled from 'styled-components'
-
 
 export const Text = styled.Text`
     font-size: 14px;
@@ -11,12 +9,14 @@ export const DarkText = styled.Text`
     font-size: 14px;
     color: #1C1C1C;
 `
+
 export const Span = styled.Text`
     color: #F7F8F3
     padding: 12px;
     align-self: center
     font-weight: bold;
 `
+
 export const ErrorSpan = styled(Span)`
         color: red;
 `
@@ -26,9 +26,15 @@ export const H2 = styled.Text`
     color: #1C1C1C;
 `
 
+export const H1 = styled.Text`
+    font-size: 24px
+    color: #1C1C1C;
+`
+
 export const Scroll = styled.ScrollView`
     margin-left: 15px;
 `
+
 export const Wrapper = styled.View`
     margin-left: 15px;
 `
@@ -43,21 +49,15 @@ export const Button = styled.TouchableOpacity`
     width: 100px;
     align-self: center;
 `
-// export const Button = styled.TouchableOpacity`
-//         background: #bea7e5;
-//         width: 150px;
-//         border-radius:20px;
-//         align_self: center;
-//         margin-top: 5px;
-//         margin-right: 5px;
-//     `
 
 export const PurpButton = styled(Button)`
     background-color: #bea7e5;
 `
+
 export const BrownButton = styled(Button)`
     background-color: #F4A261
 `
+
 export const CloseView = styled.TouchableOpacity`
         align-self: flex-start;
         padding: 13px;
@@ -92,7 +92,7 @@ export const ModalHolder = styled.View`
     `
 
 export const ModalForm = styled.View`
-        padding:10px;
+        padding: 10px;
         background-color: white;
         border-radius: 20px;
         align-items: center;
