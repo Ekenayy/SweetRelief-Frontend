@@ -1,18 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
 import AllLocationsList from './AllLocationsList'
-import { StyleSheet} from "react-native";
+import { StyleSheet, ActivityIndicator } from "react-native";
 import { Wrapper } from '../styles/Styles'
 import LocationShow from './LocationShow'
 import Filters from './Filters'
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import  { PanGestureHandler } from 'react-native-gesture-handler'
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler} from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Ionicons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, commented, modalContent, contextUserLocation, wholeMap, favoriteLocIds, setFavoriteLocIds, setCurrentUser, navigation, setToken, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation} ) {
+function NavBar ( { searchingUserLocation, getUserLocation, commentCount, setCommentCount, setAvgRating, avgRating, commented, modalContent, contextUserLocation, wholeMap, favoriteLocIds, setFavoriteLocIds, setCurrentUser, navigation, setToken, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation } ) {
 
     const styles = StyleSheet.create({
         animatedContainer: {
@@ -55,9 +53,11 @@ function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, comme
     `
 
     const IconView = styled.View`
+        display: flex;
         flex-direction: row;
         justify-content: space-around;
         padding-right: 5px;
+        gap: 12px
     `
 
     const ZoomView = styled(IconView)`
@@ -65,7 +65,6 @@ function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, comme
     `
 
     const TouchView = styled.TouchableOpacity`
-        margin-left: 7px;
     `
 
     const NoPress = ( ) => {
@@ -74,9 +73,11 @@ function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, comme
                 <FilterContainer>
                     <Filters filterBy={filterBy} setFilterBy={setFilterBy} />
                 </FilterContainer>
+                {searchingUserLocation ? <ActivityIndicator size="large" color="#F4A261" /> : 
                 <LocContainer>
                     <AllLocationsList favoriteLocIds={favoriteLocIds} filterBy={filterBy} handlePress={handlePress}/>
                 </LocContainer>
+                }
             </>
         )
     }
@@ -124,14 +125,17 @@ function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, comme
         <PanGestureHandler onGestureEvent={handleGesture}>
             <Animated.View style={[styles.animatedContainer, uas]}>
                 <BigIconView>
-                    <ZoomView >
+                    <ZoomView>
                         <TouchView onPress={() => wholeMap.current.animateToRegion(contextUserLocation, 500)}>
                             <FontAwesome5 name="location-arrow" size={26} color="black" />
+                        </TouchView>
+                        <TouchView onPress={() => getUserLocation()}>
+                            <Ionicons name="reload" size={26} color="black" />
                         </TouchView>
                     </ZoomView>
                     <IconView>
                         <TouchView onPress={() => navigation.navigate('Profile')}>
-                            <Ionicons name="person" size={30} color="#1C1C1C" style={{paddingRight: 5}} />
+                            <Ionicons name="person" size={30} color="#1C1C1C" />
                         </TouchView>
                         <TouchView onPress={() => {
                             setModalVisible(true)
@@ -140,7 +144,7 @@ function NavBar ( {commentCount, setCommentCount, setAvgRating, avgRating, comme
                             <Ionicons name="information-circle-outline" size={30} color="#1C1C1C" />
                         </TouchView>
                         <TouchView onPress={handleLogOut}>
-                            <MaterialCommunityIcons name="logout" size={30} color="#1C1C1C" style={{paddingLeft: 5}}/>
+                            <MaterialCommunityIcons name="logout" size={30} color="#1C1C1C" />
                         </TouchView>
                     </IconView>
                 </BigIconView>

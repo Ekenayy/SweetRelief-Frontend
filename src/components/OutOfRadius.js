@@ -1,6 +1,5 @@
 import React from 'react'
-import {ModalHolder, ModalForm, H2, H1, CloseView, DarkText } from '../styles/Styles'
-import { FontAwesome5 } from '@expo/vector-icons';
+import {ModalHolder, ModalForm, H1, CloseView, DarkText } from '../styles/Styles'
 import { MaterialIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import styled from 'styled-components';
