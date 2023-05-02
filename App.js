@@ -31,6 +31,7 @@ export default function App() {
   const [tokenSearched, setTokenSearched] = useState(false)
   const [ios, setIos] = useState(Platform.OS === 'ios')
   const [dynoAwake, setDynoAwake] = useState(false)
+  const [searchingUserLocation, setSearchingUserLocation] = useState(false);
 
   const Body = styled.View`
     flex: 1;
@@ -70,7 +71,9 @@ export default function App() {
   // Loads the token from the device storage
   const getLocationPermissions = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== 'granted') {
+    if (status == 'granted') {
+      getUserLocation();
+    } else {
       setErrorMsg('Permission to access location was denied');
       Alert.alert(
         'Location is required to provide accurate service. Go to Settings -> SweetRelief -> Location to allow access',
@@ -83,13 +86,19 @@ export default function App() {
             },
             { text: "Retry", onPress: () => getLocationPermissions() }
         ]
-    )
+      )
       return;
     }
+  }
 
+  const getUserLocation = async () => {
+    setSearchingUserLocation(true);
     let location = await Location.getCurrentPositionAsync({accuracy: 6});
-    let latlong = {latitude: location.coords.latitude, longitude: location.coords.longitude}
-    setUserLocation(latlong);
+    if (location) {
+      let latlong = {latitude: location.coords.latitude, longitude: location.coords.longitude}
+      setUserLocation(latlong);
+    }
+    setSearchingUserLocation(false);
   }
 
   useEffect(() => {
@@ -201,7 +210,7 @@ if ((!isLoading && userLocation) && tokenSearched) {
               {currentUser ? 
               <>
                 <Stack.Screen name='Main'>
-                  {(props) => <Main {...props} ios={ios} setToken={setToken} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+                  {(props) => <Main {...props} searchingUserLocation={searchingUserLocation} getUserLocation={getUserLocation} ios={ios} setToken={setToken} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
                 </Stack.Screen>
                 <Stack.Screen name='Profile'>
                   {(props) => <Profile {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
