@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "SweetRelief 2023",
+    "slug": "sweetrelief-frontend",
+    "extra": {
+      "eas": {
+        "projectId": "92ec0919-ed8a-489b-89f8-0962e478db2e"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/92ec0919-ed8a-489b-89f8-0962e478db2e"
+    },
+    "android": {},
+    "ios": {
+      "bundleIdentifier": "com.ekenayy.sweetrelieffrontend"
+    }
+  }
+}

@@ -1,18 +1,40 @@
 {
   "cli": {
-    "version": ">= 0.35.0"
+    "version": ">= 0.34.0"
   },
   "build": {
+    "production": {
+      "node": "18.16.0",
+      "channel": "production"
+    },
+    "staging": {
+      "extends": "production",
+      "distribution": "internal",
+      "channel": "staging"
+    },
     "development": {
+      "extends": "production",
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "channel": "development"
     },
-    "preview": {
-      "distribution": "internal"
-    },
-    "production": {}
+    "development-simulator": {
+      "extends": "production",
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
+      },
+      "channel": "development"
+    }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "appleId": "ekenayy@gmail.com",
+        "ascAppId": "1596215046",
+        "appleTeamId": "MK9F3K63FK"
+      }
+    }
   }
 }
