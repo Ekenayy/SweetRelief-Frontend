@@ -37,25 +37,26 @@ export default function App() {
     flex: 1;
   `
 
-  const load = async () => {
-    let thisToken = ''
-      try {
-          thisToken = await AsyncStorage.getItem('token') || 'none'  
-          
-          if (thisToken !== 'none') {
-            setToken(thisToken)
-          } else {
-            setTokenSearched(true)
-          }
-      } catch(e) {
-      }
-      return thisToken
-  }
-
+  
   useEffect(() => {
+    const load = async () => {
+      let thisToken = ''
+        try {
+            thisToken = await AsyncStorage.getItem('token') || 'none'  
+            
+            if (thisToken !== 'none') {
+              setToken(thisToken)
+            } else {
+              setTokenSearched(true)
+            }
+        } catch(e) {
+        }
+        return thisToken
+    }
+
     load()
   }, [])
-  
+
   useEffect(() => {
     if (!dynoAwake) {
       fetch(`${BASE_URL}/awake`)

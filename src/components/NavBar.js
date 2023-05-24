@@ -107,18 +107,22 @@ function NavBar ( { searchingUserLocation, getUserLocation, commentCount, setCom
         }
     })
 
-    const removeToken = async () => {
-        try {
-            await AsyncStorage.removeItem('token')
-        } catch(e) {
-        }
     
-    }
-
     const handleLogOut = () => {
-        setToken(null)
+        const removeToken = async () => {
+            try {
+                let tokenPresence = await AsyncStorage.removeItem('token') == undefined ? 'removed' : 'here';
+                if (tokenPresence == 'removed') {
+                    setToken(null)
+                    setCurrentUser(null)
+                }
+                return true;
+            } catch(e) {
+                return false;
+            }
+        }
+
         removeToken()
-        setCurrentUser(null)
     }
     
     return (
