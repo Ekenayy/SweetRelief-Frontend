@@ -8,7 +8,8 @@ import ResetPass from './src/pages/ResetPass'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LocationContext from './src/LocationContext'
-import SplashScreen from './src/components/SplashScreen';
+import CustomSplashScreen from './src/components/SplashScreen';
+import * as SplashScreen from 'expo-splash-screen';
 import styled from 'styled-components'
 import * as Location from 'expo-location';
 import * as geolib from 'geolib'
@@ -37,6 +38,7 @@ export default function App() {
     flex: 1;
   `
 
+  SplashScreen.hideAsync();
   
   useEffect(() => {
     const load = async () => {
@@ -236,7 +238,7 @@ if ((!isLoading && userLocation) && tokenSearched) {
       </LocationContext.Provider>
   );
 } 
-return <SplashScreen />
+return <CustomSplashScreen />
 
 }
 

@@ -2,6 +2,10 @@
   "expo": {
     "name": "SweetRelief 2023",
     "slug": "sweetrelief-frontend",
+    "splash": {
+      "image": "./assets/splash.png",
+      "backgroundColor": "#BEA7E5"
+    },
     "extra": {
       "eas": {
         "projectId": "92ec0919-ed8a-489b-89f8-0962e478db2e"
