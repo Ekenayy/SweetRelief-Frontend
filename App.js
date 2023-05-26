@@ -18,6 +18,8 @@ import {LogBox } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 LogBox.ignoreLogs(['Reanimated 2']);
 
+SplashScreen.hideAsync();
+
 export default function App() {
 
   const Stack = createStackNavigator();
@@ -37,8 +39,6 @@ export default function App() {
   const Body = styled.View`
     flex: 1;
   `
-
-  SplashScreen.hideAsync();
   
   useEffect(() => {
     const load = async () => {
