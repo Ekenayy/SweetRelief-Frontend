@@ -237,8 +237,7 @@ if ((!isLoading && userLocation) && tokenSearched) {
       </NavigationContainer>
       </LocationContext.Provider>
   );
-} 
-return <CustomSplashScreen />
+} else return <CustomSplashScreen />
 
 }
 
