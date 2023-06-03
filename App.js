@@ -125,8 +125,8 @@ export default function App() {
             setCurrentUser(null);
           } else {
             setCurrentUser(user);
-            setTokenSearched(true);
           }
+          setTokenSearched(true);
         })
     }
   }, [token, dynoAwake])

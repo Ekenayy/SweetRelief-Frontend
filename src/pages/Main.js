@@ -32,7 +32,6 @@ function Main ( {currentUser, ios, navigation, setCurrentUser, setToken, getUser
     useEffect(() => {
 
         if (selectedLocation) {
-
             let formBody = {
                 location_id: selectedLocation.id,
                 user_id: currentUser.id
