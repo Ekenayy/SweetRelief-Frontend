@@ -1,7 +1,8 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "dev": "NODE_ENV=development expo start",
+    "dev": "NODE_ENV=test expo start",
+    "staging": "NODE_ENV=staging expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
