@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Alert } from 'react-native'
 import {useForm} from 'react-hook-form'
 import { BASE_URL } from '@env'
-import { Input, Span, DarkText, BrownButton} from '../styles/Styles'
+import { Input, Span, DarkText, BrownButton } from '../styles/Styles'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function SignUp ( {navigation, setCurrentUser} ) {
@@ -24,6 +24,9 @@ function SignUp ( {navigation, setCurrentUser} ) {
     `
 
     const TitleView = styled.View`
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
         padding:12px;
         margin-bottom:0px;
     `
@@ -83,6 +86,7 @@ function SignUp ( {navigation, setCurrentUser} ) {
             <Form>
                 <TitleView>            
                     <FormTitle>Sign Up</FormTitle>
+                    <DarkText>No unwanted emails. No data profiteering.</DarkText>
                 </TitleView>
                 <Input 
                     placeholder="First and Last Name"

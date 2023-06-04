@@ -8,7 +8,7 @@ import { SimpleLineIcons } from '@expo/vector-icons';
 import EditUser from '../components/EditUser'
 import { BlurView } from 'expo-blur';
 import logo from '../photos/WaterdropWordless1.png'
-import { StyleSheet, Alert, ActivityIndicator } from 'react-native'
+import { StyleSheet, Alert, ActivityIndicator, View } from 'react-native'
 import { BASE_URL } from '@env'
 
 function Profile ( {navigation, currentUser, setCurrentUser, setToken}) {
@@ -49,8 +49,6 @@ function Profile ( {navigation, currentUser, setCurrentUser, setToken}) {
     const EditView = styled(TouchView)`
     `
     const MainInfoView = styled.View`
-        display: flex;
-        flex-direction: column;
         margin-top: 10px;
     `
 
@@ -97,6 +95,13 @@ function Profile ( {navigation, currentUser, setCurrentUser, setToken}) {
         background-color: #f54845;
     `
 
+    const ViewInfoView  = styled.View`
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height:  83%;
+    `
+
     const deleteUser = () => {
         setUserDeletePressed(true);
 
@@ -134,29 +139,31 @@ function Profile ( {navigation, currentUser, setCurrentUser, setToken}) {
 
     const ViewInfo = () => {
         return (
-            <>
-                <Title>View Info</Title>
-                <AllInfoView>
-                    <OneInfoView>
-                        <Ionicons name="person-outline" size={26} color="#F4A261"  />
-                        <InfoText>{currentUser.name}</InfoText>
-                    </OneInfoView>
-                    <OneInfoView>
-                        <Fontisto name="email" size={26} color="#F4A261"  />
-                        <InfoText numberOfLines={2}>{currentUser.email}</InfoText>
-                    </OneInfoView>
-                    <OneInfoView>
-                        <Ionicons name="eye-outline" size={26} color="#F4A261"  />
-                        <InfoText>******</InfoText>
-                    </OneInfoView>
-                </AllInfoView>
+            <ViewInfoView>
+                <View>
+                    <Title>View Info</Title>
+                    <AllInfoView>
+                        <OneInfoView>
+                            <Ionicons name="person-outline" size={26} color="#F4A261"  />
+                            <InfoText>{currentUser.name}</InfoText>
+                        </OneInfoView>
+                        <OneInfoView>
+                            <Fontisto name="email" size={26} color="#F4A261"  />
+                            <InfoText numberOfLines={2}>{currentUser.email}</InfoText>
+                        </OneInfoView>
+                        <OneInfoView>
+                            <Ionicons name="eye-outline" size={26} color="#F4A261"  />
+                            <InfoText>******</InfoText>
+                        </OneInfoView>
+                    </AllInfoView>
+                </View>
                 <DeleteBtn onPress={() => handleDelete()}>
                     { userDeletePressed && !userDeleted ?   
                         <ActivityIndicator animating size="large" /> :
                         <Span>Delete Account</Span>
                     }
                 </DeleteBtn>
-            </>
+            </ViewInfoView>
         )
     }
 
