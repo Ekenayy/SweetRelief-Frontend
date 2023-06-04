@@ -86,7 +86,7 @@ function SignUp ( {navigation, setCurrentUser} ) {
             <Form>
                 <TitleView>            
                     <FormTitle>Sign Up</FormTitle>
-                    <DarkText>No unwanted emails. No data profiteering.</DarkText>
+                    <DarkText>No unwanted emails. No data selling.</DarkText>
                 </TitleView>
                 <Input 
                     placeholder="First and Last Name"
