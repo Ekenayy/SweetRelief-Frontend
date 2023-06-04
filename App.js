@@ -216,7 +216,7 @@ if ((!isLoading && userLocation) && tokenSearched) {
                   {(props) => <Main {...props} searchingUserLocation={searchingUserLocation} getUserLocation={getUserLocation} ios={ios} setToken={setToken} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
                 </Stack.Screen>
                 <Stack.Screen name='Profile'>
-                  {(props) => <Profile {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+                  {(props) => <Profile {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} setToken={setToken} />}
                 </Stack.Screen>
               </>
               :

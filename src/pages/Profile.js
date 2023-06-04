@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { DarkText, H2, CloseView } from '../styles/Styles'
+import { DarkText, H2, CloseView, Button, Span } from '../styles/Styles'
 import { Ionicons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -8,12 +8,15 @@ import { SimpleLineIcons } from '@expo/vector-icons';
 import EditUser from '../components/EditUser'
 import { BlurView } from 'expo-blur';
 import logo from '../photos/WaterdropWordless1.png'
-import {StyleSheet} from 'react-native'
+import { StyleSheet, Alert, ActivityIndicator } from 'react-native'
+import { BASE_URL } from '@env'
 
-function Profile ( {navigation, currentUser, setCurrentUser}) {
+function Profile ( {navigation, currentUser, setCurrentUser, setToken}) {
 
     const [selected, setSelected] = useState('view')
     const [modalVisible, setModalVisible] = useState(false)
+    const [userDeleted, setUserDeleted] = useState(false)
+    const [userDeletePressed, setUserDeletePressed] = useState(false)
 
     const Body = styled.View`
         flex: 1;
@@ -46,7 +49,8 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
     const EditView = styled(TouchView)`
     `
     const MainInfoView = styled.View`
-        flex: 1;
+        display: flex;
+        flex-direction: column;
         margin-top: 10px;
     `
 
@@ -89,6 +93,45 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
         width: 70px;
     `
 
+    const DeleteBtn = styled(Button)`
+        background-color: #f54845;
+    `
+
+    const deleteUser = () => {
+        setUserDeletePressed(true);
+
+        fetch(`${BASE_URL}/users/${currentUser.id}`, {
+            method: 'DELETE'
+        })
+        .then(r => r.json())
+        .then(user => {
+            if (user.success) {
+                setUserDeleted(true);
+                setUserDeletePressed(false);
+                setToken(null);
+                setCurrentUser(null)
+            } else {
+                Alert.alert('There was a problem deleting your account. Please try again.')
+                setUserDeletePressed(false);
+            }
+        })
+    }
+
+    const handleDelete = ( ) => {
+        Alert.alert(
+            'Are you sure you want to delete your account? All of your data will be erased.',
+            "Delete Account",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { text: "Delete", onPress: () => deleteUser() }
+            ]
+          )
+    }
+
     const ViewInfo = () => {
         return (
             <>
@@ -107,6 +150,12 @@ function Profile ( {navigation, currentUser, setCurrentUser}) {
                         <InfoText>******</InfoText>
                     </OneInfoView>
                 </AllInfoView>
+                <DeleteBtn onPress={() => handleDelete()}>
+                    { userDeletePressed && !userDeleted ?   
+                        <ActivityIndicator animating size="large" /> :
+                        <Span>Delete Account</Span>
+                    }
+                </DeleteBtn>
             </>
         )
     }
