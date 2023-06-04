@@ -1,12 +1,12 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "dev": "NODE_ENV=test expo start",
-    "staging": "NODE_ENV=staging expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "eject": "expo eject"
+    "dev": "NODE_ENV=test npx expo start",
+    "staging": "NODE_ENV=staging npx expo start",
+    "android": "npx expo start --android",
+    "ios": "npx expo start --ios",
+    "web": "npx expo start --web",
+    "eject": "npx expo eject"
   },
   "engines": {
     "node": ">=16.0.0 <=18.16.0"
