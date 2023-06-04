@@ -149,7 +149,7 @@ function EditUser ( {currentUser, setCurrentUser}) {
                     secureTextEntry={true}
                     onChangeText={text => setValue('password', text)}
                 />
-                {erorrs && <ErrorSpan>{errors}</ErrorSpan>}
+                {errors && <ErrorSpan>{errors}</ErrorSpan>}
                 <ButtonView>
                     <PurpButton onPress={handleSubmit(handleCheckPassword)}>
                         <Span>Submit</Span>
@@ -173,7 +173,7 @@ function EditUser ( {currentUser, setCurrentUser}) {
                         secureTextEntry={true}
                         onChangeText={text => setValue('password', text)}
                     /> 
-                    {erorrs && <ErrorSpan>{errors}</ErrorSpan>}
+                    {errors && <ErrorSpan>{errors}</ErrorSpan>}
                     <ButtonView>
                         <PurpButton onPress={handleSubmit(handleChangePassowrd)}>
                             <Span>Change Password</Span>
