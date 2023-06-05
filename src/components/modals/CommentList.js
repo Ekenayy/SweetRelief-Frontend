@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import styled from "styled-components";
-import { CloseView, ModalHolder, ModalForm, CloseText, H2 } from '../styles/Styles'
+import { CloseView, ModalHolder, ModalForm, CloseText, H2 } from '../../styles/Styles'
 import {FlatList, ActivityIndicator} from "react-native";
-import CommentItem from './CommentItem'
+import CommentItem from '../CommentItem'
 import { BASE_URL } from '@env'
 
 function CommentList ( {selectedLocation, comments, commentCount, setModalVisible}) {

@@ -50,8 +50,7 @@ function FilterItem ( {filter, filterBy, setFilterBy} ) {
     }
 
       const handleFilterPress = () => {
-        // Create multi-select filter
-        filterBy === filter ? setFilterBy(null) : setFilterBy(filter)
+        filterBy === filter ? setFilterBy(null) : setFilterBy(filter);
       }
 
     if (filter == 'favorites') {

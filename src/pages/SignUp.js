@@ -6,7 +6,7 @@ import { BASE_URL } from '@env'
 import { Input, Span, DarkText, BrownButton } from '../styles/Styles'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function SignUp ( {navigation, setCurrentUser} ) {
+function SignUp ( {navigation, setCurrentUser, handleSkip} ) {
 
     const [errors, setErrors] = useState("")
     const [isLoading, setIsLoading] = useState(false)
@@ -45,13 +45,13 @@ function SignUp ( {navigation, setCurrentUser} ) {
     const SignUpButton = styled(BrownButton)`
         margin-top: 10px;
     `
-    const LoginView = styled.TouchableOpacity`
+    const SignUpView = styled.TouchableOpacity`
         align-self: center;
         margin-top: 15px;
     `
     const onSubmit = data => {
         setIsLoading(true);
-        
+
         let formBody = {
             name: data.name,
             email: data.email.toLowerCase(),
@@ -110,9 +110,12 @@ function SignUp ( {navigation, setCurrentUser} ) {
                 <SignUpButton onPress={handleSubmit(onSubmit)}>
                     {isLoading ? <ActivityIndicator size="large"/> : <Span>Create account</Span> }
                 </SignUpButton>
-                <LoginView onPress={() => navigation.navigate('Login')}>
+                <SignUpView onPress={() => navigation.navigate('Login')}>
                     <DarkText>Already have an account? Tap here to log in</DarkText>
-                </LoginView>
+                </SignUpView>
+                <SignUpView onPress={() => handleSkip('Signup')}>
+                    <DarkText>Skip sign up for now</DarkText>
+                </SignUpView>
             </Form>   
         </Body> 
     )

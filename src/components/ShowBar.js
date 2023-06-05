@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { createOpenLink } from 'react-native-open-maps';
 import { BASE_URL } from '@env'
 
-function ShowBar ( {handleIconPress, commented, localLocIds, setLocalLocIds, selectedLocation, currentUser} ) {
+function ShowBar ( {handleIconPress, commented, localLocIds, setLocalLocIds, selectedLocation, currentUser, loginSkipped} ) {
 
     const Options = styled(Button)`
         margin: 5px 15px;
@@ -40,6 +40,11 @@ function ShowBar ( {handleIconPress, commented, localLocIds, setLocalLocIds, sel
     const favorited = localLocIds.includes(selectedLocation.id);
 
     const handleFavorite = () => {
+        if (loginSkipped || !currentUser) {
+           handleIconPress('no user')
+            return;
+        }
+
         let formBody = {
             user_id: currentUser.id,
             location_id: selectedLocation.id
@@ -55,6 +60,11 @@ function ShowBar ( {handleIconPress, commented, localLocIds, setLocalLocIds, sel
     }
 
     const handleUnFavorite = () => {
+        if (loginSkipped || !currentUser) {
+           handleIconPress('no user')
+            return;
+        }
+
         let formBody = {
             user_id: currentUser.id,
             location_id: selectedLocation.id
@@ -82,7 +92,7 @@ function ShowBar ( {handleIconPress, commented, localLocIds, setLocalLocIds, sel
                     <OptionsText>Directions</OptionsText>
             </FirstOption>
             {commented ? null : 
-                <Options onPress={() => handleIconPress('comment')}>
+                <Options onPress={() => handleIconPress( loginSkipped || !currentUser ? 'no user' : 'comment' )}>
                     <MaterialIcons name="add-comment" size={24} color="#F4A261" />
                     <OptionsText>Comment</OptionsText>
                 </Options>}

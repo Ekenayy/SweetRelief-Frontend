@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react'
 import styled from "styled-components";
 import { Rating } from 'react-native-ratings';
 import {useForm} from 'react-hook-form';
-import { CloseView, ModalHolder, ModalForm, H2 } from '../styles/Styles'
+import { CloseView, ModalHolder, ModalForm, H2 } from '../../styles/Styles'
 import { BASE_URL } from '@env'
 import { MaterialIcons } from '@expo/vector-icons';
 

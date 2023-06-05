@@ -7,7 +7,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import uuid from 'react-native-uuid';
 
-function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, commented, favoriteLocIds, setFavoriteLocIds, setModalContent, modalVisible, currentUser, comments, setModalVisible, setSelectedLocation, selectedLocation}) {
+function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, commented, favoriteLocIds, setFavoriteLocIds, setModalContent, modalVisible, currentUser, comments, setModalVisible, setSelectedLocation, selectedLocation, loginSkipped }) {
 
     const {name, address, description, promotions, locType, free, distance, baby_changing_station, price_cents, unisex, key_required, wheelchair_accessible, walkTime} = selectedLocation
     const [localLocIds, setLocalLocIds] = useState(favoriteLocIds)
@@ -158,12 +158,12 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
                     <Text>{`${walkTime} mins`}</Text>
                 </RatingView>
                 <AttrView>
-                    {unisex && <AttrText>Gender neutral</AttrText>}
                     {wheelchair_accessible && <AttrText>Wheelchair accessible</AttrText>}
+                    {unisex && <AttrText>Gender neutral</AttrText>}
                     {baby_changing_station && <AttrText>Changing station</AttrText>}
                 </AttrView>
             </HeaderView>
-            <ShowBar commented={commented} handleIconPress={handleButtonPress} localLocIds={localLocIds} setLocalLocIds={setLocalLocIds} currentUser={currentUser} comments={comments} selectedLocation={selectedLocation}/>
+            <ShowBar loginSkipped={loginSkipped} commented={commented} handleIconPress={handleButtonPress} localLocIds={localLocIds} setLocalLocIds={setLocalLocIds} currentUser={currentUser} comments={comments} selectedLocation={selectedLocation}/>
             <ShowScroll
                 contentContainerStyle={{
                     flexGrow: 1,

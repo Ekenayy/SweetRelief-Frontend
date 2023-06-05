@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Wrapper, H2, CloseView, WebHead, WebViewCon } from '../styles/Styles'
+import { Text, Wrapper, H2, CloseView, WebHead, WebViewCon } from '../../styles/Styles'
 import styled from "styled-components";
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Linking from 'expo-linking';

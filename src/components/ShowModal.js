@@ -1,13 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Alert } from 'react-native'
-import CommentForm from './CommentForm'
-import Info from './Info'
-import CommentList from './CommentList'
-import ErrorMsg from './ErrorMsg'
-import OutOfRadius from './OutOfRadius'
+import CommentForm from './modals/CommentForm'
+import Info from './modals/Info'
+import CommentList from './modals/CommentList'
+import ErrorMsg from './modals/ErrorMsg'
+import OutOfRadius from './modals/OutOfRadius'
+import NoUser from './modals/NoUser'
 
-function ShowModal ({avgRating, setAvgRating, modalContent, commentCount, setCommentCount, setCommented, setModalContent, currentUser, setCurrentUser, comments, setComments, selectedLocation, setModalVisible, modalVisible}) {
+function ShowModal ({avgRating, setAvgRating, modalContent, commentCount, setCommentCount, setCommented, currentUser, comments, setComments, selectedLocation, setModalVisible, modalVisible, setLoginSkipped}) {
 
     const Modal1 = styled.Modal`
     `
@@ -24,6 +25,8 @@ function ShowModal ({avgRating, setAvgRating, modalContent, commentCount, setCom
                 return <ErrorMsg setModalVisible={setModalVisible}/>
             case 'outOfRange':
                 return <OutOfRadius setModalVisible={setModalVisible}/>
+            case 'no user':
+                return <NoUser setModalVisible={setModalVisible} setLoginSkipped={setLoginSkipped}/>
         }
     }
 

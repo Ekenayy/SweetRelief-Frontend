@@ -8,7 +8,7 @@ import { BASE_URL } from '@env'
 import { BlurView } from 'expo-blur';
 import * as geolib from 'geolib'
 
-function Main ( {currentUser, ios, navigation, setCurrentUser, setToken, getUserLocation, searchingUserLocation} ) {
+function Main ( {currentUser, ios, navigation, setCurrentUser, loginSkipped, setLoginSkipped, setToken, getUserLocation, searchingUserLocation} ) {
 
     // State
     const [selectedLocation, setSelectedLocation] = useState(null)
@@ -17,7 +17,7 @@ function Main ( {currentUser, ios, navigation, setCurrentUser, setToken, getUser
     const [avgRating, setAvgRating] = useState(null)
     const [filterBy, setFilterBy] = useState(null);
     const [modalContent, setModalContent] = useState('')
-    const [favoriteLocIds, setFavoriteLocIds] = useState(currentUser.favorite_location_ids)
+    const [favoriteLocIds, setFavoriteLocIds] = useState(currentUser ? currentUser.favorite_location_ids : [])
     const [commented, setCommented] = useState(false)
     const [commentCount, setCommentCount] = useState(0)
     const [userInRadius, setUserInRadius] = useState(false)
@@ -31,7 +31,7 @@ function Main ( {currentUser, ios, navigation, setCurrentUser, setToken, getUser
 
     useEffect(() => {
 
-        if (selectedLocation) {
+        if (selectedLocation && currentUser) {
             let formBody = {
                 location_id: selectedLocation.id,
                 user_id: currentUser.id
@@ -112,9 +112,9 @@ function Main ( {currentUser, ios, navigation, setCurrentUser, setToken, getUser
     return ( 
             <>
                 <MapContainer ios={ios} userInRadius={userInRadius} favoriteLocIds={favoriteLocIds} filterBy={filterBy} wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation}/>
-                <NavBar searchingUserLocation={searchingUserLocation} getUserLocation={getUserLocation} commentCount={commentCount} setCommentCount={setCommentCount} commented={commented} setAvgRating={setAvgRating} avgRating={avgRating} contextUserLocation={contextUserLocation} wholeMap={wholeMap} navigation={navigation} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} setToken={setToken} setCurrentUser={setCurrentUser} setModalContent={setModalContent} modalContent={modalContent} filterBy={filterBy} setFilterBy={setFilterBy} currentUser={currentUser} setComments={setComments} comments={comments}  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
+                <NavBar loginSkipped={loginSkipped} setLoginSkipped={setLoginSkipped} searchingUserLocation={searchingUserLocation} getUserLocation={getUserLocation} commentCount={commentCount} setCommentCount={setCommentCount} commented={commented} setAvgRating={setAvgRating} avgRating={avgRating} contextUserLocation={contextUserLocation} wholeMap={wholeMap} navigation={navigation} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} setToken={setToken} setCurrentUser={setCurrentUser} setModalContent={setModalContent} modalContent={modalContent} filterBy={filterBy} setFilterBy={setFilterBy} currentUser={currentUser} setComments={setComments} comments={comments}  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
                 {modalVisible ? <BlurView intensity={90} BlurTint='light' style={[StyleSheet.absoluteFill]}/> : null}
-                {modalVisible ? <ShowModal setCommented={setCommented} avgRating={avgRating} setAvgRating={setAvgRating} setCommentCount={setCommentCount} setCurrentUser={setCurrentUser} commentCount={commentCount} modalContent={modalContent} setModalContent={setModalContent} setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible} /> : null}
+                {modalVisible ? <ShowModal setCommented={setCommented} avgRating={avgRating} setAvgRating={setAvgRating} setCommentCount={setCommentCount} commentCount={commentCount} modalContent={modalContent} setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible} setLoginSkipped={setLoginSkipped} /> : null}
             </>
     )
 }

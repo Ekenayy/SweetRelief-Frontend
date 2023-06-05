@@ -10,7 +10,7 @@ import  { PanGestureHandler } from 'react-native-gesture-handler'
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler} from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function NavBar ( { searchingUserLocation, getUserLocation, commentCount, setCommentCount, setAvgRating, avgRating, commented, modalContent, contextUserLocation, wholeMap, favoriteLocIds, setFavoriteLocIds, setCurrentUser, navigation, setToken, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation } ) {
+function NavBar ( { searchingUserLocation, getUserLocation, commentCount, setCommentCount, setAvgRating, avgRating, commented, modalContent, contextUserLocation, wholeMap, favoriteLocIds, setFavoriteLocIds, setCurrentUser, navigation, setToken, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation, loginSkipped, setLoginSkipped } ) {
 
     const styles = StyleSheet.create({
         animatedContainer: {
@@ -107,7 +107,6 @@ function NavBar ( { searchingUserLocation, getUserLocation, commentCount, setCom
         }
     })
 
-    
     const handleLogOut = () => {
         const removeToken = async () => {
             try {
@@ -138,25 +137,33 @@ function NavBar ( { searchingUserLocation, getUserLocation, commentCount, setCom
                         </TouchView>
                     </ZoomView>
                     <IconView>
-                        <TouchView onPress={() => navigation.navigate('Profile')}>
-                            <Ionicons name="person" size={30} color="#1C1C1C" />
-                        </TouchView>
+                        { currentUser ? 
+                            <TouchView onPress={() => navigation.navigate('Profile')}>
+                                <Ionicons name="person" size={30} color="#1C1C1C" />
+                            </TouchView> :
+                            null
+                        }
                         <TouchView onPress={() => {
                             setModalVisible(true)
                             setModalContent('info')
                         }}>
                             <Ionicons name="information-circle-outline" size={30} color="#1C1C1C" />
                         </TouchView>
-                        <TouchView onPress={handleLogOut}>
-                            <MaterialCommunityIcons name="logout" size={30} color="#1C1C1C" />
-                        </TouchView>
+                        { currentUser ?
+                            <TouchView onPress={handleLogOut}>
+                                <MaterialCommunityIcons name="logout" size={30} color="#1C1C1C" />
+                            </TouchView> :
+                            <TouchView onPress={() => setLoginSkipped(false)}>
+                                <MaterialCommunityIcons name="login" size={30} color="#1C1C1C" />
+                            </TouchView> 
+                        }
                     </IconView>
                 </BigIconView>
                 <NavContainer>
                     <IconWrapper>
                         <FontAwesome5 name="grip-lines" size={24} color="#1C1C1C"/>
                     </IconWrapper>
-                    {selectedLocation ? <LocationShow setAvgRating={setAvgRating} avgRating={avgRating} commentCount={commentCount} setCommentCount={setCommentCount} commented={commented} avgRating={avgRating} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} modalConent={modalContent} setModalContent={setModalContent} currentUser={currentUser} setComments={setComments} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation}/> 
+                    {selectedLocation ? <LocationShow setAvgRating={setAvgRating} avgRating={avgRating} commentCount={commentCount} setCommentCount={setCommentCount} commented={commented} avgRating={avgRating} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} modalConent={modalContent} setModalContent={setModalContent} currentUser={currentUser} setComments={setComments} comments={comments} setModalVisible={setModalVisible} modalVisible={modalVisible} setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation} loginSkipped={loginSkipped} /> 
                         : 
                         <NoPress/>
                     }

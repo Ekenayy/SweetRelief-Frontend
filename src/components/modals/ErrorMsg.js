@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { H2, CloseView, CloseText, ModalHolder, ModalForm } from '../styles/Styles'
+import { H2, CloseView, CloseText, ModalHolder, ModalForm } from '../../styles/Styles'
 import { FontAwesome5 } from '@expo/vector-icons';
 
 function ErrorMsg ( {setModalVisible}) {

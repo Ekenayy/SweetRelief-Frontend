@@ -134,7 +134,7 @@ function Profile ( {navigation, currentUser, setCurrentUser, setToken}) {
                 },
                 { text: "Delete", onPress: () => deleteUser() }
             ]
-          )
+        )
     }
 
     const ViewInfo = () => {

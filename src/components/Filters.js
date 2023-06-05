@@ -17,9 +17,9 @@ function Filters ( {filterBy, setFilterBy}) {
     const filterNames = [
         'favorites',
         'free',
+        'wheelchair_accessible',
         'unisex',
-        'key_required',
-        'wheelchair_accessible'
+        'key_required'
     ]
 
     const allFilters = filterNames.map(filter => {

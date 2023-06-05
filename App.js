@@ -35,6 +35,7 @@ export default function App() {
   const [ios, setIos] = useState(Platform.OS === 'ios')
   const [dynoAwake, setDynoAwake] = useState(false)
   const [searchingUserLocation, setSearchingUserLocation] = useState(false);
+  const [loginSkipped, setLoginSkipped] = useState(false)
 
   const Body = styled.View`
     flex: 1;
@@ -71,7 +72,6 @@ export default function App() {
     }
   }, [dynoAwake]) 
 
-  // Loads the token from the device storage
   const getLocationPermissions = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status == 'granted') {
@@ -144,7 +144,6 @@ export default function App() {
 
   },[dynoAwake])
 
-  // Sorting the locations once we have locations and a userlocation
   useEffect(() => {
         if (locations && userLocation) {
             sortByDistance(locations)
@@ -190,6 +189,21 @@ export default function App() {
     setSortedLocations(sortedByDistance)
   };
 
+  const handleSkip = (text) => {
+    Alert.alert(
+      "Without an account you won't have access to somey key features like reviewing or saving your favorite locations.",
+      `Skip ${text}`,
+      [
+        {
+          text: `${text}`,
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: `Skip ${text}`, onPress: () => setLoginSkipped(true) }
+      ]
+    )
+  }
+
 if ((!isLoading && userLocation) && tokenSearched) {
   return (
       <LocationContext.Provider 
@@ -210,10 +224,10 @@ if ((!isLoading && userLocation) && tokenSearched) {
               },
               }}
             >
-              {currentUser ? 
+              {currentUser || loginSkipped ? 
               <>
                 <Stack.Screen name='Main'>
-                  {(props) => <Main {...props} searchingUserLocation={searchingUserLocation} getUserLocation={getUserLocation} ios={ios} setToken={setToken} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+                  {(props) => <Main {...props} loginSkipped={loginSkipped} setLoginSkipped={setLoginSkipped} searchingUserLocation={searchingUserLocation} getUserLocation={getUserLocation} ios={ios} setToken={setToken} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
                 </Stack.Screen>
                 <Stack.Screen name='Profile'>
                   {(props) => <Profile {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} setToken={setToken} />}
@@ -222,10 +236,10 @@ if ((!isLoading && userLocation) && tokenSearched) {
               :
               <>
                 <Stack.Screen name='Login'>
-                  {(props) => <Login {...props} setCurrentUser={setCurrentUser} />}
+                  {(props) => <Login {...props} handleSkip={handleSkip} setCurrentUser={setCurrentUser} />}
                 </Stack.Screen>
                 <Stack.Screen name='SignUp'>
-                  {(props) => <SignUp {...props} setCurrentUser={setCurrentUser} />}
+                  {(props) => <SignUp {...props} handleSkip={handleSkip} setCurrentUser={setCurrentUser} />}
                 </Stack.Screen>
                 <Stack.Screen name='ResetPass'>
                   {(props) => <ResetPass {...props} />}

@@ -4,9 +4,9 @@ import { BASE_URL } from '@env'
 import styled from 'styled-components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Alert, ActivityIndicator } from 'react-native'
-import { Input, Span, BrownButton, DarkText, Text} from '../styles/Styles'
+import { Input, Span, BrownButton, DarkText } from '../styles/Styles'
 
-function Login ( {navigation, setCurrentUser}) {
+function Login ( {navigation, setCurrentUser, handleSkip}) {
 
     const {register, handleSubmit, setValue} = useForm()
     const [errors, setErrors] = useState("")
@@ -50,12 +50,12 @@ function Login ( {navigation, setCurrentUser}) {
         background: #BEA7E5;
         flex: 1;
     `
-    const SignUpView = styled.TouchableOpacity`
+    const LoginView = styled.TouchableOpacity`
         align-self: center;
         margin-top: 15px;
     `
 
-    const ResetView = styled(SignUpView)`
+    const ResetView = styled(LoginView)`
         margin-top: 30px;
     `
     const onSubmit = data => {
@@ -93,21 +93,6 @@ function Login ( {navigation, setCurrentUser}) {
         }
     }
 
-    const handleSkip = () => {
-        Alert.alert(
-            "Without an account you won't have access to somey key features like reviewing or saving your favorite locations.",
-            "Skip login",
-            [
-                {
-                    text: "Login",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel"
-                },
-                { text: "Skip Login", onPress: () => console.log('ok') }
-            ]
-          )
-    }
-
     return (
         <Body>
             <Form>
@@ -127,12 +112,12 @@ function Login ( {navigation, setCurrentUser}) {
             <LoginButton onPress={handleSubmit(onSubmit)}>
                 {isLoading ? <ActivityIndicator size="large" /> : <Span>Log in</Span>}
             </LoginButton>
-            <SignUpView onPress={() => navigation.navigate('SignUp')}>
+            <LoginView onPress={() => navigation.navigate('SignUp')}>
                 <DarkText>Don't have an account yet? Sign up</DarkText>
-            </SignUpView>
-            <SignUpView onPress={() => handleSkip()}>
+            </LoginView>
+            <LoginView onPress={() => handleSkip('Login')}>
                 <DarkText>Skip login for now</DarkText>
-            </SignUpView>
+            </LoginView>
             {attempts >= 3 ? <ResetView onPress={() => navigation.navigate('ResetPass')}>
                 <DarkText>Forgot your password?</DarkText>
             </ResetView> : null}
