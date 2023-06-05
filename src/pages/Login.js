@@ -3,7 +3,7 @@ import {useForm} from 'react-hook-form';
 import { BASE_URL } from '@env'
 import styled from 'styled-components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Alert} from 'react-native'
+import {Alert, ActivityIndicator } from 'react-native'
 import { Input, Span, BrownButton, DarkText, Text} from '../styles/Styles'
 
 function Login ( {navigation, setCurrentUser}) {
@@ -11,6 +11,7 @@ function Login ( {navigation, setCurrentUser}) {
     const {register, handleSubmit, setValue} = useForm()
     const [errors, setErrors] = useState("")
     const [attempts, setAttempts] = useState(0)
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         register('email')
@@ -58,7 +59,7 @@ function Login ( {navigation, setCurrentUser}) {
         margin-top: 30px;
     `
     const onSubmit = data => {
-
+        setIsLoading(true);
         setErrors("")
 
         let formBody = {
@@ -80,6 +81,7 @@ function Login ( {navigation, setCurrentUser}) {
                     setCurrentUser(newUser.user)
                     saveData(newUser.token)
                 }
+                setIsLoading(false);
             })
     }
 
@@ -89,6 +91,21 @@ function Login ( {navigation, setCurrentUser}) {
         } catch (e) {
             Alert.alert('Failed to save the token to storage')
         }
+    }
+
+    const handleSkip = () => {
+        Alert.alert(
+            "Without an account you won't have access to somey key features like reviewing or saving your favorite locations.",
+            "Skip login",
+            [
+                {
+                    text: "Login",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { text: "Skip Login", onPress: () => console.log('ok') }
+            ]
+          )
     }
 
     return (
@@ -108,10 +125,13 @@ function Login ( {navigation, setCurrentUser}) {
             />
             {errors ? <ErrorSpan>{errors}</ErrorSpan> : null}
             <LoginButton onPress={handleSubmit(onSubmit)}>
-                <Span>Log in</Span>
+                {isLoading ? <ActivityIndicator size="large" /> : <Span>Log in</Span>}
             </LoginButton>
             <SignUpView onPress={() => navigation.navigate('SignUp')}>
                 <DarkText>Don't have an account yet? Sign up</DarkText>
+            </SignUpView>
+            <SignUpView onPress={() => handleSkip()}>
+                <DarkText>Skip login for now</DarkText>
             </SignUpView>
             {attempts >= 3 ? <ResetView onPress={() => navigation.navigate('ResetPass')}>
                 <DarkText>Forgot your password?</DarkText>
