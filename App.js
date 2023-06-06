@@ -224,7 +224,7 @@ if ((!isLoading && userLocation) && tokenSearched) {
               },
               }}
             >
-              {currentUser || loginSkipped ? 
+              {currentUser?.email_verified || loginSkipped ? 
               <>
                 <Stack.Screen name='Main'>
                   {(props) => <Main {...props} loginSkipped={loginSkipped} setLoginSkipped={setLoginSkipped} searchingUserLocation={searchingUserLocation} getUserLocation={getUserLocation} ios={ios} setToken={setToken} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
