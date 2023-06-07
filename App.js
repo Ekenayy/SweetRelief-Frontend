@@ -3,6 +3,7 @@ import { BASE_URL } from '@env'
 import Main from './src/pages/Main'
 import Login from './src/pages/Login'
 import SignUp from './src/pages/SignUp'
+import Auth from './src/pages/Auth'
 import Profile from './src/pages/Profile'
 import ResetPass from './src/pages/ResetPass'
 import { NavigationContainer } from '@react-navigation/native';
@@ -235,6 +236,9 @@ if ((!isLoading && userLocation) && tokenSearched) {
               </>
               :
               <>
+                 <Stack.Screen name='Auth'>
+                  {(props) => <Auth {...props} currentUser={currentUser} handleSkip={handleSkip} setCurrentUser={setCurrentUser} />}
+                </Stack.Screen>
                 <Stack.Screen name='Login'>
                   {(props) => <Login {...props} handleSkip={handleSkip} setCurrentUser={setCurrentUser} />}
                 </Stack.Screen>
