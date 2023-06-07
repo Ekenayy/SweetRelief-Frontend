@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BASE_URL } from '@env'
 import Main from './src/pages/Main'
-import Login from './src/pages/Login'
-import SignUp from './src/pages/SignUp'
 import Auth from './src/pages/Auth'
 import Profile from './src/pages/Profile'
-import ResetPass from './src/pages/ResetPass'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LocationContext from './src/LocationContext'
@@ -239,15 +236,6 @@ if ((!isLoading && userLocation) && tokenSearched) {
                  <Stack.Screen name='Auth'>
                   {(props) => <Auth {...props} currentUser={currentUser} handleSkip={handleSkip} setCurrentUser={setCurrentUser} />}
                 </Stack.Screen>
-                <Stack.Screen name='Login'>
-                  {(props) => <Login {...props} handleSkip={handleSkip} setCurrentUser={setCurrentUser} />}
-                </Stack.Screen>
-                <Stack.Screen name='SignUp'>
-                  {(props) => <SignUp {...props} handleSkip={handleSkip} setCurrentUser={setCurrentUser} />}
-                </Stack.Screen>
-                <Stack.Screen name='ResetPass'>
-                  {(props) => <ResetPass {...props} />}
-                </Stack.Screen>    
               </>            
               }
             </Stack.Navigator>

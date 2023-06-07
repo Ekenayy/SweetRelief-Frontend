@@ -85,11 +85,11 @@ export const Modal1 = styled.Modal`
 `
 
 export const ModalHolder = styled.View`
-        flex: 1;
-        margin-top: 200px;
-        width: 90%;
-        align-self: center;
-    `
+    flex: 1;
+    margin-top: 200px;
+    width: 90%;
+    align-self: center;
+`
 
 export const ModalForm = styled.View`
         padding: 10px;
@@ -113,12 +113,11 @@ export  const WebViewCon = styled.View`
         background-color: white;
     `
 export const WebHead = styled.View`
-        flex-direction: row;
-        alignItems: center;
-        background-color: #ffffff;
-        zIndex: 25;
-        elevation: 2;
-        padding-top: 30px;
-        width: 100%
-    `
-
+    flex-direction: row;
+    alignItems: center;
+    background-color: #ffffff;
+    zIndex: 25;
+    elevation: 2;
+    padding-top: 30px;
+    width: 100%
+`
