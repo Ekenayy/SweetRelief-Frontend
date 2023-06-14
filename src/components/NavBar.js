@@ -21,9 +21,6 @@ function NavBar ( { searchingUserLocation, getUserLocation, commentCount, setCom
             height: '100%',
             bottom: 0,
             top: 300,
-        },
-        navContainer: {
-            backgroundColor: 'rgba(52, 52, 52, 0.85)',
         }
     })
     
@@ -45,6 +42,8 @@ function NavBar ( { searchingUserLocation, getUserLocation, commentCount, setCom
 
     const IconWrapper = styled(Wrapper)`
         align-items: center;
+        margin-left: 0px;
+        padding: 5px 0px;
     `
     const BigIconView = styled.View`
         margin-bottom: 2px;

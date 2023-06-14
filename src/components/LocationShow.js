@@ -29,8 +29,7 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
         margin-left: 0px;
         margin-top: 0px;
         margin-right: 5px;        
-        padding: 15px;
-        padding-left: 5px;
+        padding: 15px 15px 15px 0px;
         border-bottom-width: .5px;
         border-color: #F7F8F3;
     `
@@ -50,6 +49,7 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
 
     const BigWrapper = styled(Wrapper)`
         margin-left: 0px;
+        padding: 0px 7px;
     `
     
     const ShowScroll = styled(Scroll)`
@@ -72,7 +72,6 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
     const HeaderView = styled(Wrapper)`
         display: flex;
         flex-direction: column;
-        margin-left: 22px;
     `
 
     const SectionTitle = styled(H2)`
@@ -86,7 +85,6 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
     `
 
     const CancelView = styled.TouchableOpacity`
-        padding-right: 15px;
     `
 
     const AttrView = styled.View`
@@ -142,7 +140,7 @@ function LocationShow ({commentCount, setAvgRating, setCommentCount, avgRating, 
         <BigWrapper>
             <HeaderView>
                 <TitleView>
-                    <InfoText numberOfLines={2}>{name}</InfoText>
+                    <InfoText numberOfLines={3}>{name}</InfoText>
                     <CancelView onPress={handleClear}>
                         <MaterialIcons name="cancel" size={24} color="#bea7e5" />
                     </CancelView>
