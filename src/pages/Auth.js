@@ -252,15 +252,15 @@ function Auth ( {setCurrentUser, handleSkip, currentUser} ) {
             <Span>Send email</Span>
           </SubmitBtn>
         }
+        <LoginView onPress={() => handleSkip('Login')}>
+            <DarkText>Skip login for now</DarkText>
+        </LoginView>
         {content == 'Login' && <LoginView onPress={() => setContent('Sign Up')}>
             <DarkText>Don't have an account yet? Sign up</DarkText>
         </LoginView>}
         {content == 'Sign Up' && <LoginView onPress={() => setContent('Login')}>
             <DarkText>Already have an account? Tap here to log in</DarkText>
         </LoginView>}
-        <LoginView onPress={() => handleSkip('Login')}>
-            <DarkText>Skip login for now</DarkText>
-        </LoginView>
         {attempts >= 3 && content !== "Reset Password" ? <ResetView onPress={() => setContent('Reset Password')}>
             <DarkText>Forgot your password?</DarkText>
         </ResetView> : null}

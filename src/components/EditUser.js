@@ -4,7 +4,7 @@ import { DarkText, PurpButton, Span, Input } from '../styles/Styles'
 import { Ionicons } from '@expo/vector-icons';
 import { BASE_URL } from '@env'
 import {useForm} from 'react-hook-form'
-import {Alert} from 'react-native'
+import { Alert, ActivityIndicator } from 'react-native'
 
 function EditUser ( {currentUser, setCurrentUser}) {
 
@@ -13,6 +13,7 @@ function EditUser ( {currentUser, setCurrentUser}) {
     const [errors, setErrors] = useState("")
     const [passwordClicked, setPasswordClicked] = useState(false)
     const [success, setSuccess] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         register('name')
@@ -43,6 +44,7 @@ function EditUser ( {currentUser, setCurrentUser}) {
         align-self: center;
         flex-direction: row;
         align-items: center;
+        margin-top: 10px;
     `
 
     const handleInfoEdit = data => {
@@ -100,13 +102,13 @@ function EditUser ( {currentUser, setCurrentUser}) {
     }
 
     const handleChangePassowrd = data => {
-
+        setIsLoading(true);
         if (data.password === data.newPassword) {
             handleInfoEdit({password: data.password})
         } else {
             setErrors("Passwords do not match")
         }
-        
+        setIsLoading(false);
     }
     
     const EditInfo = () => {
@@ -150,6 +152,10 @@ function EditUser ( {currentUser, setCurrentUser}) {
                     onChangeText={text => setValue('password', text)}
                 />
                 {errors && <ErrorSpan>{errors}</ErrorSpan>}
+                <ChangePassView onPress={() => setPasswordClicked(false)}>
+                    <Ionicons name="person-outline" size={26} color="#F4A261" style={{marginRight: 10}}  />
+                    <DarkText>Change Email or Username</DarkText>
+                </ChangePassView>
                 <ButtonView>
                     <PurpButton onPress={handleSubmit(handleCheckPassword)}>
                         <Span>Submit</Span>
@@ -176,7 +182,7 @@ function EditUser ( {currentUser, setCurrentUser}) {
                     {errors && <ErrorSpan>{errors}</ErrorSpan>}
                     <ButtonView>
                         <PurpButton onPress={handleSubmit(handleChangePassowrd)}>
-                            <Span>Change Password</Span>
+                            {isLoading ? <ActivityIndicator size="large"/> : <Span>Change Password</Span>}
                         </PurpButton>
                     </ButtonView>
                 </>
