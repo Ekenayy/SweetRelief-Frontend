@@ -3,6 +3,7 @@
   "scripts": {
     "dev": "NODE_ENV=test npx expo start",
     "staging": "NODE_ENV=staging npx expo start",
+    "prod": "NODE_ENV=prod npx expo start",
     "android": "npx expo start --android",
     "ios": "npx expo start --ios",
     "web": "npx expo start --web",

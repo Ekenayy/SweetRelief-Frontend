@@ -15,7 +15,7 @@ web-build/
 #Reproduce on Local Machine
 .env 
 .env.test
-.env.production
+.env.prod
 .env.staging
 
 
