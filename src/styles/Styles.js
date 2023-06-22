@@ -86,7 +86,7 @@ export const Modal1 = styled.Modal`
 
 export const ModalHolder = styled.View`
     flex: 1;
-    margin-top: 200px;
+    margin-top: 80px;
     width: 90%;
     align-self: center;
 `

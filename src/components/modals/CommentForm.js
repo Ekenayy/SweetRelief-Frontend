@@ -13,7 +13,6 @@ function CommentForm ( {setAvgRating, currentUser, setCommented, setCommentCount
     const yesButton = useRef()
     const noButton = useRef()
 
-    let locationRating 
     let stillOpen
 
     const Input = styled.TextInput`
@@ -50,14 +49,6 @@ function CommentForm ( {setAvgRating, currentUser, setCommented, setCommentCount
         font-weight: bold;
     `
 
-    const FormTitle = styled.Text`
-        font-size: 24px;
-        color: black;
-        align-self: center;
-        font-weight: bold;
-        margin-bottom: 10px;
-    `
-
     const YesButton = styled(Button)`
         background-color: #F3F5F6;
     `
@@ -76,7 +67,8 @@ function CommentForm ( {setAvgRating, currentUser, setCommented, setCommentCount
     const {register, handleSubmit, setValue} = useForm()
 
     useEffect(() => {
-        register('description')
+        register('description');
+        register('rating');
     }, [register])
 
     function onSubmit(data) {
@@ -89,11 +81,10 @@ function CommentForm ( {setAvgRating, currentUser, setCommented, setCommentCount
             safeDescription = data.description
         }
 
-
         let formBody = {
             description: safeDescription,
             still_open: stillOpen,
-            rating: locationRating,
+            rating: data.rating,
             location_id: selectedLocation.id,
             user_id: currentUser.id
         }
@@ -144,41 +135,40 @@ function CommentForm ( {setAvgRating, currentUser, setCommented, setCommentCount
     }
 
     return (
-                <ModalHolder>
-                    <ModalForm>
-                        <CloseView onPress={() => setModalVisible(!modalVisible)}>
-                            <MaterialIcons name="cancel" size={30} color="#bea7e5" />
-                        </CloseView>
-                        <Rating
-                            showRating={ios ? false : true}
-                            type="heart"
-                            imageSize={ ios ? 50 : 20}
-                            onFinishRating={rating => locationRating = rating}
-                            style={{ paddingVertical: 0, marginBottom: 50, paddingLeft: 0, borderRadius: 20, height: 30 }}
-                        />
-                        <QuestionView>
-                            <H2>Still Open?</H2>
-                            <YesButton ref={yesButton} onPress={() => changeColors('yes')}>
-                                <OptionText>Yes</OptionText> 
-                            </YesButton>
-                            <NoButton ref={noButton} onPress={() => changeColors('no')}>
-                                <OptionText>No</OptionText> 
-                            </NoButton> 
-                        </QuestionView>
-                        <Input
-                            placeholder="Comment..." 
-                            multiline={true}
-                            onChangeText={text => setValue('description', text)}
-                        />
-                        {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
-                        <ButtonView>
-                            <Button onPress={handleSubmit(onSubmit)}>
-                                <Span>Submit rating</Span>
-                            </Button>
-                        </ButtonView>
-                    </ModalForm>
-                </ModalHolder>
-
+        <ModalHolder>
+            <ModalForm>
+                <CloseView onPress={() => setModalVisible(!modalVisible)}>
+                    <MaterialIcons name="cancel" size={30} color="#bea7e5" />
+                </CloseView>
+                <Rating
+                    showRating={ios ? false : true}
+                    type="heart"
+                    imageSize={ ios ? 50 : 20}
+                    onFinishRating={rating => setValue('rating', rating)}
+                    style={{ paddingVertical: 0, marginBottom: 50, paddingLeft: 0, borderRadius: 20, height: 30 }}
+                />
+                <QuestionView>
+                    <H2>Still Open?</H2>
+                    <YesButton ref={yesButton} onPress={() => changeColors('yes')}>
+                        <OptionText>Yes</OptionText> 
+                    </YesButton>
+                    <NoButton ref={noButton} onPress={() => changeColors('no')}>
+                        <OptionText>No</OptionText> 
+                    </NoButton> 
+                </QuestionView>
+                <Input
+                    placeholder="Comment..." 
+                    multiline={true}
+                    onChangeText={text => setValue('description', text)}
+                />
+                {errors ? errors.map( (error) => <ErrorSpan key={error}>*{error}</ErrorSpan>) : null}
+                <ButtonView>
+                    <Button onPress={handleSubmit(onSubmit)}>
+                        <Span>Submit rating</Span>
+                    </Button>
+                </ButtonView>
+            </ModalForm>
+        </ModalHolder>
     )
 
 }
