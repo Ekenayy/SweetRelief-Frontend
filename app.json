@@ -21,7 +21,8 @@
     },
     "android": {},
     "ios": {
-      "bundleIdentifier": "com.ekenayy.sweetrelieffrontend"
+      "bundleIdentifier": "com.ekenayy.sweetrelieffrontend",
+      "NSLocationWhenInUseUsageDescription": "This app needs access to the user's location to accurately display nearby restrooms."
     }
   }
 }
