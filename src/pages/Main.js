@@ -8,7 +8,7 @@ import { BASE_URL } from '@env'
 import { BlurView } from 'expo-blur';
 import * as geolib from 'geolib'
 
-function Main ( {currentUser, ios, navigation, setCurrentUser, loginSkipped, setLoginSkipped, setToken, getUserLocation, searchingUserLocation} ) {
+function Main ( {currentUser, ios, navigation, setCurrentUser, loginSkipped, setLoginSkipped, setToken, searchingUserLocation} ) {
 
     // State
     const [selectedLocation, setSelectedLocation] = useState(null)
@@ -112,7 +112,7 @@ function Main ( {currentUser, ios, navigation, setCurrentUser, loginSkipped, set
     return ( 
             <>
                 <MapContainer ios={ios} userInRadius={userInRadius} favoriteLocIds={favoriteLocIds} filterBy={filterBy} wholeMap={wholeMap} handlePress={setAndFitToCoords} selectedLocation={selectedLocation}/>
-                <NavBar loginSkipped={loginSkipped} setLoginSkipped={setLoginSkipped} searchingUserLocation={searchingUserLocation} getUserLocation={getUserLocation} commentCount={commentCount} setCommentCount={setCommentCount} commented={commented} setAvgRating={setAvgRating} avgRating={avgRating} contextUserLocation={contextUserLocation} wholeMap={wholeMap} navigation={navigation} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} setToken={setToken} setCurrentUser={setCurrentUser} setModalContent={setModalContent} modalContent={modalContent} filterBy={filterBy} setFilterBy={setFilterBy} currentUser={currentUser} setComments={setComments} comments={comments}  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
+                <NavBar loginSkipped={loginSkipped} setLoginSkipped={setLoginSkipped} searchingUserLocation={searchingUserLocation} commentCount={commentCount} setCommentCount={setCommentCount} commented={commented} setAvgRating={setAvgRating} avgRating={avgRating} contextUserLocation={contextUserLocation} wholeMap={wholeMap} navigation={navigation} setFavoriteLocIds={setFavoriteLocIds} favoriteLocIds={favoriteLocIds} setToken={setToken} setCurrentUser={setCurrentUser} setModalContent={setModalContent} modalContent={modalContent} filterBy={filterBy} setFilterBy={setFilterBy} currentUser={currentUser} setComments={setComments} comments={comments}  modalVisible={modalVisible} setModalVisible={setModalVisible} handlePress={setAndFitToCoords} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
                 {modalVisible ? <BlurView intensity={90} BlurTint='light' style={[StyleSheet.absoluteFill]}/> : null}
                 {modalVisible ? <ShowModal setCommented={setCommented} avgRating={avgRating} setAvgRating={setAvgRating} setCommentCount={setCommentCount} commentCount={commentCount} modalContent={modalContent} setComments={setComments} comments={comments} currentUser={currentUser} modalVisible={modalVisible} selectedLocation={selectedLocation} setModalVisible={setModalVisible} setLoginSkipped={setLoginSkipped} /> : null}
             </>

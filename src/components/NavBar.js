@@ -10,7 +10,7 @@ import  { PanGestureHandler } from 'react-native-gesture-handler'
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler} from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function NavBar ( { searchingUserLocation, getUserLocation, commentCount, setCommentCount, setAvgRating, avgRating, commented, modalContent, contextUserLocation, wholeMap, favoriteLocIds, setFavoriteLocIds, setCurrentUser, navigation, setToken, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation, loginSkipped, setLoginSkipped } ) {
+function NavBar ( { searchingUserLocation, commentCount, setCommentCount, setAvgRating, avgRating, commented, modalContent, contextUserLocation, wholeMap, favoriteLocIds, setFavoriteLocIds, setCurrentUser, navigation, setToken, setModalContent, filterBy, setFilterBy, handlePress, currentUser, comments, setComments, modalVisible, setModalVisible, selectedLocation, setSelectedLocation, loginSkipped, setLoginSkipped } ) {
 
     const styles = StyleSheet.create({
         animatedContainer: {
@@ -130,9 +130,6 @@ function NavBar ( { searchingUserLocation, getUserLocation, commentCount, setCom
                     <ZoomView>
                         <TouchView onPress={() => wholeMap.current.animateToRegion(contextUserLocation, 500)}>
                             <FontAwesome5 name="location-arrow" size={26} color="black" />
-                        </TouchView>
-                        <TouchView onPress={() => getUserLocation()}>
-                            <Ionicons name="reload" size={26} color="black" />
                         </TouchView>
                     </ZoomView>
                     <IconView>

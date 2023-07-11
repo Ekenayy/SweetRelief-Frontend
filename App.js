@@ -16,8 +16,6 @@ import {LogBox } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 LogBox.ignoreLogs(['Reanimated 2']);
 
-SplashScreen.hideAsync();
-
 export default function App() {
 
   const Stack = createStackNavigator();
@@ -225,7 +223,7 @@ if ((!isLoading && userLocation) && tokenSearched) {
               {currentUser?.email_verified || loginSkipped ? 
               <>
                 <Stack.Screen name='Main'>
-                  {(props) => <Main {...props} loginSkipped={loginSkipped} setLoginSkipped={setLoginSkipped} searchingUserLocation={searchingUserLocation} getUserLocation={getUserLocation} ios={ios} setToken={setToken} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+                  {(props) => <Main {...props} loginSkipped={loginSkipped} setLoginSkipped={setLoginSkipped} searchingUserLocation={searchingUserLocation} ios={ios} setToken={setToken} currentUser={currentUser} setCurrentUser={setCurrentUser} />}
                 </Stack.Screen>
                 <Stack.Screen name='Profile'>
                   {(props) => <Profile {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} setToken={setToken} />}
