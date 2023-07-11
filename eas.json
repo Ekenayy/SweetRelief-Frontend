@@ -1,11 +1,13 @@
 {
   "cli": {
-    "version": ">= 0.34.0"
+    "version": ">= 0.34.0",
+    "appVersionSource": "remote"
   },
   "build": {
     "production": {
       "node": "18.16.0",
-      "channel": "production"
+      "channel": "production",
+      "autoIncrement": true
     },
     "staging": {
       "extends": "production",

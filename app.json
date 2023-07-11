@@ -1,7 +1,9 @@
 {
   "expo": {
-    "name": "SweetRelief 2023",
+    "name": "SweetRelief",
     "slug": "sweetrelief-frontend",
+    "icon": "./assets/icon.png",
+    "version": "1.0.0",
     "splash": {
       "image": "./assets/splash.png",
       "backgroundColor": "#BEA7E5"
