@@ -23,7 +23,10 @@
     "ios": {
       "bundleIdentifier": "com.ekenayy.sweetrelieffrontend",
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "This app needs access to your location to accurately display nearby restrooms. When the app loads, your location is used to find the 20 nearest bathrooms. Clicking a location will display distance, time, and best route for you to reach the bathroom. Your location data will not be stored or shared with third parties."
+        "NSLocationWhenInUseUsageDescription": "This app needs access to your location to accurately display nearby restrooms. When the app loads, your location is used to find the 20 nearest bathrooms. Clicking a location will display distance, time, and best route for you to reach the bathroom. Without your location, this app is pretty useless. Your location data will not be stored or shared with third parties.",
+        "UIRequiredDeviceCapabilities": [
+          "location-services"
+        ]
       }
     }
   }
