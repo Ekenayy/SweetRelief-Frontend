@@ -3,7 +3,7 @@
     "name": "SweetRelief",
     "slug": "sweetrelief-frontend",
     "icon": "./assets/icon.png",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "splash": {
       "image": "./assets/splash.png",
       "backgroundColor": "#BEA7E5"
